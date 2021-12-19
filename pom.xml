@@ -56,6 +56,7 @@
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <junit.version>4.12</junit.version>
+    <maven-toolchains-plugin.version>3.0.0</maven-toolchains-plugin.version>
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
@@ -65,6 +66,7 @@
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
     <maven-bundle-plugin.version>3.4.0</maven-bundle-plugin.version>
     <maven-release-plugin.version>3.0.0-M4</maven-release-plugin.version>
+    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
   </properties>
 
   <developers>
@@ -188,57 +190,89 @@
   </developers>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-toolchains-plugin</artifactId>
+          <version>${maven-toolchains-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${maven-jar-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
+          <configuration>
+            <docfilessubdirs>true</docfilessubdirs>
+            <excludedocfilessubdir>.svn</excludedocfilessubdir>
+            <encoding>${project.build.sourceEncoding}</encoding>
+            <notimestamp>true</notimestamp>
+            <failOnError>false</failOnError>
+            <failOnWarnings>false</failOnWarnings>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven-compiler-plugin.version}</version>
+          <configuration>
+            <source>${jdk.version}</source>
+            <target>${jdk.version}</target>
+            <encoding>${project.build.sourceEncoding}</encoding>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+          <configuration>
+            <reportFormat>plain</reportFormat>
+            <forkCount>1</forkCount>
+            <forkMode>pertest</forkMode><!-- deprecated, but tests fail when changing the setting -->
+            <!-- <argLine>-Djava.library.path=${project.basedir}</argLine> -->
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>${maven-release-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>${maven-bundle-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>                
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven-surefire-plugin.version}</version>
-        <configuration>
-          <forkCount>1</forkCount>
-          <reuseForks>false</reuseForks>          
-          <reportFormat>plain</reportFormat>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>                
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin.version}</version>
-        <configuration>
-          <source>${jdk.version}</source>
-          <target>${jdk.version}</target>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
-      <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>${maven-jar-plugin.version}</version>
         <configuration>
           <archive>
             <manifestSections>
               <manifestSection>
                 <name>org.apache.log4j</name>
                 <manifestEntries>
-		  <DynamicImport-Package>*</DynamicImport-Package>
-                  <Implementation-Title>log4j</Implementation-Title>
+                  <DynamicImport-Package>*</DynamicImport-Package>
+                  <Implementation-Title>reload4j</Implementation-Title>
                   <Implementation-Version>${project.version}</Implementation-Version>
-                  <Implementation-Vendor>"Apache Software Foundation"</Implementation-Vendor>
+                  <Implementation-Vendor>"QOS.CH Sarl"</Implementation-Vendor>
                 </manifestEntries>
               </manifestSection>
             </manifestSections>
           </archive>
         </configuration>
       </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>        
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven-javadoc-plugin.version}</version>
-        <configuration>
-        </configuration>
-      </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
-        <version>${maven-source-plugin.version}</version>
         <executions>
           <execution>
             <goals>
@@ -250,7 +284,6 @@
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>${maven-bundle-plugin.version}</version>
         <extensions>true</extensions>
         <executions>
           <execution>
@@ -273,23 +306,10 @@
 				javax.jms.*;resolution:=optional,
 				javax.mail.*;resolution:=optional,
                                 *</Import-Package>
-                <Bundle-DocURL>http://logging.apache.org/log4j/1.2</Bundle-DocURL>
+                <Bundle-DocURL>https://reload4j.qos.ch/</Bundle-DocURL>
             </instructions>
         </configuration>
       </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>${maven-deploy-plugin.version}</version>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>${maven-release-plugin.version}</version>
-      </plugin>
-
     </plugins>
   </build>
   
@@ -304,7 +324,7 @@
           <linksource>true</linksource>
           <links>
             <link>
-              http://docs.oracle.com/javase/5/docs/api/
+              https://docs.oracle.com/javase/8/docs/api/
             </link>
           </links>
         </configuration>
@@ -373,7 +393,7 @@
                 <goals>
                   <goal>jar</goal>
                 </goals>
-              </execution>            
+              </execution>
             </executions>
           </plugin>
         </plugins>
@@ -387,7 +407,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
+            <version>${maven-gpg-plugin.version}</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -402,6 +422,46 @@
       </build>
     </profile>
 
+    <profile>
+      <id>toolchains</id>
+      <activation>
+        <jdk>(8,]</jdk>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <!-- Ignore toolchains for test execution, so tests use Maven JVM -->
+                <jvm>${env.JAVA_HOME}/bin/java</jvm>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-toolchains-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>toolchain</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <toolchains>
+                <jdk>
+                  <version>[1.4, 8]</version>
+                </jdk>
+              </toolchains>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 
 

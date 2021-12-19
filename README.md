@@ -1,4 +1,6 @@
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/ch.qos.reload4j/reload4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/ch.qos.reload4j/reload4j)
+[![CI Status](https://github.com/qos-ch/reload4j/workflows/CI/badge.svg?branch=branch_1.2.18)](https://github.com/qos-ch/reload4j/actions?query=branch%3Abranch_1.2.18)
 
 ## What is reload4j?
 
@@ -60,6 +62,14 @@ You can see open issues can be found at open issues or report new
 issues at the [github issues page](https://github.com/qos-ch/reload4j/issues/).
 All steps undertaken in the project are first published/discussed on
 the mailing list or on the aforementoined issues page.
+
+### Building
+
+Reload4j builds with Maven, and it targets Java 1.5.
+You need to launch Maven with Java 1.8 or configure [Maven Toolchains](https://maven.apache.org/guides/mini/guide-using-toolchains.html)
+for Java 1.8.
+
+See a sample toolchains configuration file in [.github/workflows/toolchains.xml](.github/workflows/toolchains.xml).
 
 ### Donations and sponsorship
 
