@@ -23,6 +23,7 @@ import junit.framework.Test;
 import java.util.Enumeration;
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
+import org.apache.log4j.TestContants;
 import org.apache.log4j.LogManager;
 
 public class TestCase4 extends TestCase {
@@ -32,9 +33,13 @@ public class TestCase4 extends TestCase {
   }
 
   public void setUp() {
+	  //System.out.println(System.getProperties());
+	  String userDir = System.getProperty("user.dir");
+	  System.setProperty("log4j.configuration", "file:///"+userDir+"/"+TestContants.TEST_INPUT_PREFIX+"xml/defaultInit.xml");
   }
 
   public void tearDown() {
+	System.clearProperty("log4j.configuration");
     LogManager.shutdown();
   }
 

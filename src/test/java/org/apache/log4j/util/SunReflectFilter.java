@@ -31,6 +31,21 @@ public class SunReflectFilter implements Filter {
     if(in == null) {
       return null;
     }
+    
+    if (util.match("/at java.base/jdk.internal.reflect/", in)) {
+        return null;
+    }
+    
+    if (util.match("/at java.base/java.lang.reflect.Method/", in)) {
+        return null;
+    }
+
+    if (util.match("/at org.eclipse.jdt.internal.junit.runner/", in)) {
+        return null;
+    }
+
+    
+    
     if (util.match("/at sun.reflect/", in)) {
       return null;
     }

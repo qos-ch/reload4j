@@ -16,6 +16,9 @@
  */
 package org.apache.log4j;
 
+import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
+import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -51,7 +54,7 @@ public class PropertyConfiguratorTest extends TestCase {
      * @throws IOException if IOException creating properties file.
      */
     public void testBadUnicodeEscape() throws IOException {
-        String fileName = "output/badescape.properties";
+        String fileName = TARGET_OUTPUT_PREFIX+"badescape.properties";
         FileWriter writer = new FileWriter(fileName);
         writer.write("log4j.rootLogger=\\uXX41");
         writer.close();
@@ -67,7 +70,7 @@ public class PropertyConfiguratorTest extends TestCase {
      * @throws IOException if IOException creating properties file.
      */
         public void testURL() throws IOException {
-        File file = new File("output/unclosed.properties");
+        File file = new File(TARGET_OUTPUT_PREFIX+"unclosed.properties");
         FileWriter writer = new FileWriter(file);
         writer.write("log4j.rootLogger=debug");
         writer.close();
@@ -84,7 +87,7 @@ public class PropertyConfiguratorTest extends TestCase {
      * @throws IOException if IOException creating properties file.
      */
         public void testURLBadEscape() throws IOException {
-        File file = new File("output/urlbadescape.properties");
+        File file = new File(TARGET_OUTPUT_PREFIX+"urlbadescape.properties");
         FileWriter writer = new FileWriter(file);
         writer.write("log4j.rootLogger=\\uXX41");
         writer.close();
@@ -100,7 +103,7 @@ public class PropertyConfiguratorTest extends TestCase {
      * @since 1.2.17
      */
     public void testInputStream() throws IOException {
-        File file = new File("input/filter1.properties");
+        File file = new File(TEST_INPUT_PREFIX+"filter1.properties");
         assertTrue(file.exists());
         FileInputStream inputStream = new FileInputStream(file);
         try {
@@ -135,7 +138,7 @@ public class PropertyConfiguratorTest extends TestCase {
     public void testJarURL() throws IOException {
         File dir = new File("output");
         dir.mkdirs();
-        File file = new File("output/properties.jar");
+        File file = new File(TARGET_OUTPUT_PREFIX+"properties.jar");
         ZipOutputStream zos =
             new ZipOutputStream(new FileOutputStream(file));
         zos.putNextEntry(new ZipEntry(LogManager.DEFAULT_CONFIGURATION_FILE));
@@ -312,7 +315,7 @@ public class PropertyConfiguratorTest extends TestCase {
      */
     public void testNested() {
         try {
-            PropertyConfigurator.configure("input/filter1.properties");
+            PropertyConfigurator.configure(TEST_INPUT_PREFIX+"filter1.properties");
             this.validateNested();
         } finally {
             LogManager.resetConfiguration();

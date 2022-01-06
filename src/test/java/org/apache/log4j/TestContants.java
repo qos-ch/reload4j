@@ -17,9 +17,11 @@
 
 package org.apache.log4j;
 
-public class TestsContants {
+public class TestContants {
 
+	public static final String TARGET_OUTPUT_PREFIX = "target/test-output/";
 	public static final String TEST_SRC_PREFIX = "src/test/";
 	public static final String TEST_WITNESS_PREFIX = TEST_SRC_PREFIX + "witness/";
+	public static final String TEST_INPUT_PREFIX = TEST_SRC_PREFIX + "input/";
 
 }
