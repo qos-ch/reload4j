@@ -17,15 +17,18 @@
 
 package org.apache.log4j.spi;
 
-import junit.framework.TestCase;
+import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
 
+import org.apache.log4j.Category;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 import org.apache.log4j.NDC;
-import org.apache.log4j.util.SerializationTestHelper;
 import org.apache.log4j.Priority;
-import org.apache.log4j.Category;
+import org.apache.log4j.TestContants;
+import org.apache.log4j.util.SerializationTestHelper;
+
+import junit.framework.TestCase;
 
 
 /**
@@ -57,7 +60,7 @@ public class LoggingEventTest extends TestCase {
 
     int[] skip = new int[] { 352, 353, 354, 355, 356 };
     SerializationTestHelper.assertSerializationEquals(
-      "witness/serialization/simple.bin", event, skip, 237);
+      TEST_WITNESS_PREFIX+"serialization/simple.bin", event, skip, 237);
   }
 
   /**
@@ -76,7 +79,7 @@ public class LoggingEventTest extends TestCase {
 
     int[] skip = new int[] { 352, 353, 354, 355, 356 };
     SerializationTestHelper.assertSerializationEquals(
-      "witness/serialization/exception.bin", event, skip, 237);
+      TEST_WITNESS_PREFIX+"serialization/exception.bin", event, skip, 237);
   }
 
   /**
@@ -95,7 +98,7 @@ public class LoggingEventTest extends TestCase {
 
     int[] skip = new int[] { 352, 353, 354, 355, 356 };
     SerializationTestHelper.assertSerializationEquals(
-      "witness/serialization/location.bin", event, skip, 237);
+    		TEST_WITNESS_PREFIX+"serialization/location.bin", event, skip, 237);
   }
 
   /**
@@ -114,7 +117,7 @@ public class LoggingEventTest extends TestCase {
 
     int[] skip = new int[] { 352, 353, 354, 355, 356 };
     SerializationTestHelper.assertSerializationEquals(
-      "witness/serialization/ndc.bin", event, skip, 237);
+    		TEST_WITNESS_PREFIX+"serialization/ndc.bin", event, skip, 237);
     }
 
   /**
@@ -133,7 +136,7 @@ public class LoggingEventTest extends TestCase {
 
     int[] skip = new int[] { 352, 353, 354, 355, 356 };
     SerializationTestHelper.assertSerializationEquals(
-      "witness/serialization/mdc.bin", event, skip, 237);
+    		TEST_WITNESS_PREFIX+"serialization/mdc.bin", event, skip, 237);
   }
 
   /**
@@ -144,7 +147,7 @@ public class LoggingEventTest extends TestCase {
   public void testDeserializationSimple() throws Exception {
     Object obj =
       SerializationTestHelper.deserializeStream(
-        "witness/serialization/simple.bin");
+    		  TEST_WITNESS_PREFIX+"serialization/simple.bin");
     assertTrue(obj instanceof LoggingEvent);
 
     LoggingEvent event = (LoggingEvent) obj;
@@ -160,7 +163,7 @@ public class LoggingEventTest extends TestCase {
   public void testDeserializationWithException() throws Exception {
     Object obj =
       SerializationTestHelper.deserializeStream(
-        "witness/serialization/exception.bin");
+    		  TEST_WITNESS_PREFIX+"serialization/exception.bin");
     assertTrue(obj instanceof LoggingEvent);
 
     LoggingEvent event = (LoggingEvent) obj;
@@ -176,7 +179,7 @@ public class LoggingEventTest extends TestCase {
   public void testDeserializationWithLocation() throws Exception {
     Object obj =
       SerializationTestHelper.deserializeStream(
-        "witness/serialization/location.bin");
+    		  TEST_WITNESS_PREFIX+"serialization/location.bin");
     assertTrue(obj instanceof LoggingEvent);
 
     LoggingEvent event = (LoggingEvent) obj;
