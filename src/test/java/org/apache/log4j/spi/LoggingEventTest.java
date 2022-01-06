@@ -17,7 +17,7 @@
 
 package org.apache.log4j.spi;
 
-import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.apache.log4j.TestsContants.TEST_WITNESS_PREFIX;
 
 import org.apache.log4j.Category;
 import org.apache.log4j.Level;
@@ -25,7 +25,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 import org.apache.log4j.NDC;
 import org.apache.log4j.Priority;
-import org.apache.log4j.TestContants;
 import org.apache.log4j.util.SerializationTestHelper;
 
 import junit.framework.TestCase;
