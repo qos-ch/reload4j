@@ -17,52 +17,59 @@
 
 package org.apache.log4j.varia;
 
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.framework.Test;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.Level;
+
+import static org.junit.Assert.assertTrue;
+
 import org.apache.log4j.Appender;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Layout;
 import org.apache.log4j.SimpleLayout;
 import org.apache.log4j.varia.LevelMatchFilter;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.apache.log4j.varia.DenyAllFilter;
 
 import org.apache.log4j.util.Transformer;
 import org.apache.log4j.util.Compare;
 import org.apache.log4j.util.LineNumberFilter;
 
+import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
+
 /**
    Test case for varia/LevelMatchFilter.java.
  */
-public class LevelMatchFilterTestCase extends TestCase {
+public class LevelMatchFilterTestCase  {
   
-  static String ACCEPT_FILE     = "output/LevelMatchFilter_accept";
-  static String ACCEPT_FILTERED = "output/LevelMatchFilter_accept_filtered";
-  static String ACCEPT_WITNESS  = "witness/LevelMatchFilter_accept";
+  static String ACCEPT_FILE     = TARGET_OUTPUT_PREFIX+"LevelMatchFilter_accept";
+  static String ACCEPT_FILTERED = TARGET_OUTPUT_PREFIX+"LevelMatchFilter_accept_filtered";
+  static String ACCEPT_WITNESS  = TEST_WITNESS_PREFIX+"LevelMatchFilter_accept";
 
-  static String DENY_FILE       = "output/LevelMatchFilter_deny";
-  static String DENY_FILTERED   = "output/LevelMatchFilter_deny_filtered";
-  static String DENY_WITNESS    = "witness/LevelMatchFilter_deny";
+  static String DENY_FILE       = TARGET_OUTPUT_PREFIX+"LevelMatchFilter_deny";
+  static String DENY_FILTERED   = TARGET_OUTPUT_PREFIX+"LevelMatchFilter_deny_filtered";
+  static String DENY_WITNESS    = TEST_WITNESS_PREFIX+"LevelMatchFilter_deny";
 
   Logger root; 
   Logger logger;
 
-  public LevelMatchFilterTestCase(String name) {
-    super(name);
-  }
 
+  @Before
   public void setUp() {
     root = Logger.getRootLogger();
     root.removeAllAppenders();
   }
 
+  @After
   public void tearDown() {  
     root.getLoggerRepository().resetConfiguration();
   }
 
+  @Test 
   public void accept() throws Exception {
     
     // set up appender
@@ -96,6 +103,7 @@ public class LevelMatchFilterTestCase extends TestCase {
     assertTrue(Compare.compare(ACCEPT_FILTERED, ACCEPT_WITNESS));
   }
 
+  @Test 
   public void deny() throws Exception {
     
     // set up appender
@@ -137,11 +145,6 @@ public class LevelMatchFilterTestCase extends TestCase {
     logger.fatal(msg);
   }
 
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTest(new LevelMatchFilterTestCase("accept"));
-    suite.addTest(new LevelMatchFilterTestCase("deny"));
-    return suite;
-  }
+
 
 }

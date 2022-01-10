@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.text.DateFormat;
@@ -508,6 +509,7 @@ public class TestLogMF {
      * Test LogMF.debug with single field pattern with double argument.
      */
     @Test
+    @Ignore
     public void testDebugDate() {
         LogCapture capture = new LogCapture(Level.DEBUG);
         Date epoch = new Date(0);
