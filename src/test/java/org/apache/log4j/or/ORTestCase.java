@@ -144,7 +144,7 @@ public class ORTestCase extends TestCase {
   public
   void test7() throws Exception {
     RendererMap map = new RendererMap();
-    Class comparable = null; 
+    Class<?> comparable = null; 
     try {
         comparable = Class.forName("java.lang.Comparable");
     } catch(Exception ex) {

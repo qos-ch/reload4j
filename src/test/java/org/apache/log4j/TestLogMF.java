@@ -16,9 +16,6 @@
  */
 package org.apache.log4j;
 
-import junit.framework.TestCase;
-
-import static java.text.DateFormat.SHORT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -26,13 +23,10 @@ import java.io.CharArrayWriter;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import java.text.DateFormat;
 
 /**
  * Unit test for LogMF.
@@ -448,7 +442,7 @@ public class TestLogMF {
 		LogCapture capture = new LogCapture(Level.DEBUG);
 		LogMF.debug(logger, "Iteration {0}", (float) Math.PI);
 
-		String expected = MessageFormat.format("Iteration {0}", new Object[] { new Float(Math.PI) });
+		String expected = MessageFormat.format("Iteration {0}", new Object[] { (float) Math.PI });
 		assertEquals(expected, capture.getMessage());
 	}
 
@@ -460,7 +454,7 @@ public class TestLogMF {
 		LogCapture capture = new LogCapture(Level.DEBUG);
 		LogMF.debug(logger, "Iteration {0}", Math.PI);
 
-		String expected = MessageFormat.format("Iteration {0}", new Object[] { new Double(Math.PI) });
+		String expected = MessageFormat.format("Iteration {0}", new Object[] { Math.PI });
 		assertEquals(expected, capture.getMessage());
 	}
 
@@ -540,7 +534,7 @@ public class TestLogMF {
 		LogCapture capture = new LogCapture(Level.DEBUG);
 		LogMF.debug(logger, "{0, number, percent}", Math.PI);
 
-		String expected = java.text.MessageFormat.format("{0, number, percent}", new Object[] { new Double(Math.PI) });
+		String expected = java.text.MessageFormat.format("{0, number, percent}", new Object[] {  Math.PI });
 		assertEquals(expected, capture.getMessage());
 	}
 
@@ -550,7 +544,7 @@ public class TestLogMF {
 		LogMF.debug(logger, "{0}{0, number, percent}", Math.PI);
 
 		String expected = java.text.MessageFormat.format("{0}{0, number, percent}",
-				new Object[] { new Double(Math.PI) });
+				new Object[] { Math.PI });
 		assertEquals(expected, capture.getMessage());
 	}
 
@@ -695,7 +689,7 @@ public class TestLogMF {
 		LogCapture capture = new LogCapture(Level.INFO);
 		LogMF.info(logger, "Iteration {0}", (float) Math.PI);
 
-		String expected = MessageFormat.format("Iteration {0}", new Object[] { new Float(Math.PI) });
+		String expected = MessageFormat.format("Iteration {0}", new Object[] { (float) Math.PI });
 		assertEquals(expected, capture.getMessage());
 	}
 
@@ -707,7 +701,7 @@ public class TestLogMF {
 		LogCapture capture = new LogCapture(Level.INFO);
 		LogMF.info(logger, "Iteration {0}", Math.PI);
 
-		String expected = MessageFormat.format("Iteration {0}", new Object[] { new Double(Math.PI) });
+		String expected = MessageFormat.format("Iteration {0}", new Object[] { Math.PI });
 		assertEquals(expected, capture.getMessage());
 	}
 
@@ -872,7 +866,7 @@ public class TestLogMF {
 		LogCapture capture = new LogCapture(Level.WARN);
 		LogMF.warn(logger, "Iteration {0}", (float) Math.PI);
 
-		String expected = MessageFormat.format("Iteration {0}", new Object[] { new Float(Math.PI) });
+		String expected = MessageFormat.format("Iteration {0}", new Object[] { Math.PI });
 		assertEquals(expected, capture.getMessage());
 	}
 
@@ -883,7 +877,7 @@ public class TestLogMF {
 		LogCapture capture = new LogCapture(Level.WARN);
 		LogMF.warn(logger, "Iteration {0}", Math.PI);
 
-		String expected = MessageFormat.format("Iteration {0}", new Object[] { new Double(Math.PI) });
+		String expected = MessageFormat.format("Iteration {0}", new Object[] { Math.PI });
 		assertEquals(expected, capture.getMessage());
 	}
 
@@ -1045,7 +1039,7 @@ public class TestLogMF {
 		LogCapture capture = new LogCapture(Level.ERROR);
 		LogMF.log(logger, Level.ERROR, "Iteration {0}", (float) Math.PI);
 
-		String expected = MessageFormat.format("Iteration {0}", new Object[] { new Float(Math.PI) });
+		String expected = MessageFormat.format("Iteration {0}", new Object[] {(float)Math.PI });
 		assertEquals(expected, capture.getMessage());
 	}
 
@@ -1056,7 +1050,7 @@ public class TestLogMF {
 		LogCapture capture = new LogCapture(Level.ERROR);
 		LogMF.log(logger, Level.ERROR, "Iteration {0}", Math.PI);
 
-		String expected = MessageFormat.format("Iteration {0}", new Object[] { new Double(Math.PI) });
+		String expected = MessageFormat.format("Iteration {0}", new Object[] { Math.PI });
 		assertEquals(expected, capture.getMessage());
 	}
 
@@ -1232,7 +1226,7 @@ public class TestLogMF {
 		LogCapture capture = new LogCapture(Level.ERROR);
 		LogMF.logrb(logger, Level.ERROR, BUNDLE_NAME, "Iteration0", (float) Math.PI);
 
-		String expected = MessageFormat.format("Iteration {0}", new Object[] { new Float(Math.PI) });
+		String expected = MessageFormat.format("Iteration {0}", new Object[] { Math.PI });
 		assertEquals(expected, capture.getMessage());
 	}
 
@@ -1243,7 +1237,7 @@ public class TestLogMF {
 		LogCapture capture = new LogCapture(Level.ERROR);
 		LogMF.logrb(logger, Level.ERROR, BUNDLE_NAME, "Iteration0", Math.PI);
 
-		String expected = MessageFormat.format("Iteration {0}", new Object[] { new Double(Math.PI) });
+		String expected = MessageFormat.format("Iteration {0}", new Object[] { Math.PI });
 		assertEquals(expected, capture.getMessage());
 	}
 

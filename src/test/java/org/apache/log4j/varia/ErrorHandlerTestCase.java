@@ -18,6 +18,7 @@
 package org.apache.log4j.varia;
 
 import junit.framework.TestCase;
+
 import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -28,14 +29,28 @@ import org.apache.log4j.util.Compare;
 import org.apache.log4j.util.JunitTestRunnerFilter;
 import org.apache.log4j.util.SunReflectFilter;
 import org.apache.log4j.util.LineNumberFilter;
+import org.apache.log4j.util.Log4jAndNothingElseFilter;
 import org.apache.log4j.util.ControlFilter;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.apache.log4j.PropertyConfigurator;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-public class ErrorHandlerTestCase extends TestCase {
+import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
 
-  static String TEMP = "output/temp";
-  static String FILTERED = "output/filtered";
+
+public class ErrorHandlerTestCase  {
+
+  static String TEMP = TARGET_OUTPUT_PREFIX+"fallback.out";
+  static String FILTERED = TARGET_OUTPUT_PREFIX+"filtered";
 
 
   static String EXCEPTION1 = "java.lang.Exception: Just testing";
@@ -49,21 +64,21 @@ public class ErrorHandlerTestCase extends TestCase {
   Logger root; 
   Logger logger;
 
-  public ErrorHandlerTestCase(String name) {
-    super(name);
-  }
 
+  @Before
   public void setUp() {
     root = Logger.getRootLogger();
     logger = Logger.getLogger("test");
   }
 
+  @After	
   public void tearDown() {  
     root.getLoggerRepository().resetConfiguration();
   }
-
+  
+  @Test
   public void test1() throws Exception {
-    DOMConfigurator.configure("input/xml/fallback1.xml");
+    DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/fallback1.xml");
     Appender primary = root.getAppender("PRIMARY");
     ErrorHandler eh = primary.getErrorHandler();
     assertNotNull(eh);
@@ -75,15 +90,15 @@ public class ErrorHandlerTestCase extends TestCase {
 
     Transformer.transform(TEMP, FILTERED, new Filter[] {cf,
                             new LineNumberFilter(),
-                            new JunitTestRunnerFilter(),
-                            new SunReflectFilter()});
+                            new Log4jAndNothingElseFilter()});
 
 
-    assertTrue(Compare.compare(FILTERED, "witness/fallback1"));
+    assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"fallback1"));
   }
   
+  @Test
   public void test2() throws Exception {
-    PropertyConfigurator.configure("input/fallback1.properties");
+    PropertyConfigurator.configure(TEST_INPUT_PREFIX+"fallback1.properties");
     Appender primary = root.getAppender("PRIMARY");
     ErrorHandler eh = primary.getErrorHandler();
     assertNotNull(eh);
@@ -95,11 +110,10 @@ public class ErrorHandlerTestCase extends TestCase {
 
     Transformer.transform(TEMP, FILTERED, new Filter[] {cf,
                             new LineNumberFilter(),
-                            new JunitTestRunnerFilter(),
-                            new SunReflectFilter()});
+                            new Log4jAndNothingElseFilter()});
 
 
-    assertTrue(Compare.compare(FILTERED, "witness/fallback1"));
+    assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"fallback1"));
   }
 
   void common() {

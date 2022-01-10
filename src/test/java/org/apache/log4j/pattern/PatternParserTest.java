@@ -147,13 +147,13 @@ public class PatternParserTest extends TestCase {
     }
 
 
-  private void assertFactories(Map rules) throws Exception {
+  private void assertFactories(Map<String, Class> rules) throws Exception {
       assertTrue(rules.size() > 0);
-      Iterator iter = rules.values().iterator();
-      Class[] factorySig = new Class[] { Class.forName("[Ljava.lang.String;") };
+      Iterator<Class> iter = rules.values().iterator();
+      Class<?>[] factorySig = new Class[] { Class.forName("[Ljava.lang.String;") };
       Object[] factoryArg = new Object[] { null };
       while(iter.hasNext()) {
-          Class ruleClass = (Class) iter.next();
+          Class<?> ruleClass = (Class) iter.next();
           Method factory =  ruleClass.getMethod("newInstance", factorySig);
           Object converter = factory.invoke(null, factoryArg);
           assertTrue(converter != null);

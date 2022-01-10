@@ -17,11 +17,9 @@
 
 package org.apache.log4j;
 
-import junit.framework.TestCase;
-
-import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
-import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
 import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
+import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
 
 import org.apache.log4j.util.AbsoluteDateAndTimeFilter;
 import org.apache.log4j.util.AbsoluteTimeFilter;
@@ -29,12 +27,12 @@ import org.apache.log4j.util.Compare;
 import org.apache.log4j.util.ControlFilter;
 import org.apache.log4j.util.Filter;
 import org.apache.log4j.util.ISO8601Filter;
-import org.apache.log4j.util.JunitTestRunnerFilter;
 import org.apache.log4j.util.LineNumberFilter;
 import org.apache.log4j.util.Log4jAndNothingElseFilter;
 import org.apache.log4j.util.RelativeTimeFilter;
-import org.apache.log4j.util.SunReflectFilter;
 import org.apache.log4j.util.Transformer;
+
+import junit.framework.TestCase;
 
 public class PatternLayoutTestCase extends TestCase {
 
