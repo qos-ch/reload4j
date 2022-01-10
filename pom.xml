@@ -74,6 +74,8 @@ target platform and specify -Dntdll_target=msbuild on the mvn command line.
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
+          <forkCount>2C</forkCount>
+          <reuseForks>false</reuseForks>          
           <reportFormat>plain</reportFormat>
         </configuration>
       </plugin>
@@ -178,13 +180,6 @@ target platform and specify -Dntdll_target=msbuild on the mvn command line.
       <artifactId>mail</artifactId>
       <version>1.4.3</version>
       <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.openejb</groupId>
-      <artifactId>javaee-api</artifactId>
-      <version>5.0-2</version>
-      <type>jar</type>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

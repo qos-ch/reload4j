@@ -18,28 +18,22 @@
 package org.apache.log4j.varia;
 
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.Level;
-
+import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
+import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Layout;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
-import org.apache.log4j.varia.LevelMatchFilter;
+import org.apache.log4j.util.Compare;
+import org.apache.log4j.util.LineNumberFilter;
+import org.apache.log4j.util.Transformer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.apache.log4j.varia.DenyAllFilter;
-
-import org.apache.log4j.util.Transformer;
-import org.apache.log4j.util.Compare;
-import org.apache.log4j.util.LineNumberFilter;
-
-import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
-import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
-import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
 
 /**
    Test case for varia/LevelMatchFilter.java.

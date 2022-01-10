@@ -17,41 +17,42 @@
 
 package org.apache.log4j.defaultInit;
 
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.framework.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Enumeration;
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
+import org.apache.log4j.TestContants;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.apache.log4j.LogManager;
 
-public class TestCase3 extends TestCase {
+public class DefaultInitTest3 {
 
-  public TestCase3(String name) {
-    super(name);
-  }
+	@Before
+	public void setUp() {
+		String userDir = System.getProperty("user.dir");
+		System.setProperty("log4j.configuration",
+				"file:///" + userDir + "/" + TestContants.TEST_INPUT_PREFIX + "defaultInit3.properties");
 
-  public void setUp() {
-  }
+	}
 
-  public void tearDown() {
-    LogManager.shutdown();
-  }
+	@After
+	public void tearDown() {
+		System.clearProperty("log4j.configuration");
+		LogManager.shutdown();
+	}
 
-  public void propertiesTest() {
-    Logger root = Logger.getRootLogger();
-    boolean rootIsConfigured = root.getAllAppenders().hasMoreElements();
-    assertTrue(rootIsConfigured);
-    Enumeration e = root.getAllAppenders();
-    Appender appender = (Appender) e.nextElement();
-    assertEquals(appender.getName(), "D3");
-  }
-
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTest(new TestCase3("propertiesTest"));
-    return suite;
-  }
+	@Test
+	public void propertiesTest() {
+		Logger root = Logger.getRootLogger();
+		boolean rootIsConfigured = root.getAllAppenders().hasMoreElements();
+		assertTrue(rootIsConfigured);
+		Enumeration e = root.getAllAppenders();
+		Appender appender = (Appender) e.nextElement();
+		assertEquals(appender.getName(), "D3");
+	}
 
 }
-

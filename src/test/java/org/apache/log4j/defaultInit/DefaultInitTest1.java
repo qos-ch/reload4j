@@ -17,36 +17,31 @@
 
 package org.apache.log4j.defaultInit;
 
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.framework.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 
-public class TestCase1 extends TestCase {
+public class DefaultInitTest1 {
 
-  public TestCase1(String name) {
-    super(name);
-  }
+	@Before
+	public void setUp() {
+	}
 
-  public void setUp() {
-  }
+	@After
+	public void tearDown() {
+		LogManager.shutdown();
+	}
 
-  public void tearDown() {
-    LogManager.shutdown();
-  }
-
-  public void noneTest() {
-    Logger root = Logger.getRootLogger();
-    boolean rootIsConfigured = root.getAllAppenders().hasMoreElements();
-    assertTrue(!rootIsConfigured);
-  }
-
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTest(new TestCase1("noneTest"));
-    return suite;
-  }
+	@Test
+	public void noneTest() {
+		Logger root = Logger.getRootLogger();
+		boolean rootIsConfigured = root.getAllAppenders().hasMoreElements();
+		assertTrue(!rootIsConfigured);
+	}
 
 }
-

@@ -17,7 +17,6 @@
 
 package org.apache.log4j.xml;
 
-import junit.framework.TestCase;
 import org.apache.log4j.Appender;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Level;
@@ -36,6 +35,7 @@ import org.apache.log4j.util.Filter;
 import org.apache.log4j.util.ISO8601Filter;
 import org.apache.log4j.util.JunitTestRunnerFilter;
 import org.apache.log4j.util.LineNumberFilter;
+import org.apache.log4j.util.Log4jAndNothingElseFilter;
 import org.apache.log4j.util.SunReflectFilter;
 import org.apache.log4j.util.Transformer;
 
@@ -48,12 +48,25 @@ import java.net.URL;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class DOMTestCase extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-  static String TEMP_A1 = "output/temp.A1";
-  static String TEMP_A2 = "output/temp.A2";
-  static String FILTERED_A1 = "output/filtered.A1";
-  static String FILTERED_A2 = "output/filtered.A2";
+import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
+
+public class DOMTestCase {
+
+  static String TEMP_A1 = TARGET_OUTPUT_PREFIX+"temp.A1";
+  static String TEMP_A2 = TARGET_OUTPUT_PREFIX+"temp.A2";
+  static String FILTERED_A1 = TARGET_OUTPUT_PREFIX+"filtered.A1";
+  static String FILTERED_A2 = TARGET_OUTPUT_PREFIX+"filtered.A2";
 
 
   static String EXCEPTION1 = "java.lang.Exception: Just testing";
@@ -76,21 +89,21 @@ public class DOMTestCase extends TestCase {
   Logger root; 
   Logger logger;
 
-  public DOMTestCase(String name) {
-    super(name);
-  }
 
+  @Before
   public void setUp() {
     root = Logger.getRootLogger();
     logger = Logger.getLogger(DOMTestCase.class);
   }
 
+  @After
   public void tearDown() {  
     root.getLoggerRepository().resetConfiguration();
   }
 
+  @Test
   public void test1() throws Exception {
-    DOMConfigurator.configure("input/xml/DOMTestCase1.xml");
+    DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/DOMTestCase1.xml");
     common();
 
     ControlFilter cf1 = new ControlFilter(new String[]{TEST1_1A_PAT, TEST1_1B_PAT, 
@@ -103,25 +116,27 @@ public class DOMTestCase extends TestCase {
       TEMP_A1, FILTERED_A1,
       new Filter[] {
         cf1, new LineNumberFilter(), new SunReflectFilter(),
-        new JunitTestRunnerFilter()
+        new Log4jAndNothingElseFilter()
       });
 
     Transformer.transform(
       TEMP_A2, FILTERED_A2,
       new Filter[] {
         cf2, new LineNumberFilter(), new ISO8601Filter(),
-        new SunReflectFilter(), new JunitTestRunnerFilter()
+        new Log4jAndNothingElseFilter()
       });
 
-    assertTrue(Compare.compare(FILTERED_A1, "witness/dom.A1.1"));
-    assertTrue(Compare.compare(FILTERED_A2, "witness/dom.A2.1"));
+    assertTrue(Compare.compare(FILTERED_A1, TEST_WITNESS_PREFIX+"dom.A1.1"));
+    assertTrue(Compare.compare(FILTERED_A2, TEST_WITNESS_PREFIX+"dom.A2.1"));
   }
   
   /**
    *   Tests processing of external entities in XML file.
    */
+
+  @Test
   public void test4() throws Exception {
-    DOMConfigurator.configure("input/xml/DOMTest4.xml");
+    DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/DOMTest4.xml");
     common();
 
     ControlFilter cf1 = new ControlFilter(new String[]{TEST1_1A_PAT, TEST1_1B_PAT, 
@@ -133,19 +148,18 @@ public class DOMTestCase extends TestCase {
     Transformer.transform(
       TEMP_A1 + ".4", FILTERED_A1 + ".4",
       new Filter[] {
-        cf1, new LineNumberFilter(), new SunReflectFilter(),
-        new JunitTestRunnerFilter()
+        cf1, new LineNumberFilter(), new Log4jAndNothingElseFilter()
       });
 
     Transformer.transform(
       TEMP_A2 + ".4", FILTERED_A2 + ".4",
       new Filter[] {
         cf2, new LineNumberFilter(), new ISO8601Filter(),
-        new SunReflectFilter(), new JunitTestRunnerFilter()
+        new Log4jAndNothingElseFilter()
       });
 
-    assertTrue(Compare.compare(FILTERED_A1 + ".4", "witness/dom.A1.4"));
-    assertTrue(Compare.compare(FILTERED_A2 + ".4", "witness/dom.A2.4"));
+    assertTrue(Compare.compare(FILTERED_A1 + ".4", TEST_WITNESS_PREFIX+"dom.A1.4"));
+    assertTrue(Compare.compare(FILTERED_A2 + ".4", TEST_WITNESS_PREFIX+"dom.A2.4"));
   }
 
   void common() {
@@ -250,8 +264,10 @@ public class DOMTestCase extends TestCase {
      * Tests that loggers mentioned in logger elements
      *    use the specified categoryFactory.  See bug 33708.
      */
+
+  @Test
   public void testCategoryFactory1() {
-      DOMConfigurator.configure("input/xml/categoryfactory1.xml");
+      DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/categoryfactory1.xml");
       //
       //   logger explicitly mentioned in configuration,
       //         should be a CustomLogger
@@ -268,8 +284,9 @@ public class DOMTestCase extends TestCase {
      * Tests that loggers mentioned in logger-ref elements
      *    use the specified categoryFactory.  See bug 33708.
      */
+    @Test
     public void testCategoryFactory2() {
-        DOMConfigurator.configure("input/xml/categoryfactory2.xml");
+        DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/categoryfactory2.xml");
         //
         //   logger explicitly mentioned in configuration,
         //         should be a CustomLogger
@@ -286,8 +303,10 @@ public class DOMTestCase extends TestCase {
      * Tests that loggers mentioned in logger elements
      *    use the specified loggerFactory.  See bug 33708.
      */
+
+    @Test  
   public void testLoggerFactory1() {
-      DOMConfigurator.configure("input/xml/loggerfactory1.xml");
+      DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/loggerfactory1.xml");
       //
       //   logger explicitly mentioned in configuration,
       //         should be a CustomLogger
@@ -305,11 +324,13 @@ public class DOMTestCase extends TestCase {
      * repository before configuration.
      * @throws Exception thrown on error.
      */
+
+    @Test
   public void testReset() throws Exception {
       VectorAppender appender = new VectorAppender();
       appender.setName("V1");
       Logger.getRootLogger().addAppender(appender);
-      DOMConfigurator.configure("input/xml/testReset.xml");
+      DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/testReset.xml");
       assertNull(Logger.getRootLogger().getAppender("V1"));
   }
 
@@ -318,8 +339,10 @@ public class DOMTestCase extends TestCase {
      * Test checks that configureAndWatch does initial configuration, see bug 33502.
       * @throws Exception if IO error.
      */
+
+    @Test
   public void testConfigureAndWatch() throws Exception {
-    DOMConfigurator.configureAndWatch("input/xml/DOMTestCase1.xml");
+    DOMConfigurator.configureAndWatch(TEST_INPUT_PREFIX+"xml/DOMTestCase1.xml");
     assertNotNull(Logger.getRootLogger().getAppender("A1"));
   }
 
@@ -329,19 +352,21 @@ public class DOMTestCase extends TestCase {
      * is checked when evaluating parameters.  See bug 43325.
      *
      */
+
+    @Test
   public void testOverrideSubst() {
       DOMConfigurator configurator = new DOMConfigurator() {
           protected String subst(final String value) {
-              if ("output/temp.A1".equals(value)) {
-                  return "output/subst-test.A1";
+              if ((TARGET_OUTPUT_PREFIX+"temp.A1").equals(value)) {
+                  return TARGET_OUTPUT_PREFIX+"subst-test.A1";
               }
               return value;
           }
       };
-      configurator.doConfigure("input/xml/DOMTestCase1.xml", LogManager.getLoggerRepository());
+      configurator.doConfigure(TEST_INPUT_PREFIX+"xml/DOMTestCase1.xml", LogManager.getLoggerRepository());
       FileAppender a1 = (FileAppender) Logger.getRootLogger().getAppender("A1");
       String file = a1.getFile();
-      assertEquals("output/subst-test.A1", file);
+      assertEquals(TARGET_OUTPUT_PREFIX+"subst-test.A1", file);
   }
 
     /**
@@ -378,8 +403,9 @@ public class DOMTestCase extends TestCase {
     /**
      * Test of log4j.throwableRenderer support.  See bug 45721.
      */
+    @Test
     public void testThrowableRenderer1() {
-        DOMConfigurator.configure("input/xml/throwableRenderer1.xml");
+        DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/throwableRenderer1.xml");
         ThrowableRendererSupport repo = (ThrowableRendererSupport) LogManager.getLoggerRepository();
         MockThrowableRenderer renderer = (MockThrowableRenderer) repo.getThrowableRenderer();
         LogManager.resetConfiguration();
@@ -393,13 +419,14 @@ public class DOMTestCase extends TestCase {
      * configure(URL) did not close opened JarURLConnection.
      * @throws IOException if IOException creating properties jar.
      */
+    @Test
     public void testJarURL() throws IOException {
-        File input = new File("input/xml/defaultInit.xml");
+        File input = new File(TEST_INPUT_PREFIX+"xml/defaultInit.xml");
         System.out.println(input.getAbsolutePath());
         InputStream is = new FileInputStream(input);
         File dir = new File("output");
         dir.mkdirs();
-        File file = new File("output/xml.jar");
+        File file = new File(TARGET_OUTPUT_PREFIX+"xml.jar");
         ZipOutputStream zos =
             new ZipOutputStream(new FileOutputStream(file));
         zos.putNextEntry(new ZipEntry("log4j.xml"));
