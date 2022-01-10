@@ -74,7 +74,6 @@ target platform and specify -Dntdll_target=msbuild on the mvn command line.
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
-          <workingDirectory>tests</workingDirectory>
           <reportFormat>plain</reportFormat>
         </configuration>
       </plugin>
