@@ -17,54 +17,66 @@
 
 package org.apache.log4j.xml;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
 import org.apache.log4j.Logger;
 import org.apache.log4j.util.Compare;
 
-public class CustomLevelTestCase extends TestCase {
+public class CustomLevelTestCase  {
 
-  static String TEMP = "output/temp";
+  static String TEMP = TARGET_OUTPUT_PREFIX+"customLevel.out";
 
   Logger root; 
   Logger logger;
 
-  public CustomLevelTestCase(String name) {
-    super(name);
-  }
 
+  @Before
   public void setUp() {
     root = Logger.getRootLogger();
     logger = Logger.getLogger(CustomLevelTestCase.class);
   }
 
+  @After
   public void tearDown() {  
     root.getLoggerRepository().resetConfiguration();
   }
 
+  @Test
   public void test1() throws Exception {
-    DOMConfigurator.configure("input/xml/customLevel1.xml");
+    DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/customLevel1.xml");
     common();
-    assertTrue(Compare.compare(TEMP, "witness/customLevel.1"));
+    assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX+"customLevel.1"));
   }
 
+  @Test
   public void test2() throws Exception {
-    DOMConfigurator.configure("input/xml/customLevel2.xml");
+    DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/customLevel2.xml");
     common();
-    assertTrue(Compare.compare(TEMP, "witness/customLevel.2"));
+    assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX+"customLevel.2"));
   }
-
+  
+  @Test
   public void test3() throws Exception {
-    DOMConfigurator.configure("input/xml/customLevel3.xml");
+    DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/customLevel3.xml");
     common();
-    assertTrue(Compare.compare(TEMP, "witness/customLevel.3"));
+    assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX+"customLevel.3"));
   }
-
+  
+  @Test
   public void test4() throws Exception {
-    DOMConfigurator.configure("input/xml/customLevel4.xml");
+    DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/customLevel4.xml");
     common();
-    assertTrue(Compare.compare(TEMP, "witness/customLevel.4"));
+    assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX+"customLevel.4"));
   }
 
 
@@ -77,13 +89,5 @@ public class CustomLevelTestCase extends TestCase {
     logger.log(XLevel.TRACE, "Message " + ++i);
   }
 
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTest(new CustomLevelTestCase("test1"));
-    suite.addTest(new CustomLevelTestCase("test2"));
-    suite.addTest(new CustomLevelTestCase("test3"));
-    suite.addTest(new CustomLevelTestCase("test4"));
-    return suite;
-  }
 
 }
