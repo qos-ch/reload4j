@@ -33,7 +33,6 @@ import org.apache.log4j.util.Compare;
 import org.apache.log4j.util.ControlFilter;
 import org.apache.log4j.util.Filter;
 import org.apache.log4j.util.ISO8601Filter;
-import org.apache.log4j.util.JunitTestRunnerFilter;
 import org.apache.log4j.util.LineNumberFilter;
 import org.apache.log4j.util.Log4jAndNothingElseFilter;
 import org.apache.log4j.util.SunReflectFilter;

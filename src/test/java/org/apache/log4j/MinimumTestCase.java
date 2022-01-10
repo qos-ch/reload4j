@@ -17,19 +17,29 @@
 
 package org.apache.log4j;
 
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.framework.Test;
+
+import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
+import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.junit.Assert.assertTrue;
 
 import org.apache.log4j.helpers.AbsoluteTimeDateFormat;
-import org.apache.log4j.util.*;
+import org.apache.log4j.util.AbsoluteDateAndTimeFilter;
+import org.apache.log4j.util.Compare;
+import org.apache.log4j.util.ControlFilter;
+import org.apache.log4j.util.Filter;
+import org.apache.log4j.util.LineNumberFilter;
+import org.apache.log4j.util.Log4jAndNothingElseFilter;
+import org.apache.log4j.util.Transformer;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
    A superficial but general test of log4j.
  */
-public class MinimumTestCase extends TestCase {
+public class MinimumTestCase {
 
-  static String FILTERED = "output/filtered";
+  static String FILTERED = TARGET_OUTPUT_PREFIX+"filtered";
 
   static String EXCEPTION1 = "java.lang.Exception: Just testing";
   static String EXCEPTION2 = "\\s*at .*\\(.*\\)";
@@ -50,38 +60,40 @@ public class MinimumTestCase extends TestCase {
   Logger root; 
   Logger logger;
 
-  public MinimumTestCase(String name) {
-    super(name);
-  }
 
+  @Before
   public void setUp() {
     root = Logger.getRootLogger();
     root.removeAllAppenders();
   }
 
+
+  @After
   public void tearDown() {  
     root.getLoggerRepository().resetConfiguration();
   }
 
+
+  @Test
   public void simple() throws Exception {
     
     Layout layout = new SimpleLayout();
-    Appender appender = new FileAppender(layout, "output/simple", false);
+    Appender appender = new FileAppender(layout, TARGET_OUTPUT_PREFIX+"simple", false);
     root.addAppender(appender);    
     common();
 
     Transformer.transform(
-      "output/simple", FILTERED,
+      TARGET_OUTPUT_PREFIX+"simple", FILTERED,
       new Filter[] { new LineNumberFilter(), 
-                     new SunReflectFilter(), 
-                     new JunitTestRunnerFilter() });
-    assertTrue(Compare.compare(FILTERED, "witness/simple"));
+                     new Log4jAndNothingElseFilter() });
+    assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"simple"));
   }
 
+  @Test
   public void ttcc() throws Exception {
     
     Layout layout = new TTCCLayout(AbsoluteTimeDateFormat.DATE_AND_TIME_DATE_FORMAT);
-    Appender appender = new FileAppender(layout, "output/ttcc", false);
+    Appender appender = new FileAppender(layout, TARGET_OUTPUT_PREFIX+"ttcc", false);
     root.addAppender(appender);    
 
     String oldName = Thread.currentThread().getName();
@@ -94,14 +106,14 @@ public class MinimumTestCase extends TestCase {
        EXCEPTION3, EXCEPTION4, EXCEPTION5 });
 
     Transformer.transform(
-      "output/ttcc", FILTERED,
+      TARGET_OUTPUT_PREFIX+"ttcc", FILTERED,
       new Filter[] {
         cf1, new LineNumberFilter(), 
         new AbsoluteDateAndTimeFilter(),
-        new SunReflectFilter(), new JunitTestRunnerFilter()
+        new Log4jAndNothingElseFilter()
       });
 
-    assertTrue(Compare.compare(FILTERED, "witness/ttcc"));
+    assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"ttcc"));
   }
 
 
@@ -195,11 +207,5 @@ public class MinimumTestCase extends TestCase {
     INF.info("Messages should bear numbers 0 through "+printCount+".");
   }
 
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTest(new MinimumTestCase("simple"));
-    suite.addTest(new MinimumTestCase("ttcc"));
-    return suite;
-  }
 
 }

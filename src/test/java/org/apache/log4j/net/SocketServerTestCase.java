@@ -21,6 +21,17 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.framework.Test;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
+
 import org.apache.log4j.*;
 import org.apache.log4j.util.*;
 
@@ -34,8 +45,8 @@ import org.apache.log4j.xml.XLevel;
 */
 public class SocketServerTestCase extends TestCase {
   
-  static String TEMP = "output/temp";
-  static String FILTERED = "output/filtered";
+  static String TEMP = TARGET_OUTPUT_PREFIX+"socketServerTestCase.out";
+  static String FILTERED = TARGET_OUTPUT_PREFIX+"filtered";
 
   // %5p %x [%t] %c %m%n
   // DEBUG T1 [main] org.apache.log4j.net.SocketAppenderTestCase Message 1
@@ -86,13 +97,13 @@ public class SocketServerTestCase extends TestCase {
   SocketAppender socketAppender;
 
   public SocketServerTestCase(String name) {
-    super(name);
+	super(name);
   }
 
   public void setUp() {
-    System.out.println("Setting up test case.");
+    System.out.println("Setting up test case.");   
   }
-  
+
   public void tearDown() {
     System.out.println("Tearing down test case.");
     socketAppender = null;
@@ -115,10 +126,10 @@ public class SocketServerTestCase extends TestCase {
     Transformer.transform(
       TEMP, FILTERED,
       new Filter[] { cf, new LineNumberFilter(), 
-          new JunitTestRunnerFilter(),
-          new SunReflectFilter() });
+          new Log4jAndNothingElseFilter()
+          });
 
-    assertTrue(Compare.compare(FILTERED, "witness/socketServer.1"));
+    assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.1"));
   }
 
   /**
@@ -139,10 +150,9 @@ public class SocketServerTestCase extends TestCase {
     Transformer.transform(
       TEMP, FILTERED,
       new Filter[] { cf, new LineNumberFilter(), 
-          new JunitTestRunnerFilter(),
-          new SunReflectFilter() });
+          new Log4jAndNothingElseFilter() });
 
-    assertTrue(Compare.compare(FILTERED, "witness/socketServer.2"));
+    assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.2"));
   }
 
   /**
@@ -162,10 +172,9 @@ public class SocketServerTestCase extends TestCase {
     Transformer.transform(
       TEMP, FILTERED,
       new Filter[] { cf, new LineNumberFilter(), 
-          new JunitTestRunnerFilter(),
-          new SunReflectFilter() });
+          new Log4jAndNothingElseFilter() });
 
-    assertTrue(Compare.compare(FILTERED, "witness/socketServer.3"));
+    assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.3"));
   }
 
   /**
@@ -192,10 +201,9 @@ public class SocketServerTestCase extends TestCase {
         Transformer.transform(
           TEMP, FILTERED,
           new Filter[] { cf, new LineNumberFilter(), 
-              new JunitTestRunnerFilter(),
-              new SunReflectFilter() });
+              new Log4jAndNothingElseFilter() });
 
-        assertTrue(Compare.compare(FILTERED, "witness/socketServer.4"));
+        assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.4"));
     }
   }
 
@@ -235,10 +243,9 @@ public class SocketServerTestCase extends TestCase {
         Transformer.transform(
           TEMP, FILTERED,
           new Filter[] { cf, new LineNumberFilter(), 
-              new JunitTestRunnerFilter(),
-              new SunReflectFilter() });
+              new Log4jAndNothingElseFilter() });
 
-        assertTrue(Compare.compare(FILTERED, "witness/socketServer.5"));
+        assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.5"));
     }
   }
 
@@ -272,10 +279,9 @@ public class SocketServerTestCase extends TestCase {
         Transformer.transform(
           TEMP, FILTERED,
           new Filter[] { cf, new LineNumberFilter(), 
-              new JunitTestRunnerFilter(),
-              new SunReflectFilter() });
+              new Log4jAndNothingElseFilter() });
 
-        assertTrue(Compare.compare(FILTERED, "witness/socketServer.6"));
+        assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.6"));
     }
   }
 
@@ -305,9 +311,8 @@ public class SocketServerTestCase extends TestCase {
         Transformer.transform(
           TEMP, FILTERED,
           new Filter[] { cf, new LineNumberFilter(), 
-              new JunitTestRunnerFilter(),
-              new SunReflectFilter() });
-        assertTrue(Compare.compare(FILTERED, "witness/socketServer.7"));
+              new Log4jAndNothingElseFilter() });
+        assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.7"));
     }
   }
 
@@ -347,9 +352,8 @@ public class SocketServerTestCase extends TestCase {
         Transformer.transform(
           TEMP, FILTERED,
           new Filter[] { cf, new LineNumberFilter(), 
-              new JunitTestRunnerFilter(),
-              new SunReflectFilter() });
-        assertTrue(Compare.compare(FILTERED, "witness/socketServer.8"));
+              new Log4jAndNothingElseFilter() });
+        assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.8"));
     }
   }
 
@@ -392,17 +396,51 @@ public class SocketServerTestCase extends TestCase {
     try {Thread.sleep(secs*1000);} catch(Exception e) {}
   }
 
-
+  
   public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTest(new SocketServerTestCase("test1"));
-    suite.addTest(new SocketServerTestCase("test2"));
-    suite.addTest(new SocketServerTestCase("test3"));
-    suite.addTest(new SocketServerTestCase("test4"));
+	  String shortSocketServerClassName = ShortSocketServer.class.getName();
+	  
+	  String claspath = System.getProperty("java.class.path");
+	  
+	  ProcessBuilder processBuilder = new ProcessBuilder("java", "-cp", claspath, shortSocketServerClassName, "8", TEST_INPUT_PREFIX+"socketServer"); 
+	  processBuilder.redirectErrorStream(true);
+	  processBuilder.inheritIO();
+	  System.out.println(shortSocketServerClassName);
+	  try {
+		Process process = processBuilder.start();
+		Thread.sleep(2000);
+		//List<String> results = readLines(process.getInputStream());
+		//System.out.println(results);
+
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	  
+	TestSuite suite = new TestSuite();
+	suite.addTest(new SocketServerTestCase("test1"));
+	suite.addTest(new SocketServerTestCase("test2"));
+	suite.addTest(new SocketServerTestCase("test3"));
+	suite.addTest(new SocketServerTestCase("test4"));
     suite.addTest(new SocketServerTestCase("test5"));
     suite.addTest(new SocketServerTestCase("test6"));
-    suite.addTest(new SocketServerTestCase("test7"));
-    suite.addTest(new SocketServerTestCase("test8"));
-    return suite;
+	suite.addTest(new SocketServerTestCase("test7"));
+	suite.addTest(new SocketServerTestCase("test8"));
+	return suite;
   }
+  
+  private static List<String> readLines(InputStream is) {
+	  List<String> result = new ArrayList<String>();
+	  
+	  BufferedReader r = new BufferedReader(new InputStreamReader(is));
+	  try {
+	      while (r.readLine() != null) {
+	    	  result.add(r.readLine());
+	      }  
+	  } catch (IOException e) {
+	      e.printStackTrace();
+	  }
+	  return result;
+  }
+
+
 }
