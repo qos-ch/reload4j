@@ -17,21 +17,19 @@
 
 package org.apache.log4j.customLogger;
 
-import org.apache.log4j.xml.DOMConfigurator;
-import org.apache.log4j.util.*;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
-import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
 import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
+import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.junit.Assert.assertTrue;
+
+import org.apache.log4j.util.Compare;
+import org.apache.log4j.util.Filter;
+import org.apache.log4j.util.LineNumberFilter;
+import org.apache.log4j.util.Log4jAndNothingElseFilter;
+import org.apache.log4j.util.Transformer;
+import org.apache.log4j.xml.DOMConfigurator;
+import org.junit.After;
+import org.junit.Test;
 
 /**
  * Tests handling of custom loggers.
