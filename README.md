@@ -12,17 +12,17 @@ issues in log4j 1.2.17, and the presence of several volunteers to do
 the work, it was decided to resuscitate log4j 1.x under the name
 "reload4j".
 
-###Goals
+### Goals
 
 The reload4j project aims to fix the most urgent issues in log4j
-1.2.17 which hasn't seen a new release since 2012.
+1.2.17 which has not seen a release since 2012.
 
 In the short term, this will be accomplished by the following steps:
 
 * Standardize and [sanitize](https://jira.qos.ch/browse/REL-1) the build
 * Fix [CVE-2021-4104](https://cve.report/CVE-2021-4104)
 * Fix [CVE-2019-17571](https://cve.report/CVE-2019-17571)
-
+* Fix MDC failing in new JDKs
 
 Project web-site: https://reload4j.qos.ch
 
