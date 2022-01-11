@@ -19,9 +19,9 @@ The reload4j project aims to fix the most urgent issues in log4j
 
 In the short term, this will be accomplished by the following steps:
 
-    * Standardize the build
-    * Fix [CVE-2021-4104](https://cve.report/CVE-2021-4104)
-    * Fix [CVE-2019-17571](https://cve.report/CVE-2019-17571)
+* Standardize and [sanitize](https://jira.qos.ch/browse/REL-1) the build
+* Fix [CVE-2021-4104](https://cve.report/CVE-2021-4104)
+* Fix [CVE-2019-17571](https://cve.report/CVE-2019-17571)
 
 
 Project web-site: https://reload4j.qos.ch
