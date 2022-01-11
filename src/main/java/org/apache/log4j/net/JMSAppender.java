@@ -32,7 +32,6 @@ import javax.jms.TopicPublisher;
 import javax.jms.TopicSession;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
 import java.util.Properties;
 
@@ -233,12 +232,12 @@ public class JMSAppender extends AppenderSkeleton {
 	}
 
 	protected Object lookup(Context ctx, String name) throws NamingException {
-		try {
-			return ctx.lookup(name);
-		} catch (NameNotFoundException e) {
-			LogLog.error("Could not find name [" + name + "].");
-			throw e;
+		Object result = JNDIUtil.lookupObject(ctx, name);
+		if (result == null) {
+			String msg = "Could not find name [" + name + "].";
+			throw new NamingException(msg);
 		}
+		return result;
 	}
 
 	protected boolean checkEntryConditions() {
