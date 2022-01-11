@@ -36,7 +36,7 @@ import java.util.Arrays;
    <p>It is this class that parses conversion patterns and creates
    a chained list of {@link OptionConverter OptionConverters}.
 
-   @author <a href=mailto:"cakalijp@Maritz.com">James P. Cakalic</a>
+   @author James P. Cakalic
    @author Ceki G&uuml;lc&uuml;
    @author Anders Kristensen
 
