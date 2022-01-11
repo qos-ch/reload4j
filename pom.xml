@@ -15,24 +15,14 @@
  limitations under the License.
 
 -->
-<!--
-Usage notes:
 
-To build NTEventLogAppender.dll using MinGW, place mingw\bin on path for Windows or install mingw
-package on other platforms.  Build will execute gcc and windres on Windows and
-i586-mingw32msvc-gcc and i586-mingw32msvc-windres on other platforms.
-
-To build NTEventLogAppender.dll using Microsoft tools, run the appropriate vcvars for the
-target platform and specify -Dntdll_target=msbuild on the mvn command line.
-
--->        
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>ch.qos.reload4j</groupId>
   <artifactId>reload4j</artifactId>
   <packaging>jar</packaging>
   <name>reload4j</name>
-  <version>1.2.18</version>
+  <version>1.2.18.0-SNAPSHOT</version>
   <description>Reload4j revives EOLed log4j 1.x</description> 
 
   <url>https://reload4j.qos.ch</url>
@@ -276,7 +266,7 @@ target platform and specify -Dntdll_target=msbuild on the mvn command line.
                 <!-- omit chainsaw and LF5   -->
                 <Export-Package>!org.apache.log4j.lf5.*,
                                 !org.apache.log4j.chainsaw.*,
-                                org.apache.log4j.*;version=1.2.18;-noimport:=true</Export-Package>
+                                org.apache.log4j.*;version=1.2.18.0;-noimport:=true</Export-Package>
 		<!--  all other potential imports are covered by DynamicImport-Package earlier -->
 		<Import-Package>!javax.swing.*,
                                 javax.jmdns.*;resolution:=optional,
