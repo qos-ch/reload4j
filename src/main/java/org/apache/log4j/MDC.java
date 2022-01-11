@@ -49,24 +49,14 @@ public class MDC {
   
   static final int HT_SIZE = 7;
 
-  boolean java1;
+  //boolean java1;
   
-  Object tlm;
+  ThreadLocalMap tlm;
 
-  private Method removeMethod;
 
   private
   MDC() {
-    java1 = Loader.isJava1();
-    if(!java1) {
       tlm = new ThreadLocalMap();
-    }
-
-    try {
-      removeMethod = ThreadLocal.class.getMethod("remove", null);
-    } catch (NoSuchMethodException e) {
-      // don't do anything - java prior 1.5
-    }
   }
 
   /**
@@ -139,7 +129,7 @@ public class MDC {
 
   private
   void put0(String key, Object o) {
-    if(java1 || tlm == null) {
+    if(tlm == null) {
       return;
     } else {
       Hashtable ht = (Hashtable) ((ThreadLocalMap)tlm).get();
@@ -153,10 +143,10 @@ public class MDC {
   
   private
   Object get0(String key) {
-    if(java1 || tlm == null) {
+    if(tlm == null) {
       return null;
     } else {       
-      Hashtable ht = (Hashtable) ((ThreadLocalMap)tlm).get();
+   Hashtable ht = (Hashtable) ((ThreadLocalMap)tlm).get();
       if(ht != null && key != null) {
         return ht.get(key);
       } else {
@@ -167,7 +157,7 @@ public class MDC {
 
   private
   void remove0(String key) {
-    if(!java1 && tlm != null) {
+    if(tlm != null) {
       Hashtable ht = (Hashtable) ((ThreadLocalMap)tlm).get();
       if(ht != null) {
         ht.remove(key);
@@ -182,7 +172,7 @@ public class MDC {
 
   private
   Hashtable getContext0() {
-     if(java1 || tlm == null) {
+     if(tlm == null) {
       return null;
     } else {       
       return (Hashtable) ((ThreadLocalMap)tlm).get();
@@ -191,21 +181,13 @@ public class MDC {
 
   private
   void clear0() {
-    if(!java1 && tlm != null) {
+    if(tlm != null) {
       Hashtable ht = (Hashtable) ((ThreadLocalMap)tlm).get();
       if(ht != null) {
         ht.clear();
       }
-      if(removeMethod != null) {
-          // java 1.3/1.4 does not have remove - will suffer from a memory leak
-          try {
-            removeMethod.invoke(tlm, null);
-          } catch (IllegalAccessException e) {
-            // should not happen
-          } catch (InvocationTargetException e) {
-            // should not happen
-          }
-      }
+      
+      tlm.remove();
     }
   }
 
