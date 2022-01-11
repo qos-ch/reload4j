@@ -16,78 +16,79 @@
  */
 package org.apache.log4j.net;
 
-import junit.framework.TestCase;
+import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
+import static org.junit.Assert.assertEquals;
+
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-public class SocketAppenderTest extends TestCase {
+public class SocketAppenderTest {
 
-    /**
-	 *  Create new instance.
+	/* JUnit's setUp and tearDown */
+
+	@Before
+	public void setUp() {
+		DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/SocketAppenderTestConfig.xml");
+
+		logger = Logger.getLogger(SocketAppenderTest.class);
+		secondary = (LastOnlyAppender) Logger.getLogger("org.apache.log4j.net.SocketAppenderTestDummy")
+				.getAppender("lastOnly");
+	}
+
+	@After
+	public void tearDown() {
+	}
+
+	/* Tests */
+
+	@Test
+	public void testFallbackErrorHandlerWhenStarting() {
+		String msg = "testFallbackErrorHandlerWhenStarting";
+		logger.debug(msg);
+
+		// above debug log will fail and shoul be redirected to secondary appender
+		assertEquals("SocketAppender with FallbackErrorHandler", msg, secondary.getLastMessage());
+	}
+
+	/* Fields */
+
+	private static Logger logger;
+	private static LastOnlyAppender secondary;
+
+	/* Inner classes */
+
+	/**
+	 * Inner-class For debugging purposes only Saves last LoggerEvent
 	 */
-    public SocketAppenderTest(final String testName) {
-	    super(testName);
-    }
+	static public class LastOnlyAppender extends AppenderSkeleton {
+		protected void append(LoggingEvent event) {
+			this.lastEvent = event;
+		}
 
-    /* JUnit's setUp and tearDown */
+		public boolean requiresLayout() {
+			return false;
+		}
 
-    protected void setUp() {
-        DOMConfigurator.configure("input/xml/SocketAppenderTestConfig.xml");
+		public void close() {
+			this.closed = true;
+		}
 
-        logger = Logger.getLogger(SocketAppenderTest.class);
-        secondary = (LastOnlyAppender) Logger.getLogger(
-                "org.apache.log4j.net.SocketAppenderTestDummy").getAppender("lastOnly");
-    }
+		/**
+		 * @return last appended LoggingEvent's message
+		 */
+		public String getLastMessage() {
+			if (this.lastEvent != null)
+				return this.lastEvent.getMessage().toString();
+			else
+				return "";
+		}
 
-    protected void tearDown() {
-    }
-
-    /* Tests */
-
-    public void testFallbackErrorHandlerWhenStarting() {
-        String msg = "testFallbackErrorHandlerWhenStarting";
-        logger.debug(msg);
-
-        // above debug log will fail and shoul be redirected to secondary appender
-        assertEquals("SocketAppender with FallbackErrorHandler", msg, secondary.getLastMessage());
-    }
-
-    /* Fields */
-
-    private static Logger logger;
-    private static LastOnlyAppender secondary;
-
-    /* Inner classes */
-
-    /**
-     * Inner-class For debugging purposes only Saves last LoggerEvent
-     */
-    static public class LastOnlyAppender extends AppenderSkeleton {
-        protected void append(LoggingEvent event) {
-            this.lastEvent = event;
-        }
-
-        public boolean requiresLayout() {
-            return false;
-        }
-
-        public void close() {
-            this.closed = true;
-        }
-
-        /**
-         * @return last appended LoggingEvent's message
-         */
-        public String getLastMessage() {
-            if (this.lastEvent != null)
-                return this.lastEvent.getMessage().toString();
-            else
-                return "";
-        }
-
-        private LoggingEvent lastEvent;
-    };
+		private LoggingEvent lastEvent;
+	};
 
 }
