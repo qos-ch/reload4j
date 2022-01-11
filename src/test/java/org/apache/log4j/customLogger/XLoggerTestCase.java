@@ -20,58 +20,61 @@ package org.apache.log4j.customLogger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.apache.log4j.util.*;
 
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.framework.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
 
 /**
-   Tests handling of custom loggers.
-   
-   @author Ceki G&uuml;lc&uuml;
-*/
-public class XLoggerTestCase extends TestCase {
+ * Tests handling of custom loggers.
+ * 
+ * @author Ceki G&uuml;lc&uuml;
+ */
+public class XLoggerTestCase {
 
-  static String FILTERED = "output/filtered";
-  static XLogger logger = (XLogger) XLogger.getLogger(XLoggerTestCase.class);
+	static String FILTERED = TARGET_OUTPUT_PREFIX+"filtered";
+	static XLogger logger = (XLogger) XLogger.getLogger(XLoggerTestCase.class);
 
-  public XLoggerTestCase(String name){
-    super(name);
-  }
+	@After
+	public void tearDown() {
+		logger.getLoggerRepository().resetConfiguration();
+	}
 
-  public void tearDown() {
-    logger.getLoggerRepository().resetConfiguration();
-  }
+	@Test
+	public void test1() throws Exception {
+		common(1);
+	}
 
-  public void test1()  throws Exception  { common(1); }
-  public void test2()  throws Exception  { common(2); }
+	@Test
+	public void test2() throws Exception {
+		common(2);
+	}
 
-  void common(int number) throws Exception {
-    DOMConfigurator.configure("input/xml/customLogger"+number+".xml");
+	void common(int number) throws Exception {
+		DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/customLogger" + number + ".xml");
 
-    int i = -1;
+		int i = -1;
 
-    logger.trace("Message " + ++i);
-    logger.debug("Message " + ++i);
-    logger.warn ("Message " + ++i);
-    logger.error("Message " + ++i);
-    logger.fatal("Message " + ++i);
-    Exception e = new Exception("Just testing");
-    logger.debug("Message " + ++i, e);
+		logger.trace("Message " + ++i);
+		logger.debug("Message " + ++i);
+		logger.warn("Message " + ++i);
+		logger.error("Message " + ++i);
+		logger.fatal("Message " + ++i);
+		Exception e = new Exception("Just testing");
+		logger.debug("Message " + ++i, e);
 
-    Transformer.transform(
-      "output/temp", FILTERED,
-      new Filter[] {
-        new LineNumberFilter(), new SunReflectFilter(),
-        new JunitTestRunnerFilter()
-      });
-    assertTrue(Compare.compare(FILTERED, "witness/customLogger."+number));
+		Transformer.transform(TARGET_OUTPUT_PREFIX+"xlogger.out", FILTERED,
+				new Filter[] { new LineNumberFilter(), new Log4jAndNothingElseFilter() });
+		assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"customLogger." + number));
 
-  }
+	}
 
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTest(new XLoggerTestCase("test1"));
-    suite.addTest(new XLoggerTestCase("test2"));
-    return suite;
-  }
 }
