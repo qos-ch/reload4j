@@ -17,9 +17,6 @@
 
 package org.apache.log4j.helpers;
 
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.framework.Test;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.Level;
@@ -29,6 +26,18 @@ import org.apache.log4j.PatternLayout;
 import org.apache.log4j.MDC;
 
 import org.apache.log4j.util.Compare;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
 
 /**
    Test case for helpers/PatternParser.java. Tests the various 
@@ -36,31 +45,31 @@ import org.apache.log4j.util.Compare;
    class tests PatternParser via the PatternLayout class which
    uses it.
  */
-public class PatternParserTestCase extends TestCase {
+public class PatternParserTestCase {
   
-  static String OUTPUT_FILE   = "output/PatternParser";
-  static String WITNESS_FILE  = "witness/PatternParser";
+  static String OUTPUT_FILE   = TARGET_OUTPUT_PREFIX+"PatternParser";
+  static String WITNESS_FILE  = TEST_WITNESS_PREFIX+"/PatternParser";
 
   static String msgPattern = "%m%n";
   
   Logger root; 
   Logger logger;
 
-  public PatternParserTestCase(String name) {
-    super(name);
-  }
 
+  @Before
   public void setUp() {
     root = Logger.getRootLogger();
     root.removeAllAppenders();
   }
 
+  @After
   public void tearDown() {  
     root.getLoggerRepository().resetConfiguration();
   }
 
   /**
     Test case for MDC conversion pattern. */
+  @Test
   public void mdcPattern() throws Exception {
     
     String mdcMsgPattern1 = "%m : %X%n";
@@ -120,17 +129,6 @@ public class PatternParserTestCase extends TestCase {
     root.debug("finished mdc pattern test");
 
     assertTrue(Compare.compare(OUTPUT_FILE+"_mdc", WITNESS_FILE+"_mdc"));
-  }
-
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
-    //
-    //   MDC requires JDK 1.2+
-    //
-    if (!System.getProperty("java.version").startsWith("1.1.")) {
-       suite.addTest(new PatternParserTestCase("mdcPattern"));
-    }
-    return suite;
   }
 
 }
