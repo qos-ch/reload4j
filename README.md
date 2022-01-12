@@ -61,7 +61,7 @@ issues in https://jira.qos.ch.
 All steps undertaken in the project are first published on jira and
 discussed on the mailing list.
 
-### Donations and sponsorship<
+### Donations and sponsorship
 
 You can also support SLF4J/logback/reload4j projects 
 via [donations and sponsorship](https://github.com/sponsors/qos-ch?o=esb). 
