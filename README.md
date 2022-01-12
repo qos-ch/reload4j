@@ -8,6 +8,10 @@ __drop-in__ replacement for log4j version 1.2.17. By drop-in, we mean
 the replacement of  _log4j.jar_ with _reload4j.jar_ in your build without 
 needing to make changes to source code, i.e. to your java files.
 
+With release 1.2.18.0, the reload4j project offers a clear and
+easy migration path for the thousands of users who have an 
+urgent need to fix vulnerabilities in log4j 1.2.17.
+
 ### Goals
 
 As mentioned above, the reload4j project aims to fix the 
