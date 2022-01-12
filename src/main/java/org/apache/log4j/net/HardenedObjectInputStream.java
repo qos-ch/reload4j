@@ -37,12 +37,13 @@ import java.util.List;
  * @author Ceki G&uuml;lc&uuml;
  * @since 1.2.18
  * 
- *  === Copied from the logback project with permission ==
+ *        === Copied from the logback project with permission ==
  */
 public class HardenedObjectInputStream extends ObjectInputStream {
 
+	static final String ARRAY_CLASS_PREFIX = "[L";
 	final List<String> whitelistedClassNames;
-	final static String[] JAVA_PACKAGES = new String[] { "java.lang", "java.util" };
+	final static String[] JAVA_PACKAGES = new String[] { "java.lang", "java.util", ARRAY_CLASS_PREFIX + "java.lang" };
 
 	public HardenedObjectInputStream(InputStream in, String[] whilelist) throws IOException {
 		super(in);
@@ -68,7 +69,7 @@ public class HardenedObjectInputStream extends ObjectInputStream {
 		String incomingClassName = anObjectStreamClass.getName();
 
 		if (!isWhitelisted(incomingClassName)) {
-			throw new InvalidClassException("Unauthorized deserialization attempt", anObjectStreamClass.getName());
+			throw new InvalidClassException("Unauthorized deserialization attempt", incomingClassName);
 		}
 
 		return super.resolveClass(anObjectStreamClass);

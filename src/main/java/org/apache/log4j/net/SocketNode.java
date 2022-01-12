@@ -17,10 +17,8 @@
 
 package org.apache.log4j.net;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InterruptedIOException;
-import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import org.apache.log4j.Logger;
@@ -46,7 +44,7 @@ public class SocketNode implements Runnable {
 
 	Socket socket;
 	LoggerRepository hierarchy;
-	ObjectInputStream ois;
+	HardenedLoggingEventInputStream ois;
 
 	static Logger logger = Logger.getLogger(SocketNode.class);
 
@@ -54,7 +52,7 @@ public class SocketNode implements Runnable {
 		this.socket = socket;
 		this.hierarchy = hierarchy;
 		try {
-			ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+			ois = new HardenedLoggingEventInputStream((socket.getInputStream()));
 		} catch (InterruptedIOException e) {
 			Thread.currentThread().interrupt();
 			logger.error("Could not open ObjectInputStream to " + socket, e);

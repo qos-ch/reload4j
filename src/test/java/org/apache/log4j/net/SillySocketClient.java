@@ -25,9 +25,14 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Properties;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.MDC;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.helpers.LogLog;
 import org.apache.log4j.spi.ErrorCode;
+import org.apache.log4j.spi.LoggingEvent;
 
 /**
  * A silly client used send objects to SocketServer
@@ -37,18 +42,19 @@ import org.apache.log4j.spi.ErrorCode;
  */
 public class SillySocketClient {
 
+	static Logger LOGGER = LogManager.getLogger(SillySocketClient.class);
 	static InetAddress LOCAL_HOST_ADDRESS;
 	static String LOCALHOST_STR;
-	
+
 	static int PORT;
-	
+
 	ObjectOutputStream oos;
-			
-	public static void main(String[] args) throws UnknownHostException {
+
+	public static void main(String[] args) throws IOException, InterruptedException {
 		Properties props = System.getProperties();
-		for (Object key : props.keySet()) {
-			System.out.println(key + ":" + props.getProperty((String) key));
-		}
+//		for (Object key : props.keySet()) {
+//			System.out.println(key + ":" + props.getProperty((String) key));
+//		}
 
 		if (args.length == 1)
 			init(args[0]);
@@ -57,10 +63,31 @@ public class SillySocketClient {
 			return;
 		}
 		LOCAL_HOST_ADDRESS = getAddressByName(LOCALHOST_STR);
-		
+
 		SillySocketClient ssc = new SillySocketClient();
 		ssc.connect(LOCAL_HOST_ADDRESS, PORT);
+
+		MDC.put("a", "aValue");
 		
+		// MDC carries objects as is!!
+		//MDC.put("aKey", new BadPayload("aValue"));
+		ssc.sendThisEvent(LOGGER, Level.INFO, "hello", null);
+
+		Throwable t = new Exception("testing");
+		ssc.sendThisEvent(LOGGER, Level.INFO, new BadPayload("x"), t);
+		
+		;
+		Thread.sleep(200);
+	}
+
+	private void sendThisEvent(Logger logger, Level level, Object message, Throwable t) throws IOException {
+		LoggingEvent le = makeLoggingEvent(logger, level, message, t);
+		this.append(le);
+	}
+
+	private static LoggingEvent makeLoggingEvent(Logger logger, Level level, Object message, Throwable t) {
+		LoggingEvent le = new LoggingEvent("", logger, level, message, t);
+		return le;
 	}
 
 	static void init(String portStr) {
@@ -94,6 +121,21 @@ public class SillySocketClient {
 			String msg = "Could not connect to remote log4j server at [" + address.getHostName() + "].";
 			LogLog.error(msg);
 		}
+	}
+
+	public void writeObject(Object o) throws IOException {
+		oos.writeObject(o);
+		oos.flush();
+	}
+
+	public void append(LoggingEvent event) throws IOException {
+		event.getNDC();
+		event.getThreadName();
+		event.getMDCCopy();
+		event.getRenderedMessage();
+		event.getThrowableStrRep();
+
+		writeObject(event);
 	}
 
 }

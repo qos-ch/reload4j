@@ -166,8 +166,13 @@ public class SocketServer {
 			cat.warn("Could not parse the inetAddress [" + inetAddress + "]. Using default hierarchy.");
 			return genericHierarchy();
 		} else {
-			String key = s.substring(0, i);
-
+			String key;
+			if(i == 0) {
+			  key = s.substring(i);
+			} else {
+			  key = s.substring(0, i);
+			}
+			
 			File configFile = new File(dir, key + CONFIG_FILE_EXT);
 			if (configFile.exists()) {
 				Hierarchy h = new Hierarchy(new RootLogger(Level.DEBUG));
