@@ -19,6 +19,7 @@ package org.apache.log4j.net;
 import static org.junit.Assert.fail;
 
 import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class JNDIUtilTest {
 	public void ensureJavaNameSpace() throws NamingException {
 
 		try {
-			Context ctxt = JNDIUtil.getInitialContext();
+			Context ctxt = new InitialContext();
 			JNDIUtil.lookupObject(ctxt, "ldap:...");
 		} catch (NamingException e) {
 			String excaptionMsg = e.getMessage();

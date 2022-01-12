@@ -17,7 +17,6 @@
 package org.apache.log4j.net;
 
 import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 public class JNDIUtil {
@@ -52,9 +51,4 @@ public class JNDIUtil {
 			throw new NamingException(RESTRICTION_MSG + name);
 		}
 	}
-	
-	// used for testing 
-	static Context getInitialContext() throws NamingException {
-        return new InitialContext();
-    }
 }
