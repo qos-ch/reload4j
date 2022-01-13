@@ -55,11 +55,11 @@ Apache Software Foundation.
 
 ### Issue reporting
 
-You can see open issues can be found at open issues or report new
-issues in https://jira.qos.ch.
 
-All steps undertaken in the project are first published on jira and
-discussed on the mailing list.
+You can see open issues can be found at open issues or report new
+issues at the [github issues page](https://github.com/qos-ch/reload4j/issues/).
+All steps undertaken in the project are first published discussed on
+the mailing list or on that page.
 
 ### Donations and sponsorship
 
