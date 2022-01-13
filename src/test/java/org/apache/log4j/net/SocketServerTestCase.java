@@ -402,11 +402,9 @@ public class SocketServerTestCase extends TestCase {
 	  
 	  String claspath = System.getProperty("java.class.path");
 	  String javaHome = System.getProperty("java.home");
-	  String pathToJavaExecutable = javaHome + "/bin/java";
-	  
-			  
-			  
-			  
+	  String fileSeparator = System.getProperty("file.separator");
+	  String pathToJavaExecutable = javaHome + fileSeparator + "bin"+fileSeparator+"java";
+	  System.out.println("java executable assumed to be located at ["+pathToJavaExecutable+"]");		  
 	  ProcessBuilder processBuilder = new ProcessBuilder(pathToJavaExecutable, "-cp", claspath, shortSocketServerClassName, "8", TEST_INPUT_PREFIX+"socketServer"); 
 	  processBuilder.redirectErrorStream(true);
 	  processBuilder.inheritIO();
