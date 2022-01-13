@@ -58,8 +58,8 @@ Apache Software Foundation.
 
 You can see open issues can be found at open issues or report new
 issues at the [github issues page](https://github.com/qos-ch/reload4j/issues/).
-All steps undertaken in the project are first published discussed on
-the mailing list or on that page.
+All steps undertaken in the project are first published/discussed on
+the mailing list or on the aforementoined issues page.
 
 ### Donations and sponsorship
 
