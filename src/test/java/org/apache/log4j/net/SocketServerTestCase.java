@@ -401,8 +401,13 @@ public class SocketServerTestCase extends TestCase {
 	  String shortSocketServerClassName = ShortSocketServer.class.getName();
 	  
 	  String claspath = System.getProperty("java.class.path");
+	  String javaHome = System.getProperty("java.home");
+	  String pathToJavaExecutable = javaHome + "/bin/java";
 	  
-	  ProcessBuilder processBuilder = new ProcessBuilder("java", "-cp", claspath, shortSocketServerClassName, "8", TEST_INPUT_PREFIX+"socketServer"); 
+			  
+			  
+			  
+	  ProcessBuilder processBuilder = new ProcessBuilder(pathToJavaExecutable, "-cp", claspath, shortSocketServerClassName, "8", TEST_INPUT_PREFIX+"socketServer"); 
 	  processBuilder.redirectErrorStream(true);
 	  processBuilder.inheritIO();
 	  System.out.println(shortSocketServerClassName);
