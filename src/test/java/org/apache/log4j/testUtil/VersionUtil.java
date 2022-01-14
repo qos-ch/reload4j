@@ -15,13 +15,12 @@
  */
 package org.apache.log4j.testUtil;
 
-import java.lang.reflect.Method;
-
 public class VersionUtil {
 	static final int DEFAULT_GUESS = 8;
 
 	static public int getJavaMajorVersion() {
 		String javaVersionString = System.getProperty("java.version");
+		System.out.println("javaVersionString="+javaVersionString);
 		return getJavaMajorVersion(javaVersionString);
 	} 
 

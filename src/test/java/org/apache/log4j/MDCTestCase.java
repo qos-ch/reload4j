@@ -50,9 +50,13 @@ public class MDCTestCase extends TestCase {
 		MDC.remove("key");
 		
 		int majorJavaVersion = VersionUtil.getJavaMajorVersion();
+		System.out.println("majorJavaVersion="+majorJavaVersion);
 		// test fails on newer JDKS
 		if(majorJavaVersion <= 9) {
+			
 		  checkThreadLocalsForLeaks();
+		} else {
+			System.out.println("Skipping checkThreadLocalsForLeaks() call");
 		}
 	}
 
