@@ -24,75 +24,77 @@ import junit.framework.TestCase;
 /**
  * Test for MDC
  * 
- *  @author Maarten Bosteels
+ * @author Maarten Bosteels
  */
 public class MDCTestCase extends TestCase {
 
-  public void setUp() {
-    MDC.clear();
-  }
+	public void setUp() {
+		MDC.clear();
+	}
 
-  public void tearDown() {
-    MDC.clear();
-  }
+	public void tearDown() {
+		MDC.clear();
+	}
 
-  public void testPut() throws Exception {
-    MDC.put("key", "some value");
-    assertEquals("some value", MDC.get("key"));
-    assertEquals(1, MDC.getContext().size());
-  }
-  
-  public void testRemoveLastKey() throws Exception {
-    MDC.put("key", "some value");
+	public void testPut() throws Exception {
+		MDC.put("key", "some value");
+		assertEquals("some value", MDC.get("key"));
+		assertEquals(1, MDC.getContext().size());
+	}
 
-    MDC.remove("key");
-    checkThreadLocalsForLeaks();
-  }
+	public void testRemoveLastKey() throws Exception {
+		MDC.put("key", "some value");
 
-  private void checkThreadLocalsForLeaks() throws Exception {
+		MDC.remove("key");
+		checkThreadLocalsForLeaks();
+	}
 
-      // this code is heavily based on code in org.apache.catalina.loader.WebappClassLoader
+	private void checkThreadLocalsForLeaks() throws Exception {
 
-      // Make the fields in the Thread class that store ThreadLocals accessible    
-      Field threadLocalsField = Thread.class.getDeclaredField("threadLocals");
-      threadLocalsField.setAccessible(true);
-      Field inheritableThreadLocalsField = Thread.class.getDeclaredField("inheritableThreadLocals");
-      inheritableThreadLocalsField.setAccessible(true);
-      // Make the underlying array of ThreadLoad.ThreadLocalMap.Entry objects accessible
-      Class tlmClass = Class.forName("java.lang.ThreadLocal$ThreadLocalMap");
-      Field tableField = tlmClass.getDeclaredField("table");
-      tableField.setAccessible(true);
+		// this code is heavily based on code in
+		// org.apache.catalina.loader.WebappClassLoader
 
-      Thread thread = Thread.currentThread();
+		// Make the fields in the Thread class that store ThreadLocals accessible
+		Field threadLocalsField = Thread.class.getDeclaredField("threadLocals");
+		threadLocalsField.setAccessible(true);
+		Field inheritableThreadLocalsField = Thread.class.getDeclaredField("inheritableThreadLocals");
+		inheritableThreadLocalsField.setAccessible(true);
+		// Make the underlying array of ThreadLoad.ThreadLocalMap.Entry objects
+		// accessible
+		Class tlmClass = Class.forName("java.lang.ThreadLocal$ThreadLocalMap");
+		Field tableField = tlmClass.getDeclaredField("table");
+		tableField.setAccessible(true);
 
-      Object threadLocalMap;
-      threadLocalMap = threadLocalsField.get(thread);
-      // Check the first map
-      checkThreadLocalMapForLeaks(threadLocalMap, tableField);
-      // Check the second map
-      threadLocalMap = inheritableThreadLocalsField.get(thread);
-      checkThreadLocalMapForLeaks(threadLocalMap, tableField);
+		Thread thread = Thread.currentThread();
 
-  }
+		Object threadLocalMap;
+		threadLocalMap = threadLocalsField.get(thread);
+		// Check the first map
+		checkThreadLocalMapForLeaks(threadLocalMap, tableField);
+		// Check the second map
+		threadLocalMap = inheritableThreadLocalsField.get(thread);
+		checkThreadLocalMapForLeaks(threadLocalMap, tableField);
 
-  private void checkThreadLocalMapForLeaks(Object map, Field internalTableField) 
-          throws IllegalAccessException, NoSuchFieldException {
-    if (map != null) {
-      Object[] table = (Object[]) internalTableField.get(map);
-      if (table != null) {
-        for (int j =0; j < table.length; j++) {
-          if (table[j] != null) {
+	}
 
-            // Check the key
-            Object key = ((Reference) table[j]).get();
-            String keyClassName = key.getClass().getName();
+	private void checkThreadLocalMapForLeaks(Object map, Field internalTableField)
+			throws IllegalAccessException, NoSuchFieldException {
+		if (map != null) {
+			Object[] table = (Object[]) internalTableField.get(map);
+			if (table != null) {
+				for (int j = 0; j < table.length; j++) {
+					if (table[j] != null) {
 
-            if (key.getClass() == org.apache.log4j.helpers.ThreadLocalMap.class) {
-              fail("Found a ThreadLocal with key of type [" + keyClassName + "]");
-            }
-          }
-        }
-      }
-    }
-  }
+						// Check the key
+						Object key = ((Reference) table[j]).get();
+						String keyClassName = key.getClass().getName();
+
+						if (key.getClass() == org.apache.log4j.helpers.ThreadLocalMap.class) {
+							fail("Found a ThreadLocal with key of type [" + keyClassName + "]");
+						}
+					}
+				}
+			}
+		}
+	}
 }
