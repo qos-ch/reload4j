@@ -1,0 +1,13 @@
+# Auto detect text files and perform LF normalization
+*        text=auto
+
+*.java   text
+*.html   text
+*.css    text
+*.js     text
+
+*.bat    text eol=crlf
+*.cmd    text eol=crlf
+
+# Treat commits editing side-by-side lines in changes.xml as non-conflicting
+/src/changes/changes.xml merge=union
