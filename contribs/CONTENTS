@@ -19,11 +19,11 @@ WARNING: The contents of the contribs/ directory is not guaranteed to
 work properly. Some files might not even compile.
 ----------------------------------------------------------------------
 
-Each directory corresponds to the name of an author containing his/her 
+Each directory corresponds to the name of an author containing his/her
 contributions.
 
 
-EirikLygre/			   
+EirikLygre/
 ==========
 
    DailyFileAppender1.java
@@ -36,20 +36,20 @@ EirikLygre/
 JamesHouse/
 ==========
 
-   LogTextPanel.java		   
-   LogTextPanelExample.java 
-   TextPanelAppender.java 
+   LogTextPanel.java
+   LogTextPanelExample.java
+   TextPanelAppender.java
 
 JimMoore/
 ========
 
    LoggingOutputStream.java
 
-   Allows the user to divert System.out and System.err to log4j. 
+   Allows the user to divert System.out and System.err to log4j.
 
    WARNING: Be sure to read the included e-mails to understand the dangers of
    WARNING: redirecting the console to LoggingOutputStream.
-   
+
 
 LeosLiterak/
 ===========
@@ -57,15 +57,15 @@ LeosLiterak/
    TempFileAppender.java
 
    TempFileAppender creates new unique file for each logging statement.
-	 
+
 MarkDouglas/
 ===========
 
    SocketNode2.java
    SocketServer2.java
 
-   Small changes to SocketServer and SockerNode to allow the client machine name 
-   to be displayed in the logging output. This is important for us as we are 
+   Small changes to SocketServer and SockerNode to allow the client machine name
+   to be displayed in the logging output. This is important for us as we are
    using a single logging server with several clients.
 
 KevinSteppe/
@@ -73,7 +73,7 @@ KevinSteppe/
 
   JDBCAppender.java
   JDBCTest.java
-   
+
 
 KitchingSimon/
 =============
@@ -86,8 +86,8 @@ KitchingSimon/
 
    A set of files that implement an Appender which sends messages to a
    remote host/port via UDP (datagram). Message formatting is
-   performed at the at the client end, mainly so that: 
-      (a) the UDP server application does not have to be in java 
+   performed at the at the client end, mainly so that:
+      (a) the UDP server application does not have to be in java
       (b) non-java clients can send messages to the same UDP server.
 
 ThomasFenner/
@@ -106,7 +106,7 @@ ThomasFenner/
 
 Volker Mentzner/
 ===============
-  
+
   HTTPRequestHandler.java
   Log4jRequestHandler.java
   PluggableHTTPServer.java

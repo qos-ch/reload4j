@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -246,7 +246,7 @@ public class LocationInfo implements java.io.Serializable {
     }
 
     /**
-     *   Appends a location fragment to a buffer to build the 
+     *   Appends a location fragment to a buffer to build the
      *     full location info.
      *    @param buf StringBuffer to receive content.
      *    @param fragment fragment of location (class, method, file, line),

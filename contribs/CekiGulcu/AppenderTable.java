@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -78,7 +78,7 @@ public class AppenderTable extends JTable {
     Container container = frame.getContentPane();
 
     AppenderTable tableAppender = new AppenderTable();
-    
+
     int bufferSize = Integer.parseInt(args[0]);
     AppenderTableModel model = new AppenderTableModel(bufferSize);
     tableAppender.setModel(model);
@@ -87,7 +87,7 @@ public class AppenderTable extends JTable {
 
     JScrollPane sp = new JScrollPane(tableAppender);
     sp.setPreferredSize(new Dimension(250, 80));
-    
+
     container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
     container.add(sp);
 
@@ -103,8 +103,8 @@ public class AppenderTable extends JTable {
     long before = System.currentTimeMillis();
 
     int i = 0;
-    while(i++ < runLength) {      
-      LoggingEvent event = new LoggingEvent("x", logger, Level.ERROR, 
+    while(i++ < runLength) {
+      LoggingEvent event = new LoggingEvent("x", logger, Level.ERROR,
 					    "Message "+i, null);
       tableAppender.doAppend(event);
     }
@@ -112,7 +112,7 @@ public class AppenderTable extends JTable {
     long after = System.currentTimeMillis();
 
     long totalTime = (after-before);
-    
+
     System.out.println("Total time :"+totalTime+ " milliseconds for "+
 		       "runLength insertions.");
     System.out.println("Average time per insertion :"
@@ -175,7 +175,7 @@ public class AppenderTable extends JTable {
 class AppenderTableModel extends AbstractTableModel {
 
   CyclicBuffer cb;
-  
+
   AppenderTableModel(int size) {
     cb = new CyclicBuffer(size);
   }
@@ -193,19 +193,19 @@ class AppenderTableModel extends AbstractTableModel {
   /**
      We assume only one column.
   */
-  public 
-  int getColumnCount() { 
-    return 1; 
+  public
+  int getColumnCount() {
+    return 1;
   }
-  
+
   /**
      The row count is given by the number of elements in the
      buffer. This number is guaranteed to be between 0 and the buffer
      size (inclusive). */
-  public int getRowCount() { 
+  public int getRowCount() {
     return cb.length();
   }
-  
+
   /**
      Get the value in a given row and column. We suppose that there is
      only one colemn so we are only concerned with the row.
@@ -214,7 +214,7 @@ class AppenderTableModel extends AbstractTableModel {
      the door open for a TableCellRenderer to render the object in
      a variety of ways.
   */
-  public 
+  public
   Object getValueAt(int row, int col) {
     return cb.get(row);
   }
@@ -226,7 +226,7 @@ class AppenderTableModel extends AbstractTableModel {
    button.
 */
 class JTableAddAction implements ActionListener {
-    
+
   AppenderTable appenderTable;
   Logger dummy = Logger.getLogger("x");
   int counter = 0;
@@ -234,12 +234,12 @@ class JTableAddAction implements ActionListener {
   JTableAddAction(AppenderTable appenderTable) {
     this.appenderTable = appenderTable;
   }
-    
+
   public
   void actionPerformed(ActionEvent e) {
     counter++;
-    LoggingEvent event = new LoggingEvent("x", dummy, Level.DEBUG, 
-					  "Message "+counter, null);    
+    LoggingEvent event = new LoggingEvent("x", dummy, Level.DEBUG,
+					  "Message "+counter, null);
     appenderTable.doAppend(event);
   }
 }

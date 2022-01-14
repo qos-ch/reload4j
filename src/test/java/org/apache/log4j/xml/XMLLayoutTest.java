@@ -184,7 +184,7 @@ public class XMLLayoutTest extends LayoutTest {
               childNodeCount++;
           }
       }
-      assertEquals(1, childNodeCount);  
+      assertEquals(1, childNodeCount);
     }
 
   /**

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ package org.apache.log4j.spi;
 
    <p>If the value {@link #DENY} is returned, then the log event is
    dropped immediately without consulting with the remaining
-   filters. 
+   filters.
 
    <p>If the value {@link #NEUTRAL} is returned, then the next filter
    in the chain is consulted. If there are no more filters in the
@@ -46,10 +46,10 @@ package org.apache.log4j.spi;
    filters, the default behaviour is to log all logging events.
 
    <p>If the value {@link #ACCEPT} is returned, then the log
-   event is logged without consulting the remaining filters. 
+   event is logged without consulting the remaining filters.
 
    <p>The philosophy of log4j filters is largely inspired from the
-   Linux ipchains. 
+   Linux ipchains.
 
    <p>Note that filtering is only supported by the {@link
    org.apache.log4j.xml.DOMConfigurator DOMConfigurator}. The {@link
@@ -71,7 +71,7 @@ public abstract class Filter implements OptionHandler {
      The log event must be dropped immediately without consulting
      with the remaining filters, if any, in the chain.  */
   public static final int DENY    = -1;
-  
+
   /**
      This filter is neutral with respect to the log event. The
      remaining filters, if any, should be consulted for a final decision.
@@ -94,7 +94,7 @@ public abstract class Filter implements OptionHandler {
 
 
 
-  /**     
+  /**
      <p>If the decision is <code>DENY</code>, then the event will be
      dropped. If the decision is <code>NEUTRAL</code>, then the next
      filter, if any, will be invoked. If the decision is ACCEPT then
@@ -109,14 +109,14 @@ public abstract class Filter implements OptionHandler {
 
   /**
    * Set the next filter pointer.
-   */ 
+   */
   public void setNext(Filter next) {
     this.next = next;
   }
- 
+
   /**
    * Return the pointer to the next filter;
-   */ 
+   */
   public Filter getNext() {
         return next;
   }

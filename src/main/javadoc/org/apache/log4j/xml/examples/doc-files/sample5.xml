@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?> 
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
 <!--
  Licensed to the Apache Software Foundation (ASF) under one or more
@@ -28,7 +28,7 @@
 
 	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-  		     <param name="ConversionPattern" 
+  		     <param name="ConversionPattern"
                             value="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
 		</layout>
 	</appender>
@@ -37,7 +37,7 @@
 	<appender name="TEMP" class="org.apache.log4j.FileAppender">
 		<param name="File" value="temp"/>
 		<layout class="org.apache.log4j.PatternLayout">
-  		     <param name="ConversionPattern" 
+  		     <param name="ConversionPattern"
                             value="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
 		</layout>
 	</appender>

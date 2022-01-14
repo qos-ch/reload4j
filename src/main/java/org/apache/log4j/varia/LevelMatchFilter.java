@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ import org.apache.log4j.helpers.OptionConverter;
 
    @since 1.2 */
 public class LevelMatchFilter extends Filter {
-  
+
   /**
      Do we return ACCEPT when a match occurs. Default is
      <code>true</code>.  */
@@ -48,27 +48,27 @@ public class LevelMatchFilter extends Filter {
    */
   Level levelToMatch;
 
- 
+
   public
   void setLevelToMatch(String level) {
     levelToMatch = OptionConverter.toLevel(level, null);
   }
-  
+
   public
   String getLevelToMatch() {
     return levelToMatch == null ? null : levelToMatch.toString();
   }
-  
+
   public
   void setAcceptOnMatch(boolean acceptOnMatch) {
     this.acceptOnMatch = acceptOnMatch;
   }
-  
+
   public
   boolean getAcceptOnMatch() {
     return acceptOnMatch;
   }
-  
+
 
   /**
      Return the decision of this filter.
@@ -86,13 +86,13 @@ public class LevelMatchFilter extends Filter {
     if(this.levelToMatch == null) {
       return Filter.NEUTRAL;
     }
-    
+
     boolean matchOccured = false;
     if(this.levelToMatch.equals(event.getLevel())) {
       matchOccured = true;
-    } 
+    }
 
-    if(matchOccured) {  
+    if(matchOccured) {
       if(this.acceptOnMatch)
 	  return Filter.ACCEPT;
       else

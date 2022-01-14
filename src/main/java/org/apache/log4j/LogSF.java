@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
  * This class provides parameterized logging services
  * using the SLF4J pattern syntax.
  * <p>
- * Message formatting is only performed when the 
+ * Message formatting is only performed when the
  * request exceeds the threshold level of the logger.
  *
  * @since 1.2.16

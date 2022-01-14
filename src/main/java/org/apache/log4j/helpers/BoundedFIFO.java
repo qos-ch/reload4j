@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,11 +25,11 @@ import org.apache.log4j.spi.LoggingEvent;
 /**
    <code>BoundedFIFO</code> serves as the bounded first-in-first-out
    buffer heavily used by the {@link org.apache.log4j.AsyncAppender}.
-   
-   @author Ceki G&uuml;lc&uuml; 
+
+   @author Ceki G&uuml;lc&uuml;
    @since version 0.9.1 */
 public class BoundedFIFO {
-  
+
   LoggingEvent[] buf;
   int numElements = 0;
   int first = 0;
@@ -48,33 +48,33 @@ public class BoundedFIFO {
     this.maxSize = maxSize;
     buf = new LoggingEvent[maxSize];
   }
-  
+
   /**
      Get the first element in the buffer. Returns <code>null</code> if
      there are no elements in the buffer.  */
   public
   LoggingEvent get() {
-    if(numElements == 0) 
+    if(numElements == 0)
       return null;
-    
+
     LoggingEvent r = buf[first];
     buf[first] = null; // help garbage collection
 
     if(++first == maxSize) {
 	first = 0;
     }
-    numElements--;    
-    return r;    
+    numElements--;
+    return r;
   }
 
   /**
      Place a {@link LoggingEvent} in the buffer. If the buffer is full
      then the event is <b>silently dropped</b>. It is the caller's
      responsability to make sure that the buffer has free space.  */
-  public 
+  public
   void put(LoggingEvent o) {
-    if(numElements != maxSize) {      
-      buf[next] = o;    
+    if(numElements != maxSize) {
+      buf[next] = o;
       if(++next == maxSize) {
 	next = 0;
       }
@@ -85,7 +85,7 @@ public class BoundedFIFO {
   /**
      Get the maximum size of the buffer.
    */
-  public 
+  public
   int getMaxSize() {
     return maxSize;
   }
@@ -93,7 +93,7 @@ public class BoundedFIFO {
   /**
      Return <code>true</code> if the buffer is full, that is, whether
      the number of elements in the buffer equals the buffer size. */
-  public 
+  public
   boolean isFull() {
     return numElements == maxSize;
   }
@@ -106,7 +106,7 @@ public class BoundedFIFO {
   public
   int length() {
     return numElements;
-  } 
+  }
 
 
   int min(int a, int b) {
@@ -117,13 +117,13 @@ public class BoundedFIFO {
   /**
      Resize the buffer to a new size. If the new size is smaller than
      the old size events might be lost.
-     
+
      @since 1.1
    */
   synchronized
-  public 
+  public
   void resize(int newSize) {
-    if(newSize == maxSize) 
+    if(newSize == maxSize)
       return;
 
 
@@ -141,7 +141,7 @@ public class BoundedFIFO {
 
    // Copy from buf starting a first, to tmp, starting at position 0, len1 elements.
    System.arraycopy(buf, first, tmp, 0, len1);
-   
+
    // Are there any uncopied elements and is there still space in the new array?
    int len2 = 0;
    if((len1 < numElements) && (len1 < newSize)) {
@@ -149,17 +149,17 @@ public class BoundedFIFO {
      len2 = min(len2, newSize - len1);
      System.arraycopy(buf, 0, tmp, len1, len2);
    }
-   
+
    this.buf = tmp;
-   this.maxSize = newSize;    
-   this.first=0;   
+   this.maxSize = newSize;
+   this.first=0;
    this.numElements = len1+len2;
    this.next = this.numElements;
    if(this.next == this.maxSize) // this should never happen, but again, it just might.
      this.next = 0;
   }
 
-  
+
   /**
      Returns <code>true</code> if there is just one element in the
      buffer. In other words, if there were no elements before the last

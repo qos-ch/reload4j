@@ -30,10 +30,10 @@ log4j.appender.NULL.layout=org.apache.log4j.SimpleLayout
   <appender name="NULL" class="org.apache.log4j.performance.NullAppender">
     <layout class="org.apache.log4j.SimpleLayout"/>
   </appender>
-	
+
   <root>
     <priority value ="debug" />
     <appender-ref ref="NULL" />
   </root>
-	
+
 </log4j:configuration>

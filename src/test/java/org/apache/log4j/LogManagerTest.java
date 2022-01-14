@@ -48,7 +48,7 @@ public class LogManagerTest extends TestCase {
   public void testDefaultXmlConfigurationFile() {
      assertEquals("log4j.xml", LogManager.DEFAULT_XML_CONFIGURATION_FILE);
   }
-  
+
   /**
    *  Check value of DEFAULT_CONFIGURATION_KEY.
    *  @deprecated since constant is deprecated
@@ -56,7 +56,7 @@ public class LogManagerTest extends TestCase {
   public void testDefaultConfigurationKey() {
      assertEquals("log4j.configuration", LogManager.DEFAULT_CONFIGURATION_KEY);
   }
-  
+
   /**
    *  Check value of CONFIGURATOR_CLASS_KEY.
    *  @deprecated since constant is deprecated
@@ -64,7 +64,7 @@ public class LogManagerTest extends TestCase {
   public void testConfiguratorClassKey() {
      assertEquals("log4j.configuratorClass", LogManager.CONFIGURATOR_CLASS_KEY);
   }
-  
+
   /**
    *  Check value of DEFAULT_INIT_OVERRIDE_KEY.
    *  @deprecated since constant is deprecated

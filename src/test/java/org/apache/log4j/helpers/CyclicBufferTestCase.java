@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,7 +43,7 @@ public class CyclicBufferTestCase extends TestCase {
   static Logger cat = Logger.getLogger("x");
 
   static int MAX = 1000;
-  
+
   static LoggingEvent[] e = new LoggingEvent[MAX];
 
   {
@@ -63,37 +63,37 @@ public class CyclicBufferTestCase extends TestCase {
 
   }
 
-  
+
   public
   void test0() {
     int size = 2;
 
-    CyclicBuffer cb = new CyclicBuffer(size);    
-    assertEquals(cb.getMaxSize(), size);    
+    CyclicBuffer cb = new CyclicBuffer(size);
+    assertEquals(cb.getMaxSize(), size);
 
     cb.add(e[0]);
-    assertEquals(cb.length(), 1);    
+    assertEquals(cb.length(), 1);
     assertEquals(cb.get(), e[0]); assertEquals(cb.length(), 0);
     assertNull(cb.get()); assertEquals(cb.length(), 0);
 
 
-    cb = new CyclicBuffer(size);    
+    cb = new CyclicBuffer(size);
     cb.add(e[0]);
     cb.add(e[1]);
-    assertEquals(cb.length(), 2);    
+    assertEquals(cb.length(), 2);
     assertEquals(cb.get(), e[0]); assertEquals(cb.length(), 1);
     assertEquals(cb.get(), e[1]); assertEquals(cb.length(), 0);
     assertNull(cb.get()); assertEquals(cb.length(), 0);
 
-    
+
   }
-  
+
   /**
      Test a buffer of size 1,2,4,8,..,128
    */
   public
   void test1() {
-    for(int bufSize = 1; bufSize <= 128; bufSize *=2) 
+    for(int bufSize = 1; bufSize <= 128; bufSize *=2)
       doTest1(bufSize);
   }
 
@@ -106,7 +106,7 @@ public class CyclicBufferTestCase extends TestCase {
     for(int i = -(size+10); i < (size+10); i++) {
       assertNull(cb.get(i));
     }
-    
+
     for(int i = 0; i < MAX; i++) {
       cb.add(e[i]);
       int limit = i < size-1 ? i : size-1;
@@ -124,21 +124,21 @@ public class CyclicBufferTestCase extends TestCase {
 
   public
   void testResize() {
-    for(int isize = 1; isize <= 128; isize *=2) {      
+    for(int isize = 1; isize <= 128; isize *=2) {
       doTestResize(isize, isize/2+1, isize/2+1);
       doTestResize(isize, isize/2+1, isize+10);
       doTestResize(isize, isize+10, isize/2+1);
       doTestResize(isize, isize+10, isize+10);
     }
   }
-  
+
   void doTestResize(int initialSize, int numberOfAdds, int newSize) {
     //System.out.println("initialSize = "+initialSize+", numberOfAdds="
     //	       +numberOfAdds+", newSize="+newSize);
     CyclicBuffer cb = new CyclicBuffer(initialSize);
     for(int i = 0; i < numberOfAdds; i++) {
       cb.add(e[i]);
-    }    
+    }
     cb.resize(newSize);
 
     int offset = numberOfAdds - initialSize;
@@ -153,7 +153,7 @@ public class CyclicBufferTestCase extends TestCase {
     }
 
   }
-  
+
 
   public
   static

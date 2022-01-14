@@ -18,11 +18,11 @@ function stressTest {
   if [ "$?" = "0" ]
   then
     echo "Passed category stress test $index."
-    index=$index+1    
+    index=$index+1
   else
     echo "Failed stress test with arguments [$*]"
-    exit	
-  fi  	
+    exit
+  fi
 }
 # ====================================================
 

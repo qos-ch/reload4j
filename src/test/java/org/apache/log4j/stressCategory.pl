@@ -49,12 +49,12 @@ sub permute() {
   my ($i, @t)  = @_;
   #print "Tree is @t\n";
   #print "i is  $i \n";
-  
+
   if($i == $#args + 1) {
     print "$prefix @t\n";
     return;
   }
-  
+
   foreach $j (@t) {
     #print "J is $j \n";
     #print "args[$i]=$args[$i]\n";
@@ -64,8 +64,8 @@ sub permute() {
     else {
       $next = "$j.$args[$i]";
     }
-	
+
     permute($i+1, (@t, $next));
   }
-  
+
 }

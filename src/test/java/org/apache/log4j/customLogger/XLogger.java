@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +30,7 @@ import org.apache.log4j.xml.XLevel;
    belong to different classes.
  */
 public class XLogger extends Logger implements OptionHandler {
-  
+
   // It's usually a good idea to add a dot suffix to the fully
   // qualified class name. This makes caller localization to work
   // properly even from classes that have almost the same fully
@@ -39,7 +39,7 @@ public class XLogger extends Logger implements OptionHandler {
 
   // It's enough to instantiate a factory once and for all.
   private static XFactory factory = new XFactory();
-  
+
   String suffix = "";
 
   /**
@@ -49,7 +49,7 @@ public class XLogger extends Logger implements OptionHandler {
     super(name);
   }
 
-  /** 
+  /**
      Nothing to activate.
    */
   public
@@ -58,9 +58,9 @@ public class XLogger extends Logger implements OptionHandler {
 
   /**
      Overrides the standard debug method by appending the value of
-     suffix variable to each message.  
+     suffix variable to each message.
   */
-  public 
+  public
   void debug(String message) {
     super.log(FQCN, Level.DEBUG, message + " " + suffix, null);
   }
@@ -69,8 +69,8 @@ public class XLogger extends Logger implements OptionHandler {
      We introduce a new printing method in order to support {@link
      XLevel#LETHAL}.  */
   public
-  void lethal(String message, Throwable t) { 
-    if(repository.isDisabled(XLevel.LETHAL_INT)) 
+  void lethal(String message, Throwable t) {
+    if(repository.isDisabled(XLevel.LETHAL_INT))
       return;
     if(XLevel.LETHAL.isGreaterOrEqual(this.getEffectiveLevel()))
       forcedLog(FQCN, XLevel.LETHAL, message, t);
@@ -80,8 +80,8 @@ public class XLogger extends Logger implements OptionHandler {
      We introduce a new printing method in order to support {@link
      XLevel#LETHAL}.  */
   public
-  void lethal(String message) { 
-    if(repository.isDisabled(XLevel.LETHAL_INT)) 
+  void lethal(String message) {
+    if(repository.isDisabled(XLevel.LETHAL_INT))
       return;
     if(XLevel.LETHAL.isGreaterOrEqual(this.getEffectiveLevel()))
       forcedLog(FQCN, XLevel.LETHAL, message, null);
@@ -114,9 +114,9 @@ public class XLogger extends Logger implements OptionHandler {
      We introduce a new printing method that takes the TRACE level.
   */
   public
-  void trace(String message, Throwable t) { 
+  void trace(String message, Throwable t) {
     if(repository.isDisabled(XLevel.TRACE_INT))
-      return;   
+      return;
     if(XLevel.TRACE.isGreaterOrEqual(this.getEffectiveLevel()))
       forcedLog(FQCN, XLevel.TRACE, message, t);
   }
@@ -125,19 +125,19 @@ public class XLogger extends Logger implements OptionHandler {
      We introduce a new printing method that takes the TRACE level.
   */
   public
-  void trace(String message) { 
+  void trace(String message) {
     if(repository.isDisabled(XLevel.TRACE_INT))
-      return;   
+      return;
     if(XLevel.TRACE.isGreaterOrEqual(this.getEffectiveLevel()))
       forcedLog(FQCN, XLevel.TRACE, message, null);
   }
 
 
 
-  // Any sub-class of Logger must also have its own implementation of 
+  // Any sub-class of Logger must also have its own implementation of
   // CategoryFactory.
   public static class XFactory implements LoggerFactory {
-    
+
     public XFactory() {
     }
 

@@ -32,14 +32,14 @@ log4j.appender.NULL.layout.ConversionPattern=%p - %m%n
               <param name="ConversionPattern" value="%p - %m%n"/>
 	   </layout>
 	</appender>
- 
-        <category name="A0123456789">  	
+
+        <category name="A0123456789">
 	   <priority value ="info" />
-        </category>  	
+        </category>
 
 	<root>
 	   <priority value ="debug" />
    	   <appender-ref ref="NULL" />
 	</root>
-	
+
 </log4j:configuration>

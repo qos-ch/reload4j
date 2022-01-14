@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,35 +25,35 @@ import java.io.InterruptedIOException;
 
 /**
    Load resources (or images) from various sources.
- 
+
   @author Ceki G&uuml;lc&uuml;
  */
 
-public class Loader  { 
+public class Loader  {
 
   static final String TSTR = "Caught Exception while in Loader.getResource. This may be innocuous.";
 
   // We conservatively assume that we are running under Java 1.x
   static private boolean java1 = true;
-  
+
   static private boolean ignoreTCL = false;
-  
+
   static {
     String prop = OptionConverter.getSystemProperty("java.version", null);
-    
+
     if(prop != null) {
       int i = prop.indexOf('.');
-      if(i != -1) {	
+      if(i != -1) {
 	if(prop.charAt(i+1) != '1')
 	  java1 = false;
-      } 
+      }
     }
     String ignoreTCLProp = OptionConverter.getSystemProperty("log4j.ignoreTCL", null);
     if(ignoreTCLProp != null) {
-      ignoreTCL = OptionConverter.toBoolean(ignoreTCLProp, true);      
-    }   
+      ignoreTCL = OptionConverter.toBoolean(ignoreTCLProp, true);
+    }
   }
-  
+
   /**
    *  Get a resource by delegating to getResource(String).
    *  @param resource resource name
@@ -87,23 +87,23 @@ public class Loader  {
   static public URL getResource(String resource) {
     ClassLoader classLoader = null;
     URL url = null;
-    
+
     try {
   	if(!java1 && !ignoreTCL) {
   	  classLoader = getTCL();
   	  if(classLoader != null) {
   	    LogLog.debug("Trying to find ["+resource+"] using context classloader "
   			 +classLoader+".");
-  	    url = classLoader.getResource(resource);      
+  	    url = classLoader.getResource(resource);
   	    if(url != null) {
   	      return url;
   	    }
   	  }
   	}
-  	
+
   	// We could not find resource. Ler us now try with the
   	// classloader that loaded this class.
-  	classLoader = Loader.class.getClassLoader(); 
+  	classLoader = Loader.class.getClassLoader();
   	if(classLoader != null) {
   	  LogLog.debug("Trying to find ["+resource+"] using "+classLoader
   		       +" class loader.");
@@ -126,7 +126,7 @@ public class Loader  {
       //    since not declared, must be error or RuntimeError.
       LogLog.warn(TSTR, t);
     }
-    
+
     // Last ditch attempt: get the resource from the class path. It
     // may be the case that clazz was loaded by the Extentsion class
     // loader which the parent of the system class loader. Hence the
@@ -134,24 +134,24 @@ public class Loader  {
     LogLog.debug("Trying to find ["+resource+
   		   "] using ClassLoader.getSystemResource().");
     return ClassLoader.getSystemResource(resource);
-  } 
-  
+  }
+
   /**
-     Are we running under JDK 1.x?        
+     Are we running under JDK 1.x?
   */
   public
   static
   boolean isJava1() {
     return java1;
   }
-  
+
   /**
     * Get the Thread Context Loader which is a JDK 1.2 feature. If we
     * are running under JDK 1.1 or anything else goes wrong the method
     * returns <code>null<code>.
     *
     *  */
-  private static ClassLoader getTCL() throws IllegalAccessException, 
+  private static ClassLoader getTCL() throws IllegalAccessException,
     InvocationTargetException {
 
     // Are we running on a JDK 1.2 or later system?
@@ -162,12 +162,12 @@ public class Loader  {
       // We are running on JDK 1.1
       return null;
     }
-    
+
     return (ClassLoader) method.invoke(Thread.currentThread(), null);
   }
 
 
-  
+
   /**
    * If running under JDK 1.2 load the specified class using the
    *  <code>Thread</code> <code>contextClassLoader</code> if that

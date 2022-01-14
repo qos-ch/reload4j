@@ -5,16 +5,16 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.log4j.varia;
 
 import  org.apache.log4j.spi.ErrorHandler;
@@ -46,13 +46,13 @@ public class FallbackErrorHandler implements ErrorHandler {
 
   public FallbackErrorHandler() {
   }
-  
+
 
   /**
      <em>Adds</em> the logger passed as parameter to the list of
      loggers that we need to search for in case of appender failure.
   */
-  public 
+  public
   void setLogger(Logger logger) {
     LogLog.debug("FB: Adding logger [" + logger.getName() + "].");
     if(loggers == null) {
@@ -65,7 +65,7 @@ public class FallbackErrorHandler implements ErrorHandler {
   /**
      No options to activate.
   */
-  public 
+  public
   void activateOptions() {
   }
 
@@ -74,7 +74,7 @@ public class FallbackErrorHandler implements ErrorHandler {
      Prints the message and the stack trace of the exception on
      <code>System.err</code>.  */
   public
-  void error(String message, Exception e, int errorCode) { 
+  void error(String message, Exception e, int errorCode) {
     error(message, e, errorCode, null);
   }
 
@@ -101,22 +101,22 @@ public class FallbackErrorHandler implements ErrorHandler {
 		   		+  l.getName());
       		l.addAppender(backup);
         }
-    }    
+    }
   }
 
 
   /**
      Print a the error message passed as parameter on
-     <code>System.err</code>.  
+     <code>System.err</code>.
   */
-  public 
+  public
   void error(String message) {
     //if(firstTime) {
     //LogLog.error(message);
     //firstTime = false;
     //}
   }
-  
+
   /**
      The appender to which this error handler is attached.
    */
@@ -134,5 +134,5 @@ public class FallbackErrorHandler implements ErrorHandler {
     LogLog.debug("FB: Setting backup appender to [" + backup.getName() + "].");
     this.backup = backup;
   }
-  
+
 }

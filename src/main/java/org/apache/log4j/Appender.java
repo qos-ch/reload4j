@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ import org.apache.log4j.spi.LoggingEvent;
    Implement this interface for your own strategies for outputting log
    statements.
 
-   @author Ceki G&uuml;lc&uuml; 
+   @author Ceki G&uuml;lc&uuml;
 */
 public interface Appender {
 
@@ -39,7 +39,7 @@ public interface Appender {
   /**
      Returns the head Filter. The Filters are organized in a linked list
      and so all Filters on this Appender are available through the result.
-     
+
      @return the head Filter or null, if no Filters are present
      @since 1.1
   */
@@ -48,7 +48,7 @@ public interface Appender {
 
   /**
      Clear the list of filters by removing all the filters in it.
-     
+
      @since 0.9.0
    */
   public
@@ -64,7 +64,7 @@ public interface Appender {
   */
   public
   void close();
-  
+
   /**
      Log in <code>Appender</code> specific way. When appropriate,
      Loggers will call the <code>doAppend</code> method of appender
@@ -106,12 +106,12 @@ public interface Appender {
 
   /**
      Returns this appenders layout.
-     
+
      @since 1.1
   */
   public
   Layout getLayout();
-  
+
 
   /**
      Set the name of this appender. The name is used by other
@@ -135,7 +135,7 @@ public interface Appender {
      <p>In the rather exceptional case, where the appender
      implementation admits a layout but can also work without it, then
      the appender should return <code>true</code>.
-     
+
      @since 0.8.4 */
   public
   boolean requiresLayout();

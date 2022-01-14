@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 
 /**
  * Test for MDC
- * 
+ *
  *  @author Maarten Bosteels
  */
 public class MDCTestCase extends TestCase {
@@ -41,7 +41,7 @@ public class MDCTestCase extends TestCase {
     assertEquals("some value", MDC.get("key"));
     assertEquals(1, MDC.getContext().size());
   }
-  
+
   public void testRemoveLastKey() throws Exception {
     MDC.put("key", "some value");
 
@@ -61,7 +61,7 @@ public class MDCTestCase extends TestCase {
 
       // this code is heavily based on code in org.apache.catalina.loader.WebappClassLoader
 
-      // Make the fields in the Thread class that store ThreadLocals accessible    
+      // Make the fields in the Thread class that store ThreadLocals accessible
       Field threadLocalsField = Thread.class.getDeclaredField("threadLocals");
       threadLocalsField.setAccessible(true);
       Field inheritableThreadLocalsField = Thread.class.getDeclaredField("inheritableThreadLocals");
@@ -83,7 +83,7 @@ public class MDCTestCase extends TestCase {
 
   }
 
-  private void checkThreadLocalMapForLeaks(Object map, Field internalTableField) 
+  private void checkThreadLocalMapForLeaks(Object map, Field internalTableField)
           throws IllegalAccessException, NoSuchFieldException {
     if (map != null) {
       Object[] table = (Object[]) internalTableField.get(map);

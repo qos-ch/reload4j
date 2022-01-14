@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,10 +44,10 @@ import org.apache.log4j.PropertyConfigurator;
    and make queries from multiple {@link NumberCruncherClient
    NumberCruncherClients} to factor numbers.
 
-   
+
    <p><b><a href="doc-files/factor.html">Sample output</a></b> shows the log
    output when two clients connect to the server near simultaneously.
-      
+
    <p>See <a href=doc-files/NumberCruncherServer.java>source</a> code
    of <code>NumberCruncherServer</code> for more details.
 
@@ -56,7 +56,7 @@ import org.apache.log4j.PropertyConfigurator;
    directory <code>/dir-where-you-unpacked-log4j/classes</code> to
    your classpath before trying out the examples.
 
-   
+
  */
 public class NumberCruncherServer extends UnicastRemoteObject
                                   implements  NumberCruncher {
@@ -68,7 +68,7 @@ public class NumberCruncherServer extends UnicastRemoteObject
   public
   NumberCruncherServer() throws RemoteException {
   }
-  
+
   public
   int[] factor(int number) throws RemoteException {
 
@@ -85,7 +85,7 @@ public class NumberCruncherServer extends UnicastRemoteObject
     // distinctive information. It might reveal the users name, date of request,
     // request ID etc. In servlet type environments, much information is
     // contained in cookies.
-    NDC.push(String.valueOf(number));    
+    NDC.push(String.valueOf(number));
 
     logger.info("Beginning to factor.");
     if(number <= 0) {
@@ -93,14 +93,14 @@ public class NumberCruncherServer extends UnicastRemoteObject
     }
     else if(number == 1)
        return new int[] {1};
-    
+
     Vector factors = new Vector();
     int n = number;
 
     for(int i = 2; (i <= n) && (i*i <= number); i++) {
       // It is bad practice to place log requests within tight loops.
       // It is done here to show interleaved log output from
-      // different requests. 
+      // different requests.
       logger.debug("Trying to see if " + i + " is a factor.");
 
       if((n % i) == 0) {
@@ -119,9 +119,9 @@ public class NumberCruncherServer extends UnicastRemoteObject
       logger.info("Found factor "+n);
       factors.addElement(new Integer(n));
     }
-    
+
     int len = factors.size();
-    
+
     int[] result = new int[len];
     for(int i = 0; i < len; i++) {
       result[i] = ((Integer) factors.elementAt(i)).intValue();
@@ -133,7 +133,7 @@ public class NumberCruncherServer extends UnicastRemoteObject
     // exiting a thread. See the java documentation in NDC.remove for further
     // details.
     NDC.remove();
-    
+
     return result;
   }
 
@@ -151,11 +151,11 @@ public class NumberCruncherServer extends UnicastRemoteObject
     try{Thread.sleep(millis);}
     catch(InterruptedException e) {}
   }
-  
+
   public static void main(String[] args) {
-    if(args.length != 1) 
+    if(args.length != 1)
       usage("Wrong number of arguments.");
-    
+
     NumberCruncherServer ncs;
     PropertyConfigurator.configure(args[0]);
     try {
@@ -167,6 +167,6 @@ public class NumberCruncherServer extends UnicastRemoteObject
       logger.error("Could not bind NumberCruncherServer.", e);
       return;
     }
-    NumberCruncherClient.loop(ncs);          
+    NumberCruncherClient.loop(ncs);
   }
 }

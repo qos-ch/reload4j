@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,12 +41,12 @@ public class LoggerTestCase extends TestCase {
   Appender a2;
 
   ResourceBundle rbUS;
-  ResourceBundle rbFR; 
-  ResourceBundle rbCH; 
+  ResourceBundle rbFR;
+  ResourceBundle rbCH;
 
   // A short message.
   static String MSG = "M";
-  
+
 
   public LoggerTestCase(String name) {
     super(name);
@@ -81,12 +81,12 @@ public class LoggerTestCase extends TestCase {
   void testAppender1() {
     logger = Logger.getLogger("test");
     a1 = new FileAppender();
-    a1.setName("testAppender1");             
+    a1.setName("testAppender1");
     logger.addAppender(a1);
 
     Enumeration enumeration = logger.getAllAppenders();
-    Appender aHat = (Appender) enumeration.nextElement();    
-    assertEquals(a1, aHat);    
+    Appender aHat = (Appender) enumeration.nextElement();
+    assertEquals(a1, aHat);
   }
 
   /**
@@ -96,16 +96,16 @@ public class LoggerTestCase extends TestCase {
   public
   void testAppender2() {
     a1 = new FileAppender();
-    a1.setName("testAppender2.1");           
+    a1.setName("testAppender2.1");
     a2 = new FileAppender();
-    a2.setName("testAppender2.2");           
+    a2.setName("testAppender2.2");
 
     logger = Logger.getLogger("test");
     logger.addAppender(a1);
-    logger.addAppender(a2);    
+    logger.addAppender(a2);
     logger.removeAppender("testAppender2.1");
     Enumeration enumeration = logger.getAllAppenders();
-    Appender aHat = (Appender) enumeration.nextElement();    
+    Appender aHat = (Appender) enumeration.nextElement();
     assertEquals(a2, aHat);
     assertTrue(!enumeration.hasMoreElements());
   }
@@ -119,13 +119,13 @@ public class LoggerTestCase extends TestCase {
     Logger ab = Logger.getLogger("a.b");
     CountingAppender ca = new CountingAppender();
     a.addAppender(ca);
-    
+
                    assertEquals(ca.counter, 0);
     ab.debug(MSG); assertEquals(ca.counter, 1);
     ab.info(MSG);  assertEquals(ca.counter, 2);
     ab.warn(MSG);  assertEquals(ca.counter, 3);
-    ab.error(MSG); assertEquals(ca.counter, 4);    
-    
+    ab.error(MSG); assertEquals(ca.counter, 4);
+
 
   }
 
@@ -135,7 +135,7 @@ public class LoggerTestCase extends TestCase {
    */
   public
   void testAdditivity2() {
-    
+
     Logger a = Logger.getLogger("a");
     Logger ab = Logger.getLogger("a.b");
     Logger abc = Logger.getLogger("a.b.c");
@@ -147,20 +147,20 @@ public class LoggerTestCase extends TestCase {
     a.addAppender(ca1);
     abc.addAppender(ca2);
 
-    assertEquals(ca1.counter, 0); 
-    assertEquals(ca2.counter, 0);        
-    
-    ab.debug(MSG);  
-    assertEquals(ca1.counter, 1); 
-    assertEquals(ca2.counter, 0);        
+    assertEquals(ca1.counter, 0);
+    assertEquals(ca2.counter, 0);
+
+    ab.debug(MSG);
+    assertEquals(ca1.counter, 1);
+    assertEquals(ca2.counter, 0);
 
     abc.debug(MSG);
-    assertEquals(ca1.counter, 2); 
-    assertEquals(ca2.counter, 1);        
+    assertEquals(ca1.counter, 2);
+    assertEquals(ca2.counter, 1);
 
     x.debug(MSG);
-    assertEquals(ca1.counter, 2); 
-    assertEquals(ca2.counter, 1);    
+    assertEquals(ca1.counter, 2);
+    assertEquals(ca2.counter, 1);
   }
 
   /**
@@ -170,7 +170,7 @@ public class LoggerTestCase extends TestCase {
   public
   void testAdditivity3() {
 
-    Logger root = Logger.getRootLogger();    
+    Logger root = Logger.getRootLogger();
     Logger a = Logger.getLogger("a");
     Logger ab = Logger.getLogger("a.b");
     Logger abc = Logger.getLogger("a.b.c");
@@ -183,78 +183,78 @@ public class LoggerTestCase extends TestCase {
     a.addAppender(caA);
     abc.addAppender(caABC);
 
-    assertEquals(caRoot.counter, 0); 
-    assertEquals(caA.counter, 0); 
-    assertEquals(caABC.counter, 0);        
-    
+    assertEquals(caRoot.counter, 0);
+    assertEquals(caA.counter, 0);
+    assertEquals(caABC.counter, 0);
+
     ab.setAdditivity(false);
 
 
-    a.debug(MSG);  
-    assertEquals(caRoot.counter, 1); 
-    assertEquals(caA.counter, 1); 
-    assertEquals(caABC.counter, 0);        
+    a.debug(MSG);
+    assertEquals(caRoot.counter, 1);
+    assertEquals(caA.counter, 1);
+    assertEquals(caABC.counter, 0);
 
-    ab.debug(MSG);  
-    assertEquals(caRoot.counter, 1); 
-    assertEquals(caA.counter, 1); 
-    assertEquals(caABC.counter, 0);        
+    ab.debug(MSG);
+    assertEquals(caRoot.counter, 1);
+    assertEquals(caA.counter, 1);
+    assertEquals(caABC.counter, 0);
 
-    abc.debug(MSG);  
-    assertEquals(caRoot.counter, 1); 
-    assertEquals(caA.counter, 1); 
-    assertEquals(caABC.counter, 1);        
-    
+    abc.debug(MSG);
+    assertEquals(caRoot.counter, 1);
+    assertEquals(caA.counter, 1);
+    assertEquals(caABC.counter, 1);
+
   }
 
 
   public
   void testDisable1() {
     CountingAppender caRoot = new CountingAppender();
-    Logger root = Logger.getRootLogger();    
+    Logger root = Logger.getRootLogger();
     root.addAppender(caRoot);
 
     LoggerRepository h = LogManager.getLoggerRepository();
     //h.disableDebug();
     h.setThreshold((Level) Level.INFO);
-    assertEquals(caRoot.counter, 0);     
+    assertEquals(caRoot.counter, 0);
 
-    root.debug(MSG); assertEquals(caRoot.counter, 0);  
-    root.info(MSG); assertEquals(caRoot.counter, 1);  
-    root.log(Level.WARN, MSG); assertEquals(caRoot.counter, 2);  
-    root.warn(MSG); assertEquals(caRoot.counter, 3);  
+    root.debug(MSG); assertEquals(caRoot.counter, 0);
+    root.info(MSG); assertEquals(caRoot.counter, 1);
+    root.log(Level.WARN, MSG); assertEquals(caRoot.counter, 2);
+    root.warn(MSG); assertEquals(caRoot.counter, 3);
 
     //h.disableInfo();
     h.setThreshold((Level) Level.WARN);
-    root.debug(MSG); assertEquals(caRoot.counter, 3);  
-    root.info(MSG); assertEquals(caRoot.counter, 3);  
-    root.log(Level.WARN, MSG); assertEquals(caRoot.counter, 4);  
-    root.error(MSG); assertEquals(caRoot.counter, 5);  
-    root.log(Level.ERROR, MSG); assertEquals(caRoot.counter, 6);  
+    root.debug(MSG); assertEquals(caRoot.counter, 3);
+    root.info(MSG); assertEquals(caRoot.counter, 3);
+    root.log(Level.WARN, MSG); assertEquals(caRoot.counter, 4);
+    root.error(MSG); assertEquals(caRoot.counter, 5);
+    root.log(Level.ERROR, MSG); assertEquals(caRoot.counter, 6);
 
     //h.disableAll();
     h.setThreshold(Level.OFF);
-    root.debug(MSG); assertEquals(caRoot.counter, 6);  
-    root.info(MSG); assertEquals(caRoot.counter, 6);  
-    root.log(Level.WARN, MSG); assertEquals(caRoot.counter, 6);  
-    root.error(MSG); assertEquals(caRoot.counter, 6);  
-    root.log(Level.FATAL, MSG); assertEquals(caRoot.counter, 6);  
-    root.log(Level.FATAL, MSG); assertEquals(caRoot.counter, 6);  
+    root.debug(MSG); assertEquals(caRoot.counter, 6);
+    root.info(MSG); assertEquals(caRoot.counter, 6);
+    root.log(Level.WARN, MSG); assertEquals(caRoot.counter, 6);
+    root.error(MSG); assertEquals(caRoot.counter, 6);
+    root.log(Level.FATAL, MSG); assertEquals(caRoot.counter, 6);
+    root.log(Level.FATAL, MSG); assertEquals(caRoot.counter, 6);
 
     //h.disable(Level.FATAL);
     h.setThreshold(Level.OFF);
-    root.debug(MSG); assertEquals(caRoot.counter, 6);  
-    root.info(MSG); assertEquals(caRoot.counter, 6);  
-    root.log(Level.WARN, MSG); assertEquals(caRoot.counter, 6);  
+    root.debug(MSG); assertEquals(caRoot.counter, 6);
+    root.info(MSG); assertEquals(caRoot.counter, 6);
+    root.log(Level.WARN, MSG); assertEquals(caRoot.counter, 6);
     root.error(MSG); assertEquals(caRoot.counter, 6);
-    root.log(Level.ERROR, MSG); assertEquals(caRoot.counter, 6);  
-    root.log(Level.FATAL, MSG); assertEquals(caRoot.counter, 6);  
+    root.log(Level.ERROR, MSG); assertEquals(caRoot.counter, 6);
+    root.log(Level.FATAL, MSG); assertEquals(caRoot.counter, 6);
   }
 
 
   public
   void testRB1() {
-    Logger root = Logger.getRootLogger(); 
+    Logger root = Logger.getRootLogger();
     root.setResourceBundle(rbUS);
     ResourceBundle t = root.getResourceBundle();
     assertSame(t, rbUS);
@@ -270,7 +270,7 @@ public class LoggerTestCase extends TestCase {
 
   public
   void testRB2() {
-    Logger root = Logger.getRootLogger(); 
+    Logger root = Logger.getRootLogger();
     root.setResourceBundle(rbUS);
     ResourceBundle t = root.getResourceBundle();
     assertSame(t, rbUS);
@@ -282,13 +282,13 @@ public class LoggerTestCase extends TestCase {
     x_y.setResourceBundle(rbFR);
     t = x.getResourceBundle();     assertSame(t, rbUS);
     t = x_y.getResourceBundle();   assertSame(t, rbFR);
-    t = x_y_z.getResourceBundle(); assertSame(t, rbFR);    
+    t = x_y_z.getResourceBundle(); assertSame(t, rbFR);
   }
 
 
   public
   void testRB3() {
-    Logger root = Logger.getRootLogger(); 
+    Logger root = Logger.getRootLogger();
     root.setResourceBundle(rbUS);
     ResourceBundle t = root.getResourceBundle();
     assertSame(t, rbUS);
@@ -301,7 +301,7 @@ public class LoggerTestCase extends TestCase {
     x_y_z.setResourceBundle(rbCH);
     t = x.getResourceBundle();     assertSame(t, rbUS);
     t = x_y.getResourceBundle();   assertSame(t, rbFR);
-    t = x_y_z.getResourceBundle(); assertSame(t, rbCH);    
+    t = x_y_z.getResourceBundle(); assertSame(t, rbCH);
   }
 
   public
@@ -309,7 +309,7 @@ public class LoggerTestCase extends TestCase {
     Logger a = Logger.getLogger("a");
     Logger a_b = Logger.getLogger("a.b");
     Logger a_b_c = Logger.getLogger("a.b.c");
-    
+
     Logger t;
     t = LogManager.exists("xx");    assertNull(t);
     t = LogManager.exists("a");     assertSame(a, t);
@@ -490,8 +490,8 @@ public class LoggerTestCase extends TestCase {
     void append(LoggingEvent event) {
       counter++;
     }
-    
-    public 
+
+    public
     boolean requiresLayout() {
       return true;
     }

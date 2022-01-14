@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 /**
    Example code for log4j to viewed in conjunction with the {@link
    examples.SortAlgo SortAlgo} class.
-   
+
    <p>This program expects a configuration file name as its first
    argument, and the size of the array to sort as the second and last
    argument. See its <b><a href="doc-files/Sort.java">source
@@ -38,7 +38,7 @@ import org.apache.log4j.Logger;
    href="doc-files/sort3.properties">sort3.properties</a> and <a
    href="doc-files/sort4.properties">sort4.properties</a> are supplied with the
    package.
-   
+
    <p>If you are also interested in logging performance, then have
    look at the {@link org.apache.log4j.performance.Logging} class.
 
@@ -47,7 +47,7 @@ import org.apache.log4j.Logger;
 public class Sort {
 
   static Logger logger = Logger.getLogger(Sort.class.getName());
-  
+
   public static void main(String[] args) {
     if(args.length != 2) {
       usage("Incorrect number of parameters.");
@@ -55,7 +55,7 @@ public class Sort {
     int arraySize = -1;
     try {
       arraySize = Integer.valueOf(args[1]).intValue();
-      if(arraySize <= 0) 
+      if(arraySize <= 0)
 	usage("Negative array size.");
     }
     catch(java.lang.NumberFormatException e) {
@@ -79,10 +79,10 @@ public class Sort {
     // We intentionally initilize sa2 with null.
     SortAlgo sa2 = new SortAlgo(null);
     logger.info("The next log statement should be an error message.");
-    sa2.dump();  
-    logger.info("Exiting main method.");    
+    sa2.dump();
+    logger.info("Exiting main method.");
   }
-  
+
   static
   void usage(String errMsg) {
     System.err.println(errMsg);

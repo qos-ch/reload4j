@@ -38,11 +38,11 @@ element. -->
 <!-- internal log4j logging settings. The "null" value for the threshold -->
 <!-- attribute can be misleading. The threshold field of a repository	 -->
 <!-- cannot be set to null. The "null" value for the threshold attribute -->
-<!-- simply means don't touch the threshold field, the threshold field   --> 
+<!-- simply means don't touch the threshold field, the threshold field   -->
 <!-- keeps its old value.                                                -->
-     
+
 <!ATTLIST log4j:configuration
-  xmlns:log4j              CDATA #FIXED "http://jakarta.apache.org/log4j/" 
+  xmlns:log4j              CDATA #FIXED "http://jakarta.apache.org/log4j/"
   threshold                (all|trace|debug|info|warn|error|fatal|off|null) "null"
   debug                    (true|false|null)  "null"
   reset                    (true|false) "false"
@@ -89,9 +89,9 @@ element. -->
 <!-- ErrorHandlers can be of any class. They can admit any number of -->
 <!-- parameters. -->
 
-<!ELEMENT errorHandler (param*, root-ref?, logger-ref*,  appender-ref?)> 
+<!ELEMENT errorHandler (param*, root-ref?, logger-ref*,  appender-ref?)>
 <!ATTLIST errorHandler
-   class        CDATA   #REQUIRED 
+   class        CDATA   #REQUIRED
 >
 
 <!ELEMENT root-ref EMPTY>
@@ -129,7 +129,7 @@ element. -->
 <!ATTLIST category
   class         CDATA   #IMPLIED
   name		CDATA	#REQUIRED
-  additivity	(true|false) "true"  
+  additivity	(true|false) "true"
 >
 
 <!-- If no level element is specified, then the configurator MUST not -->
@@ -138,12 +138,12 @@ element. -->
 <!ATTLIST logger
   class         CDATA   #IMPLIED
   name		CDATA	#REQUIRED
-  additivity	(true|false) "true"  
+  additivity	(true|false) "true"
 >
 
 
 <!ELEMENT categoryFactory (param*)>
-<!ATTLIST categoryFactory 
+<!ATTLIST categoryFactory
    class        CDATA #REQUIRED>
 
 <!ELEMENT loggerFactory (param*)>
@@ -196,14 +196,14 @@ element. -->
 <!-- ==================================================================== -->
 <!ELEMENT log4j:eventSet (log4j:event*)>
 <!ATTLIST log4j:eventSet
-  xmlns:log4j             CDATA #FIXED "http://jakarta.apache.org/log4j/" 
-  version                (1.1|1.2) "1.2" 
+  xmlns:log4j             CDATA #FIXED "http://jakarta.apache.org/log4j/"
+  version                (1.1|1.2) "1.2"
   includesLocationInfo   (true|false) "true"
 >
 
 
 
-<!ELEMENT log4j:event (log4j:message, log4j:NDC?, log4j:throwable?, 
+<!ELEMENT log4j:event (log4j:message, log4j:NDC?, log4j:throwable?,
                        log4j:locationInfo?, log4j:properties?) >
 
 <!-- The timestamp format is application dependent. -->

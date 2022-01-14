@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,7 @@ import java.text.FieldPosition;
 /**
    This abstract layout takes care of all the date related options and
    formatting work.
-   
+
 
    @author Ceki G&uuml;lc&uuml;
  */
@@ -38,7 +38,7 @@ abstract public class DateLayout extends Layout {
   /**
      String constant designating no time information. Current value of
      this constant is <b>NULL</b>.
-     
+
   */
   public final static String NULL_DATE_FORMAT = "NULL";
 
@@ -56,23 +56,23 @@ abstract public class DateLayout extends Layout {
      <em>near</em> term.
   */
   final static public String DATE_FORMAT_OPTION = "DateFormat";
-  
+
   /**
      @deprecated Options are now handled using the JavaBeans paradigm.
      This constant is not longer needed and will be removed in the
      <em>near</em> term.
   */
-  final static public String TIMEZONE_OPTION = "TimeZone";  
+  final static public String TIMEZONE_OPTION = "TimeZone";
 
   private String timeZoneID;
-  private String dateFormatOption;  
+  private String dateFormatOption;
 
   protected DateFormat dateFormat;
   protected Date date = new Date();
 
   /**
      @deprecated Use the setter method for the option directly instead
-     of the generic <code>setOption</code> method. 
+     of the generic <code>setOption</code> method.
   */
   public
   String[] getOptionStrings() {
@@ -81,7 +81,7 @@ abstract public class DateLayout extends Layout {
 
   /**
      @deprecated Use the setter method for the option directly instead
-     of the generic <code>setOption</code> method. 
+     of the generic <code>setOption</code> method.
   */
   public
   void setOption(String option, String value) {
@@ -91,7 +91,7 @@ abstract public class DateLayout extends Layout {
       timeZoneID = value;
     }
   }
-  
+
 
   /**
     The value of the <b>DateFormat</b> option should be either an
@@ -113,7 +113,7 @@ abstract public class DateLayout extends Layout {
   String getDateFormat() {
     return dateFormatOption;
   }
-  
+
   /**
     The <b>TimeZoneID</b> option is a time zone ID string in the format
     expected by the {@link TimeZone#getTimeZone} method.
@@ -122,7 +122,7 @@ abstract public class DateLayout extends Layout {
   void setTimeZone(String timeZone) {
     this.timeZoneID = timeZone;
   }
-  
+
   /**
      Returns value of the <b>TimeZone</b> option.
    */
@@ -130,7 +130,7 @@ abstract public class DateLayout extends Layout {
   String getTimeZone() {
     return timeZoneID;
   }
-  
+
   public
   void activateOptions() {
     setDateFormat(dateFormatOption);
@@ -154,10 +154,10 @@ abstract public class DateLayout extends Layout {
    */
   public
   void setDateFormat(DateFormat dateFormat, TimeZone timeZone) {
-    this.dateFormat = dateFormat;    
+    this.dateFormat = dateFormat;
     this.dateFormat.setTimeZone(timeZone);
   }
-  
+
   /**
      Sets the DateFormat used to format date and time in the time zone
      determined by <code>timeZone</code> parameter. The {@link DateFormat} used
@@ -177,7 +177,7 @@ abstract public class DateLayout extends Layout {
     if(dateFormatType == null) {
       this.dateFormat = null;
       return;
-    } 
+    }
 
     if(dateFormatType.equalsIgnoreCase(NULL_DATE_FORMAT)) {
       this.dateFormat = null;

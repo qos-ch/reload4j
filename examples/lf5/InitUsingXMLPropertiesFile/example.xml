@@ -19,9 +19,9 @@
 -->
 
 <log4j:configuration>
-        
+
   <appender name="LF5Appender" class="org.apache.log4j.lf5.LF5Appender">
-     <param name="MaxNumberOfRecords" value="1000"/> 
+     <param name="MaxNumberOfRecords" value="1000"/>
   </appender>
 
   <root>

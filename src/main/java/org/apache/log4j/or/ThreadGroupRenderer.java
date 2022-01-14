@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,10 +30,10 @@ public class ThreadGroupRenderer implements ObjectRenderer {
   public
   ThreadGroupRenderer() {
   }
-  
+
   /**
      Render a {@link ThreadGroup} object similar to the way that the
-     {@link ThreadGroup#list} method output information. 
+     {@link ThreadGroup#list} method output information.
 
      <p>The output of a simple program consisting of one
      <code>main</code> thread is:
@@ -41,10 +41,10 @@ public class ThreadGroupRenderer implements ObjectRenderer {
      java.lang.ThreadGroup[name=main, maxpri=10]
          Thread=[main,5,false]
      </pre>
-     
+
      <p>The boolean value in thread information is the value returned
      by {@link Thread#isDaemon}.
-     
+
   */
   public
   String  doRender(Object o) {
@@ -59,7 +59,7 @@ public class ThreadGroupRenderer implements ObjectRenderer {
       Thread[] t = new Thread[tg.activeCount()];
       tg.enumerate(t);
       for(int i = 0; i < t.length; i++) {
-	sbuf.append(Layout.LINE_SEP);	
+	sbuf.append(Layout.LINE_SEP);
 	sbuf.append("   Thread=[");
 	sbuf.append(t[i].getName());
 	sbuf.append(",");
@@ -76,6 +76,6 @@ public class ThreadGroupRenderer implements ObjectRenderer {
       } catch(Exception ex) {
           return ex.toString();
       }
-    }    
+    }
   }
-}  
+}

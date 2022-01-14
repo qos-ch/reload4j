@@ -1,5 +1,5 @@
 
-This directory contains a series of log4j test cases. 
+This directory contains a series of log4j test cases.
 
 Prerequisites
 =============
@@ -15,7 +15,7 @@ parser. Such a parser is placed on the classpath by the shell or batch
 script that invokes ant, namely $ANT_HOME/bin/ant on UNIX and
 %ANT_HOME%/bin/ant.bat on Windows.
 
-The test cases are based on Junit version 3.7+.  
+The test cases are based on Junit version 3.7+.
 
 IMPORTANT: You need to place junit.jar in your CLASSPATH environment
 variable.
@@ -50,4 +50,4 @@ a witness, we transform the output by unifying the result, for example
 by removing date and time information.
 
 To automatically run your test case with the rest of the log4j test
-cases, you need to modify tests/build.xml. 
+cases, you need to modify tests/build.xml.

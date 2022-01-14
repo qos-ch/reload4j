@@ -24,14 +24,14 @@
            <param name="Port" value="12345"/>
            <param name="ReconnectionDelay" value="1000"/>
 	</appender>
- 
-        <category name="A0123456789">  	
+
+        <category name="A0123456789">
 	   <priority value ="info" />
-        </category>  	
+        </category>
 
 	<root>
 	   <priority value ="debug" />
    	   <appender-ref ref="NULL" />
 	</root>
-	
+
 </log4j:configuration>

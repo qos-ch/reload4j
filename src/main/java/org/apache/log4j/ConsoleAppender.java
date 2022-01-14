@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +26,7 @@ import org.apache.log4j.helpers.LogLog;
   * <code>System.err</code> using a layout specified by the user. The
   * default target is <code>System.out</code>.
   *
-  * @author Ceki G&uuml;lc&uuml; 
+  * @author Ceki G&uuml;lc&uuml;
   * @author Curt Arnold
   * @since 1.1 */
 public class ConsoleAppender extends WriterAppender {
@@ -71,7 +71,7 @@ public class ConsoleAppender extends WriterAppender {
   /**
    *  Sets the value of the <b>Target</b> option. Recognized values
    *  are "System.out" and "System.err". Any other value will be
-   *  ignored.  
+   *  ignored.
    * */
   public
   void setTarget(String value) {
@@ -96,7 +96,7 @@ public class ConsoleAppender extends WriterAppender {
   String getTarget() {
     return target;
   }
-  
+
   /**
    *  Sets whether the appender honors reassignments of System.out
    *  or System.err made after configuration.
@@ -107,7 +107,7 @@ public class ConsoleAppender extends WriterAppender {
   public final void setFollow(final boolean newValue) {
      follow = newValue;
   }
-  
+
   /**
    *  Gets whether the appender honors reassignments of System.out
    *  or System.err made after configuration.
@@ -144,7 +144,7 @@ public class ConsoleAppender extends WriterAppender {
 
         super.activateOptions();
   }
-  
+
   /**
    *  {@inheritDoc}
    */
@@ -155,7 +155,7 @@ public class ConsoleAppender extends WriterAppender {
         super.closeWriter();
      }
   }
-  
+
 
     /**
      * An implementation of OutputStream that redirects to the

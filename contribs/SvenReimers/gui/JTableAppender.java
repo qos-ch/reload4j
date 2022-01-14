@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -83,23 +83,23 @@ public class JTableAppender extends JTable {
     Container container = frame.getContentPane();
 
     JTableAppender appender = new JTableAppender();
-    
-    JTableAppenderModel model = new 
+
+    JTableAppenderModel model = new
                               JTableAppenderModel(Integer.parseInt(args[0]));
     appender.setModel(model);
-    //appender.createDefaultColumnsFromModel();    
+    //appender.createDefaultColumnsFromModel();
 
 
     JScrollPane sp = new JScrollPane(appender);
     sp.setPreferredSize(new Dimension(250, 80));
-    
+
     container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
     //container.add(view);
     container.add(sp);
 
     JButton button = new JButton("ADD");
     container.add(button);
-    
+
 
     button.addActionListener(new JTableAddAction(appender));
 
@@ -110,8 +110,8 @@ public class JTableAppender extends JTable {
 
     int RUN = 10000;
     int i = 0;
-    while(i++ < RUN) {      
-      LoggingEvent event = new LoggingEvent("x", cat, Priority.ERROR, 
+    while(i++ < RUN) {
+      LoggingEvent event = new LoggingEvent("x", cat, Priority.ERROR,
 					    "Message "+i, null);
       event.getThreadName();
       if(i % 10 == 0) {
@@ -132,7 +132,7 @@ public class JTableAppender extends JTable {
 
     public
     Renderer() {
-      System.out.println("Render() called ----------------------");      
+      System.out.println("Render() called ----------------------");
     }
 
     public Component getTableCellRendererComponent(JTable table,
@@ -149,14 +149,14 @@ public class JTableAppender extends JTable {
 	LoggingEvent event = (LoggingEvent) value;
 	String str = layout.format(event);
 	String t = event.getThrowableInformation();
-	
+
 	if(t != null) {
 	  System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 	  setText(str + Layout.LINE_SEP + t);
-	} else {	
+	} else {
 	  setText(str);
 	}
-	
+
       } else {
 	setText(value.toString());
       }
@@ -172,7 +172,7 @@ public class JTableAppender extends JTable {
 class JTableAppenderModel extends AbstractTableModel {
 
   CyclicBuffer cb;
-  
+
   JTableAppenderModel(int size) {
     cb = new CyclicBuffer(size);
   }
@@ -186,12 +186,12 @@ class JTableAppenderModel extends AbstractTableModel {
     fireTableDataChanged();
 
   }
-  public 
-  int getColumnCount() { 
-    return 1; 
+  public
+  int getColumnCount() {
+    return 1;
   }
 
-  public int getRowCount() { 
+  public int getRowCount() {
     return cb.length();
   }
 
@@ -201,7 +201,7 @@ class JTableAppenderModel extends AbstractTableModel {
   //  return LoggingEvent.class;
   //}
 
-  public 
+  public
   Object getValueAt(int row, int col) {
     return cb.get(row);
   }
@@ -209,25 +209,25 @@ class JTableAppenderModel extends AbstractTableModel {
 
 
 class JTableAddAction implements ActionListener {
-    
+
   int j;
   JTableAppender appender;
 
   Category cat = Category.getInstance("x");
-  
+
   public
   JTableAddAction(JTableAppender appender) {
     this.appender = appender;
     j = 0;
   }
-    
+
   public
   void actionPerformed(ActionEvent e) {
     System.out.println("Action occured");
 
-    LoggingEvent event = new LoggingEvent("x", cat, Priority.DEBUG, 
+    LoggingEvent event = new LoggingEvent("x", cat, Priority.DEBUG,
 					    "Message "+j, null);
-    
+
     if(j % 5 == 0) {
       //event.throwable = new Exception("hello "+j);
     }

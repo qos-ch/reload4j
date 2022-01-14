@@ -41,9 +41,9 @@ public class PropertyRewritePolicy implements RewritePolicy {
 
     /**
      * Set a string representing the property name/value pairs.
-     * 
+     *
      * Form: propname1=propvalue1,propname2=propvalue2
-     * 
+     *
      * @param props
      */
     public void setProperties(String props) {
@@ -75,7 +75,7 @@ public class PropertyRewritePolicy implements RewritePolicy {
 
             return new LoggingEvent(
                     source.getFQNOfLoggerClass(),
-                    source.getLogger() != null ? source.getLogger(): Logger.getLogger(source.getLoggerName()), 
+                    source.getLogger() != null ? source.getLogger(): Logger.getLogger(source.getLoggerName()),
                     source.getTimeStamp(),
                     source.getLevel(),
                     source.getMessage(),

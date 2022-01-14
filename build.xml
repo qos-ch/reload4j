@@ -22,9 +22,9 @@
 
 <project name="log4j" default="usage" basedir="." >
 
-  
+
   <!-- The build.properties file defines the path to local jar files -->
-  <property file="build.properties"/>               
+  <property file="build.properties"/>
 
   <!--   if a Maven build has been attempted,
               the Maven repository can provide all the dependencies.  -->
@@ -64,7 +64,7 @@
 
   <!-- distribution directory -->
   <property name="dist.dir" value="dist"/>
-  
+
   <!-- Destination for compiled files -->
   <property name="javac.dest" value="${dist.dir}/classes"/>
 
@@ -98,20 +98,20 @@
 
   <!-- Directory for temporary files. -->
   <property name="dist.tmp" value="${dist.dir}/tmp"/>
-  
+
   <property name="javac.source" value="1.4"/>
   <property name="javac.target" value="1.4"/>
-  
+
   <!--  destination for generated documentation on Apache web host  -->
   <property name="apache.javadoc_dest" value="/www/logging.apache.org/log4j/docs"/>
   <!--  Apache web host  -->
   <property name="apache.host" value="people.apache.org"/>
-  
+
   <!--  destination for Maven generated documentation -->
     <property name="svnrepo.url" value="https://svn.apache.org/repos/asf"/>
 	<property name="svnsite.url" value="${svnrepo.url}/logging/site/trunk/docs/log4j/1.2"/>
 	<available property="svn-available" file="target/site-deploy/.svn"/>
-  
+
 
 
   <!-- Construct compile classpath -->
@@ -230,7 +230,7 @@
     <mkdir dir="${javac.dest}" />
     <javac srcdir="${java.source.dir}"
            destdir="${javac.dest}"
-           includes="${stem}/**/*.java, 
+           includes="${stem}/**/*.java,
                      ${stem}/xml/XMLLayout.java"
            excludes="misc/*, **/UnitTest*.java,
                     **/StressCategory.java,
@@ -250,7 +250,7 @@
            debug="on">
       <classpath refid="compile.classpath"/>
     </javac>
-    
+
     <copy todir="${javac.dest}">
       <fileset dir="${resource.source.dir}" includes="${stem}/lf5/**/*.properties"/>
       <fileset dir="${resource.source.dir}" includes="${stem}/lf5/viewer/images/*"/>
@@ -412,7 +412,7 @@
     </delete>
 
     <jar jarfile="${jar.dest}/${jar.filename}" basedir="${javac.dest}"
-         includes="${stem}/*.class, 
+         includes="${stem}/*.class,
                    ${stem}/xml/log4j.dtd,
                    ${stem}/config/*.class,
                    ${stem}/helpers/*.class,
@@ -435,10 +435,10 @@
 		<manifest>
 			<section name="org/apache/log4j">
 				<attribute name="Implementation-Title" value="log4j"/>
-				<attribute name="Implementation-Version" value="${version}"/> 
+				<attribute name="Implementation-Version" value="${version}"/>
 				<attribute name="Implementation-Vendor" value='"Apache Software Foundation"'/>
 			</section>
-		</manifest>         
+		</manifest>
          <metainf dir="." includes="NOTICE,LICENSE"/>
      </jar>
   </target>
@@ -458,10 +458,10 @@
 		<manifest>
 			<section name="org/apache/log4j">
 				<attribute name="Implementation-Title" value="log4j"/>
-				<attribute name="Implementation-Version" value="${version}"/> 
+				<attribute name="Implementation-Version" value="${version}"/>
 				<attribute name="Implementation-Vendor" value='"Apache Software Foundation"'/>
 			</section>
-		</manifest>         
+		</manifest>
 		<metainf dir="." includes="NOTICE,LICENSE"/>
      </jar>
   </target>
@@ -539,9 +539,9 @@
        <!-- Must be set to the root of where JDiff is installed. -->
        <property name="JDIFF_HOME" value="${user.home}/jdiff"/>
        <!-- Just one simple way to tell Ant about the JDiff task -->
-       <taskdef name="jdiff" classname="jdiff.JDiffAntTask" 
-           classpath="${JDIFF_HOME}/lib/antjdiff.jar"/>    
-           
+       <taskdef name="jdiff" classname="jdiff.JDiffAntTask"
+           classpath="${JDIFF_HOME}/lib/antjdiff.jar"/>
+
        <jdiff verbose="on" destdir="build/jdiff">
             <old name="Version ${reference-api.version}">
               <dirset dir="${reference-api.source.dir}" includes="org/**"/>
@@ -550,7 +550,7 @@
               <dirset dir="${java.source.dir}" includes="org/**" excludes="org/apache/log4j/test/**"/>
             </new>
        </jdiff>
-  </target>  
+  </target>
 
 
 	  <!-- ================================================================= -->
@@ -569,12 +569,12 @@
 	       <property name="reference.jar" value="${m2_repo}/log4j/log4j/${reference.version}/log4j-${reference.version}.jar"/>
 	       <available property="reference.jar-available" file="${reference.jar}"/>
 	       <fail unless="reference.jar-available">log4j-${reference.version}.jar not in maven repo.  Run mvn clirr:check to download.</fail>
-	       <taskdef resource="clirrtask.properties" 
+	       <taskdef resource="clirrtask.properties"
 	           classpath="${clirr-core.jar};${bcel.jar}"/>
 	       <delete dir="target/clirr"/>
 	       <mkdir dir="target/clirr/orig"/>
 	       <mkdir dir="target/clirr/new"/>
-	       <copy todir="target/clirr/orig">	       
+	       <copy todir="target/clirr/orig">
 	       	    <fileset file="${jms.jar}"/>
 	       	    <fileset file="${jmx.jar}"/>
 				<fileset file="${reference.jar}"/>
@@ -589,7 +589,7 @@
 	  	        <newfiles dir="target/clirr/new" includes="*.jar"/>
 	  	  	    <formatter type="xml" outfile="target/clirr/compatibility.xml"/>
 	  	  </clirr>
-	  </target>  
+	  </target>
 
   <!-- ============================================== -->
   <!-- Build the site files using Maven              -->
@@ -630,7 +630,7 @@
     </delete>
 
     <mkdir  dir="${dist.images}" />
-    
+
     <mkdir  dir="${dist.tmp}/apache-log4j-${version}" />
 
     <copy todir="${dist.tmp}/apache-log4j-${version}">
@@ -654,7 +654,7 @@
                 **/Makefile, **/goEnv.bat,
                      docs/pub-support/*,
                      ${dist.dir}/classes/org/**,
-                     src/main/java/org/apache/log4j/test/**/*,   
+                     src/main/java/org/apache/log4j/test/**/*,
            **/.#*,
               **/*.o, **/*.res, **/*.h, **/EventLogCategories.rc"/>
     </copy>
@@ -679,7 +679,7 @@
 
     <delete dir="${dist.tmp}" />
   </target>
-  
+
 
     <!-- ================================================================= -->
     <!-- Build a complete distribution for release.                        -->
@@ -712,7 +712,7 @@
         <fail unless="javamail-found" message="JAVAMAIL was not found."/>
 	  <checksum forceOverwrite="yes" fileext=".md5">
 	  		<fileset dir="${dist.images}" includes="apache-log4j-${version}.tar.gz apache-log4j-${version}.zip"/>
-	  </checksum>           
+	  </checksum>
 	  <checksum forceOverwrite="yes" fileext=".sha1" algorithm="SHA">
 	  		<fileset dir="${dist.images}" includes="apache-log4j-${version}.tar.gz apache-log4j-${version}.zip"/>
 	  </checksum>
@@ -721,15 +721,15 @@
 	      <arg value="--output"/>
 	      <arg value="apache-log4j-${version}.tar.gz.asc"/>
 	      <arg value="--detach-sig"/>
-	      <arg value="apache-log4j-${version}.tar.gz"/>	      
-	  </exec>           
+	      <arg value="apache-log4j-${version}.tar.gz"/>
+	  </exec>
 	  <exec executable="gpg" dir="${dist.images}">
 	      <arg value="--armor"/>
 	      <arg value="--output"/>
 	      <arg value="apache-log4j-${version}.zip.asc"/>
 	      <arg value="--detach-sig"/>
-	      <arg value="apache-log4j-${version}.zip"/>	      
-	  </exec>           
+	      <arg value="apache-log4j-${version}.zip"/>
+	  </exec>
    </target>
 
 <target name="fixcrlf" depends="init"
@@ -756,7 +756,7 @@
 	</target>
 
 	<target name="post-site" depends="checkout-site, update-site"/>
-	
+
 
         <target name="mime=html">
             <exec executable="svn">
@@ -775,8 +775,8 @@
                 <arg value="${src.css}"/>
             </exec>
         </target>
-	
-	
+
+
 	<target name="site-deploy">
 		<!-- Add any new files (and generate innocuous warnings for the existing content)  -->
                 <delete file="target/site-deploy/svn-commit.tmp~"/>

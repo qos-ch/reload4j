@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,9 +26,9 @@ import java.text.DateFormat;
    Formats a {@link Date} by printing the number of milliseconds
    elapsed since construction of the format.  This is the fastest
    printing DateFormat in the package.
-   
+
    @author Ceki G&uuml;lc&uuml;
-   
+
    @since 0.7.5
 */
 public class RelativeTimeDateFormat extends DateFormat {
@@ -41,11 +41,11 @@ public class RelativeTimeDateFormat extends DateFormat {
   RelativeTimeDateFormat() {
     this.startTime = System.currentTimeMillis();
   }
-  
+
   /**
      Appends to <code>sbuf</code> the number of milliseconds elapsed
-     since the start of the application. 
-     
+     since the start of the application.
+
      @since 0.7.5
   */
   public
@@ -61,5 +61,5 @@ public class RelativeTimeDateFormat extends DateFormat {
   public
   Date parse(java.lang.String s, ParsePosition pos) {
     return null;
-  }  
+  }
 }

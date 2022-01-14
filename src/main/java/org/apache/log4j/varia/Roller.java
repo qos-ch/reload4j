@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,19 +27,19 @@ import java.net.Socket;
 
 /**
    A simple application to send roll over messages to a potentially
-   remote {@link ExternallyRolledFileAppender}. 
+   remote {@link ExternallyRolledFileAppender}.
 
    <p>It takes two arguments, the <code>host_name</code> and
    <code>port_number</code> where the
    <code>ExternallyRolledFileAppender</code> is listening.
-   
+
 
    @author Ceki G&uuml;lc&uuml;
    @since version 0.9.0 */
 public class Roller {
 
   static Logger cat = Logger.getLogger(Roller.class);
-  
+
 
   static String host;
   static int port;
@@ -54,17 +54,17 @@ public class Roller {
      and <code>port</code>.
 
    */
-  public 
-  static 
+  public
+  static
   void main(String argv[]) {
 
     BasicConfigurator.configure();
 
-    if(argv.length == 2) 
+    if(argv.length == 2)
       init(argv[0], argv[1]);
-    else 
+    else
       usage("Wrong number of arguments.");
-    
+
     roll();
   }
 
@@ -76,7 +76,7 @@ public class Roller {
     System.exit(1);
   }
 
-  static 
+  static
   void init(String hostArg, String portArg) {
     host = hostArg;
     try {

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -63,7 +63,7 @@ public class DailyFileAppender extends FileAppender {
      <strong>FileNamePattern</strong>.
    */
   static final public String FILE_NAME_PATTERN_OPTION = "FilePattern";
-  
+
   /**
      The filename pattern
   */
@@ -108,7 +108,7 @@ public class DailyFileAppender extends FileAppender {
   public DailyFileAppender (Layout layout,String filename) throws IOException {
     super(layout, filename);
   }
-  
+
   /**
      Set the current output file.
 
@@ -147,12 +147,12 @@ public class DailyFileAppender extends FileAppender {
 
   /**
      This method differentiates RollingFileAppender from its super
-     class.  
+     class.
 
   */
   protected
   void subAppend(LoggingEvent event) {
-     
+
      if (System.currentTimeMillis () >= nextFilenameComputingMillis) {
       try {
         setFile (super.fileName, super.fileAppend);
@@ -164,7 +164,7 @@ public class DailyFileAppender extends FileAppender {
     }
 
     super.subAppend(event);
-  } 
+  }
 
   /**
      Retuns the option names for this component, namely {@link
@@ -184,12 +184,12 @@ public class DailyFileAppender extends FileAppender {
   */
   public
   void setOption(String key, String value) {
-    super.setOption(key, value);    
+    super.setOption(key, value);
     if(key.equalsIgnoreCase(FILE_NAME_PATTERN_OPTION)) {
       fileNamePattern = value;
     }
   }
-  
+
   /**
      If the a value for {@link #FILE_OPTION} is non-null, then {@link
      #setFile} is called with the values of {@link #FILE_OPTION} and
@@ -211,7 +211,7 @@ public class DailyFileAppender extends FileAppender {
 /**
    DailyFileAppenderCalendar is a helper class to DailyFileAppender. Using
    this class, it is easy to compute and access the next Millis()
- 
+
    It subclasses the standard
    <a href="http://java.sun.com/j2se/1.3/docs/api/java/text/GregorianCalendar.html">
    java.util.GregorianCalendar</a>-object, to allow access to the protected

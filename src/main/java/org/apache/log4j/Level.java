@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -107,7 +107,7 @@ public class Level extends Priority implements Serializable {
 
   /**
      Convert the string passed as argument to a level. If the
-     conversion fails, then this method returns {@link #DEBUG}. 
+     conversion fails, then this method returns {@link #DEBUG}.
   */
   public
   static
@@ -149,20 +149,20 @@ public class Level extends Priority implements Serializable {
   /**
      Convert the string passed as argument to a level. If the
      conversion fails, then this method returns the value of
-     <code>defaultLevel</code>.  
+     <code>defaultLevel</code>.
   */
   public
   static
-  Level toLevel(String sArg, Level defaultLevel) {                  
+  Level toLevel(String sArg, Level defaultLevel) {
     if(sArg == null)
        return defaultLevel;
-    
+
     String s = sArg.toUpperCase();
 
-    if(s.equals("ALL")) return Level.ALL; 
-    if(s.equals("DEBUG")) return Level.DEBUG; 
+    if(s.equals("ALL")) return Level.ALL;
+    if(s.equals("DEBUG")) return Level.DEBUG;
     if(s.equals("INFO"))  return Level.INFO;
-    if(s.equals("WARN"))  return Level.WARN;  
+    if(s.equals("WARN"))  return Level.WARN;
     if(s.equals("ERROR")) return Level.ERROR;
     if(s.equals("FATAL")) return Level.FATAL;
     if(s.equals("OFF")) return Level.OFF;

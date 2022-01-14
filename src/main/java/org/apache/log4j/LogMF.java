@@ -29,11 +29,11 @@ import java.util.Locale;
 /**
  * This class provides parameterized logging services
  * using the pattern syntax of java.text.MessageFormat.
- * Message formatting is only performed when the 
+ * Message formatting is only performed when the
  * request exceeds the threshold level of the logger.
  * When the pattern only contains literal text and
  * default conversion patterns (that is "{0}" and similar)
- * a simple fast compatible formatter is used.  
+ * a simple fast compatible formatter is used.
  * If the pattern contains more complex conversion patterns,
  * formatting will be delegated to java.text.MessageFormatter
  * which can be substantially slower.
@@ -159,7 +159,7 @@ public final class LogMF extends LogXF {
             String retval = "";
             int pos = pattern.indexOf('{');
             while(pos >= 0) {
-                if(pos + 2 < pattern.length() && 
+                if(pos + 2 < pattern.length() &&
                       pattern.charAt(pos+2) == '}' &&
                       pattern.charAt(pos+1) >= '0' &&
                       pattern.charAt(pos+1) <= '9') {

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -63,7 +63,7 @@ public class TelnetAppender extends AppenderSkeleton {
   private SocketHandler sh;
   private int port = 23;
 
-  /** 
+  /**
       This appender requires a layout to format the text to the
       attached client(s). */
   public boolean requiresLayout() {
@@ -145,10 +145,10 @@ public class TelnetAppender extends AppenderSkeleton {
     public void finalize() {
         close();
     }
-      
-    /** 
+
+    /**
     * make sure we close all network connections when this handler is destroyed.
-    * @since 1.2.15 
+    * @since 1.2.15
     */
     public void close() {
       synchronized(this) {
@@ -186,9 +186,9 @@ public class TelnetAppender extends AppenderSkeleton {
       }
     }
 
-    /** 
+    /**
 	Continually accepts client connections.  Client connections
-        are refused when MAX_CONNECTIONS is reached. 
+        are refused when MAX_CONNECTIONS is reached.
     */
     public void run() {
       while(!serverSocket.isClosed()) {

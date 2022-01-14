@@ -42,7 +42,7 @@ target platform and specify msbuild as the target on the ant command line.
    </condition>
    <property name="jni.win32.include.dir" value="${env.JNI_WIN32_INCLUDE_DIR}"/>
    <available property="jni_md.h_available" file="${jni.win32.include.dir}/jni_md.h"/>
-  
+
    <target name="clean" description="Deletes generated files">
         <delete dir="${target.dir}"/>
    </target>
@@ -94,7 +94,7 @@ target platform and specify msbuild as the target on the ant command line.
     <javah class="org.apache.log4j.nt.NTEventLogAppender,org.apache.log4j.Priority"
            destdir="${object.dir}"
            classpath="${classes.dir}"/>
-    
+
     <exec executable="${mingw-prefix}gcc">
       <arg value="-Wall"/>
       <arg value="-D_JNI_IMPLEMENTATION_"/>

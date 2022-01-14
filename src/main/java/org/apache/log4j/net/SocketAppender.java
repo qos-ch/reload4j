@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -175,7 +175,7 @@ public class SocketAppender extends AppenderSkeleton {
   }
 
   /**
-   * Close this appender.  
+   * Close this appender.
    *
    * <p>This will mark the appender as closed and call then {@link
    * #cleanUp} method.
@@ -194,7 +194,7 @@ public class SocketAppender extends AppenderSkeleton {
 
   /**
    * Drop the connection to the remote host and release the underlying
-   * connector thread if it has been created 
+   * connector thread if it has been created
    * */
   public void cleanUp() {
     if(oos != null) {
@@ -234,7 +234,7 @@ public class SocketAppender extends AppenderSkeleton {
       } else {
           msg += " We are not retrying.";
           errorHandler.error(msg, e, ErrorCode.GENERIC_FAILURE);
-      } 
+      }
       LogLog.error(msg);
     }
   }
@@ -252,7 +252,7 @@ public class SocketAppender extends AppenderSkeleton {
 
     if(oos != null) {
       try {
-    	 
+
 	if(locationInfo) {
 	   event.getLocationInformation();
 	}
@@ -264,7 +264,7 @@ public class SocketAppender extends AppenderSkeleton {
     event.getMDCCopy();
     event.getRenderedMessage();
     event.getThrowableStrRep();
-    
+
 	oos.writeObject(event);
 	//LogLog.debug("=========Flushing.");
 	oos.flush();
@@ -324,7 +324,7 @@ public class SocketAppender extends AppenderSkeleton {
 
   /**
    * The SocketAppender does not use a layout. Hence, this method
-   * returns <code>false</code>.  
+   * returns <code>false</code>.
    * */
   public boolean requiresLayout() {
     return false;
@@ -379,7 +379,7 @@ public class SocketAppender extends AppenderSkeleton {
   }
 
   /**
-   * The <b>App</b> option takes a string value which should be the name of the 
+   * The <b>App</b> option takes a string value which should be the name of the
    * application getting logged.
    * If property was already set (via system property), don't set here.
    * @since 1.2.15

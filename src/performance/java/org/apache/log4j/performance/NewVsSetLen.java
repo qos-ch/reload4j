@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,74 +36,74 @@ package org.apache.log4j.performance;
    </tr>
 
    <tr BGCOLOR="#3366FF">
-     <td>New Buffer</td> <td>setLength</td> 
+     <td>New Buffer</td> <td>setLength</td>
      <td>New Buffer</td> <td>setLength</td>
      <td>New Buffer</td> <td>setLength</td>
      <td>New Buffer</td> <td>setLength</td>
      <td>New Buffer</td> <td>setLength</td>
    </tr>
 
-   <tr align="right"> 
-   <td BGCOLOR="#CCCCCC">256 
-   <td>33 <td>22 
+   <tr align="right">
+   <td BGCOLOR="#CCCCCC">256
+   <td>33 <td>22
    <td>34 <td>22
    <td>34 <td>22
-   <td>34 <td>22 
+   <td>34 <td>22
    <td>33 <td>23
    </tr>
 
-   <tr align="right"> 
-   <td BGCOLOR="#CCCCCC">1024 
+   <tr align="right">
+   <td BGCOLOR="#CCCCCC">1024
    <td>58 <td>41
    <td>59 <td>45
    <td>59 <td>48
-   <td>59 <td>51 
+   <td>59 <td>51
    <td>60 <td>44
    </tr>
 
-   <tr align="right"> 
-   <td BGCOLOR="#CCCCCC">4096 
+   <tr align="right">
+   <td BGCOLOR="#CCCCCC">4096
    <td>146 <td>132
    <td>138 <td>132
    <td>144 <td>126
    <td>142 <td>132
-   <td>136 <td>132 
+   <td>136 <td>132
    </tr>
 
-   <tr align="right"> 
-   <td BGCOLOR="#CCCCCC">16384 
-   <td>617 <td>593 
+   <tr align="right">
+   <td BGCOLOR="#CCCCCC">16384
+   <td>617 <td>593
    <td>593 <td>609
    <td>601 <td>617
-   <td>601 <td>632 
+   <td>601 <td>632
    <td>593 <td>632
    </tr>
 
-   <tr align="right"> 
-   <td BGCOLOR="#CCCCCC">65536 
+   <tr align="right">
+   <td BGCOLOR="#CCCCCC">65536
    <td>3218 <td>3281
-   <td>3093 <td>3125 
+   <td>3093 <td>3125
    <td>3125 <td>3156
-   <td>3125 <td>3281 
+   <td>3125 <td>3281
    <td>3062 <td>3562
    </tr>
 
-   <tr align="right"> 
-   <td BGCOLOR="#CCCCCC">262144 
+   <tr align="right">
+   <td BGCOLOR="#CCCCCC">262144
    <td>14750 <td>15125
-   <td>14000 <td>15500 
-   <td>14000 <td>16125 
-   <td>14000 <td>18000 
-   <td>14000 <td>21375 
+   <td>14000 <td>15500
+   <td>14000 <td>16125
+   <td>14000 <td>18000
+   <td>14000 <td>21375
    </tr>
 
-   <tr align="right"> 
-   <td BGCOLOR="#CCCCCC">1048576 
+   <tr align="right">
+   <td BGCOLOR="#CCCCCC">1048576
    <td>87500 <td>80000
-   <td>60500 <td>82000 
-   <td>57000 <td>93000 
-   <td>57500 <td>118500 
-   <td>57500 <td>168500 
+   <td>60500 <td>82000
+   <td>57000 <td>93000
+   <td>57500 <td>118500
+   <td>57500 <td>168500
    </tr>
 
    <caption ALIGN="BOTTOM">Performance comparisons of new buffer
@@ -125,7 +125,7 @@ package org.apache.log4j.performance;
    <p>This is due to a peculiarity in the <code>copy</code> method in
    StringBuffer class which creates a character array of the same
    length as the old buffer even if the vast majority of those
-   characters are unused. 
+   characters are unused.
 
    <p>The tests were performed on Linux using IBM's JDK 1.1.8.
 
@@ -133,9 +133,9 @@ package org.apache.log4j.performance;
    reality. If you remain unconvinced of its results, then please send
    your alternative measurement scenario.
 
-   
 
-   
+
+
 */
 public class NewVsSetLen {
 
@@ -160,9 +160,9 @@ public class NewVsSetLen {
 
 
   static
-  public 
-  void main(String[] args) {    
- 
+  public
+  void main(String[] args) {
+
     int t;
 
     for(int len = SBUF_LEN; len <= BIGBUF_LEN; len*=4, RUN_LENGTH /= 4) {
@@ -182,11 +182,11 @@ public class NewVsSetLen {
 	}
       }
     }
-    
+
   }
 
   static
-  double newBuffer(int size, int second) {    
+  double newBuffer(int size, int second) {
     long before = System.currentTimeMillis();
 
     for(int i = 0; i < RUN_LENGTH; i++) {
@@ -201,7 +201,7 @@ public class NewVsSetLen {
       buf.append(sbuf, 0, SBUF_LEN);
       s = buf.toString();
     }
-    return (System.currentTimeMillis() - before)*1000.0/RUN_LENGTH;    
+    return (System.currentTimeMillis() - before)*1000.0/RUN_LENGTH;
   }
 
   static
@@ -222,6 +222,6 @@ public class NewVsSetLen {
       s = buf.toString();
       buf.setLength(0);
     }
-    return (System.currentTimeMillis() - before)*1000.0/RUN_LENGTH;    
-  }  
+    return (System.currentTimeMillis() - before)*1000.0/RUN_LENGTH;
+  }
 }

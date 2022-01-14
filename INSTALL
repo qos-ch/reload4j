@@ -17,7 +17,7 @@
 ===========
 Using log4j
 ===========
-	
+
 1) First untar or unzip the distribution file.
 
 2) Assuming you chose to extract the distribution in to the
@@ -27,17 +27,17 @@ Using log4j
    directory PATH_OF_YOUR_CHOICE/apache-log4j-VERSION/ as $LOG4J_HOME/.
 
 3) Add $LOG4J_HOME/log4j-VERSION.jar to your CLASSPATH,
-   
+
 4) You can now test your installation by first compiling the following
    simple program.
 
     import org.apache.log4j.Logger;
     import org.apache.log4j.BasicConfigurator;
-    
+
     public class Hello {
-    
+
       private static final Logger logger = Logger.getLogger(Hello.class);
-    
+
       public
       static
       void main(String argv[]) {
@@ -51,7 +51,7 @@ Using log4j
    After compilation, try it out by issuing the command
 
       java Hello
-  
+
    You should see log statements appearing on the console.
 
 5) Refer to the javadoc documentation and the user manual on how to

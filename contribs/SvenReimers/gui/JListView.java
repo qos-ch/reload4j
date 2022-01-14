@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -60,7 +60,7 @@ public class JListView extends JList {
   //JListViewModel model;
   PatternLayout layout;
 
-  static LoggingEvent proto = new LoggingEvent("x", cat, Priority.ERROR, 
+  static LoggingEvent proto = new LoggingEvent("x", cat, Priority.ERROR,
 					       "Message ", new Throwable());
 
   public
@@ -92,17 +92,17 @@ public class JListView extends JList {
 				 int direction) {
     System.out.println("getScrollableUnitIncrement called with " + visibleRect +
 		       "orientation: "+orientation+", direction: "+direction);
-    return super.getScrollableUnitIncrement(visibleRect, orientation, 
+    return super.getScrollableUnitIncrement(visibleRect, orientation,
     				    direction);
   }
 
   public
   int getScrollableBlockIncrement(Rectangle visibleRect, int orientation,
 				  int direction) {
-    System.out.println("getScrollableBlockIncrement called with " + 
+    System.out.println("getScrollableBlockIncrement called with " +
 		       visibleRect + "orientation: "+orientation+
 		       ", direction: "+direction);
-    return super.getScrollableBlockIncrement(visibleRect, orientation, 
+    return super.getScrollableBlockIncrement(visibleRect, orientation,
     				     direction);
   }
   */
@@ -115,9 +115,9 @@ public class JListView extends JList {
     //System.out.println("result is: "+b);
     //return b;
   //}
-  
+
   //public
-  //boolean getScrollableTracksViewportHeight() { 
+  //boolean getScrollableTracksViewportHeight() {
   // System.out.println("getScrollableTracksViewportHeight called.");
   // return true;
      //boolean b = super.getScrollableTracksViewportHeight();
@@ -125,9 +125,9 @@ public class JListView extends JList {
      //return b;
   //}
 
-  //public 
+  //public
   //int getFirstVisibleIndex() {
-  //int r = getFirstVisibleIndex(); 
+  //int r = getFirstVisibleIndex();
   // System.out.println("----------getFirstVisibleIndex called, result: "+r);
   //return r;
   //}
@@ -137,8 +137,8 @@ public class JListView extends JList {
   //return proto;
   //}
 
-  
-  
+
+
   static public void main(String[] args) {
 
     JFrame frame = new JFrame("JListView test");
@@ -149,7 +149,7 @@ public class JListView extends JList {
 
     JScrollPane sp = new JScrollPane(view);
     sp.setPreferredSize(new Dimension(250, 80));
-    
+
     container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
     //container.add(view);
     container.add(sp);
@@ -168,7 +168,7 @@ public class JListView extends JList {
     panel.add(b100);
     panel.add(b1000);
     panel.add(b10000);
-    
+
 
     AddAction a1 = new AddAction(view, 1);
     AddAction a10 = new AddAction(view, 10);
@@ -189,16 +189,16 @@ public class JListView extends JList {
 
     int RUN = 1000;
     int i = 0;
-    while(i++ < RUN) {      
-      LoggingEvent event0 = new LoggingEvent("x", cat, Priority.ERROR, 
+    while(i++ < RUN) {
+      LoggingEvent event0 = new LoggingEvent("x", cat, Priority.ERROR,
 					     "Message "+i, null);
-      
-      Throwable t = new Exception("hello "+i);
-      LoggingEvent event1 = new LoggingEvent("x", cat, Priority.ERROR, 
-					     "Message "+i, t);
-      
 
-      if(i % 10 == 0) {	
+      Throwable t = new Exception("hello "+i);
+      LoggingEvent event1 = new LoggingEvent("x", cat, Priority.ERROR,
+					     "Message "+i, t);
+
+
+      if(i % 10 == 0) {
 	event1.getThreadName();
 	view.add(event1);
       } else {
@@ -221,7 +221,7 @@ public class JListView extends JList {
     public
     MyCellRenderer() {
       System.out.println("----------------------");
-      
+
     }
 
 
@@ -237,16 +237,16 @@ public class JListView extends JList {
       URL url = ClassLoader.getSystemResource(path);
       img = (Image) (Toolkit.getDefaultToolkit()).getImage(url);
     } catch (Exception e) {
-      System.out.println("Exception occured: " + e.getMessage() + 
-			 " - " + e );   
-    }	
+      System.out.println("Exception occured: " + e.getMessage() +
+			 " - " + e );
+    }
     return (img);
   }
 
     public Component getListCellRendererComponent(JList list,
-						Object value, 
+						Object value,
 						int index, // cell index
-						boolean isSelected, 
+						boolean isSelected,
 						boolean cellHasFocus) {
 
       //      System.out.println(o + " ============== " + i++);
@@ -259,10 +259,10 @@ public class JListView extends JList {
 
 	if(t != null) {
 	  setText(str + Layout.LINE_SEP + t);
-	} else {	
+	} else {
 	  setText(str);
 	}
-	
+
       } else {
 	setText(value.toString());
       }
@@ -278,7 +278,7 @@ public class JListView extends JList {
 class JListViewModel extends AbstractListModel {
 
   CyclicBuffer cb;
-  
+
   JListViewModel(int size) {
     cb = new CyclicBuffer(size);
   }
@@ -290,7 +290,7 @@ class JListViewModel extends AbstractListModel {
     int j = cb.length();
     fireContentsChanged(this, 0, j);
   }
-    
+
 
 
   public
@@ -302,7 +302,7 @@ class JListViewModel extends AbstractListModel {
   int getSize() {
     return cb.length();
   }
-  
+
 }
 
 class AddAction implements ActionListener {
@@ -316,7 +316,7 @@ class AddAction implements ActionListener {
     this.t = new AddThread(view, burst);
     t.start();
   }
-    
+
   public
   void actionPerformed(ActionEvent e) {
     System.out.println("Action occured");
@@ -330,7 +330,7 @@ class AddAction implements ActionListener {
     JListView view;
 
     Category cat = Category.getInstance("x");
-    
+
     AddThread(JListView view, int burst) {
       super();
       this.burst = burst;
@@ -349,10 +349,10 @@ class AddAction implements ActionListener {
 	  }
 	}
 	for(int i = 0; i < burst; i++) {
-	  LoggingEvent event = new LoggingEvent("x", cat, Priority.DEBUG, 
+	  LoggingEvent event = new LoggingEvent("x", cat, Priority.DEBUG,
 						"Message "+counter, null);
 
-	  event.getThreadName();    
+	  event.getThreadName();
 	  if(counter % 50 == 0) {
 	    //event.throwable = new Exception("hello "+counter);
 	  }

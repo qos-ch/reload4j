@@ -19,7 +19,7 @@
 
 <log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'
                      debug="true">
-  
+
   <appender name="TEMP" class="org.apache.log4j.FileAppender">
     <param name="Append" value="false" />
     <param name="File"   value="output/temp" />
@@ -28,7 +28,7 @@
 	value="%-5p %c{2} - %m\n"/>
     </layout>
   </appender>
-  
+
   <root>
     <level value ="TRACE" class="org.apache.log4j.xml.XLevel"/>
     <appender-ref ref="TEMP" />

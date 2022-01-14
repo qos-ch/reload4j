@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +30,7 @@ import org.apache.log4j.spi.LoggingEvent;
 
 /**
   The JDBCAppender provides for sending log events to a database.
-  
+
  <p><b><font color="#FF2222">WARNING: This version of JDBCAppender
  is very likely to be completely replaced in the future. Moreoever,
  it does not log exceptions</font></b>.
@@ -128,7 +128,7 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
    * Helper object for clearing out the buffer
    */
   protected ArrayList removes;
-  
+
   private boolean locationInfo = false;
 
   public JDBCAppender() {
@@ -147,7 +147,7 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
   public boolean getLocationInfo() {
     return locationInfo;
   }
-  
+
   /**
    * The <b>LocationInfo</b> option takes a boolean value. By default, it is
    * set to false which means there will be no effort to extract the location
@@ -165,7 +165,7 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
   public void setLocationInfo(final boolean flag) {
     locationInfo = flag;
   }
-  
+
 
   /**
    * Adds the event to the buffer.  When full the buffer is flushed.
@@ -295,10 +295,10 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
         removes.add(logEvent);
       }
     }
-    
+
     // remove from the buffer any events that were reported
     buffer.removeAll(removes);
-    
+
     // clear the buffer of reported events
     removes.clear();
   }

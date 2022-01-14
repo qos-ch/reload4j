@@ -87,6 +87,6 @@ public final class MDCKeySetExtractor {
                   is.close();
               }
         }
-        return keySet;        
+        return keySet;
     }
 }

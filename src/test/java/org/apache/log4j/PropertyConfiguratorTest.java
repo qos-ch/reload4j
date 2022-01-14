@@ -99,7 +99,7 @@ public class PropertyConfiguratorTest extends TestCase {
 
     /**
      * Tests configuring Log4J from an InputStream.
-     * 
+     *
      * @since 1.2.17
      */
     public void testInputStream() throws IOException {
@@ -127,9 +127,9 @@ public class PropertyConfiguratorTest extends TestCase {
         FilterBasedTriggeringPolicy triggeringPolicy =
                 (FilterBasedTriggeringPolicy) rfa.getTriggeringPolicy();
         LevelRangeFilter filter = (LevelRangeFilter) triggeringPolicy.getFilter();
-        assertTrue(Level.INFO.equals(filter.getLevelMin()));        
+        assertTrue(Level.INFO.equals(filter.getLevelMin()));
     }
-    
+
     /**
      * Test for bug 47465.
      * configure(URL) did not close opened JarURLConnection.

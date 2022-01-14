@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -108,12 +108,12 @@ public class Priority {
   }
 
 
-   
+
   /**
      Returns <code>true</code> if this level has a higher or equal
      level than the level passed as argument, <code>false</code>
-     otherwise.  
-     
+     otherwise.
+
      <p>You should think twice before overriding the default
      implementation of <code>isGreaterOrEqual</code> method.
 
@@ -132,7 +132,7 @@ public class Priority {
   public
   static
   Priority[] getAllPossiblePriorities() {
-    return new Priority[] {Priority.FATAL, Priority.ERROR, Level.WARN, 
+    return new Priority[] {Priority.FATAL, Priority.ERROR, Level.WARN,
 			   Priority.INFO, Priority.DEBUG};
   }
 
@@ -165,7 +165,7 @@ public class Priority {
   }
 
   /**
-   * @deprecated Please use the {@link Level#toLevel(int)} method instead.   
+   * @deprecated Please use the {@link Level#toLevel(int)} method instead.
    */
   public
   static
@@ -174,7 +174,7 @@ public class Priority {
   }
 
   /**
-   * @deprecated Please use the {@link Level#toLevel(int, Level)} method instead.   
+   * @deprecated Please use the {@link Level#toLevel(int, Level)} method instead.
   */
   public
   static
@@ -183,11 +183,11 @@ public class Priority {
   }
 
   /**
-   * @deprecated Please use the {@link Level#toLevel(String, Level)} method instead.   
+   * @deprecated Please use the {@link Level#toLevel(String, Level)} method instead.
    */
   public
   static
-  Priority toPriority(String sArg, Priority defaultPriority) {                  
+  Priority toPriority(String sArg, Priority defaultPriority) {
     return Level.toLevel(sArg, (Level) defaultPriority);
   }
 }

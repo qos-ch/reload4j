@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,8 +35,8 @@ import org.apache.log4j.spi.LoggingEvent;
 /**
    DailyRollingFileAppender extends {@link FileAppender} so that the
    underlying file is rolled over at a user chosen frequency.
-   
-   DailyRollingFileAppender has been observed to exhibit 
+
+   DailyRollingFileAppender has been observed to exhibit
    synchronization issues and data loss.  The log4j extras
    companion includes alternatives which should be considered
    for new deployments and which are discussed in the documentation
@@ -164,10 +164,10 @@ public class DailyRollingFileAppender extends FileAppender {
      scheduledFilename variable when the next interval is entered. For
      example, if the rollover period is one hour, the log file will be
      renamed to the value of "scheduledFilename" at the beginning of
-     the next hour. 
+     the next hour.
 
      The precise time when a rollover occurs depends on logging
-     activity. 
+     activity.
   */
   private String scheduledFilename;
 
@@ -373,7 +373,7 @@ public class DailyRollingFileAppender extends FileAppender {
 /**
  *  RollingCalendar is a helper class to DailyRollingFileAppender.
  *  Given a periodicity type and the current time, it computes the
- *  start of the next interval.  
+ *  start of the next interval.
  * */
 class RollingCalendar extends GregorianCalendar {
   private static final long serialVersionUID = -3560331770601814177L;
@@ -382,11 +382,11 @@ class RollingCalendar extends GregorianCalendar {
 
   RollingCalendar() {
     super();
-  }  
+  }
 
   RollingCalendar(TimeZone tz, Locale locale) {
     super(tz, locale);
-  }  
+  }
 
   void setType(int type) {
     this.type = type;

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,7 @@ import org.apache.log4j.Level;
  */
 class ControlPanel extends JPanel {
     /** use the log messages **/
-    private static final Logger LOG = 
+    private static final Logger LOG =
                                   Logger.getLogger(ControlPanel.class);
 
     /**
@@ -93,13 +93,13 @@ class ControlPanel extends JPanel {
         c.anchor = GridBagConstraints.WEST;
 
         c.gridy = 0;
-        final Level[] allPriorities = new Level[] {Level.FATAL, 
-               Level.ERROR, 
-               Level.WARN, 
-			   Level.INFO, 
-			   Level.DEBUG, 
+        final Level[] allPriorities = new Level[] {Level.FATAL,
+               Level.ERROR,
+               Level.WARN,
+			   Level.INFO,
+			   Level.DEBUG,
 			   Level.TRACE };
-        
+
         final JComboBox priorities = new JComboBox(allPriorities);
         final Level lowest = allPriorities[allPriorities.length - 1];
         priorities.setSelectedItem(lowest);

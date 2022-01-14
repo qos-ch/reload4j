@@ -15,21 +15,21 @@
 
 
 
-Delivered-To: urba-cgu@urbanet.ch 
-Mailing-List: contact log4j-user-help@jakarta.apache.org; run by ezmlm 
-List-Post: <mailto:log4j-user@jakarta.apache.org> 
-List-Help: <mailto:log4j-user-help@jakarta.apache.org> 
-List-Unsubscribe: <mailto:log4j-user-unsubscribe@jakarta.apache.org> 
-List-Subscribe: <mailto:log4j-user-subscribe@jakarta.apache.org> 
-Reply-To: "LOG4J Users Mailing List" <log4j-user@jakarta.apache.org> 
-Delivered-To: mailing list log4j-user@jakarta.apache.org 
-Date: Thu, 01 Feb 2001 14:26:34 -0800 
-From: Kevin Steppe <ksteppe@pacbell.net> 
-X-Mailer: Mozilla 4.76 [en] (Windows NT 5.0; U) 
-X-Accept-Language: en 
-To: LOG4J Users Mailing List <log4j-user@jakarta.apache.org> 
-Subject: JDBC Appender 
-X-Spam-Rating: h31.sny.collab.net 1.6.2 0/1000/N 
+Delivered-To: urba-cgu@urbanet.ch
+Mailing-List: contact log4j-user-help@jakarta.apache.org; run by ezmlm
+List-Post: <mailto:log4j-user@jakarta.apache.org>
+List-Help: <mailto:log4j-user-help@jakarta.apache.org>
+List-Unsubscribe: <mailto:log4j-user-unsubscribe@jakarta.apache.org>
+List-Subscribe: <mailto:log4j-user-subscribe@jakarta.apache.org>
+Reply-To: "LOG4J Users Mailing List" <log4j-user@jakarta.apache.org>
+Delivered-To: mailing list log4j-user@jakarta.apache.org
+Date: Thu, 01 Feb 2001 14:26:34 -0800
+From: Kevin Steppe <ksteppe@pacbell.net>
+X-Mailer: Mozilla 4.76 [en] (Windows NT 5.0; U)
+X-Accept-Language: en
+To: LOG4J Users Mailing List <log4j-user@jakarta.apache.org>
+Subject: JDBC Appender
+X-Spam-Rating: h31.sny.collab.net 1.6.2 0/1000/N
 
 
 Ok, here it is.  Since there will be differences in database schemas and
@@ -322,7 +322,7 @@ select * from JDBCAppenderTest
 
 
 
-drop table JDBCAppenderTest 
+drop table JDBCAppenderTest
 go
 create table JDBCAppenderTest (EventID int identity, entrytime datetime, message varchar(255))
 
@@ -361,30 +361,30 @@ import java.sql.SQLException;
  *
  * @author: Kevin Steppe
  */
-public class JDBCAppender extends org.apache.log4j.AppenderSkeleton 
+public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
     implements org.apache.log4j.Appender
 {
     protected String databaseURL = "jdbc:odbc:myDB";
     protected String databaseUser = "me";
     protected String databasePassword = "mypassword";
-    
+
     public static final String URL_OPTION = "URL";
     public static final String USER_OPTION = "User";
     public static final String PASSWORD_OPTION = "Password";
     public static final String BUFFER_OPTION = "Buffer";
     protected int bufferSize = 1;
     protected List buffer;
-    
+
     public JDBCAppender()
     {
         super();
-        buffer = new ArrayList();            
+        buffer = new ArrayList();
     }
-    
+
     public void append(LoggingEvent event)
-    { 
+    {
         buffer.add(event);
-        
+
         if (buffer.size() >= bufferSize)
             flushBuffer();
     }
@@ -392,15 +392,15 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
 
     public void close()
     {
-        flushBuffer(); 
+        flushBuffer();
         this.closed = true;
     }
 
 
-    public void setOption(String key, String value) 
+    public void setOption(String key, String value)
     {
         super.setOption(key, value);
-        
+
         if (key.equalsIgnoreCase(URL_OPTION))
             databaseURL = value;
         else if (key.equalsIgnoreCase(USER_OPTION))
@@ -417,17 +417,17 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
      */
     protected String getSQL(LoggingEvent event)
     {
-        String msg = this.layout.format(event); 
-        String sql = "spLog '" + msg + "'"; 
-        System.out.println(sql); //DEBUG         
+        String msg = this.layout.format(event);
+        String sql = "spLog '" + msg + "'";
+        System.out.println(sql); //DEBUG
         return sql;
     }
-    
+
     /**
      * Override this to provide  an alertnate method of getting connections (such as caching)
      * This implementation creates a new connection and statement for every execution which
      * is very wastefull.  One method to fix this is to open connections at the start of
-     * flushBuffer() and close them at the end.  MD Data uses a connection pool outside 
+     * flushBuffer() and close them at the end.  MD Data uses a connection pool outside
      * of JDBCAppender which is accessed in the override of this method.
      */
     protected void executeSQL(String sql) throws SQLException
@@ -447,13 +447,13 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
                 con.close();
             if (stmt != null)
                 stmt.close();
-                
+
             throw e;
         }
         stmt.close();
         con.close();
     }
-    
+
     public void flushBuffer()
     {
         //Do the actual logging
@@ -470,12 +470,12 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton
         }
         buffer.clear();
     }
-    
+
     public void finalize()
     {
         close();
     }
-    
+
     public boolean requiresLayout()
     {
         return true;
@@ -494,23 +494,23 @@ public class JDBCTest
     public static void main (String argv[])
     {
         try {
-                Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");        
+                Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
         }
         catch (Exception e)
         {
             e.printStackTrace();
-            System.out.println(e.toString());    
+            System.out.println(e.toString());
         }
-        
+
             Category rootLog = Category.getRoot();
         Layout layout = new PatternLayout("%p [%t] %c - %m%n");
-        JDBCAppender appender = new JDBCAppender();        
-        appender.setLayout(layout);        
+        JDBCAppender appender = new JDBCAppender();
+        appender.setLayout(layout);
         appender.setOption(JDBCAppender.URL_OPTION, "jdbc:odbc:someDB");
         appender.setOption(JDBCAppender.USER_OPTION, "auser");
         appender.setOption(JDBCAppender.PASSWORD_OPTION, "thepassword");
-        
-        rootLog.addAppender(appender);  
+
+        rootLog.addAppender(appender);
 
 
         try {
@@ -525,7 +525,7 @@ public class JDBCTest
             Thread.sleep(500);
             log.fatal("fatal 1");
             Thread.sleep(500);
-            
+
             appender.setOption(JDBCAppender.BUFFER_OPTION, "5");
             log.debug("Debug 2");
             Thread.sleep(500);

@@ -16,7 +16,7 @@
 #
 
 #
-#   Providing a build.properties file is no longer 
+#   Providing a build.properties file is no longer
 #      necessary for an Ant build as long as one Maven build
 #      has previously been performed.
 #
@@ -57,7 +57,7 @@ checkstyle.jar=${lib.home.dir}/checkstyle-2.2/checkstyle-all-2.2.jar
 # Velocity's Anakia task is used in the generation of the documentation
 # download from http://jakarta.apache.org
 velocity.jar=${lib.home.dir}/velocity-1.4/velocity-dep-1.4.jar
-# Velocity's Anakia task requires JDOM, 
+# Velocity's Anakia task requires JDOM,
 # but Velocity 1.4 is not compatible with JDOM 1.0, but beta 8 works okay
 # download for http://www.jdom.org/dist/binary/archive
 jdom.jar=${lib.home.dir}/jdom-b8/build/jdom.jar

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,7 +44,7 @@ import org.apache.log4j.xml.XLevel;
    @author  Ceki G&uuml;lc&uuml;
 */
 public class SocketServerTestCase extends TestCase {
-  
+
   static String TEMP = TARGET_OUTPUT_PREFIX+"socketServerTestCase.out";
   static String FILTERED = TARGET_OUTPUT_PREFIX+"filtered";
 
@@ -64,8 +64,8 @@ public class SocketServerTestCase extends TestCase {
                        + "\\(SocketServerTestCase.java:\\d{3}\\) Message \\d{1,2}";
 
 
-  // DEBUG some T4 MDC-TEST4 [main] SocketAppenderTestCase - Message 1   
-  // DEBUG some T4 MDC-TEST4 [main] SocketAppenderTestCase - Message 1 
+  // DEBUG some T4 MDC-TEST4 [main] SocketAppenderTestCase - Message 1
+  // DEBUG some T4 MDC-TEST4 [main] SocketAppenderTestCase - Message 1
   static String PAT4 = "^(TRACE|DEBUG| INFO| WARN|ERROR|FATAL|LETHAL) some T4 MDC-TEST4 \\[main]\\"
                        + " (root|SocketServerTestCase) - Message \\d{1,2}";
 
@@ -92,7 +92,7 @@ public class SocketServerTestCase extends TestCase {
 
 
   static Logger logger = Logger.getLogger(SocketServerTestCase.class);
-  static public final int PORT = 12345;  
+  static public final int PORT = 12345;
   static Logger rootLogger = Logger.getRootLogger();
   SocketAppender socketAppender;
 
@@ -101,7 +101,7 @@ public class SocketServerTestCase extends TestCase {
   }
 
   public void setUp() {
-    System.out.println("Setting up test case.");   
+    System.out.println("Setting up test case.");
   }
 
   public void tearDown() {
@@ -111,21 +111,21 @@ public class SocketServerTestCase extends TestCase {
   }
 
   /**
-   * The pattern on the server side: %5p %x [%t] %c %m%n     
+   * The pattern on the server side: %5p %x [%t] %c %m%n
    *
-   * We are testing NDC functionality across the wire.  
+   * We are testing NDC functionality across the wire.
    */
   public void test1() throws Exception {
     socketAppender = new SocketAppender("localhost", PORT);
     rootLogger.addAppender(socketAppender);
     common("T1", "key1", "MDC-TEST1");
     delay(1);
-    ControlFilter cf = new ControlFilter(new String[]{PAT1, EXCEPTION1, 
+    ControlFilter cf = new ControlFilter(new String[]{PAT1, EXCEPTION1,
 						       EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5});
-    
+
     Transformer.transform(
       TEMP, FILTERED,
-      new Filter[] { cf, new LineNumberFilter(), 
+      new Filter[] { cf, new LineNumberFilter(),
           new Log4jAndNothingElseFilter()
           });
 
@@ -144,12 +144,12 @@ public class SocketServerTestCase extends TestCase {
 
     common("T2", "key2", "MDC-TEST2");
     delay(1);
-    ControlFilter cf = new ControlFilter(new String[]{PAT2, EXCEPTION1, 
+    ControlFilter cf = new ControlFilter(new String[]{PAT2, EXCEPTION1,
 						       EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5});
-    
+
     Transformer.transform(
       TEMP, FILTERED,
-      new Filter[] { cf, new LineNumberFilter(), 
+      new Filter[] { cf, new LineNumberFilter(),
           new Log4jAndNothingElseFilter() });
 
     assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.2"));
@@ -166,21 +166,21 @@ public class SocketServerTestCase extends TestCase {
 
     common("T3", "key3", "MDC-TEST3");
     delay(1);
-    ControlFilter cf = new ControlFilter(new String[]{PAT3, EXCEPTION1, 
+    ControlFilter cf = new ControlFilter(new String[]{PAT3, EXCEPTION1,
 						       EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5});
-    
+
     Transformer.transform(
       TEMP, FILTERED,
-      new Filter[] { cf, new LineNumberFilter(), 
+      new Filter[] { cf, new LineNumberFilter(),
           new Log4jAndNothingElseFilter() });
 
     assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.3"));
   }
 
   /**
-   *  The pattern on the server side: %5p %x %X{key1}%X{key4} [%t] %c{1} - %m%n 
-   *  meaning that we are testing NDC, MDC and localization functionality across 
-   *  the wire.  
+   *  The pattern on the server side: %5p %x %X{key1}%X{key4} [%t] %c{1} - %m%n
+   *  meaning that we are testing NDC, MDC and localization functionality across
+   *  the wire.
   */
   public void test4() throws Exception {
     socketAppender = new SocketAppender("localhost", PORT);
@@ -195,12 +195,12 @@ public class SocketServerTestCase extends TestCase {
     //  These tests check MDC operation which
     //    requires JDK 1.2 or later
     if(!System.getProperty("java.version").startsWith("1.1.")) {
-    
-        ControlFilter cf = new ControlFilter(new String[]{PAT4, EXCEPTION1, 
+
+        ControlFilter cf = new ControlFilter(new String[]{PAT4, EXCEPTION1,
 						           EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5});
         Transformer.transform(
           TEMP, FILTERED,
-          new Filter[] { cf, new LineNumberFilter(), 
+          new Filter[] { cf, new LineNumberFilter(),
               new Log4jAndNothingElseFilter() });
 
         assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.4"));
@@ -208,7 +208,7 @@ public class SocketServerTestCase extends TestCase {
   }
 
   /**
-   * The pattern on the server side: %5p %x %X{key1}%X{key5} [%t] %c{1} - %m%n 
+   * The pattern on the server side: %5p %x %X{key1}%X{key5} [%t] %c{1} - %m%n
    *
    * The test case uses wraps an AsyncAppender around the
    * SocketAppender. This tests was written specifically for bug
@@ -237,12 +237,12 @@ public class SocketServerTestCase extends TestCase {
     //  These tests check MDC operation which
     //    requires JDK 1.2 or later
     if(!System.getProperty("java.version").startsWith("1.1.")) {
-        ControlFilter cf = new ControlFilter(new String[]{PAT5, EXCEPTION1, 
+        ControlFilter cf = new ControlFilter(new String[]{PAT5, EXCEPTION1,
 						           EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5});
-    
+
         Transformer.transform(
           TEMP, FILTERED,
-          new Filter[] { cf, new LineNumberFilter(), 
+          new Filter[] { cf, new LineNumberFilter(),
               new Log4jAndNothingElseFilter() });
 
         assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.5"));
@@ -250,7 +250,7 @@ public class SocketServerTestCase extends TestCase {
   }
 
   /**
-   * The pattern on the server side: %5p %x %X{hostID}${key6} [%t] %c{1} - %m%n 
+   * The pattern on the server side: %5p %x %X{hostID}${key6} [%t] %c{1} - %m%n
    *
    * This test checks whether client-side MDC overrides the server side.
    * It uses an AsyncAppender encapsulating a SocketAppender
@@ -273,12 +273,12 @@ public class SocketServerTestCase extends TestCase {
     //  These tests check MDC operation which
     //    requires JDK 1.2 or later
     if(!System.getProperty("java.version").startsWith("1.1.")) {
-        ControlFilter cf = new ControlFilter(new String[]{PAT6, EXCEPTION1, 
+        ControlFilter cf = new ControlFilter(new String[]{PAT6, EXCEPTION1,
 						           EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5});
-    
+
         Transformer.transform(
           TEMP, FILTERED,
-          new Filter[] { cf, new LineNumberFilter(), 
+          new Filter[] { cf, new LineNumberFilter(),
               new Log4jAndNothingElseFilter() });
 
         assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.6"));
@@ -286,7 +286,7 @@ public class SocketServerTestCase extends TestCase {
   }
 
   /**
-   * The pattern on the server side: %5p %x %X{hostID}${key7} [%t] %c{1} - %m%n 
+   * The pattern on the server side: %5p %x %X{hostID}${key7} [%t] %c{1} - %m%n
    *
    * This test checks whether client-side MDC overrides the server side.
    */
@@ -299,18 +299,18 @@ public class SocketServerTestCase extends TestCase {
     MDC.put("hostID", "client-test7");
     common("T7", "key7", "MDC-TEST7");
     NDC.pop();
-    MDC.remove("hostID"); 
+    MDC.remove("hostID");
     delay(2);
     //
     //  These tests check MDC operation which
     //    requires JDK 1.2 or later
     if(!System.getProperty("java.version").startsWith("1.1.")) {
-        ControlFilter cf = new ControlFilter(new String[]{PAT7, EXCEPTION1, 
+        ControlFilter cf = new ControlFilter(new String[]{PAT7, EXCEPTION1,
 						           EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5});
-    
+
         Transformer.transform(
           TEMP, FILTERED,
-          new Filter[] { cf, new LineNumberFilter(), 
+          new Filter[] { cf, new LineNumberFilter(),
               new Log4jAndNothingElseFilter() });
         assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.7"));
     }
@@ -346,35 +346,35 @@ public class SocketServerTestCase extends TestCase {
     //  These tests check MDC operation which
     //    requires JDK 1.2 or later
     if(!System.getProperty("java.version").startsWith("1.1.")) {
-        ControlFilter cf = new ControlFilter(new String[]{PAT8, EXCEPTION1, 
+        ControlFilter cf = new ControlFilter(new String[]{PAT8, EXCEPTION1,
 						           EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5});
-    
+
         Transformer.transform(
           TEMP, FILTERED,
-          new Filter[] { cf, new LineNumberFilter(), 
+          new Filter[] { cf, new LineNumberFilter(),
               new Log4jAndNothingElseFilter() });
         assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"socketServer.8"));
     }
   }
 
-  static 
+  static
   void common(String dc, String key, Object o) {
     String oldThreadName = Thread.currentThread().getName();
     Thread.currentThread().setName("main");
 
-    int i = -1; 
-    NDC.push(dc); 
+    int i = -1;
+    NDC.push(dc);
     MDC.put(key, o);
     Logger root = Logger.getRootLogger();
 
     logger.setLevel(Level.DEBUG);
     rootLogger.setLevel(Level.DEBUG);
-    
+
     logger.log(XLevel.TRACE, "Message " + ++i);
 
     logger.setLevel(Level.TRACE);
     rootLogger.setLevel(Level.TRACE);
-    
+
     logger.trace("Message " + ++i);
     root.trace("Message " + ++i);
     logger.debug("Message " + ++i);
@@ -382,7 +382,7 @@ public class SocketServerTestCase extends TestCase {
     logger.info("Message " + ++i);
     logger.warn("Message " + ++i);
     logger.log(XLevel.LETHAL, "Message " + ++i); //5
-    
+
     Exception e = new Exception("Just testing");
     logger.debug("Message " + ++i, e);
     root.error("Message " + ++i, e);
@@ -396,16 +396,16 @@ public class SocketServerTestCase extends TestCase {
     try {Thread.sleep(secs*1000);} catch(Exception e) {}
   }
 
-  
+
   public static Test suite() {
 	  String shortSocketServerClassName = ShortSocketServer.class.getName();
-	  
+
 	  String claspath = System.getProperty("java.class.path");
 	  String javaHome = System.getProperty("java.home");
 	  String fileSeparator = System.getProperty("file.separator");
 	  String pathToJavaExecutable = javaHome + fileSeparator + "bin"+fileSeparator+"java";
-	  System.out.println("java executable assumed to be located at ["+pathToJavaExecutable+"]");		  
-	  ProcessBuilder processBuilder = new ProcessBuilder(pathToJavaExecutable, "-cp", claspath, shortSocketServerClassName, "8", TEST_INPUT_PREFIX+"socketServer"); 
+	  System.out.println("java executable assumed to be located at ["+pathToJavaExecutable+"]");
+	  ProcessBuilder processBuilder = new ProcessBuilder(pathToJavaExecutable, "-cp", claspath, shortSocketServerClassName, "8", TEST_INPUT_PREFIX+"socketServer");
 	  processBuilder.redirectErrorStream(true);
 	  processBuilder.inheritIO();
 	  System.out.println(shortSocketServerClassName);
@@ -418,7 +418,7 @@ public class SocketServerTestCase extends TestCase {
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
-	  
+
 	TestSuite suite = new TestSuite();
 	suite.addTest(new SocketServerTestCase("test1"));
 	suite.addTest(new SocketServerTestCase("test2"));
@@ -430,15 +430,15 @@ public class SocketServerTestCase extends TestCase {
 	suite.addTest(new SocketServerTestCase("test8"));
 	return suite;
   }
-  
+
   private static List<String> readLines(InputStream is) {
 	  List<String> result = new ArrayList<String>();
-	  
+
 	  BufferedReader r = new BufferedReader(new InputStreamReader(is));
 	  try {
 	      while (r.readLine() != null) {
 	    	  result.add(r.readLine());
-	      }  
+	      }
 	  } catch (IOException e) {
 	      e.printStackTrace();
 	  }

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,7 +58,7 @@ import org.apache.log4j.helpers.OptionConverter;
  */
 
 public class TextPaneAppender extends AppenderSkeleton {
-    
+
   JTextPane textpane;
   StyledDocument doc;
   TracerPrintWriter tp;
@@ -66,11 +66,11 @@ public class TextPaneAppender extends AppenderSkeleton {
   QuietWriter qw;
   Hashtable attributes;
   Hashtable icons;
-  
+
   private String label;
-  
+
   private boolean fancy;
-    
+
   final String LABEL_OPTION = "Label";
   final String COLOR_OPTION_FATAL = "Color.Emerg";
   final String COLOR_OPTION_ERROR = "Color.Error";
@@ -81,19 +81,19 @@ public class TextPaneAppender extends AppenderSkeleton {
   final String FANCY_OPTION = "Fancy";
   final String FONT_NAME_OPTION = "Font.Name";
   final String FONT_SIZE_OPTION = "Font.Size";
-  
+
   public static Image loadIcon ( String path ) {
     Image img = null;
     try {
       URL url = ClassLoader.getSystemResource(path);
       img = (Image) (Toolkit.getDefaultToolkit()).getImage(url);
     } catch (Exception e) {
-      System.out.println("Exception occured: " + e.getMessage() + 
-			 " - " + e );   
-    }	
+      System.out.println("Exception occured: " + e.getMessage() +
+			 " - " + e );
+    }
     return (img);
   }
-  
+
   public TextPaneAppender(Layout layout, String name) {
     this();
     this.layout = layout;
@@ -102,7 +102,7 @@ public class TextPaneAppender extends AppenderSkeleton {
     createAttributes();
     createIcons();
   }
-    
+
   public TextPaneAppender() {
     super();
     setTextPane(new JTextPane());
@@ -117,12 +117,12 @@ public class TextPaneAppender extends AppenderSkeleton {
 
   public
   void close() {
-    
+
   }
-  
-  private void createAttributes() {	
+
+  private void createAttributes() {
     Priority prio[] = Priority.getAllPossiblePriorities();
-    
+
     attributes = new Hashtable();
     for (int i=0; i<prio.length;i++) {
       MutableAttributeSet att = new SimpleAttributeSet();
@@ -137,18 +137,18 @@ public class TextPaneAppender extends AppenderSkeleton {
 
   private void createIcons() {
     Priority prio[] = Priority.getAllPossiblePriorities();
-    
+
     icons = new Hashtable();
     for (int i=0; i<prio.length;i++) {
       if (prio[i].equals(Priority.FATAL))
 	icons.put(prio[i],new ImageIcon(loadIcon("icons/RedFlag.gif")));
-      if (prio[i].equals(Priority.ERROR))		
+      if (prio[i].equals(Priority.ERROR))
 	icons.put(prio[i],new ImageIcon(loadIcon("icons/RedFlag.gif")));
-      if (prio[i].equals(Priority.WARN))		
+      if (prio[i].equals(Priority.WARN))
 	icons.put(prio[i],new ImageIcon(loadIcon("icons/BlueFlag.gif")));
-      if (prio[i].equals(Priority.INFO))		
+      if (prio[i].equals(Priority.INFO))
 	icons.put(prio[i],new ImageIcon(loadIcon("icons/GreenFlag.gif")));
-      if (prio[i].equals(Priority.DEBUG))		
+      if (prio[i].equals(Priority.DEBUG))
 	icons.put(prio[i],new ImageIcon(loadIcon("icons/GreenFlag.gif")));
     }
   }
@@ -175,18 +175,18 @@ public class TextPaneAppender extends AppenderSkeleton {
       }
       doc.insertString(doc.getLength(),text+trace,
 		       (MutableAttributeSet)attributes.get(event.priority));
-	}	
+	}
     catch (BadLocationException badex) {
       System.err.println(badex);
-    }	
+    }
     textpane.setCaretPosition(doc.getLength());
   }
-  
+
   public
   JTextPane getTextPane() {
     return textpane;
   }
-  
+
   private
   static
   Color parseColor (String v) {
@@ -199,7 +199,7 @@ public class TextPaneAppender extends AppenderSkeleton {
     }
     return new Color(val[0],val[1],val[2],val[3]);
   }
-  
+
   private
   static
   String colorToString(Color c) {
@@ -212,13 +212,13 @@ public class TextPaneAppender extends AppenderSkeleton {
   void setLayout(Layout layout) {
     this.layout=layout;
   }
-  
+
   public
   void setName(String name) {
     this.name = name;
   }
-  
-    
+
+
   public
   void setTextPane(JTextPane textpane) {
     this.textpane=textpane;
@@ -226,23 +226,23 @@ public class TextPaneAppender extends AppenderSkeleton {
     textpane.setBackground(Color.lightGray);
     this.doc=textpane.getStyledDocument();
   }
-          
+
   private
   void setColor(Priority p, String v) {
     StyleConstants.setForeground(
-		      (MutableAttributeSet)attributes.get(p),parseColor(v));	
+		      (MutableAttributeSet)attributes.get(p),parseColor(v));
   }
-  
+
   private
   String getColor(Priority p) {
     Color c =  StyleConstants.getForeground(
 		      (MutableAttributeSet)attributes.get(p));
     return c == null ? null : colorToString(c);
   }
-  
+
   /////////////////////////////////////////////////////////////////////
   // option setters and getters
-  
+
   public
   void setLabel(String label) {
     this.label = label;
@@ -251,7 +251,7 @@ public class TextPaneAppender extends AppenderSkeleton {
   String getLabel() {
     return label;
   }
-  
+
   public
   void setColorEmerg(String color) {
     setColor(Priority.FATAL, color);
@@ -260,7 +260,7 @@ public class TextPaneAppender extends AppenderSkeleton {
   String getColorEmerg() {
     return getColor(Priority.FATAL);
   }
-  
+
   public
   void setColorError(String color) {
     setColor(Priority.ERROR, color);
@@ -269,7 +269,7 @@ public class TextPaneAppender extends AppenderSkeleton {
   String getColorError() {
     return getColor(Priority.ERROR);
   }
-  
+
   public
   void setColorWarn(String color) {
     setColor(Priority.WARN, color);
@@ -278,7 +278,7 @@ public class TextPaneAppender extends AppenderSkeleton {
   String getColorWarn() {
     return getColor(Priority.WARN);
   }
-  
+
   public
   void setColorInfo(String color) {
     setColor(Priority.INFO, color);
@@ -287,7 +287,7 @@ public class TextPaneAppender extends AppenderSkeleton {
   String getColorInfo() {
     return getColor(Priority.INFO);
   }
-  
+
   public
   void setColorDebug(String color) {
     setColor(Priority.DEBUG, color);
@@ -296,7 +296,7 @@ public class TextPaneAppender extends AppenderSkeleton {
   String getColorDebug() {
     return getColor(Priority.DEBUG);
   }
-  
+
   public
   void setColorBackground(String color) {
     textpane.setBackground(parseColor(color));
@@ -305,7 +305,7 @@ public class TextPaneAppender extends AppenderSkeleton {
   String getColorBackground() {
     return colorToString(textpane.getBackground());
   }
-  
+
   public
   void setFancy(boolean fancy) {
     this.fancy = fancy;
@@ -314,7 +314,7 @@ public class TextPaneAppender extends AppenderSkeleton {
   boolean getFancy() {
     return fancy;
   }
-  
+
   public
   void setFontSize(int size) {
     Enumeration e = attributes.elements();
@@ -323,13 +323,13 @@ public class TextPaneAppender extends AppenderSkeleton {
     }
     return;
   }
-  
+
   public
   int getFontSize() {
     AttributeSet attrSet = (AttributeSet) attributes.get(Priority.INFO);
     return StyleConstants.getFontSize(attrSet);
   }
-  
+
   public
   void setFontName(String name) {
     Enumeration e = attributes.elements();
@@ -338,7 +338,7 @@ public class TextPaneAppender extends AppenderSkeleton {
     }
     return;
   }
-  
+
   public
   String getFontName() {
     AttributeSet attrSet = (AttributeSet) attributes.get(Priority.INFO);

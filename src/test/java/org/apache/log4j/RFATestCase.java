@@ -100,7 +100,7 @@ public class RFATestCase {
 
 	/**
 	 * Tests 2 parameter constructor.
-	 * 
+	 *
 	 * @throws IOException if IOException during test.
 	 */
 	@Test
@@ -113,7 +113,7 @@ public class RFATestCase {
 
 	/**
 	 * Tests 3 parameter constructor.
-	 * 
+	 *
 	 * @throws IOException if IOException during test.
 	 */
 	@Test

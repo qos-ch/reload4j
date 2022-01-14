@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,9 +38,9 @@ import org.apache.trax.TemplatesBuilder;
 import org.apache.trax.Templates;
 import org.apache.trax.Transformer;
 import org.apache.trax.Result;
-import org.apache.trax.ProcessorException; 
+import org.apache.trax.ProcessorException;
 import org.apache.trax.ProcessorFactoryException;
-import org.apache.trax.TransformException; 
+import org.apache.trax.TransformException;
 
 
 import org.apache.serialize.SerializerFactory;
@@ -76,11 +76,11 @@ public class Transform {
     // TemplatesBuilder -- org.apache.xalan.processor.StylesheetHandler -- is
     // also a LexicalHandler).
     if(templatesBuilder instanceof LexicalHandler) {
-       reader.setProperty("http://xml.org/sax/properties/lexical-handler", 
+       reader.setProperty("http://xml.org/sax/properties/lexical-handler",
                            templatesBuilder);
     }
 
-    // Parse the stylesheet.                       
+    // Parse the stylesheet.
     reader.parse(args[0]);
 
     //Get the Templates object from the ContentHandler.
@@ -104,10 +104,10 @@ public class Transform {
     DC dc = new DC(chandler);
     reader.setContentHandler(dc);
     if(chandler instanceof LexicalHandler) {
-       reader.setProperty("http://xml.org/sax/properties/lexical-handler", 
+       reader.setProperty("http://xml.org/sax/properties/lexical-handler",
 			  chandler);
     } else {
-       reader.setProperty("http://xml.org/sax/properties/lexical-handler", 
+       reader.setProperty("http://xml.org/sax/properties/lexical-handler",
 			  null);
     }
 
@@ -115,7 +115,7 @@ public class Transform {
     // output ContentHandler work in separate threads to optimize
     // performance.
     reader.parse(args[1]);
-  }	
+  }
 }
 
  class DC implements ContentHandler {
@@ -129,49 +129,49 @@ public class Transform {
    }
 
 
-  public 
-  void characters(char[] ch, int start, int length) 
+  public
+  void characters(char[] ch, int start, int length)
                             throws org.xml.sax.SAXException {
     cat.debug("characters: ["+new String(ch, start, length)+ "] called");
     chandler.characters(ch, start, length);
 
   }
 
-  public 
+  public
   void endDocument() throws org.xml.sax.SAXException {
     cat.debug("endDocument called.");
     chandler.endDocument();
 
   }
 
-  public 
+  public
   void endElement(String namespaceURI, String localName, String qName)
                                            throws org.xml.sax.SAXException {
     cat.debug("endElement("+namespaceURI+", "+localName+", "+qName+") called");
     chandler.endElement(namespaceURI, localName, qName);
   }
-   
+
    public
    void endPrefixMapping(String prefix) throws org.xml.sax.SAXException {
      cat.debug("endPrefixMapping("+prefix+") called");
      chandler.endPrefixMapping(prefix);
    }
 
-  public 
-  void ignorableWhitespace(char[] ch, int start, int length) 
+  public
+  void ignorableWhitespace(char[] ch, int start, int length)
                                      throws org.xml.sax.SAXException {
     cat.debug("ignorableWhitespace called");
     chandler.ignorableWhitespace(ch, start, length);
   }
-  
-  public 
-  void processingInstruction(java.lang.String target, java.lang.String data) 
+
+  public
+  void processingInstruction(java.lang.String target, java.lang.String data)
                                               throws org.xml.sax.SAXException {
     cat.debug("processingInstruction called");
     chandler.processingInstruction(target, data);
   }
 
-  public 
+  public
   void setDocumentLocator(Locator locator)  {
     cat.debug("setDocumentLocator called");
     chandler.setDocumentLocator(locator);
@@ -180,22 +180,22 @@ public class Transform {
    public
    void skippedEntity(String name) throws org.xml.sax.SAXException {
      cat.debug("skippedEntity("+name+")  called");
-     chandler.skippedEntity(name);     
+     chandler.skippedEntity(name);
    }
-  
-  public 
+
+  public
   void startDocument() throws org.xml.sax.SAXException {
     cat.debug("startDocument called");
     chandler.startDocument();
   }
-  
-  public 
+
+  public
   void startElement(String namespaceURI, String localName, String qName,
 		    Attributes atts) throws org.xml.sax.SAXException {
     cat.debug("startElement("+namespaceURI+", "+localName+", "+qName+")called");
 
     if("log4j:event".equals(qName)) {
-      cat.debug("-------------");      
+      cat.debug("-------------");
       if(atts instanceof org.xml.sax.helpers.AttributesImpl) {
 	AttributesImpl ai = (AttributesImpl) atts;
 	int i = atts.getIndex("timestamp");
@@ -208,12 +208,12 @@ public class Transform {
   }
 
    public
-   void startPrefixMapping(String prefix, String uri) 
+   void startPrefixMapping(String prefix, String uri)
                                           throws org.xml.sax.SAXException {
-     cat.debug("startPrefixMapping("+prefix+", "+uri+") called");     
+     cat.debug("startPrefixMapping("+prefix+", "+uri+") called");
      chandler.startPrefixMapping(prefix, uri);
    }
-           
-   
+
+
 }
 

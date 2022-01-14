@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.helpers.LogLog;
 
 /**
-   A simple example showing logger subclassing. 
+   A simple example showing logger subclassing.
 
    <p>The example should make it clear that subclasses follow the
    hierarchy. You should also try running this example with a <a
@@ -36,18 +36,18 @@ import org.apache.log4j.helpers.LogLog;
 public class MyLoggerTest {
 
   /**
-     When called wihtout arguments, this program will just print 
+     When called wihtout arguments, this program will just print
      <pre>
        DEBUG [main] some.cat - Hello world.
      </pre>
      and exit.
-     
+
      <b>However, it can be called with a configuration file in XML or
      properties format.
 
    */
   static public void main(String[] args) {
-    
+
     if(args.length == 0) {
       // Note that the appender is added to root but that the log
       // request is made to an instance of MyLogger. The output still
@@ -66,7 +66,7 @@ public class MyLoggerTest {
       usage("Incorrect number of parameters.");
     }
     try {
-      MyLogger c = (MyLogger) MyLogger.getLogger("some.cat");    
+      MyLogger c = (MyLogger) MyLogger.getLogger("some.cat");
       c.trace("Hello");
       c.debug("Hello");
     } catch(ClassCastException e) {

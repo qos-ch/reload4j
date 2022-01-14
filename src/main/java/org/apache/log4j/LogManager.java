@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,9 +51,9 @@ public class LogManager {
    * become package protected in future versions.
    * */
   static public final String DEFAULT_CONFIGURATION_FILE = "log4j.properties";
-  
-  static final String DEFAULT_XML_CONFIGURATION_FILE = "log4j.xml";  
-   
+
+  static final String DEFAULT_XML_CONFIGURATION_FILE = "log4j.xml";
+
   /**
    * @deprecated This variable is for internal use only. It will
    * become private in future versions.
@@ -70,7 +70,7 @@ public class LogManager {
   * @deprecated This variable is for internal use only. It will
   * become private in future versions.
   */
-  public static final String DEFAULT_INIT_OVERRIDE_KEY = 
+  public static final String DEFAULT_INIT_OVERRIDE_KEY =
                                                  "log4j.defaultInitOverride";
 
 
@@ -91,11 +91,11 @@ public class LogManager {
     if(override == null || "false".equalsIgnoreCase(override)) {
 
       String configurationOptionStr = OptionConverter.getSystemProperty(
-							  DEFAULT_CONFIGURATION_KEY, 
+							  DEFAULT_CONFIGURATION_KEY,
 							  null);
 
       String configuratorClassName = OptionConverter.getSystemProperty(
-                                                   CONFIGURATOR_CLASS_KEY, 
+                                                   CONFIGURATOR_CLASS_KEY,
 						   null);
 
       URL url = null;
@@ -103,7 +103,7 @@ public class LogManager {
       // if the user has not specified the log4j.configuration
       // property, we search first for the file "log4j.xml" and then
       // "log4j.properties"
-      if(configurationOptionStr == null) {	
+      if(configurationOptionStr == null) {
 	url = Loader.getResource(DEFAULT_XML_CONFIGURATION_FILE);
 	if(url == null) {
 	  url = Loader.getResource(DEFAULT_CONFIGURATION_FILE);
@@ -114,10 +114,10 @@ public class LogManager {
 	} catch (MalformedURLException ex) {
 	  // so, resource is not a URL:
 	  // attempt to get the resource from the class path
-	  url = Loader.getResource(configurationOptionStr); 
-	}	
+	  url = Loader.getResource(configurationOptionStr);
+	}
       }
-      
+
       // If we have a non-null url, then delegate the rest of the
       // configuration to the OptionConverter.selectAndConfigure
       // method.
@@ -133,15 +133,15 @@ public class LogManager {
 	    LogLog.debug("Could not find resource: ["+configurationOptionStr+"].");
       }
     } else {
-        LogLog.debug("Default initialization of overridden by " + 
-            DEFAULT_INIT_OVERRIDE_KEY + "property."); 
-    }  
-  } 
+        LogLog.debug("Default initialization of overridden by " +
+            DEFAULT_INIT_OVERRIDE_KEY + "property.");
+    }
+  }
 
   /**
      Sets <code>LoggerFactory</code> but only if the correct
      <em>guard</em> is passed as parameter.
-     
+
      <p>Initally the guard is null.  If the guard is
      <code>null</code>, then invoking this method sets the logger
      factory and the guard. Following invocations will throw a {@link
@@ -150,7 +150,7 @@ public class LogManager {
 
      <p>This allows a high-level component to set the {@link
      RepositorySelector} used by the <code>LogManager</code>.
-     
+
      <p>For example, when tomcat starts it will be able to install its
      own repository selector. However, if and when Tomcat is embedded
      within JBoss, then JBoss will install its own repository selector
@@ -158,7 +158,7 @@ public class LogManager {
      JBoss.  */
   static
   public
-  void setRepositorySelector(RepositorySelector selector, Object guard) 
+  void setRepositorySelector(RepositorySelector selector, Object guard)
                                                  throws IllegalArgumentException {
     if((LogManager.guard != null) && (LogManager.guard != guard)) {
       throw new IllegalArgumentException(
@@ -212,27 +212,27 @@ public class LogManager {
      Retrieve the appropriate root logger.
    */
   public
-  static 
+  static
   Logger getRootLogger() {
      // Delegate the actual manufacturing of the logger to the logger repository.
     return getLoggerRepository().getRootLogger();
   }
 
   /**
-     Retrieve the appropriate {@link Logger} instance.  
+     Retrieve the appropriate {@link Logger} instance.
   */
   public
-  static 
+  static
   Logger getLogger(final String name) {
      // Delegate the actual manufacturing of the logger to the logger repository.
     return getLoggerRepository().getLogger(name);
   }
 
  /**
-     Retrieve the appropriate {@link Logger} instance.  
+     Retrieve the appropriate {@link Logger} instance.
   */
   public
-  static 
+  static
   Logger getLogger(final Class clazz) {
      // Delegate the actual manufacturing of the logger to the logger repository.
     return getLoggerRepository().getLogger(clazz.getName());
@@ -240,14 +240,14 @@ public class LogManager {
 
 
   /**
-     Retrieve the appropriate {@link Logger} instance.  
+     Retrieve the appropriate {@link Logger} instance.
   */
   public
-  static 
+  static
   Logger getLogger(final String name, final LoggerFactory factory) {
      // Delegate the actual manufacturing of the logger to the logger repository.
     return getLoggerRepository().getLogger(name, factory);
-  }  
+  }
 
   public
   static

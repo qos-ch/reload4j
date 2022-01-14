@@ -47,7 +47,7 @@ public class UtilLoggingLevel extends Level {
     public static final int WARNING_INT = 21000;
 
     //INFO level defined in parent as 20000..no need to redefine here
-    
+
     /**
      * Numerical value for CONFIG.
      */

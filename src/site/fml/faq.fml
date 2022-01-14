@@ -758,14 +758,14 @@ public class Foo {
       <answer>
 	    <p>There are several reasons this can occur:
 		<ul>
-			<li>Repeated configuration of log4j:  By default, each call to 
+			<li>Repeated configuration of log4j:  By default, each call to
 			PropertyConfigurator.configure or DOMConfigurator.configure is
 			culmulative.  If your configuration file defines a file appender,
 			calling PropertyConfigurator.configure three times will create
 			three distinct instances and connect each of them to the specified logger.</li>
 			<li>Attaching the same appender to multiple loggers: if an appender is
 			attached to the root logger and child logger, then any message
-			sent to the child logger will go to the appender twice (unless 
+			sent to the child logger will go to the appender twice (unless
 			additivity is set to false).</li>
 		</ul></p>
 	  </answer>
@@ -814,7 +814,7 @@ public class Foo {
                 the defensive measures that will be incorporated.</p>
 
              <p>For more background, see bugs
-              <a href="http://issues.apache.org/bugzilla/show_bug.cgi?id=40212">40212</a>,   
+              <a href="http://issues.apache.org/bugzilla/show_bug.cgi?id=40212">40212</a>,
               <a href="http://issues.apache.org/bugzilla/show_bug.cgi?id=41939">41939</a>,
               <a href="http://issues.apache.org/bugzilla/show_bug.cgi?id=43867">43867</a>,
               <a href="http://issues.apache.org/bugzilla/show_bug.cgi?id=40159">40159</a>,
@@ -828,7 +828,7 @@ public class Foo {
           <question>Why isn't my rolling file appender properly rolling files or why does
               logging events get written to the old log file?</question>
           <answer>Most commonly this is due to multiple appenders attempting to
-          use the same file path and most likely by having multiple independent 
+          use the same file path and most likely by having multiple independent
           instances of log4j read the same configuration file, however having the log file
           open by another process (an editor, backup utility) can also interfere with rolling.
           No provided file appender is reliable when multiple instances are writing to

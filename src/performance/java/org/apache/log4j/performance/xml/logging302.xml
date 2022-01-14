@@ -30,14 +30,14 @@
               <param name="DateFormat" value="RELATIVE"/>
 	   </layout>
 	</appender>
- 
-        <category name="A0123456789">  	
+
+        <category name="A0123456789">
 	   <priority value ="info" />
-        </category>  	
+        </category>
 
 	<root>
 	   <priority value ="debug" />
    	   <appender-ref ref="ASYNC" />
 	</root>
-	
+
 </log4j:configuration>

@@ -18,7 +18,7 @@
 -->
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
-<log4j:configuration debug="true" 
+<log4j:configuration debug="true"
 xmlns:log4j='http://jakarta.apache.org/log4j/'>
 
 
@@ -26,29 +26,29 @@ xmlns:log4j='http://jakarta.apache.org/log4j/'>
         <appender name="remote" class="org.apache.log4j.net.SocketAppender">
 
                 <!-- fallback on error -->
-                <errorHandler 
+                <errorHandler
 class="org.apache.log4j.varia.FallbackErrorHandler">
                         <logger-ref ref="org.apache.log4j.net.SocketAppenderTest"/>
                         <appender-ref ref="lastOnly"/>
                 </errorHandler>
-                
+
                 <param name="RemoteHost" value="localhost"/>
                 <param name="Port" value="8189"/>
                 <param name="ReconnectionDelay" value="0"/>
         </appender>
 
-        
+
         <!-- secondary appender -->
-        <appender name="lastOnly" 
+        <appender name="lastOnly"
 class="org.apache.log4j.net.SocketAppenderTest$LastOnlyAppender"></appender>
 
-        
+
         <!-- logger -->
         <logger name="SocketAppenderTest">
                 <appender-ref ref="remote"/>
         </logger>
 
-        
+
         <!-- logger
              dummy, so i can have early access to lastOnly appender instance
         -->
@@ -56,6 +56,6 @@ class="org.apache.log4j.net.SocketAppenderTest$LastOnlyAppender"></appender>
                 <appender-ref ref="lastOnly"/>
         </logger>
 
-        
+
 </log4j:configuration>
 

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,7 @@ import org.apache.log4j.util.Compare;
 
 /**
  * Exhaustive test of the DailyRollingFileAppender compute algorithm.
- * 
+ *
  * @author Ceki G&uuml;lc&uuml;
  * @author Curt Arnold
  */
@@ -40,7 +40,7 @@ public class DRFATestCase extends TestCase {
 
 	/**
 	 * Create new test.
-	 * 
+	 *
 	 * @param name test name.
 	 */
 	public DRFATestCase(final String name) {
@@ -402,7 +402,7 @@ public class DRFATestCase extends TestCase {
 
 	/**
 	 * Naive append method to combine rollover fragments.
-	 * 
+	 *
 	 * @param combined stream to which source is appended.
 	 * @param source   stream containing bytes to append.
 	 * @param buf      byte array to use in transfer.
@@ -484,7 +484,7 @@ public class DRFATestCase extends TestCase {
 	 * incorrect in non-English locales. See bug 40888.
 	 *
 	 * The implementation in DailyRollingFileAppender uses incorrect timezone.
-	 
+
 	 */
 	public void ignoreTestWeeklyRollover() {
 		DailyRollingFileAppender drfa = new DailyRollingFileAppender();

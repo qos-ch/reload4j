@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -135,14 +135,14 @@ WORD getType(jint priority) {
 
 HKEY regGetKey(wchar_t *subkey, DWORD *disposition) {
   HKEY hkey = 0;
-  RegCreateKeyExW(HKEY_LOCAL_MACHINE, subkey, 0, NULL, 
-		 REG_OPTION_NON_VOLATILE, KEY_SET_VALUE, NULL, 
+  RegCreateKeyExW(HKEY_LOCAL_MACHINE, subkey, 0, NULL,
+		 REG_OPTION_NON_VOLATILE, KEY_SET_VALUE, NULL,
 		 &hkey, disposition);
   return hkey;
 }
 
 void regSetString(HKEY hkey, wchar_t *name, wchar_t *value) {
-  RegSetValueExW(hkey, name, 0, REG_EXPAND_SZ, 
+  RegSetValueExW(hkey, name, 0, REG_EXPAND_SZ,
       (LPBYTE)value, (wcslen(value) + 1) * sizeof(wchar_t));
 }
 
@@ -158,7 +158,7 @@ void addRegistryInfo(wchar_t *source) {
   DWORD disposition;
   HKEY hkey = 0;
   wchar_t subkey[256];
-  
+
   wcscpy(subkey, prefix);
   wcscat(subkey, source);
   hkey = regGetKey(subkey, &disposition);
@@ -228,21 +228,21 @@ JNIEXPORT void JNICALL Java_org_apache_log4j_nt_NTEventLogAppender_reportEvent(
     handle = RegisterEventSourceW(NULL, L"Log4j");
     localHandle = JNI_TRUE;
   }
-  
+
   // convert Java String to character array
   jsize msgLen = env->GetStringLength(jstr);
   jchar* msg = (jchar*) malloc((msgLen + 1) * sizeof(jchar));
   env->GetStringRegion(jstr, 0, msgLen, msg);
   msg[msgLen] = 0;
-  
+
   // This is the only message supported by the package. It is backed by
   // a message resource which consists of just '%1' which is replaced
   // by the string we just created.
   const DWORD messageID = 0x1000;
-  ReportEventW(handle, getType(priority), 
-	      getCategory(priority), 
+  ReportEventW(handle, getType(priority),
+	      getCategory(priority),
 	      messageID, NULL, 1, 0, (const wchar_t**) &msg, NULL);
-  
+
   free((void *)msg);
   if (localHandle == JNI_TRUE) {
     // Created the handle here so free it here too.
@@ -257,8 +257,8 @@ JNIEXPORT void JNICALL Java_org_apache_log4j_nt_NTEventLogAppender_reportEvent(
  * Signature: (I)V
  */
 JNIEXPORT void JNICALL Java_org_apache_log4j_nt_NTEventLogAppender_deregisterEventSource(
-JNIEnv *env, 
-jobject java_this, 
+JNIEnv *env,
+jobject java_this,
 jint handle)
 {
 
@@ -286,15 +286,15 @@ __declspec(dllexport) HRESULT __stdcall DllRegisterServer(void) {
 			const wchar_t key[] = L"SYSTEM\\CurrentControlSet\\Services\\EventLog\\Application\\Log4j";
 			DWORD disposition;
 			HKEY hkey = 0;
-  
-			LONG stat = RegCreateKeyExW(HKEY_LOCAL_MACHINE, key, 0, NULL, 
-				REG_OPTION_NON_VOLATILE, KEY_SET_VALUE, NULL, 
+
+			LONG stat = RegCreateKeyExW(HKEY_LOCAL_MACHINE, key, 0, NULL,
+				REG_OPTION_NON_VOLATILE, KEY_SET_VALUE, NULL,
 				&hkey, &disposition);
 			if (stat == ERROR_SUCCESS) {
-				stat = RegSetValueExW(hkey, L"EventMessageFile", 0, REG_EXPAND_SZ, 
+				stat = RegSetValueExW(hkey, L"EventMessageFile", 0, REG_EXPAND_SZ,
 					(LPBYTE) modpath, (wcslen(modpath) + 1) * sizeof(wchar_t));
 				if(stat == ERROR_SUCCESS) {
-					stat = RegSetValueExW(hkey, L"CategoryMessageFile", 0, REG_EXPAND_SZ, 
+					stat = RegSetValueExW(hkey, L"CategoryMessageFile", 0, REG_EXPAND_SZ,
 						(LPBYTE) modpath, (wcslen(modpath) + 1) * sizeof(wchar_t));
 				}
 				if(stat == ERROR_SUCCESS) {
@@ -322,7 +322,7 @@ __declspec(dllexport) HRESULT __stdcall DllRegisterServer(void) {
 //
 //
 __declspec(dllexport) HRESULT __stdcall DllUnregisterServer(void) {
-	LONG stat = RegDeleteKeyW(HKEY_LOCAL_MACHINE, 
+	LONG stat = RegDeleteKeyW(HKEY_LOCAL_MACHINE,
 		L"SYSTEM\\CurrentControlSet\\Services\\EventLog\\Application\\Log4j");
 	return (stat == ERROR_SUCCESS || stat == ERROR_FILE_NOT_FOUND) ? S_OK : E_FAIL;
 }
@@ -340,7 +340,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	case DLL_PROCESS_DETACH:
 	    gModule = 0;
 	    break;
-	    
+
 	case DLL_THREAD_ATTACH:
 	case DLL_THREAD_DETACH:
 		break;

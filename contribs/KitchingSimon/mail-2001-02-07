@@ -17,20 +17,20 @@
 -->
 
 
-Delivered-To: urba-cgu@urbanet.ch 
-Mailing-List: contact log4j-dev-help@jakarta.apache.org; run by ezmlm 
-List-Post: <mailto:log4j-dev@jakarta.apache.org> 
-List-Help: <mailto:log4j-dev-help@jakarta.apache.org> 
-List-Unsubscribe: <mailto:log4j-dev-unsubscribe@jakarta.apache.org> 
-List-Subscribe: <mailto:log4j-dev-subscribe@jakarta.apache.org> 
-Reply-To: "LOG4J Developers Mailing List" <log4j-dev@jakarta.apache.org> 
-Delivered-To: mailing list log4j-dev@jakarta.apache.org 
-From: Kitching Simon <Simon.Kitching@orange.ch> 
-To: "'log4j-dev@jakarta.apache.org'" <log4j-dev@jakarta.apache.org> 
-Subject: PATCH: New classes: DatagramStreamAppender & friends 
-Date: Wed, 7 Feb 2001 12:41:54 +0100 
-X-Mailer: Internet Mail Service (5.5.2650.21) 
-X-Spam-Rating: h31.sny.collab.net 1.6.2 0/1000/N 
+Delivered-To: urba-cgu@urbanet.ch
+Mailing-List: contact log4j-dev-help@jakarta.apache.org; run by ezmlm
+List-Post: <mailto:log4j-dev@jakarta.apache.org>
+List-Help: <mailto:log4j-dev-help@jakarta.apache.org>
+List-Unsubscribe: <mailto:log4j-dev-unsubscribe@jakarta.apache.org>
+List-Subscribe: <mailto:log4j-dev-subscribe@jakarta.apache.org>
+Reply-To: "LOG4J Developers Mailing List" <log4j-dev@jakarta.apache.org>
+Delivered-To: mailing list log4j-dev@jakarta.apache.org
+From: Kitching Simon <Simon.Kitching@orange.ch>
+To: "'log4j-dev@jakarta.apache.org'" <log4j-dev@jakarta.apache.org>
+Subject: PATCH: New classes: DatagramStreamAppender & friends
+Date: Wed, 7 Feb 2001 12:41:54 +0100
+X-Mailer: Internet Mail Service (5.5.2650.21)
+X-Spam-Rating: h31.sny.collab.net 1.6.2 0/1000/N
 
 
 Hi log4j developers....
@@ -65,11 +65,11 @@ with a fair number of changes.
 
 
 DatagramStringWriter is based on SyslogWriter, with a few changes.
-In particular, it takes an "encoding" parameter, so that the character 
+In particular, it takes an "encoding" parameter, so that the character
 encoding used can be specified, and a "port".
 
 
-SingleLineTracerPrintWriter is almost identical to 
+SingleLineTracerPrintWriter is almost identical to
 SyslogTracerPrintWriter; just the name & some comments
 have changed. [I didn't want to call a class called SyslogXXX
 from the DatagramStreamAppender classes]
@@ -82,23 +82,23 @@ classes. These classes should be compatible with SyslogAppender,
 as they implement the same functionality, or a superset of the
 Syslog functionality, and have more "general" names.
 ------------------------------
- <<DatagramStringAppender.java>> 
+ <<DatagramStringAppender.java>>
 
 
 
- <<DatagramStringWriter.java>> 
+ <<DatagramStringWriter.java>>
 
 
- <<SingleLineTracerPrintWriter.java>> 
+ <<SingleLineTracerPrintWriter.java>>
 
 
 --------------------------------
 And here's a simple perl UDP server, and an xml
 config file for testing the appender.
- <<logconfig.xml>> 
+ <<logconfig.xml>>
 
 
- <<udpserver.pl>> 
+ <<udpserver.pl>>
 
 
 Regards,

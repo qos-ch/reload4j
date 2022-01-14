@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,7 +28,7 @@ import org.apache.log4j.helpers.PatternConverter;
 /**
 
    A flexible layout configurable with pattern string.
-   
+
    This code is known to have synchronization and other issues
    which are not present in org.apache.log4j.EnhancedPatternLayout.
    EnhancedPatternLayout should be used in preference to PatternLayout.
@@ -235,7 +235,7 @@ import org.apache.log4j.helpers.PatternConverter;
 
      <td align=center><b>r</b></td>
 
-     <td>Used to output the number of milliseconds elapsed from the construction 
+     <td>Used to output the number of milliseconds elapsed from the construction
      of the layout until the creation of the logging event.</td>
    </tr>
 
@@ -261,18 +261,18 @@ import org.apache.log4j.helpers.PatternConverter;
    <tr>
      <td align=center><b>X</b></td>
 
-     <td> 
-     
+     <td>
+
      <p>Used to output the MDC (mapped diagnostic context) associated
      with the thread that generated the logging event. The <b>X</b>
      conversion character <em>must</em> be followed by the key for the
      map placed between braces, as in <b>%X{clientNumber}</b> where
      <code>clientNumber</code> is the key. The value in the MDC
      corresponding to the key will be output.</p>
-     
+
      <p>See {@link MDC} class for more details.
      </p>
-     
+
      </td>
    </tr>
 

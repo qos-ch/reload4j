@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,15 +32,15 @@ public class SystemTime {
   static int RUN_LENGTH = 1000000;
 
   static
-  public 
-  void main(String[] args) {    
+  public
+  void main(String[] args) {
     double t = systemCurrentTimeLoop();
     System.out.println("Average System.currentTimeMillis() call took " + t);
 
     t = currentThreadNameloop();
-    System.out.println("Average Thread.currentThread().getName() call took " 
+    System.out.println("Average Thread.currentThread().getName() call took "
 		       + t);
-    
+
   }
 
   static
@@ -49,7 +49,7 @@ public class SystemTime {
     for(int i = 0; i < RUN_LENGTH; i++) {
       System.currentTimeMillis();
     }
-    return (System.currentTimeMillis() - before)*1000.0/RUN_LENGTH;    
+    return (System.currentTimeMillis() - before)*1000.0/RUN_LENGTH;
   }
 
   static
@@ -58,6 +58,6 @@ public class SystemTime {
     for(int i = 0; i < RUN_LENGTH; i++) {
       Thread.currentThread().getName();
     }
-    return (System.currentTimeMillis() - before)*1000.0/RUN_LENGTH;    
-  }  
+    return (System.currentTimeMillis() - before)*1000.0/RUN_LENGTH;
+  }
 }

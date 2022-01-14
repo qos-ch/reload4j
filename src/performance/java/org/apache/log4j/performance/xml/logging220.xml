@@ -27,14 +27,14 @@
     <layout class="org.apache.log4j.SimpleLayout">
     </layout>
   </appender>
-  
-  <category name="A0123456789">  	
+
+  <category name="A0123456789">
     <priority value ="info" />
-  </category>  	
-  
+  </category>
+
   <root>
     <priority value ="debug" />
     <appender-ref ref="NULL" />
   </root>
-  
+
 </log4j:configuration>

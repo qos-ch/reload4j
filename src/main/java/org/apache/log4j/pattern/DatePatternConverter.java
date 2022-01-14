@@ -104,7 +104,7 @@ public final class DatePatternConverter extends LoggingEventPatternConverter {
         return dateFormat.parse(source, pos);
     }
   }
-  
+
   /**
    * Private constructor.
    * @param options options, may be null.

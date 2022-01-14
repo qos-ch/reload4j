@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -95,7 +95,7 @@ public class PropertyConfigurator implements Configurator {
   /**
      Used internally to keep track of configured appenders.
    */
-  protected Hashtable registry = new Hashtable(11);  
+  protected Hashtable registry = new Hashtable(11);
   private LoggerRepository repository;
   protected LoggerFactory loggerFactory = new DefaultCategoryFactory();
 
@@ -111,8 +111,8 @@ public class PropertyConfigurator implements Configurator {
   private static final String      THROWABLE_RENDERER_PREFIX = "log4j.throwableRenderer";
   private static final String LOGGER_REF	= "logger-ref";
   private static final String ROOT_REF		= "root-ref";
-  private static final String APPENDER_REF_TAG 	= "appender-ref";  
-  
+  private static final String APPENDER_REF_TAG 	= "appender-ref";
+
 
   /** Key for specifying the {@link org.apache.log4j.spi.LoggerFactory
       LoggerFactory}.  Currently set to "<code>log4j.loggerFactory</code>".  */
@@ -510,7 +510,7 @@ new PropertyConfigurator().doConfigure(inputStream,
 						     (Level) Level.ALL));
       LogLog.debug("Hierarchy threshold set to ["+hierarchy.getThreshold()+"].");
     }
-    
+
     configureRootCategory(properties, hierarchy);
     configureLoggerFactory(properties);
     parseCatsAndRenderers(properties, hierarchy);
@@ -523,7 +523,7 @@ new PropertyConfigurator().doConfigure(inputStream,
 
     /**
      * Read configuration options from url <code>configURL</code>.
-     * 
+     *
      * @since 1.2.17
      */
     public void doConfigure(InputStream inputStream, LoggerRepository hierarchy) {
@@ -742,7 +742,7 @@ new PropertyConfigurator().doConfigure(inputStream,
       // If the level value is inherited, set category level value to
       // null. We also check that the user has not specified inherited for the
       // root category.
-      if(INHERITED.equalsIgnoreCase(levelStr) || 
+      if(INHERITED.equalsIgnoreCase(levelStr) ||
  	                                  NULL.equalsIgnoreCase(levelStr)) {
 	if(loggerName.equals(INTERNAL_ROOT_NAME)) {
 	  LogLog.warn("The root logger cannot be set to null.");
@@ -818,7 +818,7 @@ new PropertyConfigurator().doConfigure(inputStream,
     			  LogLog.debug("Parsing errorhandler options for \"" + appenderName +"\".");
     			  parseErrorHandler(eh, errorHandlerPrefix, props, repository);
     			  final Properties edited = new Properties();
-    			  final String[] keys = new String[] { 
+    			  final String[] keys = new String[] {
     					  errorHandlerPrefix + "." + ROOT_REF,
     					  errorHandlerPrefix + "." + LOGGER_REF,
     					  errorHandlerPrefix + "." + APPENDER_REF_TAG
@@ -836,7 +836,7 @@ new PropertyConfigurator().doConfigure(inputStream,
     		      PropertySetter.setProperties(eh, edited, errorHandlerPrefix + ".");
     			  LogLog.debug("End of errorhandler parsing for \"" + appenderName +"\".");
     		}
-    	  
+
       }
       //configureOptionHandler((OptionHandler) appender, prefix + ".", props);
       PropertySetter.setProperties(appender, props, prefix + ".");
@@ -846,11 +846,11 @@ new PropertyConfigurator().doConfigure(inputStream,
     registryPut(appender);
     return appender;
   }
-  
+
   private void parseErrorHandler(
 		  final ErrorHandler eh,
 		  final String errorHandlerPrefix,
-		  final Properties props, 
+		  final Properties props,
 		  final LoggerRepository hierarchy) {
 		boolean rootRef = OptionConverter.toBoolean(
 					  OptionConverter.findAndSubst(errorHandlerPrefix + ROOT_REF, props), false);
@@ -871,8 +871,8 @@ new PropertyConfigurator().doConfigure(inputStream,
 			}
 		}
   }
-				
-  
+
+
   void parseAppenderFilters(Properties props, String appenderName, Appender appender) {
     // extract filters and filter options from props into a hashtable mapping
     // the property name defining the filter class to a list of pre-parsed

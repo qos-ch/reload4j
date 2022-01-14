@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,8 +33,8 @@ public class TextPaneAppenderExample implements ActionListener {
     Category gui;
     Priority prio[];
     JTabbedPane logview;
-    
-    
+
+
     public TextPaneAppenderExample () {
 	mainframe = new JFrame("Testing the TextPaneAppender...");
 	mainframe.setSize(300,300);
@@ -51,7 +51,7 @@ public class TextPaneAppenderExample implements ActionListener {
 	gui = Category.getInstance(this.getClass().getName());
 	gui.addAppender(tpa);
     }
-    
+
     public void createMenuBar() {
 	JMenu file = new JMenu("File");
 	JMenuItem exit = new JMenuItem("Exit");
@@ -63,14 +63,14 @@ public class TextPaneAppenderExample implements ActionListener {
 	file.add(exit);
 	JMenuBar mb = new JMenuBar();
 	mb.add(file);
-	
+
 	JMenu logevent = new JMenu("LoggingEvents");
 	JMenu selectprio = new JMenu("Priority");
-	
+
 	prio = Priority.getAllPossiblePriorities();
 	JRadioButtonMenuItem priority[]= new JRadioButtonMenuItem[prio.length];
 	priorities = new ButtonGroup();
-	
+
 	for (int i=0; i<prio.length;i++) {
 	    if (i==0)
 		priority[i] = new JRadioButtonMenuItem(prio[i].toString(),true);
@@ -81,19 +81,19 @@ public class TextPaneAppenderExample implements ActionListener {
 	    priorities.add(priority[i]);
 
 	}
-	
+
 	logevent.add(selectprio);
-	
+
 	JMenuItem lognow = new JMenuItem("LogIt!");
 	lognow.addActionListener(this);
 	logevent.add(lognow);
-	
+
 	mb.add(logevent);
-	
+
 	mainframe.setJMenuBar(mb);
-	
+
     }
-    
+
     public void actionPerformed(ActionEvent ae){
 	String logtext = JOptionPane.showInputDialog("Text to log");
 	if (logtext == null) logtext="NO Input";
@@ -107,5 +107,5 @@ public class TextPaneAppenderExample implements ActionListener {
     static public void main(String args[]) {
 	TextPaneAppenderExample tpex = new TextPaneAppenderExample();
     }
-    
+
 }

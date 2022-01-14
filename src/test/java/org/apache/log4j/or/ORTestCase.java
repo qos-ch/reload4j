@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -61,8 +61,8 @@ public class ORTestCase extends TestCase {
   void setUp() {
     aor = new UTObjectRenderer("A");
     bor = new UTObjectRenderer("B");
-    xor = new UTObjectRenderer("X");    
-    yor = new UTObjectRenderer("Y");    
+    xor = new UTObjectRenderer("X");
+    yor = new UTObjectRenderer("Y");
 
     oor = new UTObjectRenderer("Object");
     nor = new UTObjectRenderer("Number");
@@ -134,7 +134,7 @@ public class ORTestCase extends TestCase {
 
     map.put(Object.class, oor);
     map.put(Number.class, nor);
- 
+
     ObjectRenderer r = map.get(Integer.class);
     assertEquals(r, nor);
   }
@@ -144,7 +144,7 @@ public class ORTestCase extends TestCase {
   public
   void test7() throws Exception {
     RendererMap map = new RendererMap();
-    Class<?> comparable = null; 
+    Class<?> comparable = null;
     try {
         comparable = Class.forName("java.lang.Comparable");
     } catch(Exception ex) {
@@ -162,7 +162,7 @@ public class ORTestCase extends TestCase {
   public
   void test8() {
     RendererMap map = new RendererMap();
-    map.put(Serializable.class, sor); 
+    map.put(Serializable.class, sor);
     ObjectRenderer r = map.get(Integer.class);
     assertEquals(r, sor);
   }
@@ -172,7 +172,7 @@ public class ORTestCase extends TestCase {
   public
   void test9() {
     RendererMap map = new RendererMap();
-    map.put(Y.class, yor); 
+    map.put(Y.class, yor);
     ObjectRenderer r = map.get(B.class);
     assertEquals(r, yor);
   }
@@ -182,7 +182,7 @@ public class ORTestCase extends TestCase {
   public
   void test10() {
     RendererMap map = new RendererMap();
-    map.put(X.class, xor); 
+    map.put(X.class, xor);
     ObjectRenderer r = map.get(B.class);
     assertEquals(r, xor);
   }
@@ -212,7 +212,7 @@ public class ORTestCase extends TestCase {
 }
 
 class UTObjectRenderer implements ObjectRenderer {
-  
+
   String name;
 
   UTObjectRenderer(String name) {

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -75,7 +75,7 @@ public class DOMTestCase {
   static String EXCEPTION5 = "\\s*at .*\\(.*libgcj.*\\)";
 
 
-  static String TEST1_1A_PAT = 
+  static String TEST1_1A_PAT =
                        "(TRACE|DEBUG|INFO |WARN |ERROR|FATAL) \\w*\\.\\w* - Message \\d";
 
   static String TEST1_1B_PAT = "(TRACE|DEBUG|INFO |WARN |ERROR|FATAL) root - Message \\d";
@@ -85,7 +85,7 @@ public class DOMTestCase {
 
 
 
-  Logger root; 
+  Logger root;
   Logger logger;
 
 
@@ -96,7 +96,7 @@ public class DOMTestCase {
   }
 
   @After
-  public void tearDown() {  
+  public void tearDown() {
     root.getLoggerRepository().resetConfiguration();
   }
 
@@ -105,10 +105,10 @@ public class DOMTestCase {
     DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/DOMTestCase1.xml");
     common();
 
-    ControlFilter cf1 = new ControlFilter(new String[]{TEST1_1A_PAT, TEST1_1B_PAT, 
+    ControlFilter cf1 = new ControlFilter(new String[]{TEST1_1A_PAT, TEST1_1B_PAT,
 					       EXCEPTION1, EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5});
 
-    ControlFilter cf2 = new ControlFilter(new String[]{TEST1_2_PAT, 
+    ControlFilter cf2 = new ControlFilter(new String[]{TEST1_2_PAT,
 					       EXCEPTION1, EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5});
 
     Transformer.transform(
@@ -128,7 +128,7 @@ public class DOMTestCase {
     assertTrue(Compare.compare(FILTERED_A1, TEST_WITNESS_PREFIX+"dom.A1.1"));
     assertTrue(Compare.compare(FILTERED_A2, TEST_WITNESS_PREFIX+"dom.A2.1"));
   }
-  
+
   /**
    *   Tests processing of external entities in XML file.
    */
@@ -138,10 +138,10 @@ public class DOMTestCase {
     DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/DOMTest4.xml");
     common();
 
-    ControlFilter cf1 = new ControlFilter(new String[]{TEST1_1A_PAT, TEST1_1B_PAT, 
+    ControlFilter cf1 = new ControlFilter(new String[]{TEST1_1A_PAT, TEST1_1B_PAT,
 					       EXCEPTION1, EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5});
 
-    ControlFilter cf2 = new ControlFilter(new String[]{TEST1_2_PAT, 
+    ControlFilter cf2 = new ControlFilter(new String[]{TEST1_2_PAT,
 					       EXCEPTION1, EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5});
 
     Transformer.transform(
@@ -166,31 +166,31 @@ public class DOMTestCase {
     Thread.currentThread().setName("main");
 
     int i = -1;
- 
+
     logger.trace("Message " + ++i);
-    root.trace("Message " + i);  
- 
+    root.trace("Message " + i);
+
     logger.debug("Message " + ++i);
-    root.debug("Message " + i);        
+    root.debug("Message " + i);
 
     logger.info ("Message " + ++i);
-    root.info("Message " + i);        
+    root.info("Message " + i);
 
     logger.warn ("Message " + ++i);
-    root.warn("Message " + i);        
+    root.warn("Message " + i);
 
     logger.error("Message " + ++i);
     root.error("Message " + i);
-    
+
     logger.log(Level.FATAL, "Message " + ++i);
-    root.log(Level.FATAL, "Message " + i);    
-    
+    root.log(Level.FATAL, "Message " + i);
+
     Exception e = new Exception("Just testing");
     logger.debug("Message " + ++i, e);
     root.debug("Message " + i, e);
-    
+
     logger.error("Message " + ++i, e);
-    root.error("Message " + i, e);    
+    root.error("Message " + i, e);
 
     Thread.currentThread().setName(oldThreadName);
   }
@@ -303,7 +303,7 @@ public class DOMTestCase {
      *    use the specified loggerFactory.  See bug 33708.
      */
 
-    @Test  
+    @Test
   public void testLoggerFactory1() {
       DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/loggerfactory1.xml");
       //

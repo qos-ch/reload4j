@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +35,7 @@ public class ListVsVector {
   static String tmp;
 
   static
-  public 
+  public
   void main(String[] args) {
 
     v.addElement("aaa");
@@ -43,7 +43,7 @@ public class ListVsVector {
     v.addElement("ccc");
     v.addElement("ddd");
     v.addElement("eee");
-    
+
     Chain c = new Chain("aaa");
     head = c;
     c.next = new Chain("bbb"); c = c.next;
@@ -70,7 +70,7 @@ public class ListVsVector {
 	c = c.next;
       }
     }
-    return (System.currentTimeMillis() - before)*1000.0/RUN_LENGTH;    
+    return (System.currentTimeMillis() - before)*1000.0/RUN_LENGTH;
   }
 
   static
@@ -81,7 +81,7 @@ public class ListVsVector {
       for(int j = 0; j < size; j++)
 	tmp = (String) v.elementAt(j);
     }
-    return (System.currentTimeMillis() - before)*1000.0/RUN_LENGTH;    
+    return (System.currentTimeMillis() - before)*1000.0/RUN_LENGTH;
   }
 
   static class Chain {
@@ -91,7 +91,7 @@ public class ListVsVector {
     Chain(String s) {
       this.s = s;
     }
-    
+
     void setNext(Chain c) {
       next = c;
     }

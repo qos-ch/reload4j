@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,13 +24,13 @@ import org.apache.log4j.helpers.LogLog;
 // Contibutors: Mathias Bogaert
 
 /**
- * @deprecated Replaced by {@link RootLogger}.  
+ * @deprecated Replaced by {@link RootLogger}.
  */
 final public class RootCategory extends Logger {
 
   /**
      The root category names itself as "root". However, the root
-     category cannot be retrieved by name.  
+     category cannot be retrieved by name.
   */
   public
   RootCategory(Level level) {
@@ -38,13 +38,13 @@ final public class RootCategory extends Logger {
     setLevel(level);
   }
 
-  
+
   /**
      Return the assigned level value without walking the category
      hierarchy.
   */
   final
-  public 
+  public
   Level getChainedLevel() {
     return level;
   }
@@ -54,7 +54,7 @@ final public class RootCategory extends Logger {
      results. We prevent this here.
 
      @since 0.8.3 */
-  final  
+  final
   public
   void setLevel(Level level) {
     if(level == null) {
@@ -66,11 +66,11 @@ final public class RootCategory extends Logger {
     }
   }
 
-  final  
+  final
   public
   void setPriority(Level level) {
     setLevel(level);
   }
 
-  
+
 }

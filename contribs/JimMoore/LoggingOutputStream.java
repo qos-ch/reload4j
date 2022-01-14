@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,18 +22,18 @@ import org.apache.log4j.*;
 
 /**
  * An OutputStream that flushes out to a Category.<p>
- * 
+ *
  * Note that no data is written out to the Category until the stream is
  *   flushed or closed.<p>
- * 
+ *
  * Example:<pre>
  * // make sure everything sent to System.err is logged
  * System.setErr(new PrintStream(new LoggingOutputStream(Category.getRoot(), Priority.WARN), true));
- * 
+ *
  * // make sure everything sent to System.out is also logged
  * System.setOut(new PrintStream(new LoggingOutputStream(Category.getRoot(), Priority.INFO), true));
  * </pre>
- * 
+ *
  * @author <a href="mailto://Jim.Moore@rocketmail.com">Jim Moore</a>
  * @see Category
  */
@@ -47,14 +47,14 @@ public class LoggingOutputStream extends OutputStream {
   protected boolean hasBeenClosed = false;
 
   /**
-   * The internal buffer where data is stored. 
+   * The internal buffer where data is stored.
    */
   protected byte[] buf;
 
   /**
-   * The number of valid bytes in the buffer. This value is always 
-   *   in the range <tt>0</tt> through <tt>buf.length</tt>; elements 
-   *   <tt>buf[0]</tt> through <tt>buf[count-1]</tt> contain valid 
+   * The number of valid bytes in the buffer. This value is always
+   *   in the range <tt>0</tt> through <tt>buf.length</tt>; elements
+   *   <tt>buf[0]</tt> through <tt>buf[count-1]</tt> contain valid
    *   byte data.
    */
   protected int count;
@@ -89,11 +89,11 @@ public class LoggingOutputStream extends OutputStream {
 
   /**
    * Creates the LoggingOutputStream to flush to the given Category.
-   * 
+   *
    * @param cat        the Category to write to
-   * 
+   *
    * @param priority   the Priority to use when writing to the Category
-   * 
+   *
    * @exception IllegalArgumentException
    *                   if cat == null or priority == null
    */
@@ -132,9 +132,9 @@ public class LoggingOutputStream extends OutputStream {
    * to the output stream. The byte to be written is the eight
    * low-order bits of the argument <code>b</code>. The 24
    * high-order bits of <code>b</code> are ignored.
-   * 
+   *
    * @param b          the <code>byte</code> to write
-   * 
+   *
    * @exception IOException
    *                   if an I/O error occurs. In particular,
    *                   an <code>IOException</code> may be thrown if the

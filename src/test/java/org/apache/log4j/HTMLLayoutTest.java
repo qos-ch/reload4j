@@ -191,7 +191,7 @@ public class HTMLLayoutTest extends LayoutTest {
             super(6000, levelName, 6);
         }
     }
-    
+
     /**
      * Tests problematic characters in multiple fields.
      * @throws Exception if parser can not be constructed

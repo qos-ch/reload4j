@@ -27,7 +27,7 @@
       <param name="ConversionPattern"
 	value="%-5p %c{2} - %m\n"/>
     </layout>
-    
+
     <filter class="org.apache.log4j.varia.LevelMatchFilter">
       <param name="LevelToMatch" value="TRACE#org.apache.log4j.xml.XLevel" />
       <param name="AcceptOnMatch" value="true" />

@@ -22,49 +22,49 @@
 Books
 
  * Ceki G\xFClc\xFC.  2004.  The complete log4j manual.  QoS.ch.  {{{http://www.qos.ch/shop/products/eclm/}http://www.qos.ch/shop/products/eclm/}}.
-	
+
  * Samudra Gupta.  2007.  Pro Apache log4j, Second Edition.  APress.
-	
+
 Articles:
 
- * Vipan Singla.  Don't Use System.out.println! Use Log4j.  
+ * Vipan Singla.  Don't Use System.out.println! Use Log4j.
 		   {{{http://www.vipan.com/htdocs/log4jhelp.html}http://www.vipan.com/htdocs/log4jhelp.html}}.
-        
+
  * Vikran Goyal.  Build Flexible Logs With log4j.
 		   {{{http://www.onjava.com/pub/a/onjava/2002/08/07/log4j.html}http://www.onjava.com/pub/a/onjava/2002/08/07/log4j.html}}.
-        
- * Ashley J.S.  Mills.  Log4J.  
+
+ * Ashley J.S.  Mills.  Log4J.
 		   {{{http://supportweb.cs.bham.ac.uk/documentation/tutorials/docsystem/build/tutorials/log4j/log4j.html}http://supportweb.cs.bham.ac.uk/documentation/tutorials/docsystem/build/tutorials/log4j/log4j.html}}.
-        
+
  * Kevin Brown.  Add logging to your Java Applications.
 	       {{{http://www.builder.com.com/article.jhtml?id=u00820020124kev01.htm}
 		   http://www.builder.com.com/article.jhtml?id=u00820020124kev01.htm}}
-        
+
  * Kevin Brown.   How does the Java logging API stack up against log4j?
 	      {{{http://www.builder.com.com/article.jhtml?id=u00220020724kev01.htm}
 	       http://www.builder.com.com/article.jhtml?id=u00220020724kev01.htm}}.
 
  * Michael Canzoneri.  Log4J FAQ.  {{{http://www.jguru.com/faq/Log4j}http://www.jguru.com/faq/Log4j}}.
 
- * Ceki G\xFClc\xFC.  Think Again.  
+ * Ceki G\xFClc\xFC.  Think Again.
 		   {{{http://www.qos.ch/logging/thinkAgain.html}http://www.qos.ch/logging/thinkAgain.html}}.
 
- * Ceki G\xFClc\xFC.  Supporting the log4j RepositorySelector. 
+ * Ceki G\xFClc\xFC.  Supporting the log4j RepositorySelector.
              {{{http://www.qos.ch/logging/sc.html}http://www.qos.ch/logging/sc.html}}.
 
- * Ceki G\xFClc\xFC.  Log4j delivers control over logging. 
+ * Ceki G\xFClc\xFC.  Log4j delivers control over logging.
              {{{http://www.javaworld.com/jw-11-2000/jw-1122-log4j.html}http://www.javaworld.com/jw-11-2000/jw-1122-log4j.html}}.
-			 
+
  * Vikram Goyal.  Understanding Classloaders: log4j in a J2EE Environment.
 		    {{{http://www.onjava.com/pub/a/onjava/2003/04/02/log4j_ejb.html}http://www.onjava.com/pub/a/onjava/2003/04/02/log4j_ejb.html}}.
 
  * Ruth Zamorano and Rafeal Luque.  Instant logging: Harness the power of log4j with Jabber.
 		   {{{http://www-106.ibm.com/developerworks/java/library/j-instlog/}http://www-106.ibm.com/developerworks/java/library/j-instlog/}}.
 
- * Matthew Litkey, Jay Galvin, and Marina Sum.  
+ * Matthew Litkey, Jay Galvin, and Marina Sum.
 		  Developer Tip: Adding the log4j API to Applications on Sun Java System Application Server 7
            {{{http://developers.sun.com/prodtech/appserver/reference/techart/log4j.html}http://developers.sun.com/prodtech/appserver/reference/techart/log4j.html}}.
-		   
+
  * Sean C. Sullivan.  Reporting Application Errors by Email.
          {{{http://www.onjava.com/pub/a/onjava/2004/09/29/smtp-logging.html}http://www.onjava.com/pub/a/onjava/2004/09/29/smtp-logging.html}}.
 
@@ -77,5 +77,4 @@ Presentations:
        *  Ceki G\xFClc\xFC.  Log4j, a logging package for the Java language.
          {{{http://www.qos.ch/ac2001/F11-10.html}http://www.qos.ch/ac2001/F11-10.html}}.
 
-       *  Brent Twenter.  Log4j.  {{{http://www.ociweb.com/javasig/knowledgebase/January2001/Log4J.ppt}http://www.ociweb.com/javasig/knowledgebase/January2001/Log4J.ppt}}.         
- 
+       *  Brent Twenter.  Log4j.  {{{http://www.ociweb.com/javasig/knowledgebase/January2001/Log4J.ppt}http://www.ociweb.com/javasig/knowledgebase/January2001/Log4J.ppt}}.

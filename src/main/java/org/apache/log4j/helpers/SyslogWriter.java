@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,7 +42,7 @@ public class SyslogWriter extends Writer {
    *  @deprecated
    */
   static String syslogHost;
-  
+
   private InetAddress address;
   private final int port;
   private DatagramSocket ds;
@@ -61,10 +61,10 @@ public class SyslogWriter extends Writer {
     if (syslogHost == null) {
         throw new NullPointerException("syslogHost");
     }
-    
+
     String host = syslogHost;
     int urlPort = -1;
-    
+
     //
     //  If not an unbracketed IPv6 address then
     //      parse as a URL
@@ -84,13 +84,13 @@ public class SyslogWriter extends Writer {
       		LogLog.error("Malformed URL: will attempt to interpret as InetAddress.", e);
         }
     }
-    
+
     if (urlPort == -1) {
         urlPort = SYSLOG_PORT;
     }
     port = urlPort;
 
-    try {      
+    try {
       this.address = InetAddress.getByName(host);
     }
     catch (UnknownHostException e) {
@@ -106,7 +106,7 @@ public class SyslogWriter extends Writer {
       LogLog.error("Could not instantiate DatagramSocket to " + host +
 			 ". All logging will FAIL.", e);
     }
-    
+
   }
 
 
@@ -114,7 +114,7 @@ public class SyslogWriter extends Writer {
   void write(char[] buf, int off, int len) throws IOException {
     this.write(new String(buf, off, len));
   }
-  
+
   public
   void write(final String string) throws IOException {
 
@@ -131,7 +131,7 @@ public class SyslogWriter extends Writer {
                                address, port);
         ds.send(packet);
     }
-    
+
   }
 
   public

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,9 +39,9 @@ import org.junit.Test;
 
 /**
  * Test variable substitution code.
- * 
+ *
  * @author Ceki G&uuml;lc&uuml;
- * 
+ *
  * @since 1.0
  */
 public class OptionConverterTestCase {
@@ -79,7 +79,7 @@ public class OptionConverterTestCase {
 
 		assertEquals("hello wonderful world.", r);
 	}
-	
+
 	@Test
 	public void varSubstTest2() {
 		String r;
@@ -87,7 +87,7 @@ public class OptionConverterTestCase {
 		r = OptionConverter.substVars("Test2 ${key1} mid ${key2} end.", null);
 		assertEquals("Test2 value1 mid value2 end.", r);
 	}
-	
+
 	@Test
 	public void varSubstTest3() {
 		String r;
@@ -95,7 +95,7 @@ public class OptionConverterTestCase {
 		r = OptionConverter.substVars("Test3 ${unset} mid ${key1} end.", null);
 		assertEquals("Test3  mid value1 end.", r);
 	}
-	
+
 	@Test
 	public void varSubstTest4() {
 		String val = "Test4 ${incomplete ";
@@ -108,7 +108,7 @@ public class OptionConverterTestCase {
 		}
 	}
 
-	
+
 	@Test
 	public void varSubstTest5() {
 		Properties props = new Properties();
@@ -121,10 +121,10 @@ public class OptionConverterTestCase {
 
 	/**
 	 * Tests configuring Log4J from an InputStream.
-	 * 
+	 *
 	 * @since 1.2.17
 	 */
-	
+
 	@Test
 	public void testInputStream() throws IOException {
 		File file = new File(TEST_INPUT_PREFIX+"filter1.properties");
@@ -138,7 +138,7 @@ public class OptionConverterTestCase {
 		new PropertyConfiguratorTest(this.getClass().getName()).validateNested();
 	}
 
-	
+
 	@Test
 	public void toLevelTest1() {
 		String val = "INFO";

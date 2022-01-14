@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -186,7 +186,7 @@ public class OptionConverter {
   Level toLevel(String value, Level defaultValue) {
     if(value == null)
       return defaultValue;
-      
+
     value = value.trim();
 
     int hashIndex = value.indexOf('#');
@@ -423,7 +423,7 @@ public class OptionConverter {
 
 	  if(replacement != null) {
 	    // Do variable substitution on the replacement string
-	    // such that we can solve "Hello ${x2}" as "Hello p1" 
+	    // such that we can solve "Hello ${x2}" as "Hello p1"
             // the where the properties are
 	    // x1=p1
             // x2=${x1}
@@ -438,14 +438,14 @@ public class OptionConverter {
 
     /**
      * Configure log4j given an {@link InputStream}.
-     * 
+     *
      * <p>
      * The InputStream will be interpreted by a new instance of a log4j configurator.
      * </p>
      * <p>
      * All configurations steps are taken on the <code>hierarchy</code> passed as a parameter.
      * </p>
-     * 
+     *
      * @param inputStream
      *            The configuration input stream.
      * @param clazz

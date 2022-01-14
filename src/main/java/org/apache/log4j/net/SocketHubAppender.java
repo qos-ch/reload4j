@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,7 +34,7 @@ import org.apache.log4j.spi.LoggingEvent;
 /**
   Sends {@link LoggingEvent} objects to a set of remote log servers,
   usually a {@link SocketNode SocketNodes}.
-    
+
   <p>Acts just like {@link SocketAppender} except that instead of
   connecting to a given remote log server,
   <code>SocketHubAppender</code> accepts connections from the remote
@@ -44,7 +44,7 @@ import org.apache.log4j.spi.LoggingEvent;
   not require any update to the configuration file to send data to
   another remote log server. The remote log server simply connects to
   the host and port the <code>SocketHubAppender</code> is running on.
-  
+
   <p>The <code>SocketHubAppender</code> does not store events such
   that the remote side will events that arrived after the
   establishment of its connection. Once connected, events arrive in
@@ -54,24 +54,24 @@ import org.apache.log4j.spi.LoggingEvent;
   SocketAppender}.
 
   <p>The SocketHubAppender has the following characteristics:
-  
+
   <ul>
-  
+
   <p><li>If sent to a {@link SocketNode}, logging is non-intrusive as
   far as the log event is concerned. In other words, the event will be
   logged with the same time stamp, {@link org.apache.log4j.NDC},
   location info as if it were logged locally.
-  
+
   <p><li><code>SocketHubAppender</code> does not use a layout. It
   ships a serialized {@link LoggingEvent} object to the remote side.
-  
+
   <p><li><code>SocketHubAppender</code> relies on the TCP
   protocol. Consequently, if the remote side is reachable, then log
   events will eventually arrive at remote client.
-  
+
   <p><li>If no remote clients are attached, the logging requests are
   simply dropped.
-  
+
   <p><li>Logging events are automatically <em>buffered</em> by the
   native TCP implementation. This means that if the link to remote
   client is slow but still faster than the rate of (log) event
@@ -80,29 +80,29 @@ import org.apache.log4j.spi.LoggingEvent;
   rate of event production, then the local application can only
   progress at the network rate. In particular, if the network link to
   the the remote client is down, the application will be blocked.
-  
+
   <p>On the other hand, if the network link is up, but the remote
   client is down, the client will not be blocked when making log
   requests but the log events will be lost due to client
-  unavailability. 
+  unavailability.
 
   <p>The single remote client case extends to multiple clients
   connections. The rate of logging will be determined by the slowest
   link.
-    
+
   <p><li>If the JVM hosting the <code>SocketHubAppender</code> exits
   before the <code>SocketHubAppender</code> is closed either
   explicitly or subsequent to garbage collection, then there might
   be untransmitted data in the pipe which might be lost. This is a
   common problem on Windows based systems.
-  
+
   <p>To avoid lost data, it is usually sufficient to {@link #close}
   the <code>SocketHubAppender</code> either explicitly or by calling
   the {@link org.apache.log4j.LogManager#shutdown} method before
   exiting the application.
-  
+
   </ul>
-     
+
   @author Mark Womack */
 
 public class SocketHubAppender extends AppenderSkeleton {
@@ -110,7 +110,7 @@ public class SocketHubAppender extends AppenderSkeleton {
   /**
      The default port number of the ServerSocket will be created on. */
   static final int DEFAULT_PORT = 4560;
-  
+
   private int port = DEFAULT_PORT;
   private Vector oosList = new Vector();
   private ServerMonitor serverMonitor = null;
@@ -149,7 +149,7 @@ public class SocketHubAppender extends AppenderSkeleton {
   }
 
   /**
-     Close this appender. 
+     Close this appender.
      <p>This will mark the appender as closed and
      call then {@link #cleanUp} method. */
   synchronized
@@ -171,7 +171,7 @@ public class SocketHubAppender extends AppenderSkeleton {
   /**
      Release the underlying ServerMonitor thread, and drop the connections
      to all connected remote servers. */
-  public 
+  public
   void cleanUp() {
     // stop the monitor thread
 	LogLog.debug("stopping ServerSocket");
@@ -191,8 +191,8 @@ public class SocketHubAppender extends AppenderSkeleton {
         } catch(IOException e) {
             LogLog.error("could not close oos.", e);
         }
-        
-        oosList.removeElementAt(0);     
+
+        oosList.removeElementAt(0);
       }
     }
   }
@@ -208,13 +208,13 @@ public class SocketHubAppender extends AppenderSkeleton {
       }
       if (application != null) {
           event.setProperty("application", application);
-        } 
+        }
         event.getNDC();
         event.getThreadName();
         event.getMDCCopy();
         event.getRenderedMessage();
         event.getThrowableStrRep();
-        
+
       if (buffer != null) {
         buffer.add(event);
       }
@@ -226,7 +226,7 @@ public class SocketHubAppender extends AppenderSkeleton {
     }
 
 	// loop through the current set of open connections, appending the event to each
-    for (int streamCount = 0; streamCount < oosList.size(); streamCount++) {    	
+    for (int streamCount = 0; streamCount < oosList.size(); streamCount++) {
 
       ObjectOutputStream oos = null;
       try {
@@ -237,11 +237,11 @@ public class SocketHubAppender extends AppenderSkeleton {
         // this should not really occur as this method is
         // the only one that can remove oos's (besides cleanUp).
       }
-      
+
       // list size changed unexpectedly? Just exit the append.
       if (oos == null)
         break;
-        
+
       try {
       	oos.writeObject(event);
       	oos.flush();
@@ -257,13 +257,13 @@ public class SocketHubAppender extends AppenderSkeleton {
           // there was an io exception so just drop the connection
       	oosList.removeElementAt(streamCount);
       	LogLog.debug("dropped connection");
-      	
+
       	// decrement to keep the counter in place (for loop always increments)
       	streamCount--;
       }
     }
   }
-  
+
   /**
      The SocketHubAppender does not use a layout. Hence, this method returns
      <code>false</code>. */
@@ -271,7 +271,7 @@ public class SocketHubAppender extends AppenderSkeleton {
   boolean requiresLayout() {
     return false;
   }
-  
+
   /**
      The <b>Port</b> option takes a positive integer representing
      the port where the server is waiting for connections. */
@@ -284,7 +284,7 @@ public class SocketHubAppender extends AppenderSkeleton {
    * The <b>App</b> option takes a string value which should be the name of the application getting logged. If property was already set (via system
    * property), don't set here.
    */
-  public 
+  public
   void setApplication(String lapp) {
     this.application = lapp;
   }
@@ -292,11 +292,11 @@ public class SocketHubAppender extends AppenderSkeleton {
   /**
    * Returns value of the <b>Application</b> option.
    */
-  public 
+  public
   String getApplication() {
     return application;
   }
-  
+
   /**
      Returns value of the <b>Port</b> option. */
   public
@@ -308,7 +308,7 @@ public class SocketHubAppender extends AppenderSkeleton {
    * The <b>BufferSize</b> option takes a positive integer representing the number of events this appender will buffer and send to newly connected
    * clients.
    */
-  public 
+  public
   void setBufferSize(int _bufferSize) {
     buffer = new CyclicBuffer(_bufferSize);
   }
@@ -316,7 +316,7 @@ public class SocketHubAppender extends AppenderSkeleton {
   /**
    * Returns value of the <b>bufferSize</b> option.
    */
-  public 
+  public
   int getBufferSize() {
     if (buffer == null) {
       return 0;
@@ -324,7 +324,7 @@ public class SocketHubAppender extends AppenderSkeleton {
       return buffer.getMaxSize();
     }
   }
-  
+
   /**
      The <b>LocationInfo</b> option takes a boolean value. If true,
      the information sent to the remote host will include location
@@ -333,7 +333,7 @@ public class SocketHubAppender extends AppenderSkeleton {
   void setLocationInfo(boolean _locationInfo) {
     locationInfo = _locationInfo;
   }
-  
+
   /**
      Returns value of the <b>LocationInfo</b> option. */
   public
@@ -355,12 +355,12 @@ public class SocketHubAppender extends AppenderSkeleton {
   void startServer() {
     serverMonitor = new ServerMonitor(port, oosList);
   }
-  
+
   /**
    * Creates a server socket to accept connections.
    * @param socketPort port on which the socket should listen, may be zero.
    * @return new socket.
-   * @throws IOException IO error when opening the socket. 
+   * @throws IOException IO error when opening the socket.
    */
   protected ServerSocket createServerSocket(final int socketPort) throws IOException {
       return new ServerSocket(socketPort);
@@ -375,7 +375,7 @@ public class SocketHubAppender extends AppenderSkeleton {
     private Vector oosList;
     private boolean keepRunning;
     private Thread monitorThread;
-    
+
     /**
       Create a thread and start the monitor. */
     public
@@ -388,7 +388,7 @@ public class SocketHubAppender extends AppenderSkeleton {
       monitorThread.setName("SocketHubAppender-Monitor-" + port);
       monitorThread.start();
     }
-    
+
     /**
       Stops the monitor. This method will not return until
       the thread has finished executing. */
@@ -410,14 +410,14 @@ public class SocketHubAppender extends AppenderSkeleton {
             Thread.currentThread().interrupt();
           // do nothing?
         }
-        
+
         // release the thread
         monitorThread = null;
     	LogLog.debug("server monitor thread shut down");
       }
     }
-    
-    private 
+
+    private
     void sendCachedEvents(ObjectOutputStream stream) throws IOException {
       if (buffer != null) {
         for (int i = 0; i < buffer.length(); i++) {
@@ -455,7 +455,7 @@ public class SocketHubAppender extends AppenderSkeleton {
           LogLog.error("exception setting timeout, shutting down server socket.", e);
           return;
     	}
-      
+
     	while (keepRunning) {
           Socket socket = null;
           try {
@@ -471,20 +471,20 @@ public class SocketHubAppender extends AppenderSkeleton {
           catch (IOException e) {
             LogLog.error("exception accepting socket.", e);
           }
-	        
+
           // if there was a socket accepted
           if (socket != null) {
             try {
               InetAddress remoteAddress = socket.getInetAddress();
-              LogLog.debug("accepting connection from " + remoteAddress.getHostName() 
+              LogLog.debug("accepting connection from " + remoteAddress.getHostName()
 			   + " (" + remoteAddress.getHostAddress() + ")");
-	        	
+
               // create an ObjectOutputStream
               ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
               if (buffer != null && buffer.length() > 0) {
                 sendCachedEvents(oos);
               }
-	            
+
               // add it to the oosList.  OK since Vector is synchronized.
               oosList.addElement(oos);
             } catch (IOException e) {
@@ -501,7 +501,7 @@ public class SocketHubAppender extends AppenderSkeleton {
     	try {
     		serverSocket.close();
     	} catch(InterruptedIOException e) {
-            Thread.currentThread().interrupt();  
+            Thread.currentThread().interrupt();
         } catch (IOException e) {
     		// do nothing with it?
     	}

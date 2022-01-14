@@ -39,7 +39,7 @@ public class TestLogMF {
 
 	/**
 	 * Gets Trace level. Trace level was not defined prior to log4j 1.2.12.
-	 * 
+	 *
 	 * @return trace level
 	 */
 	private static Level getTraceLevel() {
@@ -510,7 +510,7 @@ public class TestLogMF {
         System.out.println(epoch);
         LogMF.debug(logger, "Iteration {0}", epoch);
 
-        
+
         String expected = MessageFormat.format("Iteration {0}",
                 new Object[] { epoch });
         String actual = capture.getMessage();

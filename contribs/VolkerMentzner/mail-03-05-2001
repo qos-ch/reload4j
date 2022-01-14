@@ -16,12 +16,12 @@
 
 
 
-Delivered-To: cgu@qos.ch 
-From: "Mentzner, Volker" <V.Mentzner@PSI-BT.de> 
-To: "'cgu@qos.ch'" <cgu@qos.ch> 
-Subject: Remote configuring log4j 
-Date: Thu, 3 May 2001 08:10:25 +0200 
-X-Mailer: Internet Mail Service (5.5.2653.19) 
+Delivered-To: cgu@qos.ch
+From: "Mentzner, Volker" <V.Mentzner@PSI-BT.de>
+To: "'cgu@qos.ch'" <cgu@qos.ch>
+Subject: Remote configuring log4j
+Date: Thu, 3 May 2001 08:10:25 +0200
+X-Mailer: Internet Mail Service (5.5.2653.19)
 
 Hi Ceki,
 
@@ -38,5 +38,5 @@ Regards
 
 Volker Mentzner
 
- <<pluggableServer.zip>> 
+ <<pluggableServer.zip>>
 

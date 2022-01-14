@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,7 @@ import org.apache.oro.text.perl.Perl5Util;
 
 /**
  * The sun.reflect.* and java.lang.reflect.* lines are not present in all JDKs.
- * 
+ *
  * @author Ceki Gulcu
  */
 public class SunReflectFilter implements Filter {
@@ -31,11 +31,11 @@ public class SunReflectFilter implements Filter {
     if(in == null) {
       return null;
     }
-    
+
     if (util.match("/at java.base/jdk.internal.reflect/", in)) {
         return null;
     }
-    
+
     if (util.match("/at java.base/java.lang.reflect.Method/", in)) {
         return null;
     }
@@ -44,8 +44,8 @@ public class SunReflectFilter implements Filter {
         return null;
     }
 
-    
-    
+
+
     if (util.match("/at sun.reflect/", in)) {
       return null;
     }

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,7 +42,7 @@ import java.io.InputStreamReader;
  * JMSAppender}.
  *
  *
- * @author Ceki G&uuml;lc&uuml; 
+ * @author Ceki G&uuml;lc&uuml;
  * */
 public class JMSSink implements javax.jms.MessageListener {
 
@@ -52,13 +52,13 @@ public class JMSSink implements javax.jms.MessageListener {
     if(args.length != 5) {
       usage("Wrong number of arguments.");
     }
-    
+
     String tcfBindingName = args[0];
     String topicBindingName = args[1];
     String username = args[2];
     String password = args[3];
-    
-    
+
+
     String configFile = args[4];
 
     if(configFile.endsWith(".xml")) {
@@ -66,7 +66,7 @@ public class JMSSink implements javax.jms.MessageListener {
     } else {
       PropertyConfigurator.configure(configFile);
     }
-    
+
     new JMSSink(tcfBindingName, topicBindingName, username, password);
 
     BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
@@ -77,14 +77,14 @@ public class JMSSink implements javax.jms.MessageListener {
       if (s.equalsIgnoreCase("exit")) {
 	System.out.println("Exiting. Kill the application if it does not exit "
 			   + "due to daemon threads.");
-	return; 
+	return;
       }
-    } 
+    }
   }
 
   public JMSSink( String tcfBindingName, String topicBindingName, String username,
 		  String password) {
-    
+
     try {
       Context ctx = new InitialContext();
       TopicConnectionFactory topicConnectionFactory;
@@ -102,7 +102,7 @@ public class JMSSink implements javax.jms.MessageListener {
       Topic topic = (Topic)ctx.lookup(topicBindingName);
 
       TopicSubscriber topicSubscriber = topicSession.createSubscriber(topic);
-    
+
       topicSubscriber.setMessageListener(this);
 
     } catch(JMSException e) {
@@ -127,9 +127,9 @@ public class JMSSink implements javax.jms.MessageListener {
       } else {
 	logger.warn("Received message is of type "+message.getJMSType()
 		    +", was expecting ObjectMessage.");
-      }      
+      }
     } catch(JMSException jmse) {
-      logger.error("Exception thrown while processing incoming message.", 
+      logger.error("Exception thrown while processing incoming message.",
 		   jmse);
     }
   }

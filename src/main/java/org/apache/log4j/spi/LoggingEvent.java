@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -59,21 +59,21 @@ public class LoggingEvent implements java.io.Serializable {
   /** Fully qualified name of the calling category class. */
   transient public final String fqnOfCategoryClass;
 
-  /** 
+  /**
    * The category of the logging event. This field is not serialized
    * for performance reasons.
    *
    * <p>It is set by the LoggingEvent constructor or set by a remote
    * entity after deserialization.
-   * 
+   *
    * @deprecated This field will be marked as private or be completely
    * removed in future releases. Please do not use it.
    * */
   transient private Category logger;
 
-  /** 
+  /**
    * <p>The category (logger) name.
-   *   
+   *
    * @deprecated This field will be marked as private in future
    * releases. Please do not access it directly. Use the {@link
    * #getLoggerName} method instead.
@@ -81,11 +81,11 @@ public class LoggingEvent implements java.io.Serializable {
    * */
   final public String categoryName;
 
-  /** 
+  /**
    * Level of logging event. Level cannot be serializable because it
    * is a flyweight.  Due to its special seralization it cannot be
    * declared final either.
-   *   
+   *
    * <p> This field should not be accessed directly. You shoud use the
    * {@link #getLevel} method instead.
    *
@@ -264,7 +264,7 @@ public class LoggingEvent implements java.io.Serializable {
 
   /**
    * Return the name of the logger. Use this form instead of directly
-   * accessing the <code>categoryName</code> field.  
+   * accessing the <code>categoryName</code> field.
    */
   public String getLoggerName() {
     return categoryName;
@@ -319,7 +319,7 @@ public class LoggingEvent implements java.io.Serializable {
       search for the key in MDC copy, if a value is found it is
       returned. Otherwise, if the search in MDC copy returns a null
       result, then the current thread's <code>MDC</code> is used.
-      
+
       <p>Note that <em>both</em> the local MDC copy and the current
       thread's MDC are searched.
 
@@ -340,7 +340,7 @@ public class LoggingEvent implements java.io.Serializable {
 
   /**
      Obtain a copy of this thread's MDC prior to serialization or
-     asynchronous logging.  
+     asynchronous logging.
   */
   public
   void getMDCCopy() {
@@ -527,7 +527,7 @@ public class LoggingEvent implements java.io.Serializable {
         if (mdcCopy == null) {
             mdcCopy = new Hashtable();
         }
-        mdcCopy.put(propName, propValue);      
+        mdcCopy.put(propName, propValue);
   }
 
     /**

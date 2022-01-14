@@ -5,16 +5,16 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-     
+
 package org.apache.log4j.helpers;
 
 import org.apache.log4j.spi.LoggingEvent;
@@ -23,7 +23,7 @@ import org.apache.log4j.spi.LoggingEvent;
 
    CyclicBuffer is used by other appenders to hold {@link LoggingEvent
    LoggingEvents} for immediate or differed display.
-   
+
    <p>This buffer gives read access to any element in the buffer not
    just the first or last element.
 
@@ -32,10 +32,10 @@ import org.apache.log4j.spi.LoggingEvent;
 
  */
 public class CyclicBuffer {
-  
+
   LoggingEvent[] ea;
-  int first; 
-  int last; 
+  int first;
+  int last;
   int numElems;
   int maxSize;
 
@@ -57,14 +57,14 @@ public class CyclicBuffer {
     last = 0;
     numElems = 0;
   }
-    
+
   /**
      Add an <code>event</code> as the last event in the buffer.
 
    */
   public
-  void add(LoggingEvent event) {    
-    ea[last] = event;    
+  void add(LoggingEvent event) {
+    ea[last] = event;
     if(++last == maxSize)
       last = 0;
 
@@ -90,7 +90,7 @@ public class CyclicBuffer {
     return ea[(first + i) % maxSize];
   }
 
-  public 
+  public
   int getMaxSize() {
     return maxSize;
   }
@@ -108,10 +108,10 @@ public class CyclicBuffer {
       ea[first] = null;
       if(++first == maxSize)
 	first = 0;
-    } 
+    }
     return r;
   }
-  
+
   /**
      Get the number of elements in the buffer. This number is
      guaranteed to be in the range 0 to <code>maxSize</code>
@@ -120,14 +120,14 @@ public class CyclicBuffer {
   public
   int length() {
     return numElems;
-  } 
+  }
 
   /**
      Resize the cyclic buffer to <code>newSize</code>.
 
      @throws IllegalArgumentException if <code>newSize</code> is negative.
    */
-  public 
+  public
   void resize(int newSize) {
     if(newSize < 0) {
       throw new IllegalArgumentException("Negative array size ["+newSize+
@@ -135,15 +135,15 @@ public class CyclicBuffer {
     }
     if(newSize == numElems)
       return; // nothing to do
-    
+
     LoggingEvent[] temp = new  LoggingEvent[newSize];
 
     int loopLen = newSize < numElems ? newSize : numElems;
-    
+
     for(int i = 0; i < loopLen; i++) {
       temp[i] = ea[first];
       ea[first] = null;
-      if(++first == numElems) 
+      if(++first == numElems)
 	first = 0;
     }
     ea = temp;

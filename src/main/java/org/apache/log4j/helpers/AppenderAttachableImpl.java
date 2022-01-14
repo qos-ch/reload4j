@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,7 +31,7 @@ import java.util.Enumeration;
    @author Ceki G&uuml;lc&uuml;
    @since version 0.9.1 */
 public class AppenderAttachableImpl implements AppenderAttachable {
-  
+
   /** Array of appenders. */
   protected Vector  appenderList;
 
@@ -44,7 +44,7 @@ public class AppenderAttachableImpl implements AppenderAttachable {
     // Null values for newAppender parameter are strictly forbidden.
     if(newAppender == null)
       return;
-    
+
     if(appenderList == null) {
       appenderList = new Vector(1);
     }
@@ -65,7 +65,7 @@ public class AppenderAttachableImpl implements AppenderAttachable {
 	appender = (Appender) appenderList.elementAt(i);
 	appender.doAppend(event);
       }
-    }    
+    }
     return size;
   }
 
@@ -73,23 +73,23 @@ public class AppenderAttachableImpl implements AppenderAttachable {
   /**
      Get all attached appenders as an Enumeration. If there are no
      attached appenders <code>null</code> is returned.
-     
+
      @return Enumeration An enumeration of attached appenders.
    */
   public
   Enumeration getAllAppenders() {
     if(appenderList == null)
       return null;
-    else 
-      return appenderList.elements();    
+    else
+      return appenderList.elements();
   }
 
   /**
      Look for an attached appender named as <code>name</code>.
 
      <p>Return the appender with that name if in the list. Return null
-     otherwise.  
-     
+     otherwise.
+
    */
   public
   Appender getAppender(String name) {
@@ -103,7 +103,7 @@ public class AppenderAttachableImpl implements AppenderAttachable {
        if(name.equals(appender.getName()))
 	  return appender;
      }
-     return null;    
+     return null;
   }
 
 
@@ -112,7 +112,7 @@ public class AppenderAttachableImpl implements AppenderAttachable {
      list of attached appenders, <code>false</code> otherwise.
 
      @since 1.2 */
-  public 
+  public
   boolean isAttached(Appender appender) {
     if(appenderList == null || appender == null)
       return false;
@@ -124,7 +124,7 @@ public class AppenderAttachableImpl implements AppenderAttachable {
        if(a == appender)
 	  return true;
      }
-     return false;    
+     return false;
   }
 
 
@@ -135,13 +135,13 @@ public class AppenderAttachableImpl implements AppenderAttachable {
   public
   void removeAllAppenders() {
     if(appenderList != null) {
-      int len = appenderList.size();      
+      int len = appenderList.size();
       for(int i = 0; i < len; i++) {
 	Appender a = (Appender) appenderList.elementAt(i);
 	a.close();
       }
       appenderList.removeAllElements();
-      appenderList = null;      
+      appenderList = null;
     }
   }
 
@@ -151,15 +151,15 @@ public class AppenderAttachableImpl implements AppenderAttachable {
      appenders.  */
   public
   void removeAppender(Appender appender) {
-    if(appender == null || appenderList == null) 
+    if(appender == null || appenderList == null)
       return;
-    appenderList.removeElement(appender);    
+    appenderList.removeElement(appender);
   }
 
 
  /**
     Remove the appender with the name passed as parameter form the
-    list of appenders.  
+    list of appenders.
   */
   public
   void removeAppender(String name) {

@@ -250,16 +250,16 @@ public final class CachedDateFormat extends DateFormat {
     }
 
     //
-    //   If millisecond pattern was not unrecognized 
-    //     (that is if it was found or milliseconds did not appear)   
-    //    
+    //   If millisecond pattern was not unrecognized
+    //     (that is if it was found or milliseconds did not appear)
+    //
     if (millisecondStart != UNRECOGNIZED_MILLISECONDS &&
       //    Check if the cache is still valid.
       //    If the requested time is within the same integral second
       //       as the last request and a shorter expiration was not requested.
         (now < (slotBegin + expiration)) && (now >= slotBegin)
           && (now < (slotBegin + 1000L))) {
-        // 
+        //
         //    if there was a millisecond field then update it
         //
         if (millisecondStart >= 0) {
@@ -276,7 +276,7 @@ public final class CachedDateFormat extends DateFormat {
     }
 
     //
-    //  could not use previous value.  
+    //  could not use previous value.
     //    Call underlying formatter to format date.
     cache.setLength(0);
     tmpDate.setTime(now);

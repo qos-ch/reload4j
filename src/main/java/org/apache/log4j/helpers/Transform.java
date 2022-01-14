@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,7 @@ package org.apache.log4j.helpers;
    Utility class for transforming strings.
 
    @author Ceki G&uuml;lc&uuml;
-   @author Michael A. McAngus 
+   @author Michael A. McAngus
  */
 public class Transform {
 
@@ -86,7 +86,7 @@ public class Transform {
   * @param buf StringBuffer holding the XML data to this point.  The
   * initial CDStart (&lt;![CDATA[) and final CDEnd (]]&gt;) of the CDATA
   * section are the responsibility of the calling method.
-  * @param str The String that is inserted into an existing CDATA Section within buf.  
+  * @param str The String that is inserted into an existing CDATA Section within buf.
   * */
   static public void appendEscapingCDATA(final StringBuffer buf,
                                          final String str) {

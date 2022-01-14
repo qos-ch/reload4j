@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,34 +38,34 @@ import java.util.Properties;
 /**
  * A simple appender that publishes events to a JMS Topic. The events are
  * serialized and transmitted as JMS message type {@link ObjectMessage}.
- * 
+ *
  * <p>
  * JMS {@link Topic topics} and {@link TopicConnectionFactory topic connection
  * factories} are administered objects that are retrieved using JNDI messaging
  * which in turn requires the retrieval of a JNDI {@link Context}.
- * 
+ *
  * <p>
  * There are two common methods for retrieving a JNDI {@link Context}. If a file
  * resource named <em>jndi.properties</em> is available to the JNDI API, it will
  * use the information found therein to retrieve an initial JNDI context. To
  * obtain an initial context, your code will simply call:
- * 
+ *
  * <pre>
  * InitialContext jndiContext = new InitialContext();
  * </pre>
- * 
+ *
  * <p>
  * Calling the no-argument <code>InitialContext()</code> method will also work
  * from within Enterprise Java Beans (EJBs) because it is part of the EJB
  * contract for application servers to provide each bean an environment naming
  * context (ENC).
- * 
+ *
  * <p>
  * In the second approach, several predetermined properties are set and these
  * properties are passed to the <code>InitialContext</code> constructor to
  * connect to the naming service provider. For example, to connect to JBoss
  * naming service one would write:
- * 
+ *
  * <pre>
  * Properties env = new Properties();
  * env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
@@ -73,32 +73,32 @@ import java.util.Properties;
  * env.put(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
  * InitialContext jndiContext = new InitialContext(env);
  * </pre>
- * 
+ *
  * where <em>hostname</em> is the host where the JBoss application server is
  * running.
  *
  * <p>
  * To connect to the the naming service of Weblogic application server one would
  * write:
- * 
+ *
  * <pre>
  * Properties env = new Properties();
  * env.put(Context.INITIAL_CONTEXT_FACTORY, "weblogic.jndi.WLInitialContextFactory");
  * env.put(Context.PROVIDER_URL, "t3://localhost:7001");
  * InitialContext jndiContext = new InitialContext(env);
  * </pre>
- * 
+ *
  * <p>
  * Other JMS providers will obviously require different values.
- * 
+ *
  * The initial JNDI context can be obtained by calling the no-argument
  * <code>InitialContext()</code> method in EJBs. Only clients running in a
  * separate JVM need to be concerned about the <em>jndi.properties</em> file and
  * calling {@link InitialContext#InitialContext()} or alternatively correctly
  * setting the different properties before calling
  * {@link InitialContext#InitialContext(java.util.Hashtable)} method.
- * 
- * 
+ *
+ *
  * @author Ceki G&uuml;lc&uuml;
  */
 public class JMSAppender extends AppenderSkeleton {
@@ -328,7 +328,7 @@ public class JMSAppender extends AppenderSkeleton {
 	 * {@link InitialContext#InitialContext(Hashtable)} method instead of the
 	 * no-argument constructor. If you set this option, you should also at least set
 	 * the <b>ProviderURL</b> option.
-	 * 
+	 *
 	 * <p>
 	 * See also {@link #setProviderURL(String)}.
 	 */

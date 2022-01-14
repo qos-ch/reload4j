@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,7 +43,7 @@ import junit.framework.Test;
 public class BoundedFIFOTestCase extends TestCase {
   static Logger cat = Logger.getLogger("x");
 
-  static int MAX = 1000;  
+  static int MAX = 1000;
 
   static LoggingEvent[] e = new LoggingEvent[MAX];
 
@@ -72,29 +72,29 @@ public class BoundedFIFOTestCase extends TestCase {
   void test1() {
     for(int size = 1; size <= 128; size *=2) {
       BoundedFIFO bf = new BoundedFIFO(size);
-    
+
       assertEquals(bf.getMaxSize(), size);
       assertNull(bf.get());
-      
+
       int i;
       int j;
       int k;
 
-      for(i = 1; i < 2*size; i++) {      
+      for(i = 1; i < 2*size; i++) {
 	for(j = 0; j < i; j++) {
 	  //System.out.println("Putting "+e[j]);
 	  bf.put(e[j]); assertEquals(bf.length(), j < size ?  j+1 : size);
 	}
 	int max = size < j ? size : j;
 	j--;
-	for(k = 0; k <= j; k++) {	  
+	for(k = 0; k <= j; k++) {
 	  //System.out.println("max="+max+", j="+j+", k="+k);
-	  assertEquals(bf.length(), max - k > 0 ? max - k : 0); 
+	  assertEquals(bf.length(), max - k > 0 ? max - k : 0);
 	  Object r = bf.get();
 	  //System.out.println("Got "+r);
-	  if(k >= size) 
+	  if(k >= size)
 	    assertNull(r);
-	  else 
+	  else
 	    assertEquals(r, e[k]);
 	}
       }
@@ -110,8 +110,8 @@ public class BoundedFIFOTestCase extends TestCase {
   void test2() {
     int size = 3;
     BoundedFIFO bf = new BoundedFIFO(size);
-    
-    bf.put(e[0]);	
+
+    bf.put(e[0]);
     assertEquals(bf.get(), e[0]);
     assertNull(bf.get());
 
@@ -127,7 +127,7 @@ public class BoundedFIFOTestCase extends TestCase {
   int min(int a, int b) {
     return a < b ? a : b;
   }
-  
+
 
   /**
      Pattern ++++++++++++++++++++ (insert only);
@@ -155,7 +155,7 @@ public class BoundedFIFOTestCase extends TestCase {
   }
 
 
-  
+
   /**
      Pattern ++...+ --...-
    */
@@ -166,7 +166,7 @@ public class BoundedFIFOTestCase extends TestCase {
     for(int n = 1; n < size*2; n++) {
       for(int i = 0; i < size*2; i++) {
 	for(int d = 0; d < min(i,size); d++) {
-	  
+
 	  BoundedFIFO bf = new BoundedFIFO(size);
 	  for(int p = 0; p < i; p++) {
 	    bf.put(e[p]);
@@ -176,7 +176,7 @@ public class BoundedFIFOTestCase extends TestCase {
 	    bf.get();
 	  }
 
-	  // x = the number of elems in 
+	  // x = the number of elems in
 	  int x = bf.length();
 
 	  bf.resize(n);
@@ -205,22 +205,22 @@ public class BoundedFIFOTestCase extends TestCase {
       for(int i = 0; i < size; i++) {
 	for(int d = 0; d < i; d++) {
 	  for(int r = 0; r < d; r++) {
-	  
+
 	    BoundedFIFO bf = new BoundedFIFO(size);
 	    for(int p0 = 0; p0 < i; p0++)
 	      bf.put(e[p0]);
 
-	    for(int g = 0; g < d; g++) 
-	      bf.get();	    
-	    for(int p1 = 0; p1 < r; p1++) 
+	    for(int g = 0; g < d; g++)
+	      bf.get();
+	    for(int p1 = 0; p1 < r; p1++)
 	      bf.put(e[i+p1]);
-	    
 
-	    
+
+
 	    int x =  bf.length();
 
 	    bf.resize(n);
-	    
+
 
 	    int expectedSize = min(n, x);
 	    assertEquals(bf.length(), expectedSize);

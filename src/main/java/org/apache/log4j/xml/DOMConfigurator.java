@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -61,7 +61,7 @@ import java.util.Hashtable;
 import java.util.Properties;
 
 // Contributors:   Mark Womack
-//                 Arun Katkere 
+//                 Arun Katkere
 
 /**
    Use this class to initialize the log4j environment using a DOM tree.
@@ -81,7 +81,7 @@ import java.util.Properties;
 </pre>
 
    <p>There are sample XML files included in the package.
-   
+
    @author Christopher Taylor
    @author Ceki G&uuml;lc&uuml;
    @author Anders Kristensen
@@ -94,7 +94,7 @@ public class DOMConfigurator implements Configurator {
   static final String RENDERER_TAG      = "renderer";
   private static final String THROWABLE_RENDERER_TAG = "throwableRenderer";
   static final String APPENDER_TAG 	= "appender";
-  static final String APPENDER_REF_TAG 	= "appender-ref";  
+  static final String APPENDER_REF_TAG 	= "appender-ref";
   static final String PARAM_TAG    	= "param";
   static final String LAYOUT_TAG	= "layout";
   static final String CATEGORY		= "category";
@@ -112,7 +112,7 @@ public class DOMConfigurator implements Configurator {
   static final String FILTER_TAG	= "filter";
   static final String ERROR_HANDLER_TAG	= "errorHandler";
   static final String REF_ATTR		= "ref";
-  static final String ADDITIVITY_ATTR    = "additivity";  
+  static final String ADDITIVITY_ATTR    = "additivity";
   static final String THRESHOLD_ATTR       = "threshold";
   static final String CONFIG_DEBUG_ATTR  = "configDebug";
   static final String INTERNAL_DEBUG_ATTR  = "debug";
@@ -125,7 +125,7 @@ public class DOMConfigurator implements Configurator {
 
   final static String dbfKey = "javax.xml.parsers.DocumentBuilderFactory";
 
-  
+
   // key: appenderName, value: appender
   Hashtable appenderBag;
 
@@ -138,7 +138,7 @@ public class DOMConfigurator implements Configurator {
      No argument constructor.
   */
   public
-  DOMConfigurator () { 
+  DOMConfigurator () {
     appenderBag = new Hashtable();
   }
 
@@ -146,7 +146,7 @@ public class DOMConfigurator implements Configurator {
      Used internally to parse appenders by IDREF name.
   */
   protected
-  Appender findAppenderByName(Document doc, String appenderName)  {      
+  Appender findAppenderByName(Document doc, String appenderName)  {
     Appender appender = (Appender) appenderBag.get(appenderName);
 
     if(appender != null) {
@@ -154,7 +154,7 @@ public class DOMConfigurator implements Configurator {
     } else {
       // Doesn't work on DOM Level 1 :
       // Element element = doc.getElementById(appenderName);
-                        
+
       // Endre's hack:
       Element element = null;
       NodeList list = doc.getElementsByTagName("appender");
@@ -170,7 +170,7 @@ public class DOMConfigurator implements Configurator {
       // Hack finished.
 
       if(element == null) {
-	LogLog.error("No appender named ["+appenderName+"] could be found."); 
+	LogLog.error("No appender named ["+appenderName+"] could be found.");
 	return null;
       } else {
 	      appender = parseAppender(element);
@@ -179,14 +179,14 @@ public class DOMConfigurator implements Configurator {
           }
     return appender;
       }
-    } 
+    }
   }
   /**
      Used internally to parse appenders by IDREF element.
    */
   protected
-  Appender findAppenderByReference(Element appenderRef) {    
-    String appenderName = subst(appenderRef.getAttribute(REF_ATTR));    
+  Appender findAppenderByReference(Element appenderRef) {
+    String appenderName = subst(appenderRef.getAttribute(REF_ATTR));
     Document doc = appenderRef.getOwnerDocument();
     return findAppenderByName(doc, appenderName);
   }
@@ -242,14 +242,14 @@ public class DOMConfigurator implements Configurator {
   protected
   Appender parseAppender (Element appenderElement) {
     String className = subst(appenderElement.getAttribute(CLASS_ATTR));
-    LogLog.debug("Class name: [" + className+']');    
+    LogLog.debug("Class name: [" + className+']');
     try {
       Object instance 	= Loader.loadClass(className).newInstance();
       Appender appender	= (Appender)instance;
       PropertySetter propSetter = new PropertySetter(appender);
 
       appender.setName(subst(appenderElement.getAttribute(NAME_ATTR)));
-      
+
       NodeList children	= appenderElement.getChildNodes();
       final int length 	= children.getLength();
 
@@ -260,7 +260,7 @@ public class DOMConfigurator implements Configurator {
 	if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 	  Element currentElement = (Element)currentNode;
 
-	  // Parse appender parameters 
+	  // Parse appender parameters
 	  if (currentElement.getTagName().equals(PARAM_TAG)) {
             setParameter(currentElement, propSetter);
 	  }
@@ -314,9 +314,9 @@ public class DOMConfigurator implements Configurator {
   void parseErrorHandler(Element element, Appender appender) {
     ErrorHandler eh = (ErrorHandler) OptionConverter.instantiateByClassName(
                                        subst(element.getAttribute(CLASS_ATTR)),
-                                       org.apache.log4j.spi.ErrorHandler.class, 
+                                       org.apache.log4j.spi.ErrorHandler.class,
  				       null);
-    
+
     if(eh != null) {
       eh.setAppender(appender);
 
@@ -334,7 +334,7 @@ public class DOMConfigurator implements Configurator {
 	  } else if(tagName.equals(APPENDER_REF_TAG)) {
 	    eh.setBackupAppender(findAppenderByReference(currentElement));
 	  } else if(tagName.equals(LOGGER_REF)) {
-	    String loggerName = currentElement.getAttribute(REF_ATTR);	    
+	    String loggerName = currentElement.getAttribute(REF_ATTR);
 	    Logger logger = (catFactory == null) ? repository.getLogger(loggerName)
                 : repository.getLogger(loggerName, catFactory);
 	    eh.setLogger(logger);
@@ -350,7 +350,7 @@ public class DOMConfigurator implements Configurator {
       appender.setErrorHandler(eh);
     }
   }
-  
+
   /**
      Used internally to parse a filter element.
    */
@@ -359,7 +359,7 @@ public class DOMConfigurator implements Configurator {
     String clazz = subst(element.getAttribute(CLASS_ATTR));
     Filter filter = (Filter) OptionConverter.instantiateByClassName(clazz,
                                                 Filter.class, null);
-    
+
     if(filter != null) {
       PropertySetter propSetter = new PropertySetter(filter);
       NodeList children = element.getChildNodes();
@@ -381,9 +381,9 @@ public class DOMConfigurator implements Configurator {
       LogLog.debug("Adding filter of type ["+filter.getClass()
 		   +"] to appender named ["+appender.getName()+"].");
       appender.addFilter(filter);
-    }    
+    }
   }
-  
+
   /**
      Used internally to parse an category element.
   */
@@ -392,7 +392,7 @@ public class DOMConfigurator implements Configurator {
     // Create a new org.apache.log4j.Category object from the <category> element.
     String catName = subst(loggerElement.getAttribute(NAME_ATTR));
 
-    Logger cat;    
+    Logger cat;
 
     String className = subst(loggerElement.getAttribute(CLASS_ATTR));
 
@@ -403,9 +403,9 @@ public class DOMConfigurator implements Configurator {
     }
     else {
       LogLog.debug("Desired logger sub-class: ["+className+']');
-       try {	 
+       try {
 	 Class clazz = Loader.loadClass(className);
-	 Method getInstanceMethod = clazz.getMethod("getLogger", 
+	 Method getInstanceMethod = clazz.getMethod("getLogger",
 						    ONE_STRING_PARAM);
 	 cat = (Logger) getInstanceMethod.invoke(null, new Object[] {catName});
        } catch (InvocationTargetException oops) {
@@ -430,7 +430,7 @@ public class DOMConfigurator implements Configurator {
       boolean additivity = OptionConverter.toBoolean(
                            subst(loggerElement.getAttribute(ADDITIVITY_ATTR)),
 			   true);
-    
+
       LogLog.debug("Setting ["+cat.getName()+"] additivity to ["+additivity+"].");
       cat.setAdditivity(additivity);
       parseChildrenOfLoggerElement(loggerElement, cat, false);
@@ -452,7 +452,7 @@ public class DOMConfigurator implements Configurator {
     else {
       LogLog.debug("Desired category factory: ["+className+']');
       Object factory = OptionConverter.instantiateByClassName(className,
-                                                                 LoggerFactory.class, 
+                                                                 LoggerFactory.class,
                                                                  null);
       if (factory instanceof LoggerFactory) {
           catFactory = (LoggerFactory) factory;
@@ -488,7 +488,7 @@ public class DOMConfigurator implements Configurator {
   void parseRoot (Element rootElement) {
     Logger root = repository.getRootLogger();
     // category configuration needs to be atomic
-    synchronized(root) {    
+    synchronized(root) {
       parseChildrenOfLoggerElement(rootElement, root, true);
     }
   }
@@ -500,9 +500,9 @@ public class DOMConfigurator implements Configurator {
   protected
   void parseChildrenOfLoggerElement(Element catElement,
 				      Logger cat, boolean isRoot) {
-    
+
     PropertySetter propSetter = new PropertySetter(cat);
-    
+
     // Remove all existing appenders from cat. They will be
     // reconstructed if need be.
     cat.removeAllAppenders();
@@ -510,28 +510,28 @@ public class DOMConfigurator implements Configurator {
 
     NodeList children 	= catElement.getChildNodes();
     final int length 	= children.getLength();
-    
+
     for (int loop = 0; loop < length; loop++) {
       Node currentNode = children.item(loop);
 
       if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 	Element currentElement = (Element) currentNode;
 	String tagName = currentElement.getTagName();
-	
+
 	if (tagName.equals(APPENDER_REF_TAG)) {
 	  Element appenderRef = (Element) currentNode;
 	  Appender appender = findAppenderByReference(appenderRef);
 	  String refName =  subst(appenderRef.getAttribute(REF_ATTR));
 	  if(appender != null)
-	    LogLog.debug("Adding appender named ["+ refName+ 
+	    LogLog.debug("Adding appender named ["+ refName+
 			 "] to category ["+cat.getName()+"].");
-	  else 
+	  else
 	    LogLog.debug("Appender named ["+ refName + "] not found.");
-	    
+
 	  cat.addAppender(appender);
-	  
+
 	} else if(tagName.equals(LEVEL_TAG)) {
-	  parseLevel(currentElement, cat, isRoot);	
+	  parseLevel(currentElement, cat, isRoot);
 	} else if(tagName.equals(PRIORITY_TAG)) {
 	  parseLevel(currentElement, cat, isRoot);
 	} else if(tagName.equals(PARAM_TAG)) {
@@ -546,16 +546,16 @@ public class DOMConfigurator implements Configurator {
 
   /**
      Used internally to parse a layout element.
-  */  
+  */
   protected
   Layout parseLayout (Element layout_element) {
     String className = subst(layout_element.getAttribute(CLASS_ATTR));
-    LogLog.debug("Parsing layout of class: \""+className+"\"");		 
+    LogLog.debug("Parsing layout of class: \""+className+"\"");
     try {
       Object instance 	= Loader.loadClass(className).newInstance();
       Layout layout   	= (Layout)instance;
       PropertySetter propSetter = new PropertySetter(layout);
-      
+
       NodeList params 	= layout_element.getChildNodes();
       final int length 	= params.getLength();
 
@@ -571,7 +571,7 @@ public class DOMConfigurator implements Configurator {
       }
 	}
       }
-      
+
       propSetter.activate();
       return layout;
     }
@@ -585,12 +585,12 @@ public class DOMConfigurator implements Configurator {
     }
   }
 
-  protected 
+  protected
   void parseRenderer(Element element) {
     String renderingClass = subst(element.getAttribute(RENDERING_CLASS_ATTR));
     String renderedClass = subst(element.getAttribute(RENDERED_CLASS_ATTR));
     if(repository instanceof RendererSupport) {
-      RendererMap.addRenderer((RendererSupport) repository, renderedClass, 
+      RendererMap.addRenderer((RendererSupport) repository, renderedClass,
 			      renderingClass);
     }
   }
@@ -650,7 +650,7 @@ public class DOMConfigurator implements Configurator {
 
     String priStr = subst(element.getAttribute(VALUE_ATTR));
     LogLog.debug("Level value for "+catName+" is  ["+priStr+"].");
-    
+
     if(INHERITED.equalsIgnoreCase(priStr) || NULL.equalsIgnoreCase(priStr)) {
       if(isRoot) {
 	LogLog.error("Root level cannot be inherited. Ignoring directive.");
@@ -658,16 +658,16 @@ public class DOMConfigurator implements Configurator {
 	logger.setLevel(null);
       }
     } else {
-      String className = subst(element.getAttribute(CLASS_ATTR));      
-      if(EMPTY_STR.equals(className)) {	
+      String className = subst(element.getAttribute(CLASS_ATTR));
+      if(EMPTY_STR.equals(className)) {
 	logger.setLevel(OptionConverter.toLevel(priStr, Level.DEBUG));
       } else {
 	LogLog.debug("Desired Level sub-class: ["+className+']');
-	try {	 
+	try {
 	  Class clazz = Loader.loadClass(className);
-	  Method toLevelMethod = clazz.getMethod("toLevel", 
+	  Method toLevelMethod = clazz.getMethod("toLevel",
 						    ONE_STRING_PARAM);
-	  Level pri = (Level) toLevelMethod.invoke(null, 
+	  Level pri = (Level) toLevelMethod.invoke(null,
 						    new Object[] {priStr});
 	  logger.setLevel(pri);
 	} catch (Exception oops) {
@@ -680,7 +680,7 @@ public class DOMConfigurator implements Configurator {
 	}
       }
     }
-    LogLog.debug(catName + " level set to " + logger.getLevel());    
+    LogLog.debug(catName + " level set to " + logger.getLevel());
   }
 
   protected
@@ -694,7 +694,7 @@ public class DOMConfigurator implements Configurator {
 
   /**
      Configure log4j using a <code>configuration</code> element as
-     defined in the log4j.dtd. 
+     defined in the log4j.dtd.
 
   */
   static
@@ -707,7 +707,7 @@ public class DOMConfigurator implements Configurator {
  /**
      Like {@link #configureAndWatch(String, long)} except that the
      default delay as defined by {@link FileWatchdog#DEFAULT_DELAY} is
-     used. 
+     used.
 
      @param configFilename A log4j configuration file in XML format.
 
@@ -724,7 +724,7 @@ public class DOMConfigurator implements Configurator {
      check if <code>configFilename</code> has been created or
      modified. The period is determined by the <code>delay</code>
      argument. If a change or file creation is detected, then
-     <code>configFilename</code> is read to configure log4j.  
+     <code>configFilename</code> is read to configure log4j.
 
       @param configFilename A log4j configuration file in XML format.
       @param delay The delay in milliseconds to wait between each check.
@@ -736,7 +736,7 @@ public class DOMConfigurator implements Configurator {
     xdog.setDelay(delay);
     xdog.start();
   }
-  
+
   private interface ParseAction {
       Document parse(final DocumentBuilder parser) throws SAXException, IOException;
   }
@@ -748,13 +748,13 @@ public class DOMConfigurator implements Configurator {
           public Document parse(final DocumentBuilder parser) throws SAXException, IOException {
               return parser.parse(new File(filename));
           }
-          public String toString() { 
-              return "file [" + filename + "]"; 
+          public String toString() {
+              return "file [" + filename + "]";
           }
     };
     doConfigure(action, repository);
   }
-  
+
 
   public
   void doConfigure(final URL url, LoggerRepository repository) {
@@ -771,8 +771,8 @@ public class DOMConfigurator implements Configurator {
                 stream.close();
               }
           }
-          public String toString() { 
-              return "url [" + url.toString() + "]"; 
+          public String toString() {
+              return "url [" + url.toString() + "]";
           }
       };
       doConfigure(action, repository);
@@ -784,7 +784,7 @@ public class DOMConfigurator implements Configurator {
 
   */
   public
-  void doConfigure(final InputStream inputStream, LoggerRepository repository) 
+  void doConfigure(final InputStream inputStream, LoggerRepository repository)
                                           throws FactoryConfigurationError {
       ParseAction action = new ParseAction() {
           public Document parse(final DocumentBuilder parser) throws SAXException, IOException {
@@ -792,8 +792,8 @@ public class DOMConfigurator implements Configurator {
               inputSource.setSystemId("dummy://log4j.dtd");
               return parser.parse(inputSource);
           }
-          public String toString() { 
-              return "input stream [" + inputStream.toString() + "]"; 
+          public String toString() {
+              return "input stream [" + inputStream.toString() + "]";
           }
       };
       doConfigure(action, repository);
@@ -805,7 +805,7 @@ public class DOMConfigurator implements Configurator {
 
   */
   public
-  void doConfigure(final Reader reader, LoggerRepository repository) 
+  void doConfigure(final Reader reader, LoggerRepository repository)
                                           throws FactoryConfigurationError {
       ParseAction action = new ParseAction() {
           public Document parse(final DocumentBuilder parser) throws SAXException, IOException {
@@ -813,8 +813,8 @@ public class DOMConfigurator implements Configurator {
               inputSource.setSystemId("dummy://log4j.dtd");
               return parser.parse(inputSource);
           }
-          public String toString() { 
-              return "reader [" + reader.toString() + "]"; 
+          public String toString() {
+              return "reader [" + reader.toString() + "]";
           }
       };
     doConfigure(action, repository);
@@ -826,7 +826,7 @@ public class DOMConfigurator implements Configurator {
 
   */
   protected
-  void doConfigure(final InputSource inputSource, LoggerRepository repository) 
+  void doConfigure(final InputSource inputSource, LoggerRepository repository)
                                           throws FactoryConfigurationError {
       if (inputSource.getSystemId() == null) {
           inputSource.setSystemId("dummy://log4j.dtd");
@@ -835,22 +835,22 @@ public class DOMConfigurator implements Configurator {
           public Document parse(final DocumentBuilder parser) throws SAXException, IOException {
               return parser.parse(inputSource);
           }
-          public String toString() { 
-              return "input source [" + inputSource.toString() + "]"; 
+          public String toString() {
+              return "input source [" + inputSource.toString() + "]";
           }
       };
       doConfigure(action, repository);
     }
-    
-    
+
+
   private final void doConfigure(final ParseAction action, final LoggerRepository repository)
          throws FactoryConfigurationError {
     DocumentBuilderFactory dbf = null;
     this.repository = repository;
-    try { 
+    try {
       LogLog.debug("System property is :"+
-  	                        OptionConverter.getSystemProperty(dbfKey, 
-								  null)); 
+  	                        OptionConverter.getSystemProperty(dbfKey,
+								  null));
       dbf = DocumentBuilderFactory.newInstance();
       LogLog.debug("Standard DocumentBuilderFactory search succeded.");
       LogLog.debug("DocumentBuilderFactory is: "+dbf.getClass().getName());
@@ -859,16 +859,16 @@ public class DOMConfigurator implements Configurator {
       LogLog.debug("Could not instantiate a DocumentBuilderFactory.", e);
       throw fce;
     }
-      
+
     try {
       dbf.setValidating(true);
 
       DocumentBuilder docBuilder = dbf.newDocumentBuilder();
 
-      docBuilder.setErrorHandler(new SAXErrorHandler());      
+      docBuilder.setErrorHandler(new SAXErrorHandler());
       docBuilder.setEntityResolver(new Log4jEntityResolver());
-         
-      Document doc = action.parse(docBuilder);     
+
+      Document doc = action.parse(docBuilder);
       parse(doc.getDocumentElement());
     } catch (Exception e) {
         if (e instanceof InterruptedException || e instanceof InterruptedIOException) {
@@ -880,20 +880,20 @@ public class DOMConfigurator implements Configurator {
   }
 
   /**
-     Configure by taking in an DOM element. 
+     Configure by taking in an DOM element.
   */
   public void doConfigure(Element element, LoggerRepository repository) {
     this.repository = repository;
     parse(element);
   }
 
-  
+
   /**
      A static version of {@link #doConfigure(String, LoggerRepository)}.  */
   static
   public
   void configure(String filename) throws FactoryConfigurationError {
-    new DOMConfigurator().doConfigure(filename, 
+    new DOMConfigurator().doConfigure(filename,
 				      LogManager.getLoggerRepository());
   }
 
@@ -910,7 +910,7 @@ public class DOMConfigurator implements Configurator {
      Used internally to configure the log4j framework by parsing a DOM
      tree of XML elements based on <a
      href="doc-files/log4j.dtd">log4j.dtd</a>.
-     
+
   */
   protected
   void parse(Element element) {
@@ -930,11 +930,11 @@ public class DOMConfigurator implements Configurator {
 
 
     String debugAttrib = subst(element.getAttribute(INTERNAL_DEBUG_ATTR));
-      
+
     LogLog.debug("debug attribute= \"" + debugAttrib +"\".");
     // if the log4j.dtd is not specified in the XML file, then the
     // "debug" attribute is returned as the empty string.
-    if(!debugAttrib.equals("") && !debugAttrib.equals("null")) {      
+    if(!debugAttrib.equals("") && !debugAttrib.equals("null")) {
       LogLog.setInternalDebugging(OptionConverter.toBoolean(debugAttrib, true));
     } else {
       LogLog.debug("Ignoring " + INTERNAL_DEBUG_ATTR + " attribute.");
@@ -955,7 +955,7 @@ public class DOMConfigurator implements Configurator {
 
 
     String confDebug = subst(element.getAttribute(CONFIG_DEBUG_ATTR));
-    if(!confDebug.equals("") && !confDebug.equals("null")) {      
+    if(!confDebug.equals("") && !confDebug.equals("null")) {
       LogLog.warn("The \""+CONFIG_DEBUG_ATTR+"\" attribute is deprecated.");
       LogLog.warn("Use the \""+INTERNAL_DEBUG_ATTR+"\" attribute instead.");
       LogLog.setInternalDebugging(OptionConverter.toBoolean(confDebug, true));
@@ -993,7 +993,7 @@ public class DOMConfigurator implements Configurator {
 	}
       }
     }
-    
+
     for (int loop = 0; loop < length; loop++) {
       currentNode = children.item(loop);
       if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -1022,7 +1022,7 @@ public class DOMConfigurator implements Configurator {
     }
   }
 
-  
+
   protected
   String subst(final String value) {
       return subst(value, props);
@@ -1122,7 +1122,7 @@ class XMLWatchdog extends FileWatchdog {
      <code>filename</code> to reconfigure log4j. */
   public
   void doOnChange() {
-    new DOMConfigurator().doConfigure(filename, 
+    new DOMConfigurator().doConfigure(filename,
 				      LogManager.getLoggerRepository());
   }
 }

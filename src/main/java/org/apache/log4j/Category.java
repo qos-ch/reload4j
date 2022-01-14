@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,7 +49,7 @@ import java.util.Vector;
   * replaced by the {@link Logger} <em>subclass</em></b></font>. It
   * will be kept around to preserve backward compatibility until mid
   * 2003.
-  * 
+  *
   * <p><code>Logger</code> is a subclass of Category, i.e. it extends
   * Category. In other words, a logger <em>is</em> a category. Thus,
   * all operations that can be performed on a category can be
@@ -59,24 +59,24 @@ import java.util.Vector;
   * only <code>Logger</code> instances. In order to preserve backward
   * compatibility, methods that previously accepted category objects
   * still continue to accept category objects.
-  * 
+  *
   * <p>For example, the following are all legal and will work as
   * expected.
-  * 
+  *
    <pre>
     &nbsp;&nbsp;&nbsp;// Deprecated form:
     &nbsp;&nbsp;&nbsp;Category cat = Category.getInstance("foo.bar")
-   
+
     &nbsp;&nbsp;&nbsp;// Preferred form for retrieving loggers:
     &nbsp;&nbsp;&nbsp;Logger logger = Logger.getLogger("foo.bar")
    </pre>
-   
+
   *  <p>The first form is deprecated and should be avoided.
-  * 
+  *
   *  <p><b>There is absolutely no need for new client code to use or
   *  refer to the <code>Category</code> class.</b> Whenever possible,
   *  please avoid referring to it or using it.
-  * 
+  *
   * <p>See the <a href="../../../../manual.html">short manual</a> for an
   * introduction on this class.
   * <p>
@@ -84,7 +84,7 @@ import java.util.Vector;
   *  for log4j 1.3</a> for a more detailed discussion.
   *
   * @author Ceki G&uuml;lc&uuml;
-  * @author Anders Kristensen 
+  * @author Anders Kristensen
   */
 public class Category implements AppenderAttachable {
 
@@ -449,7 +449,7 @@ public class Category implements AppenderAttachable {
   /**
     *
     * @deprecated Please use the the {@link #getEffectiveLevel} method
-    * instead.  
+    * instead.
     * */
   public
   Priority getChainedPriority() {
@@ -524,7 +524,7 @@ public class Category implements AppenderAttachable {
 
  /**
   * @deprecated Please make sure to use {@link Logger#getLogger(Class)} instead.
-  */ 
+  */
   public
   static
   Category getInstance(Class clazz) {

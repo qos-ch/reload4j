@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,9 +31,9 @@ import org.apache.log4j.NDC;
       0    INFO  [main] examples.Trivial (Client #45890) - Awake awake. Put on thy strength.
       15   DEBUG [main] examples.Trivial (Client #45890 DB) - Now king David was old.
       278  INFO  [main] examples.Trivial$InnerTrivial (Client #45890) - Entered foo.
-      293  INFO  [main] examples.Trivial (Client #45890) - Exiting Trivial.   
+      293  INFO  [main] examples.Trivial (Client #45890) - Exiting Trivial.
    </pre>
-   
+
    <p> The increasing numbers at the beginning of each line are the
    times elapsed since the start of the program. The string between
    the parentheses is the nested diagnostic context.
@@ -53,27 +53,27 @@ public class Trivial {
 
   public static void main(String[] args) {
     BasicConfigurator.configure();
-    NDC.push("Client #45890"); 
+    NDC.push("Client #45890");
 
     logger.info("Awake awake. Put on thy strength.");
     Trivial.foo();
     InnerTrivial.foo();
-    logger.info("Exiting Trivial.");    
+    logger.info("Exiting Trivial.");
   }
 
   static
   void foo() {
-    NDC.push("DB"); 
-    logger.debug("Now king David was old.");    
-    NDC.pop(); 
+    NDC.push("DB");
+    logger.debug("Now king David was old.");
+    NDC.pop();
   }
 
   static class InnerTrivial {
     static  Logger logger = Logger.getLogger(InnerTrivial.class);
 
-    static    
+    static
     void foo() {
-      logger.info("Entered foo."); 
+      logger.info("Entered foo.");
     }
   }
 }

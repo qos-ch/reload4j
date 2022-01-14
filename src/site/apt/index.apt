@@ -23,7 +23,7 @@ Apache log4j\u2122  1.2
     Please see the {{{/license.html}License}}.
 
     If you are interested in the recent changes, visit our {{{/changes-report.html}changes report}}.
-    
+
 * Why logging?
 
     Inserting log statements into your code is a low-tech method
@@ -77,10 +77,10 @@ Apache log4j\u2122  1.2
 	PatternLayout is almost as good as the dedicated layouts,
 	except that it is much more flexible.
 
-* Roadmap 
+* Roadmap
 
     The package is being constantly improved thanks to input from
-	users and code contributed by authors in the community. 
+	users and code contributed by authors in the community.
 
     Please note, the team is currently working on log4j 2 which will replace
     log4j 1 in near future.

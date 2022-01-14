@@ -35,7 +35,7 @@ log4j.rootCategory=, A1
 # requests are logged in the file factor.log. Nevertheless, the logs
 # of these requests can still be distinguished given their distinct
 # nested diagnostic contexts.
-  
+
 log4j.appender.A1=org.apache.log4j.FileAppender
 log4j.appender.A1.File=factor.log
 log4j.appender.A1.layout=org.apache.log4j.PatternLayout

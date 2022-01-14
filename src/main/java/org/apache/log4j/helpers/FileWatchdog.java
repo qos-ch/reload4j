@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,19 +33,19 @@ public abstract class FileWatchdog extends Thread {
   /**
      The default delay between every file modification check, set to 60
      seconds.  */
-  static final public long DEFAULT_DELAY = 60000; 
+  static final public long DEFAULT_DELAY = 60000;
   /**
      The name of the file to observe  for changes.
    */
   protected String filename;
-  
+
   /**
      The delay to observe between every check. By default set {@link
      #DEFAULT_DELAY}. */
-  protected long delay = DEFAULT_DELAY; 
-  
+  protected long delay = DEFAULT_DELAY;
+
   File file;
-  long lastModif = 0; 
+  long lastModif = 0;
   boolean warnedAlready = false;
   boolean interrupted = false;
 
@@ -66,8 +66,8 @@ public abstract class FileWatchdog extends Thread {
     this.delay = delay;
   }
 
-  abstract 
-  protected 
+  abstract
+  protected
   void doOnChange();
 
   protected
@@ -98,7 +98,7 @@ public abstract class FileWatchdog extends Thread {
   }
 
   public
-  void run() {    
+  void run() {
     while(!interrupted) {
       try {
 	    Thread.sleep(delay);

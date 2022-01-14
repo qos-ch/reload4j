@@ -44,7 +44,7 @@ public final class CachedDateFormatTest
   public CachedDateFormatTest(String name) {
     super(name);
   }
-  
+
   private static DateFormat createAbsoluteTimeDateFormat(TimeZone timeZone) {
       DateFormat df = new SimpleDateFormat("HH:mm:ss,SSS");
       df.setTimeZone(timeZone);
@@ -122,7 +122,7 @@ public final class CachedDateFormatTest
   }
 
   public void test4() {
-    //  subsequent calls within one minute are optimized to reuse previous 
+    //  subsequent calls within one minute are optimized to reuse previous
     //  formatted value. make a couple of nearly spaced calls
     // (Note: 'Z' is JDK 1.4, using 'z' instead.)
     SimpleDateFormat baseFormat =
@@ -157,33 +157,33 @@ public final class CachedDateFormatTest
     //
     // use a date in the year 2000 CE to attempt to confuse the millisecond locator
     long ticks = 11141L * 86400000L;
-   
+
     String sx;
     Date jul1 = new Date(ticks);
     sx = cachedFormat.format(jul1);
     System.out.println(baseFormat.format(jul1));
     System.out.println(sx);
     assertEquals(baseFormat.format(jul1), sx);
-    
+
     sx = cachedFormat.format(jul1);
     System.out.println(baseFormat.format(jul1));
     System.out.println(sx);
     assertEquals(baseFormat.format(jul1), sx);
-    
-    
+
+
     Date plus8ms = new Date(ticks + 8);
     sx = cachedFormat.format(plus8ms);
     System.out.println(baseFormat.format(plus8ms));
     System.out.println(sx);
-    
+
     assertEquals(baseFormat.format(plus8ms), sx);
-    
+
     Date plus17ms = new Date(ticks + 17);
     assertEquals(baseFormat.format(plus17ms), cachedFormat.format(plus17ms));
-    
+
     Date plus237ms = new Date(ticks + 237);
     assertEquals(baseFormat.format(plus237ms), cachedFormat.format(plus237ms));
-    
+
     Date plus1415ms = new Date(ticks + 1415);
     assertEquals(baseFormat.format(plus1415ms), cachedFormat.format(plus1415ms));
   }
@@ -218,7 +218,7 @@ public final class CachedDateFormatTest
     DateFormat cachedFormat = new CachedDateFormat(baseFormat, 1000);
     TimeZone cet = TimeZone.getTimeZone("GMT+1");
     cachedFormat.setTimeZone(cet);
-    
+
     Calendar c = Calendar.getInstance();
     c.set(2004, Calendar.DECEMBER, 12, 20, 0);
     c.set(Calendar.SECOND, 37);
@@ -237,7 +237,7 @@ public final class CachedDateFormatTest
     s = cachedFormat.format(c.getTime());
     assertEquals(expected, s);
   }
-  
+
 
   /**
    * Test when millisecond position moves but length remains constant.
@@ -247,7 +247,7 @@ public final class CachedDateFormatTest
     DateFormat cachedFormat = new CachedDateFormat(baseFormat, 1000);
     TimeZone cet = TimeZone.getTimeZone("GMT+1");
     cachedFormat.setTimeZone(cet);
-    
+
     Calendar c = Calendar.getInstance();
     c.set(2004, Calendar.OCTOBER, 5, 20, 0);
     c.set(Calendar.SECOND, 37);
@@ -294,7 +294,7 @@ public final class CachedDateFormatTest
      String expected = baseFormat.format(jul2);
      assertEquals(expected, gmtFormat.format(jul2));
      jul2.setTime(ticks + 87);
-     
+
 
      //
      //   Cache gives 00,087
@@ -311,7 +311,7 @@ public final class CachedDateFormatTest
      long ticks = 11142L * 86400000L;
      String formatted = df.format(new Date(ticks));
      int millisecondStart = CachedDateFormat.findMillisecondStart(ticks, formatted, df);
-     assertEquals(20, millisecondStart);     
+     assertEquals(20, millisecondStart);
   }
 
   /**
@@ -322,7 +322,7 @@ public final class CachedDateFormatTest
      long ticks = 11142L * 86400000L;
      String formatted = df.format(new Date(ticks));
      int millisecondStart = CachedDateFormat.findMillisecondStart(ticks, formatted, df);
-     assertEquals(CachedDateFormat.NO_MILLISECONDS, millisecondStart);     
+     assertEquals(CachedDateFormat.NO_MILLISECONDS, millisecondStart);
   }
 
   /**
@@ -333,7 +333,7 @@ public final class CachedDateFormatTest
      long ticks = 11142L * 86400000L;
      String formatted = df.format(new Date(ticks));
      int millisecondStart = CachedDateFormat.findMillisecondStart(ticks, formatted, df);
-     assertEquals(9, millisecondStart);     
+     assertEquals(9, millisecondStart);
   }
 
   /**
@@ -344,7 +344,7 @@ public final class CachedDateFormatTest
      long ticks = 11142L * 86400000L;
      String formatted = df.format(new Date(ticks));
      int millisecondStart = CachedDateFormat.findMillisecondStart(ticks, formatted, df);
-     assertEquals(CachedDateFormat.UNRECOGNIZED_MILLISECONDS, millisecondStart);     
+     assertEquals(CachedDateFormat.UNRECOGNIZED_MILLISECONDS, millisecondStart);
   }
 
   /**
@@ -355,7 +355,7 @@ public final class CachedDateFormatTest
      long ticks = 11142L * 86400000L;
      String formatted = df.format(new Date(ticks));
      int millisecondStart = CachedDateFormat.findMillisecondStart(ticks, formatted, df);
-     assertEquals(CachedDateFormat.UNRECOGNIZED_MILLISECONDS, millisecondStart);     
+     assertEquals(CachedDateFormat.UNRECOGNIZED_MILLISECONDS, millisecondStart);
   }
 
 
@@ -377,12 +377,12 @@ public final class CachedDateFormatTest
       //  TODO: why is this returning ,120 ... , 120
       //
       //assertEquals("00:00:00,120 00:00:00,000", s) ;
-      
+
       int maxValid = CachedDateFormat.getMaximumCacheValidity(badPattern);
       assertEquals(1, maxValid);
   }
 
-  
+
   public static Test xsuite() {
     TestSuite suite = new TestSuite();
     suite.addTest(new CachedDateFormatTest("test5"));

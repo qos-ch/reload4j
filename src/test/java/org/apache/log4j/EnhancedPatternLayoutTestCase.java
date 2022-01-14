@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -82,14 +82,14 @@ public class EnhancedPatternLayoutTestCase  {
   static String PAT_MDC_1 = "";
   Logger root;
   Logger logger;
-  
 
- 
+
+
   @Before
   public void setUp() {
     root = Logger.getRootLogger();
     logger = Logger.getLogger(EnhancedPatternLayoutTest.class);
-    
+
   }
 
   @After
@@ -125,7 +125,7 @@ public class EnhancedPatternLayoutTestCase  {
     Transformer.transform(
       OUTPUT, FILTERED,
       new Filter[] {
-        new EnhancedLineNumberFilter(), 
+        new EnhancedLineNumberFilter(),
         new Log4jAndNothingElseFilter()
       });
     assertTrue(compare(FILTERED, TEST_WITNESS_PREFIX+"pattern/enhancedPatternLayout.1"));
@@ -166,7 +166,7 @@ public class EnhancedPatternLayoutTestCase  {
   }
 
   // Output format:
-  // 06 avr. 2002 18:30:58,937 [main] DEBUG atternLayoutTest - Message 0  
+  // 06 avr. 2002 18:30:58,937 [main] DEBUG atternLayoutTest - Message 0
   @Test
   public void test4() throws Exception {
     configure(TEST_INPUT_PREFIX+"pattern/enhancedPatternLayout4.properties");
@@ -264,12 +264,12 @@ public class EnhancedPatternLayoutTestCase  {
     Transformer.transform(
       OUTPUT, FILTERED,
       new Filter[] {
-        cf1, new EnhancedLineNumberFilter(), 
+        cf1, new EnhancedLineNumberFilter(),
         new Log4jAndNothingElseFilter(),
       });
     assertTrue(compare(FILTERED, TEST_WITNESS_PREFIX+"pattern/enhancedPatternLayout.9"));
   }
-  
+
   @Test
   public void test10() throws Exception {
     configure(TEST_INPUT_PREFIX+"pattern/enhancedPatternLayout10.properties");
@@ -281,7 +281,7 @@ public class EnhancedPatternLayoutTestCase  {
     Transformer.transform(
       OUTPUT, FILTERED,
       new Filter[] {
-        cf1, new EnhancedLineNumberFilter(), 
+        cf1, new EnhancedLineNumberFilter(),
         new Log4jAndNothingElseFilter(),
       });
     assertTrue(compare(FILTERED, TEST_WITNESS_PREFIX+"pattern/enhancedPatternLayout.10"));
@@ -457,17 +457,17 @@ public class EnhancedPatternLayoutTestCase  {
   public void testMDC2() throws Exception {
     String OUTPUT_FILE   = TARGET_OUTPUT_PREFIX+"patternLayout.mdc.2";
     String WITNESS_FILE  = TEST_WITNESS_PREFIX+"pattern/enhancedPatternLayout.mdc.2";
-    
+
     String mdcMsgPattern1 = "%m : %X%n";
     String mdcMsgPattern2 = "%m : %X{key1}%n";
     String mdcMsgPattern3 = "%m : %X{key2}%n";
     String mdcMsgPattern4 = "%m : %X{key3}%n";
     String mdcMsgPattern5 = "%m : %X{key1},%X{key2},%X{key3}%n";
-    
+
     // set up appender
     EnhancedPatternLayout layout = new EnhancedPatternLayout("%m%n");
     Appender appender = new FileAppender(layout, OUTPUT_FILE, false);
-            
+
     // set appender on root and set level to debug
     root.addAppender(appender);
     root.setLevel(Level.DEBUG);
@@ -475,23 +475,23 @@ public class EnhancedPatternLayoutTestCase  {
     clearMDC();
     // output starting message
     root.debug("starting mdc pattern test");
- 
+
     layout.setConversionPattern(mdcMsgPattern1);
     layout.activateOptions();
     root.debug("empty mdc, no key specified in pattern");
-    
+
     layout.setConversionPattern(mdcMsgPattern2);
     layout.activateOptions();
     root.debug("empty mdc, key1 in pattern");
-    
+
     layout.setConversionPattern(mdcMsgPattern3);
     layout.activateOptions();
     root.debug("empty mdc, key2 in pattern");
-    
+
     layout.setConversionPattern(mdcMsgPattern4);
     layout.activateOptions();
     root.debug("empty mdc, key3 in pattern");
-    
+
     layout.setConversionPattern(mdcMsgPattern5);
     layout.activateOptions();
     root.debug("empty mdc, key1, key2, and key3 in pattern");
@@ -502,19 +502,19 @@ public class EnhancedPatternLayoutTestCase  {
     layout.setConversionPattern(mdcMsgPattern1);
     layout.activateOptions();
     root.debug("filled mdc, no key specified in pattern");
-    
+
     layout.setConversionPattern(mdcMsgPattern2);
     layout.activateOptions();
     root.debug("filled mdc, key1 in pattern");
-    
+
     layout.setConversionPattern(mdcMsgPattern3);
     layout.activateOptions();
     root.debug("filled mdc, key2 in pattern");
-    
+
     layout.setConversionPattern(mdcMsgPattern4);
     layout.activateOptions();
     root.debug("filled mdc, key3 in pattern");
-    
+
     layout.setConversionPattern(mdcMsgPattern5);
     layout.activateOptions();
     root.debug("filled mdc, key1, key2, and key3 in pattern");
@@ -542,16 +542,16 @@ public class EnhancedPatternLayoutTestCase  {
   public void testThrowable() throws Exception {
     String OUTPUT_FILE   = TARGET_OUTPUT_PREFIX+"patternLayout.throwable";
     String WITNESS_FILE  = TEST_WITNESS_PREFIX+"pattern/enhancedPatternLayout.throwable";
-    
-    
+
+
     // set up appender
     EnhancedPatternLayout layout = new EnhancedPatternLayout("%m%n");
     Appender appender = new FileAppender(layout, OUTPUT_FILE, false);
-            
+
     // set appender on root and set level to debug
     root.addAppender(appender);
     root.setLevel(Level.DEBUG);
-    
+
     // output starting message
     root.debug("starting throwable pattern test");
      Exception ex = new Exception("Test Exception");

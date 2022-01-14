@@ -36,7 +36,7 @@ import org.apache.log4j.spi.LoggingEvent;
  * with the same name.
  *
  * The combination of the RewriteAppender and this policy
- * performs the same actions as the ReflectionFilter from log4j 1.3. 
+ * performs the same actions as the ReflectionFilter from log4j 1.3.
  */
 public class ReflectionRewritePolicy implements RewritePolicy {
     /**

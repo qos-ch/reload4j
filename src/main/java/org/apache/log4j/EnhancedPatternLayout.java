@@ -130,12 +130,12 @@ import org.apache.log4j.spi.LoggingEvent;
          followed by a set of braces containing a
          date and time pattern strings {@link java.text.SimpleDateFormat},
          <em>ABSOLUTE</em>, <em>DATE</em> or <em>ISO8601</em>
-          and a set of braces containing a time zone id per 
-          {@link java.util.TimeZone#getTimeZone(String)}.           
+          and a set of braces containing a time zone id per
+          {@link java.util.TimeZone#getTimeZone(String)}.
           For example, <b>%d{HH:mm:ss,SSS}</b>,
          <b>%d{dd&nbsp;MMM&nbsp;yyyy&nbsp;HH:mm:ss,SSS}</b>,
          <b>%d{DATE}</b> or <b>%d{HH:mm:ss}{GMT+0}</b>. If no date format specifier is given then
-         ISO8601 format is assumed.  
+         ISO8601 format is assumed.
      </td>
    </tr>
 
@@ -223,7 +223,7 @@ import org.apache.log4j.spi.LoggingEvent;
 
      <td align=center><b>r</b></td>
 
-     <td>Used to output the number of milliseconds elapsed since the construction 
+     <td>Used to output the number of milliseconds elapsed since the construction
      of the layout until the creation of the logging event.</td>
    </tr>
 
@@ -286,7 +286,7 @@ import org.apache.log4j.spi.LoggingEvent;
 
      <td>
      <p>Used to output the Throwable trace that has been bound to the LoggingEvent, by
-     default this will output the full trace as one would normally 
+     default this will output the full trace as one would normally
      find by a call to Throwable.printStackTrace().
      <b>%throwable{short}</b> or <b>%throwable{1}</b> will output the first line of
      stack trace.   <b>throwable{none}</b> or <b>throwable{0}</b> will suppress

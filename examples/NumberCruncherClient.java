@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,21 +27,21 @@ import java.io.*;
    integer. The factors returned by the {@link NumberCruncherServer}
    are displayed on the screen.
 
-   <p>See <a href=doc-files/NumberCruncherClient.java>source</a> code of 
+   <p>See <a href=doc-files/NumberCruncherClient.java>source</a> code of
    <code>NumberCruncherClient</code> for more details.
 
    <pre>
    <b>Usage:</b> java  org.apache.log4j.examples.NumberCruncherClient HOST
     &nbsp;&nbsp;&nbsp;&nbsp;where HOST is the machine where the NumberCruncherServer is running
    </pre>
-   
+
    <p>Note that class files for the example code is not included in
    any of the distributed log4j jar files. You will have to add the
    directory <code>/dir-where-you-unpacked-log4j/classes</code> to
    your classpath before trying out the examples.
 
    @author Ceki G&uuml;lc&uuml;
-   
+
  */
 public class NumberCruncherClient {
 
@@ -55,7 +55,7 @@ public class NumberCruncherClient {
       }
       catch(Exception e) {
 	e.printStackTrace();
-      }      
+      }
     }
     else
       usage("Wrong number of arguments.");
@@ -76,7 +76,7 @@ public class NumberCruncherClient {
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     int i = 0;
     while (true) {
-      System.out.print("Enter a number to factor, '-1' to quit: ");      
+      System.out.print("Enter a number to factor, '-1' to quit: ");
       try {
 	i = Integer.parseInt(in.readLine());
       }

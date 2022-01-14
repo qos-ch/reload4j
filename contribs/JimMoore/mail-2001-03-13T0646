@@ -21,9 +21,9 @@ http://www.mail-archive.com/log4j-user@jakarta.apache.org/msg00445.html
 RE: diverting System.stderr/stdout into log4j
 --------------------------------------------------------------------------------
 
-From: Michael Smith 
-Subject: RE: diverting System.stderr/stdout into log4j 
-Date: Tue, 13 Mar 2001 06:46:04 -0800 
+From: Michael Smith
+Subject: RE: diverting System.stderr/stdout into log4j
+Date: Tue, 13 Mar 2001 06:46:04 -0800
 
 --------------------------------------------------------------------------------
 
@@ -50,20 +50,20 @@ public class Stderr {
   public static void main(String[] args) {
 
     // create a print stream to represent a redirect
-    PrintStream nonStandardErr = 
+    PrintStream nonStandardErr =
       new PrintStream(new ByteArrayOutputStream());
-    
+
     // Redirect standard out and standard err
     System.setOut(nonStandardErr);
     System.setErr(nonStandardErr);
-    
+
     // attempt to print something
     System.err.println("You should *not* see this on the console!");
-	
+
     // the stuff that would appear in LogLog
-    PrintStream logLogOut = 
+    PrintStream logLogOut =
       new PrintStream(new FileOutputStream(FileDescriptor.err));
-    
+
     // attempt to print something
     logLogOut.println("You *should* see this on the console!");
   }
@@ -72,7 +72,7 @@ public class Stderr {
 
 
 > -----Original Message-----
-> From: Ceki Gülcü [mailto:cgu@qos.ch]
+> From: Ceki Gï¿½lcï¿½ [mailto:cgu@qos.ch]
 > Sent: Monday, March 12, 2001 7:18 PM
 > To: LOG4J Users Mailing List
 > Subject: RE: diverting System.stderr/stdout into log4j
@@ -92,7 +92,7 @@ public class Stderr {
 > native part is circumventing the JDK restrictions. I find this
 > quite entertaining. Ceki
 >
-> At 00:58 13.03.2001 +0100, Ceki Gülcü wrote:
+> At 00:58 13.03.2001 +0100, Ceki Gï¿½lcï¿½ wrote:
 >
 > >Running the risk of disappointing you here, although not full of
 > bugs, log4j is not bug-free as bugs creep out regularly. They
@@ -164,7 +164,7 @@ public class Stderr {
 > >>>
 > >>>
 > >>>-----Original Message-----
-> >>>From: Ceki Gülcü [mailto:cgu@qos.ch]
+> >>>From: Ceki Gï¿½lcï¿½ [mailto:cgu@qos.ch]
 > >>>Sent: Monday, March 12, 2001 5:15 PM
 > >>>To: LOG4J Users Mailing List
 > >>>Subject: RE: diverting System.stderr/stdout into log4j

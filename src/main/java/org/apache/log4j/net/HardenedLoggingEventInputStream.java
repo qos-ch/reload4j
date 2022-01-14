@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,9 +31,9 @@ import org.apache.log4j.spi.ThrowableInformation;
 public class HardenedLoggingEventInputStream extends HardenedObjectInputStream {
 
     static final String ARRAY_PREFIX = "[L";
-    
+
     static public List<String> getWhilelist() {
-    	
+
         List<String> whitelist = new ArrayList<String>();
         whitelist.add(LoggingEvent.class.getName());
         whitelist.add(Level.class.getName());
@@ -43,11 +43,11 @@ public class HardenedLoggingEventInputStream extends HardenedObjectInputStream {
 
         return whitelist;
     }
-   
+
     public HardenedLoggingEventInputStream(InputStream is) throws IOException {
         super(is, getWhilelist());
     }
-    
+
     public HardenedLoggingEventInputStream(InputStream is, List<String> additionalAuthorizedClasses) throws IOException {
         this(is);
         super.addToWhitelist(additionalAuthorizedClasses);

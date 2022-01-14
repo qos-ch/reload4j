@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,9 +28,9 @@ import java.text.DateFormat;
 /**
    Formats a {@link Date} in the format "HH:mm:ss,SSS" for example,
    "15:49:37,459".
-   
+
    @author Ceki G&uuml;lc&uuml;
-   @author Andrew Vajoczki    
+   @author Andrew Vajoczki
 
    @since 0.7.5
 */
@@ -61,7 +61,7 @@ public class AbsoluteTimeDateFormat extends DateFormat {
   AbsoluteTimeDateFormat() {
     setCalendar(Calendar.getInstance());
   }
-  
+
   public
   AbsoluteTimeDateFormat(TimeZone timeZone) {
     setCalendar(Calendar.getInstance(timeZone));
@@ -93,44 +93,44 @@ public class AbsoluteTimeDateFormat extends DateFormat {
       calendar.setTime(date);
 
       int start = sbuf.length();
-      
+
       int hour = calendar.get(Calendar.HOUR_OF_DAY);
       if(hour < 10) {
 	sbuf.append('0');
       }
       sbuf.append(hour);
       sbuf.append(':');
-      
+
       int mins = calendar.get(Calendar.MINUTE);
       if(mins < 10) {
 	sbuf.append('0');
       }
       sbuf.append(mins);
       sbuf.append(':');
-      
+
       int secs = calendar.get(Calendar.SECOND);
       if(secs < 10) {
 	sbuf.append('0');
       }
       sbuf.append(secs);
-      sbuf.append(',');      
+      sbuf.append(',');
 
       // store the time string for next time to avoid recomputation
       sbuf.getChars(start, sbuf.length(), previousTimeWithoutMillis, 0);
-      
+
       previousTime = now - millis;
     }
     else {
       sbuf.append(previousTimeWithoutMillis);
     }
-    
 
-    
-    if(millis < 100) 
+
+
+    if(millis < 100)
       sbuf.append('0');
-    if(millis < 10) 
+    if(millis < 10)
       sbuf.append('0');
-    
+
     sbuf.append(millis);
     return sbuf;
   }
@@ -141,5 +141,5 @@ public class AbsoluteTimeDateFormat extends DateFormat {
   public
   Date parse(String s, ParsePosition pos) {
     return null;
-  }  
+  }
 }

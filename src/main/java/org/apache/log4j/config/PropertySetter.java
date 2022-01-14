@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,7 +43,7 @@ import java.util.Properties;
    on the Object specified in the constructor. This class relies on the
    JavaBeans {@link Introspector} to analyze the given Object Class using
    reflection.
-   
+
    <p>Usage:
    <pre>
      PropertySetter ps = new PropertySetter(anObject);
@@ -54,25 +54,25 @@ import java.util.Properties;
    will cause the invocations anObject.setName("Joe"), anObject.setAge(32),
    and setMale(true) if such methods exist with those signatures.
    Otherwise an {@link IntrospectionException} are thrown.
-  
+
    @author Anders Kristensen
    @since 1.1
  */
 public class PropertySetter {
   protected Object obj;
   protected PropertyDescriptor[] props;
-  
+
   /**
     Create a new PropertySetter for the specified Object. This is done
     in prepartion for invoking {@link #setProperty} one or more times.
-    
+
     @param obj  the object for which to set properties
    */
   public
   PropertySetter(Object obj) {
     this.obj = obj;
   }
-  
+
   /**
      Uses JavaBeans {@link Introspector} to computer setters of object to be
      configured.
@@ -87,7 +87,7 @@ public class PropertySetter {
       props = new PropertyDescriptor[0];
     }
   }
-  
+
 
   /**
      Set the properties of an object passed as a parameter in one
@@ -103,32 +103,32 @@ public class PropertySetter {
   void setProperties(Object obj, Properties properties, String prefix) {
     new PropertySetter(obj).setProperties(properties, prefix);
   }
-  
+
 
   /**
      Set the properites for the object that match the
      <code>prefix</code> passed as parameter.
 
-     
+
    */
   public
   void setProperties(Properties properties, String prefix) {
     int len = prefix.length();
-    
+
     for (Enumeration e = properties.propertyNames(); e.hasMoreElements(); ) {
       String key = (String) e.nextElement();
-      
+
       // handle only properties that start with the desired frefix.
       if (key.startsWith(prefix)) {
 
-	
+
 	// ignore key if it contains dots after the prefix
         if (key.indexOf('.', len + 1) > 0) {
 	  //System.err.println("----------Ignoring---["+key
 	  //	     +"], prefix=["+prefix+"].");
 	  continue;
 	}
-        
+
 	String value = OptionConverter.findAndSubst(key, properties);
         key = key.substring(len);
         if (("layout".equals(key) || "errorhandler".equals(key)) && obj instanceof Appender) {
@@ -171,29 +171,29 @@ public class PropertySetter {
     }
     activate();
   }
-  
+
   /**
      Set a property on this PropertySetter's Object. If successful, this
      method will invoke a setter method on the underlying Object. The
      setter is the one for the specified property name and the value is
      determined partly from the setter argument type and partly from the
      value specified in the call to this method.
-     
+
      <p>If the setter expects a String no conversion is necessary.
      If it expects an int, then an attempt is made to convert 'value'
      to an int using new Integer(value). If the setter expects a boolean,
      the conversion is by new Boolean(value).
-     
+
      @param name    name of the property
      @param value   String value of the property
    */
   public
   void setProperty(String name, String value) {
     if (value == null) return;
-    
+
     name = Introspector.decapitalize(name);
     PropertyDescriptor prop = getPropertyDescriptor(name);
-    
+
     //LogLog.debug("---------Key: "+name+", type="+prop.getPropertyType());
 
     if (prop == null) {
@@ -208,14 +208,14 @@ public class PropertySetter {
       }
     }
   }
-  
-  /** 
+
+  /**
       Set the named property given a {@link PropertyDescriptor}.
 
       @param prop A PropertyDescriptor describing the characteristics
       of the property to set.
       @param name The named of the property to set.
-      @param value The value of the property.      
+      @param value The value of the property.
    */
   public
   void setProperty(PropertyDescriptor prop, String name, String value)
@@ -228,7 +228,7 @@ public class PropertySetter {
     if (paramTypes.length != 1) {
       throw new PropertySetterException("#params for setter != 1");
     }
-    
+
     Object arg;
     try {
       arg = convertArg(value, paramTypes[0]);
@@ -249,13 +249,13 @@ public class PropertySetter {
         if (ex.getTargetException() instanceof InterruptedException
                 || ex.getTargetException() instanceof InterruptedIOException) {
             Thread.currentThread().interrupt();
-        }        
+        }
         throw new PropertySetterException(ex);
     } catch (RuntimeException ex) {
       throw new PropertySetterException(ex);
     }
   }
-  
+
 
   /**
      Convert <code>val</code> a String parameter to an object of a
@@ -282,17 +282,17 @@ public class PropertySetter {
     } else if (Priority.class.isAssignableFrom(type)) {
       return OptionConverter.toLevel(v, (Level) Level.DEBUG);
     } else if (ErrorHandler.class.isAssignableFrom(type)) {
-      return OptionConverter.instantiateByClassName(v, 
+      return OptionConverter.instantiateByClassName(v,
 	  ErrorHandler.class, null);
     }
     return null;
   }
-  
-  
+
+
   protected
   PropertyDescriptor getPropertyDescriptor(String name) {
     if (props == null) introspect();
-    
+
     for (int i = 0; i < props.length; i++) {
       if (name.equals(props[i].getName())) {
 	return props[i];
@@ -300,7 +300,7 @@ public class PropertySetter {
     }
     return null;
   }
-  
+
   public
   void activate() {
     if (obj instanceof OptionHandler) {

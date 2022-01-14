@@ -14,12 +14,12 @@
  limitations under the License.
 
 
-Delivered-To: urba-cgu@urbanet.ch 
-From: Mark Douglas <Mark_Douglas@systemsunion.com> 
-To: "'cgu@urbanet.ch'" <cgu@urbanet.ch> 
-Subject: Enhanced SocketServer and SocketNode classes 
-Date: Wed, 17 Jan 2001 09:57:38 -0000 
-X-Mailer: Internet Mail Service (5.5.2650.21) 
+Delivered-To: urba-cgu@urbanet.ch
+From: Mark Douglas <Mark_Douglas@systemsunion.com>
+To: "'cgu@urbanet.ch'" <cgu@urbanet.ch>
+Subject: Enhanced SocketServer and SocketNode classes
+Date: Wed, 17 Jan 2001 09:57:38 -0000
+X-Mailer: Internet Mail Service (5.5.2650.21)
 
 
 Hi Ceki,
@@ -47,7 +47,7 @@ The output was generated with the following layout: %-6p (%9x:%-10t)
 %-40c{3} - %m%n
 
 
- <<Log.txt>>  <<SocketNode2.java>>  <<SocketServer2.java>> 
+ <<Log.txt>>  <<SocketNode2.java>>  <<SocketServer2.java>>
 
 
 Note: I have changed the package names for the two classes to fit with our

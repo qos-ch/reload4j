@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,7 +37,7 @@ public class XLevel extends Level {
 
 
   public static final XLevel TRACE = new XLevel(TRACE_INT, TRACE_STR, 7);
-  public static final XLevel LETHAL = new XLevel(LETHAL_INT, LETHAL_STR, 
+  public static final XLevel LETHAL = new XLevel(LETHAL_INT, LETHAL_STR,
 						       0);
 
 
@@ -48,7 +48,7 @@ public class XLevel extends Level {
 
   /**
      Convert the string passed as argument to a level. If the
-     conversion fails, then this method returns {@link #TRACE}. 
+     conversion fails, then this method returns {@link #TRACE}.
   */
   public
   static
@@ -65,14 +65,14 @@ public class XLevel extends Level {
       return defaultValue;
     }
     String stringVal = sArg.toUpperCase();
-    
+
     if(stringVal.equals(TRACE_STR)) {
       return XLevel.TRACE;
     } else if(stringVal.equals(LETHAL_STR)) {
       return XLevel.LETHAL;
     }
-      
-    return Level.toLevel(sArg, (Level) defaultValue);    
+
+    return Level.toLevel(sArg, (Level) defaultValue);
   }
 
 
@@ -87,4 +87,4 @@ public class XLevel extends Level {
   }
 
 }
-  
+

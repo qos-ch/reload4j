@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -90,13 +90,13 @@ public class Logger extends Category {
    * Retrieve a logger named according to the value of the
    * <code>name</code> parameter. If the named logger already exists,
    * then the existing instance will be returned. Otherwise, a new
-   * instance is created.  
+   * instance is created.
    *
    * <p>By default, loggers do not have a set level but inherit it
    * from their neareast ancestor with a set level. This is one of the
    * central features of log4j.
    *
-   * @param name The name of the logger to retrieve.  
+   * @param name The name of the logger to retrieve.
   */
   static
   public
@@ -126,7 +126,7 @@ public class Logger extends Category {
    * <code>Logger.getLogger("root")</code> does not retrieve the root
    * logger but a logger just under root named "root".
    * <p>
-   * In other words, calling this method is the only way to retrieve the 
+   * In other words, calling this method is the only way to retrieve the
    * root logger.
    */
   public

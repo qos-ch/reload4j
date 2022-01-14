@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,7 +34,7 @@ import org.apache.log4j.spi.RootLogger;
 /**
  * A {@link SocketNode} based server that uses a different hierarchy for each
  * client.
- * 
+ *
  * <pre>
    <b>Usage:</b> java org.apache.log4j.net.SocketServer port configFile configDir
 
@@ -42,11 +42,11 @@ import org.apache.log4j.spi.RootLogger;
          <b>configFile</b> is a configuration file fed to the {@link PropertyConfigurator} and
          <b>configDir</b> is a path to a directory containing configuration files, possibly one for each client host.
  * </pre>
- * 
+ *
  * <p>
  * The <code>configFile</code> is used to configure the log4j default hierarchy
  * that the <code>SocketServer</code> will use to report on its actions.
- * 
+ *
  * <p>
  * When a new connection is opened from a previously unknown host, say
  * <code>foo.bar.net</code>, then the <code>SocketServer</code> will search for
@@ -56,7 +56,7 @@ import org.apache.log4j.spi.RootLogger;
  * configuration file <code>foo.bar.net.lcf</code>. If and when the host
  * <code>foo.bar.net</code> opens another connection to the server, then the
  * previously configured hierarchy is used.
- * 
+ *
  * <p>
  * In case there is no file called <code>foo.bar.net.lcf</code> under the
  * directory <code>configDir</code>, then the <em>generic</em> hierarchy is
@@ -64,11 +64,11 @@ import org.apache.log4j.spi.RootLogger;
  * <code>generic.lcf</code> under the <code>configDir</code> directory. If no
  * such file exists, then the generic hierarchy will be identical to the log4j
  * default hierarchy.
- * 
+ *
  * <p>
  * Having different client hosts log using different hierarchies ensures the
  * total independence of the clients with respect to their logging settings.
- * 
+ *
  * <p>
  * Currently, the hierarchy that will be used for a given request depends on the
  * IP address of the client host. For example, two separate applicatons running
@@ -77,10 +77,10 @@ import org.apache.log4j.spi.RootLogger;
  * amount of independence between applications. The <code>SocketServer</code> is
  * intended as an example to be enhanced in order to implement more elaborate
  * policies.
- * 
- * 
+ *
+ *
  * @author Ceki G&uuml;lc&uuml;
- * 
+ *
  * @since 1.0
  */
 
@@ -172,7 +172,7 @@ public class SocketServer {
 			} else {
 			  key = s.substring(0, i);
 			}
-			
+
 			File configFile = new File(dir, key + CONFIG_FILE_EXT);
 			if (configFile.exists()) {
 				Hierarchy h = new Hierarchy(new RootLogger(Level.DEBUG));

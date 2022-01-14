@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,14 +40,14 @@ import java.util.Arrays;
  *
   <pre>
    &lt;?xml version="1.0" ?&gt;
- 
+
   &lt;!DOCTYPE log4j:eventSet PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd" [&lt;!ENTITY data SYSTEM "abc"&gt;]&gt;
- 
+
   &lt;log4j:eventSet version="1.2" xmlns:log4j="http://jakarta.apache.org/log4j/"&gt;
  	&nbsp;&nbsp;&data;
   &lt;/log4j:eventSet&gt;
   </pre>
- 
+
  * <p>This approach enforces the independence of the XMLLayout and the
  * appender where it is embedded.
  *
@@ -60,10 +60,10 @@ import java.util.Arrays;
  * Appenders using this layout should have their encoding
  * set to UTF-8 or UTF-16, otherwise events containing
  * non ASCII characters could result in corrupted
- * log files. 
+ * log files.
  *
  * @author Ceki  G&uuml;lc&uuml;
- * @since 0.9.0 
+ * @since 0.9.0
  * */
 public class XMLLayout extends Layout {
 
@@ -73,7 +73,7 @@ public class XMLLayout extends Layout {
   private StringBuffer buf = new StringBuffer(DEFAULT_SIZE);
   private boolean locationInfo = false;
   private boolean properties = false;
- 
+
   /**
    * The <b>LocationInfo</b> option takes a boolean value. By default,
    * it is set to false which means there will be no location
@@ -88,7 +88,7 @@ public class XMLLayout extends Layout {
   public void setLocationInfo(boolean flag) {
     locationInfo = flag;
   }
-  
+
   /**
      Returns the current value of the <b>LocationInfo</b> option.
    */
@@ -131,7 +131,7 @@ public class XMLLayout extends Layout {
     } else {
       buf.setLength(0);
     }
-    
+
     // We yield to the \r\n heresy.
 
     buf.append("<log4j:event logger=\"");
@@ -148,15 +148,15 @@ public class XMLLayout extends Layout {
     // Append the rendered message. Also make sure to escape any
     // existing CDATA sections.
     Transform.appendEscapingCDATA(buf, event.getRenderedMessage());
-    buf.append("]]></log4j:message>\r\n");       
-    
+    buf.append("]]></log4j:message>\r\n");
+
     String ndc = event.getNDC();
     if(ndc != null) {
       buf.append("<log4j:NDC><![CDATA[");
       Transform.appendEscapingCDATA(buf, ndc);
-      buf.append("]]></log4j:NDC>\r\n");       
+      buf.append("]]></log4j:NDC>\r\n");
     }
-    
+
     String[] s = event.getThrowableStrRep();
     if(s != null) {
       buf.append("<log4j:throwable><![CDATA[");
@@ -166,9 +166,9 @@ public class XMLLayout extends Layout {
       }
       buf.append("]]></log4j:throwable>\r\n");
     }
-    
-    if(locationInfo) { 
-      LocationInfo locationInfo = event.getLocationInformation();	
+
+    if(locationInfo) {
+      LocationInfo locationInfo = event.getLocationInformation();
       buf.append("<log4j:locationInfo class=\"");
       buf.append(Transform.escapeTags(locationInfo.getClassName()));
       buf.append("\" method=\"");
@@ -200,12 +200,12 @@ public class XMLLayout extends Layout {
             buf.append("</log4j:properties>\r\n");
         }
     }
-    
+
     buf.append("</log4j:event>\r\n\r\n");
-    
+
     return buf.toString();
   }
-  
+
   /**
      The XMLLayout prints and does not ignore exceptions. Hence the
      return value <code>false</code>.

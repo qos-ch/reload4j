@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,7 @@ package org.apache.log4j.helpers;
    where as internal error messages are sent to
    <code>System.err</code>. All internal messages are prepended with
    the string "log4j: ".
-   
+
    @since 0.8.2
    @author Ceki G&uuml;lc&uuml;
 */
@@ -38,26 +38,26 @@ public class LogLog {
   /**
      Defining this value makes log4j print log4j-internal debug
      statements to <code>System.out</code>.
-     
+
     <p> The value of this string is <b>log4j.debug</b>.
-    
+
     <p>Note that the search for all option names is case sensitive.  */
   public static final String DEBUG_KEY="log4j.debug";
 
- 
+
   /**
      Defining this value makes log4j components print log4j-internal
      debug statements to <code>System.out</code>.
-     
+
     <p> The value of this string is <b>log4j.configDebug</b>.
-    
-    <p>Note that the search for all option names is case sensitive.  
+
+    <p>Note that the search for all option names is case sensitive.
 
     @deprecated Use {@link #DEBUG_KEY} instead.
   */
   public static final String CONFIG_DEBUG_KEY="log4j.configDebug";
 
-  protected static boolean debugEnabled = false;  
+  protected static boolean debugEnabled = false;
 
   /**
      In quietMode not even errors generate any output.
@@ -75,7 +75,7 @@ public class LogLog {
       key = OptionConverter.getSystemProperty(CONFIG_DEBUG_KEY, null);
     }
 
-    if(key != null) { 
+    if(key != null) {
       debugEnabled = OptionConverter.toBoolean(key, true);
     }
   }
@@ -114,7 +114,7 @@ public class LogLog {
 	t.printStackTrace(System.out);
     }
   }
-  
+
 
   /**
      This method is used to output log4j internal error
@@ -127,12 +127,12 @@ public class LogLog {
     if(quietMode)
       return;
     System.err.println(ERR_PREFIX+msg);
-  }  
+  }
 
   /**
      This method is used to output log4j internal error
      statements. There is no way to disable error statements.
-     Output goes to <code>System.err</code>.  
+     Output goes to <code>System.err</code>.
   */
   public
   static
@@ -144,11 +144,11 @@ public class LogLog {
     if(t != null) {
       t.printStackTrace();
     }
-  }  
+  }
 
   /**
      In quite mode no LogLog generates strictly no output, not even
-     for errors. 
+     for errors.
 
      @param quietMode A true for not
   */
@@ -169,7 +169,7 @@ public class LogLog {
       return;
 
     System.err.println(WARN_PREFIX+msg);
-  }  
+  }
 
   /**
      This method is used to output log4j internal warnings. There is
@@ -185,5 +185,5 @@ public class LogLog {
     if(t != null) {
       t.printStackTrace();
     }
-  }  
+  }
 }
