@@ -38,7 +38,7 @@ import org.apache.log4j.helpers.LogLog;
  * @author Ceki Gulcu
  */
 
-public class ShortSocketServer implements Runnable {
+public class ShortSocketServer {
 
 	static Logger cat = Logger.getLogger(ShortSocketServer.class);
 
@@ -84,12 +84,6 @@ public class ShortSocketServer implements Runnable {
 		}
 	}
 	
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	static void usage(String msg) {
 		System.err.println(msg);
 		System.err.println("Usage: java " + ShortSocketServer.class.getName() + " totalTests configFilePrefix");
