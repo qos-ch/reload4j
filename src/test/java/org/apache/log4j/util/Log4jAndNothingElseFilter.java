@@ -15,7 +15,6 @@ public class Log4jAndNothingElseFilter implements Filter {
 		return false;
 	}
 
-	@Override
 	public String filter(String in) throws UnexpectedFormatException {
 		if (in == null) {
 			return null;
@@ -29,7 +28,6 @@ public class Log4jAndNothingElseFilter implements Filter {
 		} else {
 			return null;
 		}
-
 	}
 
 }
