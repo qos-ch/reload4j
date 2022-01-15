@@ -18,35 +18,52 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  matrix_prep:
+    name: Matrix Preparation
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    env:
+      # Ask matrix.js to produce 7 jobs
+      MATRIX_JOBS: 7
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 50
+      - id: set-matrix
+        run: |
+          node .github/workflows/matrix.js
+
   Test:
-    name: JDK ${{ matrix.jdk }}, ${{ matrix.os }}
+    needs: matrix_prep
+    name: '${{ matrix.name }}'
     runs-on: ${{ matrix.os }}
+    env:
+      TZ: ${{ matrix.tz }}
     strategy:
-      matrix:
-        jdk: [8, 11, 17]
-        os: [ubuntu-latest, windows-latest, macos-latest]
-      fail-fast: true
+      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
+      fail-fast: false
       max-parallel: 4
     steps:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 50
-    - name: Set up Java 8
+    - name: Set up Java 8, ${{ matrix.compile_java_distribution }}
       id: setup-java-8
-      uses: actions/setup-java@v1
+      uses: actions/setup-java@v2
       with:
         java-version: 8
-    - name: Set up Java ${{ matrix.jdk }}
-      if: ${{ matrix.jdk != '8' }}
-      uses: actions/setup-java@v1
+        distribution: ${{ matrix.compile_java_distribution }}
+        architecture: x64
+    - name: Set up Java ${{ matrix.java_version }}, ${{ matrix.java_distribution }}
+      if: ${{ matrix.java_version != '8' }}
+      uses: actions/setup-java@v2
       with:
-        java-version: ${{ matrix.jdk }}
-    - name: Compile
-      # download dependencies, etc, so test log looks better
-      run: mvn -B --toolchains .github/workflows/toolchains.xml compile
-      env:
-        JAVA_HOME_8: ${{ steps.setup-java-8.outputs.path }}
+        java-version: ${{ matrix.java_version }}
+        distribution: ${{ matrix.java_distribution }}
+        architecture: x64
     - name: Test
-      run: mvn -B --toolchains .github/workflows/toolchains.xml verify
+      run: mvn -B --no-transfer-progress --toolchains .github/workflows/toolchains.xml verify
       env:
+        _JAVA_OPTIONS: ${{ matrix.testExtraJvmArgs }}
         JAVA_HOME_8: ${{ steps.setup-java-8.outputs.path }}
