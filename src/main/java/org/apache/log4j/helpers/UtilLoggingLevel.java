@@ -202,34 +202,31 @@ public class UtilLoggingLevel extends Level {
             return defaultLevel;
         }
 
-        String s = sArg.toUpperCase();
-
-        if (s.equals("SEVERE")) {
+        if (sArg.equalsIgnoreCase("SEVERE")) {
             return SEVERE;
         }
 
-        //if(s.equals("FINE")) return Level.FINE;
-        if (s.equals("WARNING")) {
+        if (sArg.equalsIgnoreCase("WARNING")) {
             return WARNING;
         }
 
-        if (s.equals("INFO")) {
+        if (sArg.equalsIgnoreCase("INFO")) {
             return INFO;
         }
 
-        if (s.equals("CONFI")) {
+        if (sArg.equalsIgnoreCase("CONFI") || sArg.equalsIgnoreCase("CONFIG")) {
             return CONFIG;
         }
 
-        if (s.equals("FINE")) {
+        if (sArg.equalsIgnoreCase("FINE")) {
             return FINE;
         }
 
-        if (s.equals("FINER")) {
+        if (sArg.equalsIgnoreCase("FINER")) {
             return FINER;
         }
 
-        if (s.equals("FINEST")) {
+        if (sArg.equalsIgnoreCase("FINEST")) {
             return FINEST;
         }
         return defaultLevel;
