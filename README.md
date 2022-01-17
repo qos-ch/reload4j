@@ -16,16 +16,9 @@ urgent need to fix vulnerabilities in log4j 1.2.17.
 
 ### Project web-site:  
 
-Details about releases, project roadmap and other details can be found at
+More information about releases, project roadmap and other details can be found at:
 
 **https://reload4j.qos.ch**
-
-### Issue reporting 
-
-You can see open issues can be found at open issues or report new
-issues at the [github issues page](https://github.com/qos-ch/reload4j/issues/).
-All steps undertaken in the project are first published/discussed on
-the mailing list or on the aforementoined issues page.
 
 ### Building
 
