@@ -22,11 +22,12 @@ More information about releases, project roadmap and other details can be found 
 
 ### Building
 
-Reload4j builds with Maven, and it targets Java 1.5.
-You need to launch Maven with Java 1.8 or configure [Maven Toolchains](https://maven.apache.org/guides/mini/guide-using-toolchains.html)
-for Java 1.8.
+<!-- building is closely related to source code so should be left here -->
+<!-- any changes here should be reflected in the reload4j website as well -->
 
-See a sample toolchains configuration file in [.github/workflows/toolchains.xml](.github/workflows/toolchains.xml).
+Reload4j builds with Maven and targets Java 1.5. You need to launch Maven under Java 8 or alternatively configure [Maven Toolchains](https://maven.apache.org/guides/mini/guide-using-toolchains.html) for Java 8.
+
+A sample toolchains configuration can be found in [.github/workflows/toolchains.xml](.github/workflows/toolchains.xml).
 
 ### Donations and sponsorship
 
