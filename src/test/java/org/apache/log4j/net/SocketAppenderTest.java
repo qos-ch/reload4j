@@ -33,7 +33,8 @@ public class SocketAppenderTest {
 
 	@Before
 	public void setUp() {
-		DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/SocketAppenderTestConfig.xml");
+	        DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/SocketAppenderTestConfig.xml");
+		//DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/socketAppenderForChainsaw.xml");
 
 		logger = Logger.getLogger(SocketAppenderTest.class);
 		secondary = (LastOnlyAppender) Logger.getLogger("org.apache.log4j.net.SocketAppenderTestDummy")

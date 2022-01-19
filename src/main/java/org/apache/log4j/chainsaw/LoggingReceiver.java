@@ -18,11 +18,11 @@ package org.apache.log4j.chainsaw;
 
 import java.io.EOFException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import org.apache.log4j.Logger;
+import org.apache.log4j.net.HardenedLoggingEventInputStream;
 import org.apache.log4j.spi.LoggingEvent;
 
 /**
@@ -58,10 +58,10 @@ class LoggingReceiver extends Thread {
         public void run() {
             LOG.debug("Starting to get data");
             try {
-                final ObjectInputStream ois =
-                    new ObjectInputStream(mClient.getInputStream());
+                final HardenedLoggingEventInputStream hleis =
+                    new HardenedLoggingEventInputStream(mClient.getInputStream());
                 while (true) {
-                    final LoggingEvent event = (LoggingEvent) ois.readObject();
+                    final LoggingEvent event = (LoggingEvent) hleis.readObject();
                     mModel.addEvent(new EventDetails(event));
                 }
             } catch (EOFException e) {

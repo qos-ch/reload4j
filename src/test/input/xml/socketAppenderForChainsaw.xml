@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration debug="true" 
+xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+
+  <!-- primary appender -->
+  <appender name="REMOTE" class="org.apache.log4j.net.SocketAppender">
+    
+    <param name="RemoteHost" value="localhost"/>
+    <param name="Port" value="4445"/>
+    <param name="ReconnectionDelay" value="10"/>
+  </appender>
+
+  <root>
+    <priority value ="trace" />
+    <appender-ref ref="REMOTE" />
+  </root>
+
+        
+</log4j:configuration>
+
+ 
