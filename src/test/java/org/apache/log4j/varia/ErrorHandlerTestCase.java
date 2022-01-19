@@ -39,101 +39,90 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+public class ErrorHandlerTestCase {
 
-public class ErrorHandlerTestCase  {
+    static String TEMP = TARGET_OUTPUT_PREFIX + "fallback.out";
+    static String FILTERED = TARGET_OUTPUT_PREFIX + "filtered";
 
-  static String TEMP = TARGET_OUTPUT_PREFIX+"fallback.out";
-  static String FILTERED = TARGET_OUTPUT_PREFIX+"filtered";
+    static String EXCEPTION1 = "java.lang.Exception: Just testing";
+    static String EXCEPTION2 = "\\s*at .*\\(.*\\)";
+    static String EXCEPTION3 = "\\s*at .*\\(Native Method\\)";
 
+    static String TEST1_PAT = "FALLBACK - (root|test) - Message \\d";
 
-  static String EXCEPTION1 = "java.lang.Exception: Just testing";
-  static String EXCEPTION2 = "\\s*at .*\\(.*\\)";
-  static String EXCEPTION3 = "\\s*at .*\\(Native Method\\)";
+    Logger root;
+    Logger logger;
 
-  static String TEST1_PAT =
-                       "FALLBACK - (root|test) - Message \\d";
+    @Before
+    public void setUp() {
+	root = Logger.getRootLogger();
+	logger = Logger.getLogger("test");
+    }
 
+    @After
+    public void tearDown() {
+	root.getLoggerRepository().resetConfiguration();
+    }
 
-  Logger root; 
-  Logger logger;
+    @Test
+    public void test1() throws Exception {
+	DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/fallback1.xml");
+	Appender primary = root.getAppender("PRIMARY");
+	ErrorHandler eh = primary.getErrorHandler();
+	assertNotNull(eh);
 
+	common();
 
-  @Before
-  public void setUp() {
-    root = Logger.getRootLogger();
-    logger = Logger.getLogger("test");
-  }
+	ControlFilter cf = new ControlFilter(new String[] { TEST1_PAT, EXCEPTION1, EXCEPTION2, EXCEPTION3 });
 
-  @After	
-  public void tearDown() {  
-    root.getLoggerRepository().resetConfiguration();
-  }
-  
-  @Test
-  public void test1() throws Exception {
-    DOMConfigurator.configure(TEST_INPUT_PREFIX+"xml/fallback1.xml");
-    Appender primary = root.getAppender("PRIMARY");
-    ErrorHandler eh = primary.getErrorHandler();
-    assertNotNull(eh);
+	Transformer.transform(TEMP, FILTERED,
+		new Filter[] { cf, new LineNumberFilter(), new Log4jAndNothingElseFilter() });
 
-    common();
+	assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "fallback1"));
+    }
 
-    ControlFilter cf = new ControlFilter(new String[]{TEST1_PAT,
-					       EXCEPTION1, EXCEPTION2, EXCEPTION3});
+    @Test
+    public void test2() throws Exception {
+	PropertyConfigurator.configure(TEST_INPUT_PREFIX + "fallback1.properties");
+	Appender primary = root.getAppender("PRIMARY");
+	ErrorHandler eh = primary.getErrorHandler();
+	assertNotNull(eh);
 
-    Transformer.transform(TEMP, FILTERED, new Filter[] {cf,
-                            new LineNumberFilter(),
-                            new Log4jAndNothingElseFilter()});
+	common();
 
+	ControlFilter cf = new ControlFilter(new String[] { TEST1_PAT, EXCEPTION1, EXCEPTION2, EXCEPTION3 });
 
-    assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"fallback1"));
-  }
-  
-  @Test
-  public void test2() throws Exception {
-    PropertyConfigurator.configure(TEST_INPUT_PREFIX+"fallback1.properties");
-    Appender primary = root.getAppender("PRIMARY");
-    ErrorHandler eh = primary.getErrorHandler();
-    assertNotNull(eh);
+	Transformer.transform(TEMP, FILTERED,
+		new Filter[] { cf, new LineNumberFilter(), new Log4jAndNothingElseFilter() });
 
-    common();
+	assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "fallback1"));
+    }
 
-    ControlFilter cf = new ControlFilter(new String[]{TEST1_PAT,
-					       EXCEPTION1, EXCEPTION2, EXCEPTION3});
+    void common() {
+	int i = -1;
 
-    Transformer.transform(TEMP, FILTERED, new Filter[] {cf,
-                            new LineNumberFilter(),
-                            new Log4jAndNothingElseFilter()});
+	logger.debug("Message " + ++i);
+	root.debug("Message " + i);
 
+	logger.info("Message " + ++i);
+	root.info("Message " + i);
 
-    assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"fallback1"));
-  }
+	logger.warn("Message " + ++i);
+	root.warn("Message " + i);
 
-  void common() {
-    int i = -1;
- 
-    logger.debug("Message " + ++i);
-    root.debug("Message " + i);        
+	logger.error("Message " + ++i);
+	root.error("Message " + i);
 
-    logger.info ("Message " + ++i);
-    root.info("Message " + i);        
+	logger.log(Level.FATAL, "Message " + ++i);
+	root.log(Level.FATAL, "Message " + i);
 
-    logger.warn ("Message " + ++i);
-    root.warn("Message " + i);        
+	Exception e = new Exception("Just testing");
+	logger.debug("Message " + ++i, e);
+	root.debug("Message " + i, e);
 
-    logger.error("Message " + ++i);
-    root.error("Message " + i);
-    
-    logger.log(Level.FATAL, "Message " + ++i);
-    root.log(Level.FATAL, "Message " + i);    
-    
-    Exception e = new Exception("Just testing");
-    logger.debug("Message " + ++i, e);
-    root.debug("Message " + i, e);
-    
-    logger.error("Message " + ++i, e);
-    root.error("Message " + i, e);    
+	logger.error("Message " + ++i, e);
+	root.error("Message " + i, e);
 
-  }
+    }
 
 }

@@ -31,28 +31,28 @@ import org.apache.log4j.LogManager;
 
 public class DefaultInitTest3 {
 
-	@Before
-	public void setUp() {
-		String userDir = System.getProperty("user.dir");
-		System.setProperty("log4j.configuration",
-				"file:///" + userDir + "/" + TestContants.TEST_INPUT_PREFIX + "defaultInit3.properties");
+    @Before
+    public void setUp() {
+	String userDir = System.getProperty("user.dir");
+	System.setProperty("log4j.configuration",
+		"file:///" + userDir + "/" + TestContants.TEST_INPUT_PREFIX + "defaultInit3.properties");
 
-	}
+    }
 
-	@After
-	public void tearDown() {
-		System.clearProperty("log4j.configuration");
-		LogManager.shutdown();
-	}
+    @After
+    public void tearDown() {
+	System.clearProperty("log4j.configuration");
+	LogManager.shutdown();
+    }
 
-	@Test
-	public void propertiesTest() {
-		Logger root = Logger.getRootLogger();
-		boolean rootIsConfigured = root.getAllAppenders().hasMoreElements();
-		assertTrue(rootIsConfigured);
-		Enumeration e = root.getAllAppenders();
-		Appender appender = (Appender) e.nextElement();
-		assertEquals(appender.getName(), "D3");
-	}
+    @Test
+    public void propertiesTest() {
+	Logger root = Logger.getRootLogger();
+	boolean rootIsConfigured = root.getAllAppenders().hasMoreElements();
+	assertTrue(rootIsConfigured);
+	Enumeration e = root.getAllAppenders();
+	Appender appender = (Appender) e.nextElement();
+	assertEquals(appender.getName(), "D3");
+    }
 
 }

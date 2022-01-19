@@ -103,334 +103,334 @@ import java.util.Properties;
  */
 public class JMSAppender extends AppenderSkeleton {
 
-	String securityPrincipalName;
-	String securityCredentials;
-	String initialContextFactoryName;
-	String urlPkgPrefixes;
-	String providerURL;
-	String topicBindingName;
-	String tcfBindingName;
-	String userName;
-	String password;
-	boolean locationInfo;
+    String securityPrincipalName;
+    String securityCredentials;
+    String initialContextFactoryName;
+    String urlPkgPrefixes;
+    String providerURL;
+    String topicBindingName;
+    String tcfBindingName;
+    String userName;
+    String password;
+    boolean locationInfo;
 
-	TopicConnection topicConnection;
-	TopicSession topicSession;
-	TopicPublisher topicPublisher;
+    TopicConnection topicConnection;
+    TopicSession topicSession;
+    TopicPublisher topicPublisher;
 
-	public JMSAppender() {
-	}
+    public JMSAppender() {
+    }
 
-	/**
-	 * The <b>TopicConnectionFactoryBindingName</b> option takes a string value. Its
-	 * value will be used to lookup the appropriate
-	 * <code>TopicConnectionFactory</code> from the JNDI context.
-	 */
-	public void setTopicConnectionFactoryBindingName(String tcfBindingName) {
-		this.tcfBindingName = tcfBindingName;
-	}
+    /**
+     * The <b>TopicConnectionFactoryBindingName</b> option takes a string value. Its
+     * value will be used to lookup the appropriate
+     * <code>TopicConnectionFactory</code> from the JNDI context.
+     */
+    public void setTopicConnectionFactoryBindingName(String tcfBindingName) {
+	this.tcfBindingName = tcfBindingName;
+    }
 
-	/**
-	 * Returns the value of the <b>TopicConnectionFactoryBindingName</b> option.
-	 */
-	public String getTopicConnectionFactoryBindingName() {
-		return tcfBindingName;
-	}
+    /**
+     * Returns the value of the <b>TopicConnectionFactoryBindingName</b> option.
+     */
+    public String getTopicConnectionFactoryBindingName() {
+	return tcfBindingName;
+    }
 
-	/**
-	 * The <b>TopicBindingName</b> option takes a string value. Its value will be
-	 * used to lookup the appropriate <code>Topic</code> from the JNDI context.
-	 */
-	public void setTopicBindingName(String topicBindingName) {
-		this.topicBindingName = topicBindingName;
-	}
+    /**
+     * The <b>TopicBindingName</b> option takes a string value. Its value will be
+     * used to lookup the appropriate <code>Topic</code> from the JNDI context.
+     */
+    public void setTopicBindingName(String topicBindingName) {
+	this.topicBindingName = topicBindingName;
+    }
 
-	/**
-	 * Returns the value of the <b>TopicBindingName</b> option.
-	 */
-	public String getTopicBindingName() {
-		return topicBindingName;
-	}
+    /**
+     * Returns the value of the <b>TopicBindingName</b> option.
+     */
+    public String getTopicBindingName() {
+	return topicBindingName;
+    }
 
-	/**
-	 * Returns value of the <b>LocationInfo</b> property which determines whether
-	 * location (stack) info is sent to the remote subscriber.
-	 */
-	public boolean getLocationInfo() {
-		return locationInfo;
-	}
+    /**
+     * Returns value of the <b>LocationInfo</b> property which determines whether
+     * location (stack) info is sent to the remote subscriber.
+     */
+    public boolean getLocationInfo() {
+	return locationInfo;
+    }
 
-	/**
-	 * Options are activated and become effective only after calling this method.
-	 */
-	public void activateOptions() {
-		TopicConnectionFactory topicConnectionFactory;
+    /**
+     * Options are activated and become effective only after calling this method.
+     */
+    public void activateOptions() {
+	TopicConnectionFactory topicConnectionFactory;
 
-		try {
-			Context jndi;
+	try {
+	    Context jndi;
 
-			LogLog.debug("Getting initial context.");
-			if (initialContextFactoryName != null) {
-				Properties env = new Properties();
-				env.put(Context.INITIAL_CONTEXT_FACTORY, initialContextFactoryName);
-				if (providerURL != null) {
-					env.put(Context.PROVIDER_URL, providerURL);
-				} else {
-					LogLog.warn("You have set InitialContextFactoryName option but not the "
-							+ "ProviderURL. This is likely to cause problems.");
-				}
-				if (urlPkgPrefixes != null) {
-					env.put(Context.URL_PKG_PREFIXES, urlPkgPrefixes);
-				}
-
-				if (securityPrincipalName != null) {
-					env.put(Context.SECURITY_PRINCIPAL, securityPrincipalName);
-					if (securityCredentials != null) {
-						env.put(Context.SECURITY_CREDENTIALS, securityCredentials);
-					} else {
-						LogLog.warn("You have set SecurityPrincipalName option but not the "
-								+ "SecurityCredentials. This is likely to cause problems.");
-					}
-				}
-				jndi = new InitialContext(env);
-			} else {
-				jndi = new InitialContext();
-			}
-
-			LogLog.debug("Looking up [" + tcfBindingName + "]");
-			topicConnectionFactory = (TopicConnectionFactory) lookup(jndi, tcfBindingName);
-			LogLog.debug("About to create TopicConnection.");
-			if (userName != null) {
-				topicConnection = topicConnectionFactory.createTopicConnection(userName, password);
-			} else {
-				topicConnection = topicConnectionFactory.createTopicConnection();
-			}
-
-			LogLog.debug("Creating TopicSession, non-transactional, " + "in AUTO_ACKNOWLEDGE mode.");
-			topicSession = topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
-
-			LogLog.debug("Looking up topic name [" + topicBindingName + "].");
-			Topic topic = (Topic) lookup(jndi, topicBindingName);
-
-			LogLog.debug("Creating TopicPublisher.");
-			topicPublisher = topicSession.createPublisher(topic);
-
-			LogLog.debug("Starting TopicConnection.");
-			topicConnection.start();
-
-			jndi.close();
-		} catch (JMSException e) {
-			errorHandler.error("Error while activating options for appender named [" + name + "].", e,
-					ErrorCode.GENERIC_FAILURE);
-		} catch (NamingException e) {
-			errorHandler.error("Error while activating options for appender named [" + name + "].", e,
-					ErrorCode.GENERIC_FAILURE);
-		} catch (RuntimeException e) {
-			errorHandler.error("Error while activating options for appender named [" + name + "].", e,
-					ErrorCode.GENERIC_FAILURE);
-		}
-	}
-
-	protected Object lookup(Context ctx, String name) throws NamingException {
-		Object result = JNDIUtil.lookupObject(ctx, name);
-		if (result == null) {
-			String msg = "Could not find name [" + name + "].";
-			throw new NamingException(msg);
-		}
-		return result;
-	}
-
-	protected boolean checkEntryConditions() {
-		String fail = null;
-
-		if (this.topicConnection == null) {
-			fail = "No TopicConnection";
-		} else if (this.topicSession == null) {
-			fail = "No TopicSession";
-		} else if (this.topicPublisher == null) {
-			fail = "No TopicPublisher";
-		}
-
-		if (fail != null) {
-			errorHandler.error(fail + " for JMSAppender named [" + name + "].");
-			return false;
+	    LogLog.debug("Getting initial context.");
+	    if (initialContextFactoryName != null) {
+		Properties env = new Properties();
+		env.put(Context.INITIAL_CONTEXT_FACTORY, initialContextFactoryName);
+		if (providerURL != null) {
+		    env.put(Context.PROVIDER_URL, providerURL);
 		} else {
-			return true;
+		    LogLog.warn("You have set InitialContextFactoryName option but not the "
+			    + "ProviderURL. This is likely to cause problems.");
 		}
-	}
-
-	/**
-	 * Close this JMSAppender. Closing releases all resources used by the appender.
-	 * A closed appender cannot be re-opened.
-	 */
-	public synchronized void close() {
-		// The synchronized modifier avoids concurrent append and close operations
-
-		if (this.closed)
-			return;
-
-		LogLog.debug("Closing appender [" + name + "].");
-		this.closed = true;
-
-		try {
-			if (topicSession != null)
-				topicSession.close();
-			if (topicConnection != null)
-				topicConnection.close();
-		} catch (JMSException e) {
-			LogLog.error("Error while closing JMSAppender [" + name + "].", e);
-		} catch (RuntimeException e) {
-			LogLog.error("Error while closing JMSAppender [" + name + "].", e);
-		}
-		// Help garbage collection
-		topicPublisher = null;
-		topicSession = null;
-		topicConnection = null;
-	}
-
-	/**
-	 * This method called by {@link AppenderSkeleton#doAppend} method to do most of
-	 * the real appending work.
-	 */
-	public void append(LoggingEvent event) {
-		if (!checkEntryConditions()) {
-			return;
+		if (urlPkgPrefixes != null) {
+		    env.put(Context.URL_PKG_PREFIXES, urlPkgPrefixes);
 		}
 
-		try {
-			ObjectMessage msg = topicSession.createObjectMessage();
-			if (locationInfo) {
-				event.getLocationInformation();
-			}
-			msg.setObject(event);
-			topicPublisher.publish(msg);
-		} catch (JMSException e) {
-			errorHandler.error("Could not publish message in JMSAppender [" + name + "].", e,
-					ErrorCode.GENERIC_FAILURE);
-		} catch (RuntimeException e) {
-			errorHandler.error("Could not publish message in JMSAppender [" + name + "].", e,
-					ErrorCode.GENERIC_FAILURE);
+		if (securityPrincipalName != null) {
+		    env.put(Context.SECURITY_PRINCIPAL, securityPrincipalName);
+		    if (securityCredentials != null) {
+			env.put(Context.SECURITY_CREDENTIALS, securityCredentials);
+		    } else {
+			LogLog.warn("You have set SecurityPrincipalName option but not the "
+				+ "SecurityCredentials. This is likely to cause problems.");
+		    }
 		}
+		jndi = new InitialContext(env);
+	    } else {
+		jndi = new InitialContext();
+	    }
+
+	    LogLog.debug("Looking up [" + tcfBindingName + "]");
+	    topicConnectionFactory = (TopicConnectionFactory) lookup(jndi, tcfBindingName);
+	    LogLog.debug("About to create TopicConnection.");
+	    if (userName != null) {
+		topicConnection = topicConnectionFactory.createTopicConnection(userName, password);
+	    } else {
+		topicConnection = topicConnectionFactory.createTopicConnection();
+	    }
+
+	    LogLog.debug("Creating TopicSession, non-transactional, " + "in AUTO_ACKNOWLEDGE mode.");
+	    topicSession = topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+
+	    LogLog.debug("Looking up topic name [" + topicBindingName + "].");
+	    Topic topic = (Topic) lookup(jndi, topicBindingName);
+
+	    LogLog.debug("Creating TopicPublisher.");
+	    topicPublisher = topicSession.createPublisher(topic);
+
+	    LogLog.debug("Starting TopicConnection.");
+	    topicConnection.start();
+
+	    jndi.close();
+	} catch (JMSException e) {
+	    errorHandler.error("Error while activating options for appender named [" + name + "].", e,
+		    ErrorCode.GENERIC_FAILURE);
+	} catch (NamingException e) {
+	    errorHandler.error("Error while activating options for appender named [" + name + "].", e,
+		    ErrorCode.GENERIC_FAILURE);
+	} catch (RuntimeException e) {
+	    errorHandler.error("Error while activating options for appender named [" + name + "].", e,
+		    ErrorCode.GENERIC_FAILURE);
+	}
+    }
+
+    protected Object lookup(Context ctx, String name) throws NamingException {
+	Object result = JNDIUtil.lookupObject(ctx, name);
+	if (result == null) {
+	    String msg = "Could not find name [" + name + "].";
+	    throw new NamingException(msg);
+	}
+	return result;
+    }
+
+    protected boolean checkEntryConditions() {
+	String fail = null;
+
+	if (this.topicConnection == null) {
+	    fail = "No TopicConnection";
+	} else if (this.topicSession == null) {
+	    fail = "No TopicSession";
+	} else if (this.topicPublisher == null) {
+	    fail = "No TopicPublisher";
 	}
 
-	/**
-	 * Returns the value of the <b>InitialContextFactoryName</b> option. See
-	 * {@link #setInitialContextFactoryName} for more details on the meaning of this
-	 * option.
-	 */
-	public String getInitialContextFactoryName() {
-		return initialContextFactoryName;
+	if (fail != null) {
+	    errorHandler.error(fail + " for JMSAppender named [" + name + "].");
+	    return false;
+	} else {
+	    return true;
+	}
+    }
+
+    /**
+     * Close this JMSAppender. Closing releases all resources used by the appender.
+     * A closed appender cannot be re-opened.
+     */
+    public synchronized void close() {
+	// The synchronized modifier avoids concurrent append and close operations
+
+	if (this.closed)
+	    return;
+
+	LogLog.debug("Closing appender [" + name + "].");
+	this.closed = true;
+
+	try {
+	    if (topicSession != null)
+		topicSession.close();
+	    if (topicConnection != null)
+		topicConnection.close();
+	} catch (JMSException e) {
+	    LogLog.error("Error while closing JMSAppender [" + name + "].", e);
+	} catch (RuntimeException e) {
+	    LogLog.error("Error while closing JMSAppender [" + name + "].", e);
+	}
+	// Help garbage collection
+	topicPublisher = null;
+	topicSession = null;
+	topicConnection = null;
+    }
+
+    /**
+     * This method called by {@link AppenderSkeleton#doAppend} method to do most of
+     * the real appending work.
+     */
+    public void append(LoggingEvent event) {
+	if (!checkEntryConditions()) {
+	    return;
 	}
 
-	/**
-	 * Setting the <b>InitialContextFactoryName</b> method will cause this
-	 * <code>JMSAppender</code> instance to use the
-	 * {@link InitialContext#InitialContext(Hashtable)} method instead of the
-	 * no-argument constructor. If you set this option, you should also at least set
-	 * the <b>ProviderURL</b> option.
-	 * 
-	 * <p>
-	 * See also {@link #setProviderURL(String)}.
-	 */
-	public void setInitialContextFactoryName(String initialContextFactoryName) {
-		this.initialContextFactoryName = initialContextFactoryName;
+	try {
+	    ObjectMessage msg = topicSession.createObjectMessage();
+	    if (locationInfo) {
+		event.getLocationInformation();
+	    }
+	    msg.setObject(event);
+	    topicPublisher.publish(msg);
+	} catch (JMSException e) {
+	    errorHandler.error("Could not publish message in JMSAppender [" + name + "].", e,
+		    ErrorCode.GENERIC_FAILURE);
+	} catch (RuntimeException e) {
+	    errorHandler.error("Could not publish message in JMSAppender [" + name + "].", e,
+		    ErrorCode.GENERIC_FAILURE);
 	}
+    }
 
-	public String getProviderURL() {
-		return providerURL;
-	}
+    /**
+     * Returns the value of the <b>InitialContextFactoryName</b> option. See
+     * {@link #setInitialContextFactoryName} for more details on the meaning of this
+     * option.
+     */
+    public String getInitialContextFactoryName() {
+	return initialContextFactoryName;
+    }
 
-	public void setProviderURL(String providerURL) {
-		this.providerURL = providerURL;
-	}
+    /**
+     * Setting the <b>InitialContextFactoryName</b> method will cause this
+     * <code>JMSAppender</code> instance to use the
+     * {@link InitialContext#InitialContext(Hashtable)} method instead of the
+     * no-argument constructor. If you set this option, you should also at least set
+     * the <b>ProviderURL</b> option.
+     * 
+     * <p>
+     * See also {@link #setProviderURL(String)}.
+     */
+    public void setInitialContextFactoryName(String initialContextFactoryName) {
+	this.initialContextFactoryName = initialContextFactoryName;
+    }
 
-	String getURLPkgPrefixes() {
-		return urlPkgPrefixes;
-	}
+    public String getProviderURL() {
+	return providerURL;
+    }
 
-	public void setURLPkgPrefixes(String urlPkgPrefixes) {
-		this.urlPkgPrefixes = urlPkgPrefixes;
-	}
+    public void setProviderURL(String providerURL) {
+	this.providerURL = providerURL;
+    }
 
-	public String getSecurityCredentials() {
-		return securityCredentials;
-	}
+    String getURLPkgPrefixes() {
+	return urlPkgPrefixes;
+    }
 
-	public void setSecurityCredentials(String securityCredentials) {
-		this.securityCredentials = securityCredentials;
-	}
+    public void setURLPkgPrefixes(String urlPkgPrefixes) {
+	this.urlPkgPrefixes = urlPkgPrefixes;
+    }
 
-	public String getSecurityPrincipalName() {
-		return securityPrincipalName;
-	}
+    public String getSecurityCredentials() {
+	return securityCredentials;
+    }
 
-	public void setSecurityPrincipalName(String securityPrincipalName) {
-		this.securityPrincipalName = securityPrincipalName;
-	}
+    public void setSecurityCredentials(String securityCredentials) {
+	this.securityCredentials = securityCredentials;
+    }
 
-	public String getUserName() {
-		return userName;
-	}
+    public String getSecurityPrincipalName() {
+	return securityPrincipalName;
+    }
 
-	/**
-	 * The user name to use when
-	 * {@link TopicConnectionFactory#createTopicConnection(String, String) creating
-	 * a topic session}. If you set this option, you should also set the
-	 * <b>Password</b> option. See {@link #setPassword(String)}.
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public void setSecurityPrincipalName(String securityPrincipalName) {
+	this.securityPrincipalName = securityPrincipalName;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getUserName() {
+	return userName;
+    }
 
-	/**
-	 * The paswword to use when creating a topic session.
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    /**
+     * The user name to use when
+     * {@link TopicConnectionFactory#createTopicConnection(String, String) creating
+     * a topic session}. If you set this option, you should also set the
+     * <b>Password</b> option. See {@link #setPassword(String)}.
+     */
+    public void setUserName(String userName) {
+	this.userName = userName;
+    }
 
-	/**
-	 * If true, the information sent to the remote subscriber will include caller's
-	 * location information. By default no location information is sent to the
-	 * subscriber.
-	 */
-	public void setLocationInfo(boolean locationInfo) {
-		this.locationInfo = locationInfo;
-	}
+    public String getPassword() {
+	return password;
+    }
 
-	/**
-	 * Returns the TopicConnection used for this appender. Only valid after
-	 * activateOptions() method has been invoked.
-	 */
-	protected TopicConnection getTopicConnection() {
-		return topicConnection;
-	}
+    /**
+     * The paswword to use when creating a topic session.
+     */
+    public void setPassword(String password) {
+	this.password = password;
+    }
 
-	/**
-	 * Returns the TopicSession used for this appender. Only valid after
-	 * activateOptions() method has been invoked.
-	 */
-	protected TopicSession getTopicSession() {
-		return topicSession;
-	}
+    /**
+     * If true, the information sent to the remote subscriber will include caller's
+     * location information. By default no location information is sent to the
+     * subscriber.
+     */
+    public void setLocationInfo(boolean locationInfo) {
+	this.locationInfo = locationInfo;
+    }
 
-	/**
-	 * Returns the TopicPublisher used for this appender. Only valid after
-	 * activateOptions() method has been invoked.
-	 */
-	protected TopicPublisher getTopicPublisher() {
-		return topicPublisher;
-	}
+    /**
+     * Returns the TopicConnection used for this appender. Only valid after
+     * activateOptions() method has been invoked.
+     */
+    protected TopicConnection getTopicConnection() {
+	return topicConnection;
+    }
 
-	/**
-	 * The JMSAppender sends serialized events and consequently does not require a
-	 * layout.
-	 */
-	public boolean requiresLayout() {
-		return false;
-	}
+    /**
+     * Returns the TopicSession used for this appender. Only valid after
+     * activateOptions() method has been invoked.
+     */
+    protected TopicSession getTopicSession() {
+	return topicSession;
+    }
+
+    /**
+     * Returns the TopicPublisher used for this appender. Only valid after
+     * activateOptions() method has been invoked.
+     */
+    protected TopicPublisher getTopicPublisher() {
+	return topicPublisher;
+    }
+
+    /**
+     * The JMSAppender sends serialized events and consequently does not require a
+     * layout.
+     */
+    public boolean requiresLayout() {
+	return false;
+    }
 }

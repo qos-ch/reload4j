@@ -36,113 +36,99 @@ import javax.swing.tree.TreePath;
 // Contributed by ThoughtWorks Inc.
 
 public class CategoryImmediateEditor extends DefaultTreeCellEditor {
-  //--------------------------------------------------------------------------
-  //   Constants:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constants:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Protected Variables:
-  //--------------------------------------------------------------------------
-  private CategoryNodeRenderer renderer;
-  protected Icon editingIcon = null;
+    // --------------------------------------------------------------------------
+    // Protected Variables:
+    // --------------------------------------------------------------------------
+    private CategoryNodeRenderer renderer;
+    protected Icon editingIcon = null;
 
-  //--------------------------------------------------------------------------
-  //   Private Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Private Variables:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Constructors:
-  //--------------------------------------------------------------------------
-  public CategoryImmediateEditor(JTree tree,
-      CategoryNodeRenderer renderer,
-      CategoryNodeEditor editor) {
-    super(tree, renderer, editor);
-    this.renderer = renderer;
-    renderer.setIcon(null);
-    renderer.setLeafIcon(null);
-    renderer.setOpenIcon(null);
-    renderer.setClosedIcon(null);
+    // --------------------------------------------------------------------------
+    // Constructors:
+    // --------------------------------------------------------------------------
+    public CategoryImmediateEditor(JTree tree, CategoryNodeRenderer renderer, CategoryNodeEditor editor) {
+	super(tree, renderer, editor);
+	this.renderer = renderer;
+	renderer.setIcon(null);
+	renderer.setLeafIcon(null);
+	renderer.setOpenIcon(null);
+	renderer.setClosedIcon(null);
 
-    super.editingIcon = null;
-  }
-
-  //--------------------------------------------------------------------------
-  //   Public Methods:
-  //--------------------------------------------------------------------------
-  public boolean shouldSelectCell(EventObject e) {
-    boolean rv = false;  // only mouse events
-
-    if (e instanceof MouseEvent) {
-      MouseEvent me = (MouseEvent) e;
-      TreePath path = tree.getPathForLocation(me.getX(),
-          me.getY());
-      CategoryNode node = (CategoryNode)
-          path.getLastPathComponent();
-
-      rv = node.isLeaf() /*|| !inCheckBoxHitRegion(me)*/;
-    }
-    return rv;
-  }
-
-  public boolean inCheckBoxHitRegion(MouseEvent e) {
-    TreePath path = tree.getPathForLocation(e.getX(),
-        e.getY());
-    if (path == null) {
-      return false;
-    }
-    CategoryNode node = (CategoryNode) path.getLastPathComponent();
-    boolean rv = false;
-
-    if (true) {
-      // offset and lastRow DefaultTreeCellEditor
-      // protected members
-
-      Rectangle bounds = tree.getRowBounds(lastRow);
-      Dimension checkBoxOffset =
-          renderer.getCheckBoxOffset();
-
-      bounds.translate(offset + checkBoxOffset.width,
-          checkBoxOffset.height);
-
-      rv = bounds.contains(e.getPoint());
-    }
-    return true;
-  }
-
-  //--------------------------------------------------------------------------
-  //   Protected Methods:
-  //--------------------------------------------------------------------------
-
-  protected boolean canEditImmediately(EventObject e) {
-    boolean rv = false;
-
-    if (e instanceof MouseEvent) {
-      MouseEvent me = (MouseEvent) e;
-      rv = inCheckBoxHitRegion(me);
+	super.editingIcon = null;
     }
 
-    return rv;
-  }
+    // --------------------------------------------------------------------------
+    // Public Methods:
+    // --------------------------------------------------------------------------
+    public boolean shouldSelectCell(EventObject e) {
+	boolean rv = false; // only mouse events
 
-  protected void determineOffset(JTree tree, Object value,
-      boolean isSelected, boolean expanded,
-      boolean leaf, int row) {
-    // Very important: means that the tree won't jump around.
-    offset = 0;
-  }
+	if (e instanceof MouseEvent) {
+	    MouseEvent me = (MouseEvent) e;
+	    TreePath path = tree.getPathForLocation(me.getX(), me.getY());
+	    CategoryNode node = (CategoryNode) path.getLastPathComponent();
 
-  //--------------------------------------------------------------------------
-  //   Private Methods:
-  //--------------------------------------------------------------------------
+	    rv = node.isLeaf() /* || !inCheckBoxHitRegion(me) */;
+	}
+	return rv;
+    }
 
-  //--------------------------------------------------------------------------
-  //   Nested Top-Level Classes or Interfaces:
-  //--------------------------------------------------------------------------
+    public boolean inCheckBoxHitRegion(MouseEvent e) {
+	TreePath path = tree.getPathForLocation(e.getX(), e.getY());
+	if (path == null) {
+	    return false;
+	}
+	CategoryNode node = (CategoryNode) path.getLastPathComponent();
+	boolean rv = false;
+
+	if (true) {
+	    // offset and lastRow DefaultTreeCellEditor
+	    // protected members
+
+	    Rectangle bounds = tree.getRowBounds(lastRow);
+	    Dimension checkBoxOffset = renderer.getCheckBoxOffset();
+
+	    bounds.translate(offset + checkBoxOffset.width, checkBoxOffset.height);
+
+	    rv = bounds.contains(e.getPoint());
+	}
+	return true;
+    }
+
+    // --------------------------------------------------------------------------
+    // Protected Methods:
+    // --------------------------------------------------------------------------
+
+    protected boolean canEditImmediately(EventObject e) {
+	boolean rv = false;
+
+	if (e instanceof MouseEvent) {
+	    MouseEvent me = (MouseEvent) e;
+	    rv = inCheckBoxHitRegion(me);
+	}
+
+	return rv;
+    }
+
+    protected void determineOffset(JTree tree, Object value, boolean isSelected, boolean expanded, boolean leaf,
+	    int row) {
+	// Very important: means that the tree won't jump around.
+	offset = 0;
+    }
+
+    // --------------------------------------------------------------------------
+    // Private Methods:
+    // --------------------------------------------------------------------------
+
+    // --------------------------------------------------------------------------
+    // Nested Top-Level Classes or Interfaces:
+    // --------------------------------------------------------------------------
 
 }
-
-
-
-
-
-

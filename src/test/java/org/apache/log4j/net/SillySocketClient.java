@@ -42,100 +42,100 @@ import org.apache.log4j.spi.LoggingEvent;
  */
 public class SillySocketClient {
 
-	static Logger LOGGER = LogManager.getLogger(SillySocketClient.class);
-	static InetAddress LOCAL_HOST_ADDRESS;
-	static String LOCALHOST_STR;
+    static Logger LOGGER = LogManager.getLogger(SillySocketClient.class);
+    static InetAddress LOCAL_HOST_ADDRESS;
+    static String LOCALHOST_STR;
 
-	static int PORT;
+    static int PORT;
 
-	ObjectOutputStream oos;
+    ObjectOutputStream oos;
 
-	public static void main(String[] args) throws IOException, InterruptedException {
-		Properties props = System.getProperties();
+    public static void main(String[] args) throws IOException, InterruptedException {
+	Properties props = System.getProperties();
 //		for (Object key : props.keySet()) {
 //			System.out.println(key + ":" + props.getProperty((String) key));
 //		}
 
-		if (args.length == 1)
-			init(args[0]);
-		else {
-			usage("Wrong number of arguments.");
-			return;
-		}
-		LOCAL_HOST_ADDRESS = getAddressByName(LOCALHOST_STR);
-
-		SillySocketClient ssc = new SillySocketClient();
-		ssc.connect(LOCAL_HOST_ADDRESS, PORT);
-
-		MDC.put("a", "aValue");
-		
-		// MDC carries objects as is!!
-		//MDC.put("aKey", new BadPayload("aValue"));
-		ssc.sendThisEvent(LOGGER, Level.INFO, "hello", null);
-
-		Throwable t = new Exception("testing");
-		ssc.sendThisEvent(LOGGER, Level.INFO, new BadPayload("x"), t);
-		
-		;
-		Thread.sleep(200);
+	if (args.length == 1)
+	    init(args[0]);
+	else {
+	    usage("Wrong number of arguments.");
+	    return;
 	}
+	LOCAL_HOST_ADDRESS = getAddressByName(LOCALHOST_STR);
 
-	private void sendThisEvent(Logger logger, Level level, Object message, Throwable t) throws IOException {
-		LoggingEvent le = makeLoggingEvent(logger, level, message, t);
-		this.append(le);
+	SillySocketClient ssc = new SillySocketClient();
+	ssc.connect(LOCAL_HOST_ADDRESS, PORT);
+
+	MDC.put("a", "aValue");
+
+	// MDC carries objects as is!!
+	// MDC.put("aKey", new BadPayload("aValue"));
+	ssc.sendThisEvent(LOGGER, Level.INFO, "hello", null);
+
+	Throwable t = new Exception("testing");
+	ssc.sendThisEvent(LOGGER, Level.INFO, new BadPayload("x"), t);
+
+	;
+	Thread.sleep(200);
+    }
+
+    private void sendThisEvent(Logger logger, Level level, Object message, Throwable t) throws IOException {
+	LoggingEvent le = makeLoggingEvent(logger, level, message, t);
+	this.append(le);
+    }
+
+    private static LoggingEvent makeLoggingEvent(Logger logger, Level level, Object message, Throwable t) {
+	LoggingEvent le = new LoggingEvent("", logger, level, message, t);
+	return le;
+    }
+
+    static void init(String portStr) {
+	try {
+	    PORT = Integer.parseInt(portStr);
+	} catch (java.lang.NumberFormatException e) {
+	    e.printStackTrace();
+	    usage("Could not interpret port number [" + portStr + "].");
 	}
+    }
 
-	private static LoggingEvent makeLoggingEvent(Logger logger, Level level, Object message, Throwable t) {
-		LoggingEvent le = new LoggingEvent("", logger, level, message, t);
-		return le;
+    static void usage(String msg) {
+	System.err.println(msg);
+	System.err.println("Usage: java " + SillySocketClient.class.getName() + " port");
+	System.exit(1);
+    }
+
+    static InetAddress getAddressByName(String host) throws java.net.UnknownHostException {
+	return InetAddress.getByName(host);
+    }
+
+    void connect(InetAddress address, int port) {
+	if (address == null)
+	    return;
+	try {
+	    oos = new ObjectOutputStream(new Socket(address, port).getOutputStream());
+	} catch (IOException e) {
+	    if (e instanceof InterruptedIOException) {
+		Thread.currentThread().interrupt();
+	    }
+	    String msg = "Could not connect to remote log4j server at [" + address.getHostName() + "].";
+	    LogLog.error(msg);
 	}
+    }
 
-	static void init(String portStr) {
-		try {
-			PORT = Integer.parseInt(portStr);
-		} catch (java.lang.NumberFormatException e) {
-			e.printStackTrace();
-			usage("Could not interpret port number [" + portStr + "].");
-		}
-	}
+    public void writeObject(Object o) throws IOException {
+	oos.writeObject(o);
+	oos.flush();
+    }
 
-	static void usage(String msg) {
-		System.err.println(msg);
-		System.err.println("Usage: java " + SillySocketClient.class.getName() + " port");
-		System.exit(1);
-	}
+    public void append(LoggingEvent event) throws IOException {
+	event.getNDC();
+	event.getThreadName();
+	event.getMDCCopy();
+	event.getRenderedMessage();
+	event.getThrowableStrRep();
 
-	static InetAddress getAddressByName(String host) throws java.net.UnknownHostException {
-		return InetAddress.getByName(host);
-	}
-
-	void connect(InetAddress address, int port) {
-		if (address == null)
-			return;
-		try {
-			oos = new ObjectOutputStream(new Socket(address, port).getOutputStream());
-		} catch (IOException e) {
-			if (e instanceof InterruptedIOException) {
-				Thread.currentThread().interrupt();
-			}
-			String msg = "Could not connect to remote log4j server at [" + address.getHostName() + "].";
-			LogLog.error(msg);
-		}
-	}
-
-	public void writeObject(Object o) throws IOException {
-		oos.writeObject(o);
-		oos.flush();
-	}
-
-	public void append(LoggingEvent event) throws IOException {
-		event.getNDC();
-		event.getThreadName();
-		event.getMDCCopy();
-		event.getRenderedMessage();
-		event.getThrowableStrRep();
-
-		writeObject(event);
-	}
+	writeObject(event);
+    }
 
 }

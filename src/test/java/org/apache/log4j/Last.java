@@ -23,18 +23,17 @@ import junit.framework.Test;
 
 public class Last extends TestCase {
 
-  public Last(String name) {
-    super(name);
-  }
+    public Last(String name) {
+	super(name);
+    }
 
+    public void test1() {
+    }
 
-  public void test1() {
-  }
-
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTest(new Last("test1"));
-    return suite;
-  }
+    public static Test suite() {
+	TestSuite suite = new TestSuite();
+	suite.addTest(new Last("test1"));
+	return suite;
+    }
 
 }

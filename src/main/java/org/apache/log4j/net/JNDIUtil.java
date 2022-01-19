@@ -21,34 +21,34 @@ import javax.naming.NamingException;
 
 public class JNDIUtil {
 
-	// See https://jakarta.ee/specifications/platform/8/platform-spec-8.html#a616
-	// there are the java:comp, java:module, java:app, java:global namespaces
-	public static final String JNDI_JAVA_NAMESPACE = "java:";
+    // See https://jakarta.ee/specifications/platform/8/platform-spec-8.html#a616
+    // there are the java:comp, java:module, java:app, java:global namespaces
+    public static final String JNDI_JAVA_NAMESPACE = "java:";
 
-	static final String RESTRICTION_MSG = "JNDI name must start with " + JNDI_JAVA_NAMESPACE + " but was ";
+    static final String RESTRICTION_MSG = "JNDI name must start with " + JNDI_JAVA_NAMESPACE + " but was ";
 
-	public static Object lookupObject(Context ctx, String name) throws NamingException {
-		if (ctx == null) {
-			return null;
-		}
-
-		if (isNullOrEmpty(name)) {
-			return null;
-		}
-
-		jndiNameSecurityCheck(name);
-
-		Object lookup = ctx.lookup(name);
-		return lookup;
+    public static Object lookupObject(Context ctx, String name) throws NamingException {
+	if (ctx == null) {
+	    return null;
 	}
 
-	private static boolean isNullOrEmpty(String str) {
-		return ((str == null) || str.trim().length() == 0);
+	if (isNullOrEmpty(name)) {
+	    return null;
 	}
 
-	public static void jndiNameSecurityCheck(String name) throws NamingException {
-		if (!name.startsWith(JNDI_JAVA_NAMESPACE)) {
-			throw new NamingException(RESTRICTION_MSG + name);
-		}
+	jndiNameSecurityCheck(name);
+
+	Object lookup = ctx.lookup(name);
+	return lookup;
+    }
+
+    private static boolean isNullOrEmpty(String str) {
+	return ((str == null) || str.trim().length() == 0);
+    }
+
+    public static void jndiNameSecurityCheck(String name) throws NamingException {
+	if (!name.startsWith(JNDI_JAVA_NAMESPACE)) {
+	    throw new NamingException(RESTRICTION_MSG + name);
 	}
+    }
 }

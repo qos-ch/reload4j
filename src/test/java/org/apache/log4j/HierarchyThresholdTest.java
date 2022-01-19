@@ -28,89 +28,87 @@ import org.apache.log4j.util.Compare;
 import org.apache.log4j.xml.XLevel;
 
 /**
-   Test the configuration of the hierarchy-wide threshold.
-
-   @author  Ceki G&uuml;lc&uuml;
-*/
+ * Test the configuration of the hierarchy-wide threshold.
+ * 
+ * @author Ceki G&uuml;lc&uuml;
+ */
 public class HierarchyThresholdTest extends TestCase {
-  
-  static String TEMP = "output/temp";
-  static Logger logger = Logger.getLogger(HierarchyThresholdTest.class);
 
-  public HierarchyThresholdTest(String name) {
-    super(name);
-  }
+    static String TEMP = "output/temp";
+    static Logger logger = Logger.getLogger(HierarchyThresholdTest.class);
 
-  public void setUp() {
-  }
-  
-  public void tearDown() {
-    System.out.println("Tearing down test case.");
-    logger.getLoggerRepository().resetConfiguration();
-  }
-  
-  public void test1() throws Exception {
-    PropertyConfigurator.configure(TEST_INPUT_PREFIX+"hierarchyThreshold1.properties");
-    common();
-    assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX+"hierarchyThreshold.1"));
-  }
+    public HierarchyThresholdTest(String name) {
+	super(name);
+    }
 
-  public void test2() throws Exception {
-    PropertyConfigurator.configure(TEST_INPUT_PREFIX+"hierarchyThreshold2.properties");
-    common();
-    assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX+"hierarchyThreshold.2"));
-  }
+    public void setUp() {
+    }
 
-  public void test3() throws Exception {
-    PropertyConfigurator.configure(TEST_INPUT_PREFIX+"hierarchyThreshold3.properties");
-    common();
-    assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX+"hierarchyThreshold.3"));
-  }
+    public void tearDown() {
+	System.out.println("Tearing down test case.");
+	logger.getLoggerRepository().resetConfiguration();
+    }
 
-  public void test4() throws Exception {
-    PropertyConfigurator.configure(TEST_INPUT_PREFIX+"hierarchyThreshold4.properties");
-    common();
-    assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX+"hierarchyThreshold.4"));
-  }
+    public void test1() throws Exception {
+	PropertyConfigurator.configure(TEST_INPUT_PREFIX + "hierarchyThreshold1.properties");
+	common();
+	assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX + "hierarchyThreshold.1"));
+    }
 
-  public void test5() throws Exception {
-    PropertyConfigurator.configure(TEST_INPUT_PREFIX+"hierarchyThreshold5.properties");
-    common();
-    assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX+"hierarchyThreshold.5"));
-  }
+    public void test2() throws Exception {
+	PropertyConfigurator.configure(TEST_INPUT_PREFIX + "hierarchyThreshold2.properties");
+	common();
+	assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX + "hierarchyThreshold.2"));
+    }
 
-  public void test6() throws Exception {
-    PropertyConfigurator.configure(TEST_INPUT_PREFIX+"hierarchyThreshold6.properties");
-    common();
-    assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX+"hierarchyThreshold.6"));
-  }
+    public void test3() throws Exception {
+	PropertyConfigurator.configure(TEST_INPUT_PREFIX + "hierarchyThreshold3.properties");
+	common();
+	assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX + "hierarchyThreshold.3"));
+    }
 
-  public void test7() throws Exception {
-    PropertyConfigurator.configure(TEST_INPUT_PREFIX+"hierarchyThreshold7.properties");
-    common();
-    assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX+"hierarchyThreshold.7"));
-  }
+    public void test4() throws Exception {
+	PropertyConfigurator.configure(TEST_INPUT_PREFIX + "hierarchyThreshold4.properties");
+	common();
+	assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX + "hierarchyThreshold.4"));
+    }
 
-  public void test8() throws Exception {
-    PropertyConfigurator.configure(TEST_INPUT_PREFIX+"hierarchyThreshold8.properties");
-    common();
-    assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX+"hierarchyThreshold.8"));
-  }
+    public void test5() throws Exception {
+	PropertyConfigurator.configure(TEST_INPUT_PREFIX + "hierarchyThreshold5.properties");
+	common();
+	assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX + "hierarchyThreshold.5"));
+    }
 
+    public void test6() throws Exception {
+	PropertyConfigurator.configure(TEST_INPUT_PREFIX + "hierarchyThreshold6.properties");
+	common();
+	assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX + "hierarchyThreshold.6"));
+    }
 
-  static 
-  void common() {
-    String oldThreadName = Thread.currentThread().getName();
-    Thread.currentThread().setName("main");
+    public void test7() throws Exception {
+	PropertyConfigurator.configure(TEST_INPUT_PREFIX + "hierarchyThreshold7.properties");
+	common();
+	assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX + "hierarchyThreshold.7"));
+    }
 
-    logger.log(XLevel.TRACE, "m0");
-    logger.debug("m1");
-    logger.info("m2");
-    logger.warn("m3");
-    logger.error("m4");
-    logger.fatal("m5");
+    public void test8() throws Exception {
+	PropertyConfigurator.configure(TEST_INPUT_PREFIX + "hierarchyThreshold8.properties");
+	common();
+	assertTrue(Compare.compare(TEMP, TEST_WITNESS_PREFIX + "hierarchyThreshold.8"));
+    }
 
-    Thread.currentThread().setName(oldThreadName);
-  }
+    static void common() {
+	String oldThreadName = Thread.currentThread().getName();
+	Thread.currentThread().setName("main");
+
+	logger.log(XLevel.TRACE, "m0");
+	logger.debug("m1");
+	logger.info("m2");
+	logger.warn("m3");
+	logger.error("m4");
+	logger.fatal("m5");
+
+	Thread.currentThread().setName(oldThreadName);
+    }
 
 }

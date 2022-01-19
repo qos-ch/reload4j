@@ -34,90 +34,84 @@ import org.apache.log4j.Logger;
  *
  * @author <a href="mailto:oliver@puppycrawl.com">Oliver Burn</a>
  */
-class MyTableModel
-    extends AbstractTableModel
-{
+class MyTableModel extends AbstractTableModel {
 
     /** used to log messages **/
     private static final Logger LOG = Logger.getLogger(MyTableModel.class);
 
     /** use the compare logging events **/
-    private static final Comparator MY_COMP = new Comparator()
-    {
-        /** @see Comparator **/
-        public int compare(Object aObj1, Object aObj2) {
-            if ((aObj1 == null) && (aObj2 == null)) {
-                return 0; // treat as equal
-            } else if (aObj1 == null) {
-                return -1; // null less than everything
-            } else if (aObj2 == null) {
-                return 1; // think about it. :->
-            }
+    private static final Comparator MY_COMP = new Comparator() {
+	/** @see Comparator **/
+	public int compare(Object aObj1, Object aObj2) {
+	    if ((aObj1 == null) && (aObj2 == null)) {
+		return 0; // treat as equal
+	    } else if (aObj1 == null) {
+		return -1; // null less than everything
+	    } else if (aObj2 == null) {
+		return 1; // think about it. :->
+	    }
 
-            // will assume only have LoggingEvent
-            final EventDetails le1 = (EventDetails) aObj1;
-            final EventDetails le2 = (EventDetails) aObj2;
+	    // will assume only have LoggingEvent
+	    final EventDetails le1 = (EventDetails) aObj1;
+	    final EventDetails le2 = (EventDetails) aObj2;
 
-            if (le1.getTimeStamp() < le2.getTimeStamp()) {
-                return 1;
-            }
-            // assume not two events are logged at exactly the same time
-            return -1;
-        }
-        };
+	    if (le1.getTimeStamp() < le2.getTimeStamp()) {
+		return 1;
+	    }
+	    // assume not two events are logged at exactly the same time
+	    return -1;
+	}
+    };
 
     /**
      * Helper that actually processes incoming events.
+     * 
      * @author <a href="mailto:oliver@puppycrawl.com">Oliver Burn</a>
      */
-    private class Processor
-        implements Runnable
-    {
-        /** loops getting the events **/
-        public void run() {
-            while (true) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    // ignore
-                }
+    private class Processor implements Runnable {
+	/** loops getting the events **/
+	public void run() {
+	    while (true) {
+		try {
+		    Thread.sleep(1000);
+		} catch (InterruptedException e) {
+		    // ignore
+		}
 
-                synchronized (mLock) {
-                    if (mPaused) {
-                        continue;
-                    }
+		synchronized (mLock) {
+		    if (mPaused) {
+			continue;
+		    }
 
-                    boolean toHead = true; // were events added to head
-                    boolean needUpdate = false;
-                    final Iterator it = mPendingEvents.iterator();
-                    while (it.hasNext()) {
-                        final EventDetails event = (EventDetails) it.next();
-                        mAllEvents.add(event);
-                        toHead = toHead && (event == mAllEvents.first());
-                        needUpdate = needUpdate || matchFilter(event);
-                    }
-                    mPendingEvents.clear();
+		    boolean toHead = true; // were events added to head
+		    boolean needUpdate = false;
+		    final Iterator it = mPendingEvents.iterator();
+		    while (it.hasNext()) {
+			final EventDetails event = (EventDetails) it.next();
+			mAllEvents.add(event);
+			toHead = toHead && (event == mAllEvents.first());
+			needUpdate = needUpdate || matchFilter(event);
+		    }
+		    mPendingEvents.clear();
 
-                    if (needUpdate) {
-                        updateFilteredEvents(toHead);
-                    }
-                }
-            }
+		    if (needUpdate) {
+			updateFilteredEvents(toHead);
+		    }
+		}
+	    }
 
-        }
+	}
     }
 
-
     /** names of the columns in the table **/
-    private static final String[] COL_NAMES = {
-        "Time", "Priority", "Trace", "Category", "NDC", "Message"};
+    private static final String[] COL_NAMES = { "Time", "Priority", "Trace", "Category", "NDC", "Message" };
 
     /** definition of an empty list **/
-    private static final EventDetails[] EMPTY_LIST =  new EventDetails[] {};
+    private static final EventDetails[] EMPTY_LIST = new EventDetails[] {};
 
     /** used to format dates **/
-    private static final DateFormat DATE_FORMATTER =
-        DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
+    private static final DateFormat DATE_FORMATTER = DateFormat.getDateTimeInstance(DateFormat.SHORT,
+	    DateFormat.MEDIUM);
 
     /** the lock to control access **/
     private final Object mLock = new Object();
@@ -141,17 +135,15 @@ class MyTableModel
     /** filter for the priority **/
     private Priority mPriorityFilter = Priority.DEBUG;
 
-
     /**
      * Creates a new <code>MyTableModel</code> instance.
      *
      */
     MyTableModel() {
-        final Thread t = new Thread(new Processor());
-        t.setDaemon(true);
-        t.start();
+	final Thread t = new Thread(new Processor());
+	t.setDaemon(true);
+	t.start();
     }
-
 
     ////////////////////////////////////////////////////////////////////////////
     // Table Methods
@@ -159,48 +151,47 @@ class MyTableModel
 
     /** @see javax.swing.table.TableModel **/
     public int getRowCount() {
-        synchronized (mLock) {
-            return mFilteredEvents.length;
-        }
+	synchronized (mLock) {
+	    return mFilteredEvents.length;
+	}
     }
 
     /** @see javax.swing.table.TableModel **/
     public int getColumnCount() {
-        // does not need to be synchronized
-        return COL_NAMES.length;
+	// does not need to be synchronized
+	return COL_NAMES.length;
     }
 
     /** @see javax.swing.table.TableModel **/
     public String getColumnName(int aCol) {
-        // does not need to be synchronized
-        return COL_NAMES[aCol];
+	// does not need to be synchronized
+	return COL_NAMES[aCol];
     }
 
     /** @see javax.swing.table.TableModel **/
     public Class getColumnClass(int aCol) {
-        // does not need to be synchronized
-        return (aCol == 2) ? Boolean.class : Object.class;
+	// does not need to be synchronized
+	return (aCol == 2) ? Boolean.class : Object.class;
     }
 
     /** @see javax.swing.table.TableModel **/
     public Object getValueAt(int aRow, int aCol) {
-        synchronized (mLock) {
-            final EventDetails event = mFilteredEvents[aRow];
+	synchronized (mLock) {
+	    final EventDetails event = mFilteredEvents[aRow];
 
-            if (aCol == 0) {
-                return DATE_FORMATTER.format(new Date(event.getTimeStamp()));
-            } else if (aCol == 1) {
-                return event.getPriority();
-            } else if (aCol == 2) {
-                return (event.getThrowableStrRep() == null)
-                    ? Boolean.FALSE : Boolean.TRUE;
-            } else if (aCol == 3) {
-                return event.getCategoryName();
-            } else if (aCol == 4) {
-                return event.getNDC();
-            }
-            return event.getMessage();
-        }
+	    if (aCol == 0) {
+		return DATE_FORMATTER.format(new Date(event.getTimeStamp()));
+	    } else if (aCol == 1) {
+		return event.getPriority();
+	    } else if (aCol == 2) {
+		return (event.getThrowableStrRep() == null) ? Boolean.FALSE : Boolean.TRUE;
+	    } else if (aCol == 3) {
+		return event.getCategoryName();
+	    } else if (aCol == 4) {
+		return event.getNDC();
+	    }
+	    return event.getMessage();
+	}
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -214,10 +205,10 @@ class MyTableModel
      * @param aPriority the priority to filter on
      */
     public void setPriorityFilter(Priority aPriority) {
-        synchronized (mLock) {
-            mPriorityFilter = aPriority;
-            updateFilteredEvents(false);
-        }
+	synchronized (mLock) {
+	    mPriorityFilter = aPriority;
+	    updateFilteredEvents(false);
+	}
     }
 
     /**
@@ -226,10 +217,10 @@ class MyTableModel
      * @param aStr the string to match
      */
     public void setThreadFilter(String aStr) {
-        synchronized (mLock) {
-            mThreadFilter = aStr.trim();
-            updateFilteredEvents(false);
-        }
+	synchronized (mLock) {
+	    mThreadFilter = aStr.trim();
+	    updateFilteredEvents(false);
+	}
     }
 
     /**
@@ -238,10 +229,10 @@ class MyTableModel
      * @param aStr the string to match
      */
     public void setMessageFilter(String aStr) {
-        synchronized (mLock) {
-            mMessageFilter = aStr.trim();
-            updateFilteredEvents(false);
-        }
+	synchronized (mLock) {
+	    mMessageFilter = aStr.trim();
+	    updateFilteredEvents(false);
+	}
     }
 
     /**
@@ -250,10 +241,10 @@ class MyTableModel
      * @param aStr the string to match
      */
     public void setNDCFilter(String aStr) {
-        synchronized (mLock) {
-            mNDCFilter = aStr.trim();
-            updateFilteredEvents(false);
-        }
+	synchronized (mLock) {
+	    mNDCFilter = aStr.trim();
+	    updateFilteredEvents(false);
+	}
     }
 
     /**
@@ -262,10 +253,10 @@ class MyTableModel
      * @param aStr the string to match
      */
     public void setCategoryFilter(String aStr) {
-        synchronized (mLock) {
-            mCategoryFilter = aStr.trim();
-            updateFilteredEvents(false);
-        }
+	synchronized (mLock) {
+	    mCategoryFilter = aStr.trim();
+	    updateFilteredEvents(false);
+	}
     }
 
     /**
@@ -274,35 +265,35 @@ class MyTableModel
      * @param aEvent a <code>EventDetails</code> value
      */
     public void addEvent(EventDetails aEvent) {
-        synchronized (mLock) {
-            mPendingEvents.add(aEvent);
-        }
+	synchronized (mLock) {
+	    mPendingEvents.add(aEvent);
+	}
     }
 
     /**
      * Clear the list of all events.
      */
     public void clear() {
-        synchronized (mLock) {
-            mAllEvents.clear();
-            mFilteredEvents = new EventDetails[0];
-            mPendingEvents.clear();
-            fireTableDataChanged();
-        }
+	synchronized (mLock) {
+	    mAllEvents.clear();
+	    mFilteredEvents = new EventDetails[0];
+	    mPendingEvents.clear();
+	    fireTableDataChanged();
+	}
     }
 
     /** Toggle whether collecting events **/
     public void toggle() {
-        synchronized (mLock) {
-            mPaused = !mPaused;
-        }
+	synchronized (mLock) {
+	    mPaused = !mPaused;
+	}
     }
 
     /** @return whether currently paused collecting events **/
     public boolean isPaused() {
-        synchronized (mLock) {
-            return mPaused;
-        }
+	synchronized (mLock) {
+	    return mPaused;
+	}
     }
 
     /**
@@ -312,9 +303,9 @@ class MyTableModel
      * @return the throwable information
      */
     public EventDetails getEventDetails(int aRow) {
-        synchronized (mLock) {
-            return mFilteredEvents[aRow];
-        }
+	synchronized (mLock) {
+	    return mFilteredEvents[aRow];
+	}
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -323,43 +314,41 @@ class MyTableModel
 
     /**
      * Update the filtered events data structure.
-     * @param aInsertedToFront indicates whether events were added to front of
-     *        the events. If true, then the current first event must still exist
-     *        in the list after the filter is applied.
+     * 
+     * @param aInsertedToFront indicates whether events were added to front of the
+     *                         events. If true, then the current first event must
+     *                         still exist in the list after the filter is applied.
      */
     private void updateFilteredEvents(boolean aInsertedToFront) {
-        final long start = System.currentTimeMillis();
-        final List filtered = new ArrayList();
-        final int size = mAllEvents.size();
-        final Iterator it = mAllEvents.iterator();
+	final long start = System.currentTimeMillis();
+	final List filtered = new ArrayList();
+	final int size = mAllEvents.size();
+	final Iterator it = mAllEvents.iterator();
 
-        while (it.hasNext()) {
-            final EventDetails event = (EventDetails) it.next();
-            if (matchFilter(event)) {
-                filtered.add(event);
-            }
-        }
+	while (it.hasNext()) {
+	    final EventDetails event = (EventDetails) it.next();
+	    if (matchFilter(event)) {
+		filtered.add(event);
+	    }
+	}
 
-        final EventDetails lastFirst = (mFilteredEvents.length == 0)
-            ? null
-            : mFilteredEvents[0];
-        mFilteredEvents = (EventDetails[]) filtered.toArray(EMPTY_LIST);
+	final EventDetails lastFirst = (mFilteredEvents.length == 0) ? null : mFilteredEvents[0];
+	mFilteredEvents = (EventDetails[]) filtered.toArray(EMPTY_LIST);
 
-        if (aInsertedToFront && (lastFirst != null)) {
-            final int index = filtered.indexOf(lastFirst);
-            if (index < 1) {
-                LOG.warn("In strange state");
-                fireTableDataChanged();
-            } else {
-                fireTableRowsInserted(0, index - 1);
-            }
-        } else {
-            fireTableDataChanged();
-        }
+	if (aInsertedToFront && (lastFirst != null)) {
+	    final int index = filtered.indexOf(lastFirst);
+	    if (index < 1) {
+		LOG.warn("In strange state");
+		fireTableDataChanged();
+	    } else {
+		fireTableRowsInserted(0, index - 1);
+	    }
+	} else {
+	    fireTableDataChanged();
+	}
 
-        final long end = System.currentTimeMillis();
-        LOG.debug("Total time [ms]: " + (end - start)
-                  + " in update, size: " + size);
+	final long end = System.currentTimeMillis();
+	LOG.debug("Total time [ms]: " + (end - start) + " in update, size: " + size);
     }
 
     /**
@@ -369,22 +358,19 @@ class MyTableModel
      * @return whether the event matches
      */
     private boolean matchFilter(EventDetails aEvent) {
-        if (aEvent.getPriority().isGreaterOrEqual(mPriorityFilter) &&
-            (aEvent.getThreadName().indexOf(mThreadFilter) >= 0) &&
-            (aEvent.getCategoryName().indexOf(mCategoryFilter) >= 0) &&
-            ((mNDCFilter.length() == 0) ||
-             ((aEvent.getNDC() != null) &&
-              (aEvent.getNDC().indexOf(mNDCFilter) >= 0))))
-        {
-            final String rm = aEvent.getMessage();
-            if (rm == null) {
-                // only match if we have not filtering in place
-                return (mMessageFilter.length() == 0);
-            } else {
-                return (rm.indexOf(mMessageFilter) >= 0);
-            }
-        }
+	if (aEvent.getPriority().isGreaterOrEqual(mPriorityFilter)
+		&& (aEvent.getThreadName().indexOf(mThreadFilter) >= 0)
+		&& (aEvent.getCategoryName().indexOf(mCategoryFilter) >= 0) && ((mNDCFilter.length() == 0)
+			|| ((aEvent.getNDC() != null) && (aEvent.getNDC().indexOf(mNDCFilter) >= 0)))) {
+	    final String rm = aEvent.getMessage();
+	    if (rm == null) {
+		// only match if we have not filtering in place
+		return (mMessageFilter.length() == 0);
+	    } else {
+		return (rm.indexOf(mMessageFilter) >= 0);
+	    }
+	}
 
-        return false; // by default not match
+	return false; // by default not match
     }
 }

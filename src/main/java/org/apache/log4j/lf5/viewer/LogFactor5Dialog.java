@@ -40,112 +40,108 @@ import javax.swing.JFrame;
 // Contributed by ThoughtWorks Inc.
 
 public abstract class LogFactor5Dialog extends JDialog {
-  //--------------------------------------------------------------------------
-  //   Constants:
-  //--------------------------------------------------------------------------
-  protected static final Font DISPLAY_FONT = new Font("Arial", Font.BOLD, 12);
-  //--------------------------------------------------------------------------
-  //   Protected Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constants:
+    // --------------------------------------------------------------------------
+    protected static final Font DISPLAY_FONT = new Font("Arial", Font.BOLD, 12);
+    // --------------------------------------------------------------------------
+    // Protected Variables:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Private Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Private Variables:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Constructors:
-  //--------------------------------------------------------------------------
-  protected LogFactor5Dialog(JFrame jframe, String message, boolean modal) {
-    super(jframe, message, modal);
-  }
-
-  //--------------------------------------------------------------------------
-  //   Public Methods:
-  //--------------------------------------------------------------------------
-  public void show() {
-    pack();
-    minimumSizeDialog(this, 200, 100);
-    centerWindow(this);
-    super.show();
-  }
-
-  //--------------------------------------------------------------------------
-  //   Protected Methods:
-  //--------------------------------------------------------------------------
-
-  //--------------------------------------------------------------------------
-  //   Private Methods:
-  //--------------------------------------------------------------------------
-  protected void centerWindow(Window win) {
-    Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
-
-    // If larger than screen, reduce window width or height
-    if (screenDim.width < win.getSize().width) {
-      win.setSize(screenDim.width, win.getSize().height);
+    // --------------------------------------------------------------------------
+    // Constructors:
+    // --------------------------------------------------------------------------
+    protected LogFactor5Dialog(JFrame jframe, String message, boolean modal) {
+	super(jframe, message, modal);
     }
 
-    if (screenDim.height < win.getSize().height) {
-      win.setSize(win.getSize().width, screenDim.height);
+    // --------------------------------------------------------------------------
+    // Public Methods:
+    // --------------------------------------------------------------------------
+    public void show() {
+	pack();
+	minimumSizeDialog(this, 200, 100);
+	centerWindow(this);
+	super.show();
     }
 
-    // Center Frame, Dialogue or Window on screen
-    int x = (screenDim.width - win.getSize().width) / 2;
-    int y = (screenDim.height - win.getSize().height) / 2;
-    win.setLocation(x, y);
-  }
+    // --------------------------------------------------------------------------
+    // Protected Methods:
+    // --------------------------------------------------------------------------
 
-  protected void wrapStringOnPanel(String message,
-      Container container) {
-    GridBagConstraints c = getDefaultConstraints();
-    c.gridwidth = GridBagConstraints.REMAINDER;
-    // Insets() args are top, left, bottom, right
-    c.insets = new Insets(0, 0, 0, 0);
-    GridBagLayout gbLayout = (GridBagLayout) container.getLayout();
+    // --------------------------------------------------------------------------
+    // Private Methods:
+    // --------------------------------------------------------------------------
+    protected void centerWindow(Window win) {
+	Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
 
+	// If larger than screen, reduce window width or height
+	if (screenDim.width < win.getSize().width) {
+	    win.setSize(screenDim.width, win.getSize().height);
+	}
 
-    while (message.length() > 0) {
-      int newLineIndex = message.indexOf('\n');
-      String line;
-      if (newLineIndex >= 0) {
-        line = message.substring(0, newLineIndex);
-        message = message.substring(newLineIndex + 1);
-      } else {
-        line = message;
-        message = "";
-      }
-      Label label = new Label(line);
-      label.setFont(DISPLAY_FONT);
-      gbLayout.setConstraints(label, c);
-      container.add(label);
+	if (screenDim.height < win.getSize().height) {
+	    win.setSize(win.getSize().width, screenDim.height);
+	}
+
+	// Center Frame, Dialogue or Window on screen
+	int x = (screenDim.width - win.getSize().width) / 2;
+	int y = (screenDim.height - win.getSize().height) / 2;
+	win.setLocation(x, y);
     }
-  }
 
-  protected GridBagConstraints getDefaultConstraints() {
-    GridBagConstraints constraints = new GridBagConstraints();
-    constraints.weightx = 1.0;
-    constraints.weighty = 1.0;
-    constraints.gridheight = 1; // One row high
-    // Insets() args are top, left, bottom, right
-    constraints.insets = new Insets(4, 4, 4, 4);
-    // fill of NONE means do not change size
-    constraints.fill = GridBagConstraints.NONE;
-    // WEST means align left
-    constraints.anchor = GridBagConstraints.WEST;
+    protected void wrapStringOnPanel(String message, Container container) {
+	GridBagConstraints c = getDefaultConstraints();
+	c.gridwidth = GridBagConstraints.REMAINDER;
+	// Insets() args are top, left, bottom, right
+	c.insets = new Insets(0, 0, 0, 0);
+	GridBagLayout gbLayout = (GridBagLayout) container.getLayout();
 
-    return constraints;
-  }
+	while (message.length() > 0) {
+	    int newLineIndex = message.indexOf('\n');
+	    String line;
+	    if (newLineIndex >= 0) {
+		line = message.substring(0, newLineIndex);
+		message = message.substring(newLineIndex + 1);
+	    } else {
+		line = message;
+		message = "";
+	    }
+	    Label label = new Label(line);
+	    label.setFont(DISPLAY_FONT);
+	    gbLayout.setConstraints(label, c);
+	    container.add(label);
+	}
+    }
 
-  protected void minimumSizeDialog(Component component,
-      int minWidth,
-      int minHeight) {
-    // set the min width
-    if (component.getSize().width < minWidth)
-      component.setSize(minWidth, component.getSize().height);
-    // set the min height
-    if (component.getSize().height < minHeight)
-      component.setSize(component.getSize().width, minHeight);
-  }
-  //--------------------------------------------------------------------------
-  //   Nested Top-Level Classes or Interfaces
-  //--------------------------------------------------------------------------
+    protected GridBagConstraints getDefaultConstraints() {
+	GridBagConstraints constraints = new GridBagConstraints();
+	constraints.weightx = 1.0;
+	constraints.weighty = 1.0;
+	constraints.gridheight = 1; // One row high
+	// Insets() args are top, left, bottom, right
+	constraints.insets = new Insets(4, 4, 4, 4);
+	// fill of NONE means do not change size
+	constraints.fill = GridBagConstraints.NONE;
+	// WEST means align left
+	constraints.anchor = GridBagConstraints.WEST;
+
+	return constraints;
+    }
+
+    protected void minimumSizeDialog(Component component, int minWidth, int minHeight) {
+	// set the min width
+	if (component.getSize().width < minWidth)
+	    component.setSize(minWidth, component.getSize().height);
+	// set the min height
+	if (component.getSize().height < minHeight)
+	    component.setSize(component.getSize().width, minHeight);
+    }
+    // --------------------------------------------------------------------------
+    // Nested Top-Level Classes or Interfaces
+    // --------------------------------------------------------------------------
 }

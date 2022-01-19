@@ -34,124 +34,116 @@ import javax.swing.tree.TreePath;
 // Contributed by ThoughtWorks Inc.
 
 public class CategoryExplorerTree extends JTree {
-  private static final long serialVersionUID = 8066257446951323576L;
-  //--------------------------------------------------------------------------
-  //   Constants:
-  //--------------------------------------------------------------------------
+    private static final long serialVersionUID = 8066257446951323576L;
+    // --------------------------------------------------------------------------
+    // Constants:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Protected Variables:
-  //--------------------------------------------------------------------------
-  protected CategoryExplorerModel _model;
-  protected boolean _rootAlreadyExpanded = false;
+    // --------------------------------------------------------------------------
+    // Protected Variables:
+    // --------------------------------------------------------------------------
+    protected CategoryExplorerModel _model;
+    protected boolean _rootAlreadyExpanded = false;
 
-  //--------------------------------------------------------------------------
-  //   Private Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Private Variables:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Constructors:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constructors:
+    // --------------------------------------------------------------------------
 
-  /**
-   * Construct a CategoryExplorerTree with a specific model.
-   */
-  public CategoryExplorerTree(CategoryExplorerModel model) {
-    super(model);
+    /**
+     * Construct a CategoryExplorerTree with a specific model.
+     */
+    public CategoryExplorerTree(CategoryExplorerModel model) {
+	super(model);
 
-    _model = model;
-    init();
-  }
-
-  /**
-   * Construct a CategoryExplorerTree and create a default CategoryExplorerModel.
-   */
-  public CategoryExplorerTree() {
-    super();
-
-    CategoryNode rootNode = new CategoryNode("Categories");
-
-    _model = new CategoryExplorerModel(rootNode);
-
-    setModel(_model);
-
-    init();
-  }
-
-  //--------------------------------------------------------------------------
-  //   Public Methods:
-  //--------------------------------------------------------------------------
-
-  public CategoryExplorerModel getExplorerModel() {
-    return (_model);
-  }
-
-  public String getToolTipText(MouseEvent e) {
-
-    try {
-      return super.getToolTipText(e);
-    } catch (Exception ex) {
-      return "";
+	_model = model;
+	init();
     }
 
-  }
+    /**
+     * Construct a CategoryExplorerTree and create a default CategoryExplorerModel.
+     */
+    public CategoryExplorerTree() {
+	super();
 
-  //--------------------------------------------------------------------------
-  //   Protected Methods:
-  //--------------------------------------------------------------------------
+	CategoryNode rootNode = new CategoryNode("Categories");
 
-  protected void init() {
-    // Put visible lines on the JTree.
-    putClientProperty("JTree.lineStyle", "Angled");
+	_model = new CategoryExplorerModel(rootNode);
 
-    // Configure the Tree with the appropriate Renderers and Editors.
+	setModel(_model);
 
-    CategoryNodeRenderer renderer = new CategoryNodeRenderer();
-    setEditable(true);
-    setCellRenderer(renderer);
-
-    CategoryNodeEditor editor = new CategoryNodeEditor(_model);
-
-    setCellEditor(new CategoryImmediateEditor(this,
-        new CategoryNodeRenderer(),
-        editor));
-    setShowsRootHandles(true);
-
-    setToolTipText("");
-
-    ensureRootExpansion();
-
-  }
-
-  protected void expandRootNode() {
-    if (_rootAlreadyExpanded) {
-      return;
+	init();
     }
-    _rootAlreadyExpanded = true;
-    TreePath path = new TreePath(_model.getRootCategoryNode().getPath());
-    expandPath(path);
-  }
 
-  protected void ensureRootExpansion() {
-    _model.addTreeModelListener(new TreeModelAdapter() {
-      public void treeNodesInserted(TreeModelEvent e) {
-        expandRootNode();
-      }
-    });
-  }
+    // --------------------------------------------------------------------------
+    // Public Methods:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Private Methods:
-  //--------------------------------------------------------------------------
+    public CategoryExplorerModel getExplorerModel() {
+	return (_model);
+    }
 
-  //--------------------------------------------------------------------------
-  //   Nested Top-Level Classes or Interfaces:
-  //--------------------------------------------------------------------------
+    public String getToolTipText(MouseEvent e) {
+
+	try {
+	    return super.getToolTipText(e);
+	} catch (Exception ex) {
+	    return "";
+	}
+
+    }
+
+    // --------------------------------------------------------------------------
+    // Protected Methods:
+    // --------------------------------------------------------------------------
+
+    protected void init() {
+	// Put visible lines on the JTree.
+	putClientProperty("JTree.lineStyle", "Angled");
+
+	// Configure the Tree with the appropriate Renderers and Editors.
+
+	CategoryNodeRenderer renderer = new CategoryNodeRenderer();
+	setEditable(true);
+	setCellRenderer(renderer);
+
+	CategoryNodeEditor editor = new CategoryNodeEditor(_model);
+
+	setCellEditor(new CategoryImmediateEditor(this, new CategoryNodeRenderer(), editor));
+	setShowsRootHandles(true);
+
+	setToolTipText("");
+
+	ensureRootExpansion();
+
+    }
+
+    protected void expandRootNode() {
+	if (_rootAlreadyExpanded) {
+	    return;
+	}
+	_rootAlreadyExpanded = true;
+	TreePath path = new TreePath(_model.getRootCategoryNode().getPath());
+	expandPath(path);
+    }
+
+    protected void ensureRootExpansion() {
+	_model.addTreeModelListener(new TreeModelAdapter() {
+	    public void treeNodesInserted(TreeModelEvent e) {
+		expandRootNode();
+	    }
+	});
+    }
+
+    // --------------------------------------------------------------------------
+    // Private Methods:
+    // --------------------------------------------------------------------------
+
+    // --------------------------------------------------------------------------
+    // Nested Top-Level Classes or Interfaces:
+    // --------------------------------------------------------------------------
 
 }
-
-
-
-
-
-

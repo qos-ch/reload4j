@@ -36,50 +36,50 @@ class LoggingReceiver extends Thread {
     private static final Logger LOG = Logger.getLogger(LoggingReceiver.class);
 
     /**
-     * Helper that actually processes a client connection. It receives events
-     * and adds them to the supplied model.
+     * Helper that actually processes a client connection. It receives events and
+     * adds them to the supplied model.
      *
      * @author <a href="mailto:oliver@puppycrawl.com">Oliver Burn</a>
      */
     private class Slurper implements Runnable {
-        /** socket connection to read events from **/
-        private final Socket mClient;
+	/** socket connection to read events from **/
+	private final Socket mClient;
 
-        /**
-         * Creates a new <code>Slurper</code> instance.
-         *
-         * @param aClient socket to receive events from
-         */
-        Slurper(Socket aClient) {
-            mClient = aClient;
-        }
+	/**
+	 * Creates a new <code>Slurper</code> instance.
+	 *
+	 * @param aClient socket to receive events from
+	 */
+	Slurper(Socket aClient) {
+	    mClient = aClient;
+	}
 
-        /** loops getting the events **/
-        public void run() {
-            LOG.debug("Starting to get data");
-            try {
-                final HardenedLoggingEventInputStream hleis =
-                    new HardenedLoggingEventInputStream(mClient.getInputStream());
-                while (true) {
-                    final LoggingEvent event = (LoggingEvent) hleis.readObject();
-                    mModel.addEvent(new EventDetails(event));
-                }
-            } catch (EOFException e) {
-                LOG.info("Reached EOF, closing connection");
-            } catch (SocketException e) {
-                LOG.info("Caught SocketException, closing connection");
-            } catch (IOException e) {
-                LOG.warn("Got IOException, closing connection", e);
-            } catch (ClassNotFoundException e) {
-                LOG.warn("Got ClassNotFoundException, closing connection", e);
-            }
+	/** loops getting the events **/
+	public void run() {
+	    LOG.debug("Starting to get data");
+	    try {
+		final HardenedLoggingEventInputStream hleis = new HardenedLoggingEventInputStream(
+			mClient.getInputStream());
+		while (true) {
+		    final LoggingEvent event = (LoggingEvent) hleis.readObject();
+		    mModel.addEvent(new EventDetails(event));
+		}
+	    } catch (EOFException e) {
+		LOG.info("Reached EOF, closing connection");
+	    } catch (SocketException e) {
+		LOG.info("Caught SocketException, closing connection");
+	    } catch (IOException e) {
+		LOG.warn("Got IOException, closing connection", e);
+	    } catch (ClassNotFoundException e) {
+		LOG.warn("Got ClassNotFoundException, closing connection", e);
+	    }
 
-            try {
-                mClient.close();
-            } catch (IOException e) {
-                LOG.warn("Error closing connection", e);
-            }
-        }
+	    try {
+		mClient.close();
+	    } catch (IOException e) {
+		LOG.warn("Error closing connection", e);
+	    }
+	}
     }
 
     /** where to put the events **/
@@ -87,35 +87,34 @@ class LoggingReceiver extends Thread {
 
     /** server for listening for connections **/
     private ServerSocket mSvrSock;
-    
+
     /**
      * Creates a new <code>LoggingReceiver</code> instance.
      *
      * @param aModel model to place put received into
-     * @param aPort port to listen on
+     * @param aPort  port to listen on
      * @throws IOException if an error occurs
      */
     LoggingReceiver(MyTableModel aModel, int aPort) throws IOException {
-        setDaemon(true);
-        mModel = aModel;
-        mSvrSock = new ServerSocket(aPort);
+	setDaemon(true);
+	mModel = aModel;
+	mSvrSock = new ServerSocket(aPort);
     }
 
     /** Listens for client connections **/
     public void run() {
-        LOG.info("Thread started");
-        try {
-            while (true) {
-                LOG.debug("Waiting for a connection");
-                final Socket client = mSvrSock.accept();
-                LOG.debug("Got a connection from " +
-                          client.getInetAddress().getHostName());
-                final Thread t = new Thread(new Slurper(client));
-                t.setDaemon(true);
-                t.start();
-            }
-        } catch (IOException e) {
-            LOG.error("Error in accepting connections, stopping.", e);
-        }
+	LOG.info("Thread started");
+	try {
+	    while (true) {
+		LOG.debug("Waiting for a connection");
+		final Socket client = mSvrSock.accept();
+		LOG.debug("Got a connection from " + client.getInetAddress().getHostName());
+		final Thread t = new Thread(new Slurper(client));
+		t.setDaemon(true);
+		t.start();
+	    }
+	} catch (IOException e) {
+	    LOG.error("Error in accepting connections, stopping.", e);
+	}
     }
 }

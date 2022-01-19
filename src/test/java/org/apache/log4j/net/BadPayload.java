@@ -28,20 +28,20 @@ import java.io.Serializable;
  */
 public class BadPayload implements Serializable {
 
-	private static final long serialVersionUID = -2289662204058636853L;
-	final String data;
-	
-	public BadPayload(String data) {
-		this.data = data;
-	}
+    private static final long serialVersionUID = -2289662204058636853L;
+    final String data;
 
-	@Override
-	public String toString() {
-		return "BadPayload [data=" + data + "]";
-	}
+    public BadPayload(String data) {
+	this.data = data;
+    }
 
-	private void readObject(ObjectInputStream serialized) throws ClassNotFoundException, IOException {
-		serialized.defaultReadObject();
-		throw new IllegalStateException("WARNING WARNING ********** BadPayload deserialized");
-	}
+    @Override
+    public String toString() {
+	return "BadPayload [data=" + data + "]";
+    }
+
+    private void readObject(ObjectInputStream serialized) throws ClassNotFoundException, IOException {
+	serialized.defaultReadObject();
+	throw new IllegalStateException("WARNING WARNING ********** BadPayload deserialized");
+    }
 }

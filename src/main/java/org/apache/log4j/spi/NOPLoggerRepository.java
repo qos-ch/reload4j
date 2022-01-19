@@ -25,14 +25,15 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- *  No-operation implementation of LoggerRepository which is used when
- *  LogManager.repositorySelector is erroneously nulled during class reloading.
- *  @since 1.2.15
+ * No-operation implementation of LoggerRepository which is used when
+ * LogManager.repositorySelector is erroneously nulled during class reloading.
+ * 
+ * @since 1.2.15
  */
 public final class NOPLoggerRepository implements LoggerRepository {
     /**
      * {@inheritDoc}
-    */
+     */
     public void addHierarchyEventListener(final HierarchyEventListener listener) {
     }
 
@@ -40,7 +41,7 @@ public final class NOPLoggerRepository implements LoggerRepository {
      * {@inheritDoc}
      */
     public boolean isDisabled(final int level) {
-        return true;
+	return true;
     }
 
     /**
@@ -65,35 +66,35 @@ public final class NOPLoggerRepository implements LoggerRepository {
      * {@inheritDoc}
      */
     public Level getThreshold() {
-        return Level.OFF;
+	return Level.OFF;
     }
 
     /**
      * {@inheritDoc}
      */
     public Logger getLogger(final String name) {
-        return new NOPLogger(this, name);
+	return new NOPLogger(this, name);
     }
 
     /**
      * {@inheritDoc}
      */
     public Logger getLogger(final String name, final LoggerFactory factory) {
-        return new NOPLogger(this, name);
+	return new NOPLogger(this, name);
     }
 
     /**
      * {@inheritDoc}
      */
     public Logger getRootLogger() {
-        return new NOPLogger(this, "root");
+	return new NOPLogger(this, "root");
     }
 
     /**
      * {@inheritDoc}
      */
     public Logger exists(final String name) {
-        return null;
+	return null;
     }
 
     /**
@@ -106,21 +107,20 @@ public final class NOPLoggerRepository implements LoggerRepository {
      * {@inheritDoc}
      */
     public Enumeration getCurrentLoggers() {
-        return new Vector().elements();
+	return new Vector().elements();
     }
 
     /**
      * {@inheritDoc}
      */
     public Enumeration getCurrentCategories() {
-        return getCurrentLoggers();
+	return getCurrentLoggers();
     }
-
 
     /**
      * {@inheritDoc}
      */
-    public  void fireAddAppenderEvent(Category logger, Appender appender) {
+    public void fireAddAppenderEvent(Category logger, Appender appender) {
     }
 
     /**

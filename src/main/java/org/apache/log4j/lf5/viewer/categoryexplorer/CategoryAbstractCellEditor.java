@@ -29,8 +29,8 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.tree.TreeCellEditor;
 
 /**
- * CategoryAbstractCellEditor.  Base class to handle the some common
- * details of cell editing.
+ * CategoryAbstractCellEditor. Base class to handle the some common details of
+ * cell editing.
  *
  * @author Michael J. Sikorsky
  * @author Robert Shaw
@@ -39,134 +39,127 @@ import javax.swing.tree.TreeCellEditor;
 // Contributed by ThoughtWorks Inc.
 
 public class CategoryAbstractCellEditor implements TableCellEditor, TreeCellEditor {
-  //--------------------------------------------------------------------------
-  //   Constants:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constants:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Protected Variables:
-  //--------------------------------------------------------------------------
-  protected EventListenerList _listenerList = new EventListenerList();
-  protected Object _value;
-  protected ChangeEvent _changeEvent = null;
-  protected int _clickCountToStart = 1;
+    // --------------------------------------------------------------------------
+    // Protected Variables:
+    // --------------------------------------------------------------------------
+    protected EventListenerList _listenerList = new EventListenerList();
+    protected Object _value;
+    protected ChangeEvent _changeEvent = null;
+    protected int _clickCountToStart = 1;
 
-  //--------------------------------------------------------------------------
-  //   Private Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Private Variables:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Constructors:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constructors:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Public Methods:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Public Methods:
+    // --------------------------------------------------------------------------
 
-  public Object getCellEditorValue() {
-    return _value;
-  }
-
-  public void setCellEditorValue(Object value) {
-    _value = value;
-  }
-
-  public void setClickCountToStart(int count) {
-    _clickCountToStart = count;
-  }
-
-  public int getClickCountToStart() {
-    return _clickCountToStart;
-  }
-
-  public boolean isCellEditable(EventObject anEvent) {
-    if (anEvent instanceof MouseEvent) {
-      if (((MouseEvent) anEvent).getClickCount() < _clickCountToStart) {
-        return false;
-      }
+    public Object getCellEditorValue() {
+	return _value;
     }
-    return true;
-  }
 
-  public boolean shouldSelectCell(EventObject anEvent) {
-    if (this.isCellEditable(anEvent)) {
-      if (anEvent == null ||
-          ((MouseEvent) anEvent).getClickCount() >= _clickCountToStart) {
-        return true;
-      }
+    public void setCellEditorValue(Object value) {
+	_value = value;
     }
-    return false;
-  }
 
-  public boolean stopCellEditing() {
-    fireEditingStopped();
-    return true;
-  }
-
-  public void cancelCellEditing() {
-    fireEditingCanceled();
-  }
-
-  public void addCellEditorListener(CellEditorListener l) {
-    _listenerList.add(CellEditorListener.class, l);
-  }
-
-  public void removeCellEditorListener(CellEditorListener l) {
-    _listenerList.remove(CellEditorListener.class, l);
-  }
-
-  public Component getTreeCellEditorComponent(
-      JTree tree, Object value,
-      boolean isSelected,
-      boolean expanded,
-      boolean leaf, int row) {
-    return null;
-  }
-
-  public Component getTableCellEditorComponent(
-      JTable table, Object value,
-      boolean isSelected,
-      int row, int column) {
-    return null;
-  }
-
-  //--------------------------------------------------------------------------
-  //   Protected Methods:
-  //--------------------------------------------------------------------------
-  protected void fireEditingStopped() {
-    Object[] listeners = _listenerList.getListenerList();
-
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-      if (listeners[i] == CellEditorListener.class) {
-        if (_changeEvent == null) {
-          _changeEvent = new ChangeEvent(this);
-        }
-
-        ((CellEditorListener) listeners[i + 1]).editingStopped(_changeEvent);
-      }
+    public void setClickCountToStart(int count) {
+	_clickCountToStart = count;
     }
-  }
 
-  protected void fireEditingCanceled() {
-    Object[] listeners = _listenerList.getListenerList();
-
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-      if (listeners[i] == CellEditorListener.class) {
-        if (_changeEvent == null) {
-          _changeEvent = new ChangeEvent(this);
-        }
-
-        ((CellEditorListener) listeners[i + 1]).editingCanceled(_changeEvent);
-      }
+    public int getClickCountToStart() {
+	return _clickCountToStart;
     }
-  }
 
-  //--------------------------------------------------------------------------
-  //   Private Methods:
-  //--------------------------------------------------------------------------
+    public boolean isCellEditable(EventObject anEvent) {
+	if (anEvent instanceof MouseEvent) {
+	    if (((MouseEvent) anEvent).getClickCount() < _clickCountToStart) {
+		return false;
+	    }
+	}
+	return true;
+    }
 
-  //--------------------------------------------------------------------------
-  //   Nested Top-Level Classes or Interfaces:
-  //--------------------------------------------------------------------------
+    public boolean shouldSelectCell(EventObject anEvent) {
+	if (this.isCellEditable(anEvent)) {
+	    if (anEvent == null || ((MouseEvent) anEvent).getClickCount() >= _clickCountToStart) {
+		return true;
+	    }
+	}
+	return false;
+    }
+
+    public boolean stopCellEditing() {
+	fireEditingStopped();
+	return true;
+    }
+
+    public void cancelCellEditing() {
+	fireEditingCanceled();
+    }
+
+    public void addCellEditorListener(CellEditorListener l) {
+	_listenerList.add(CellEditorListener.class, l);
+    }
+
+    public void removeCellEditorListener(CellEditorListener l) {
+	_listenerList.remove(CellEditorListener.class, l);
+    }
+
+    public Component getTreeCellEditorComponent(JTree tree, Object value, boolean isSelected, boolean expanded,
+	    boolean leaf, int row) {
+	return null;
+    }
+
+    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+	return null;
+    }
+
+    // --------------------------------------------------------------------------
+    // Protected Methods:
+    // --------------------------------------------------------------------------
+    protected void fireEditingStopped() {
+	Object[] listeners = _listenerList.getListenerList();
+
+	for (int i = listeners.length - 2; i >= 0; i -= 2) {
+	    if (listeners[i] == CellEditorListener.class) {
+		if (_changeEvent == null) {
+		    _changeEvent = new ChangeEvent(this);
+		}
+
+		((CellEditorListener) listeners[i + 1]).editingStopped(_changeEvent);
+	    }
+	}
+    }
+
+    protected void fireEditingCanceled() {
+	Object[] listeners = _listenerList.getListenerList();
+
+	for (int i = listeners.length - 2; i >= 0; i -= 2) {
+	    if (listeners[i] == CellEditorListener.class) {
+		if (_changeEvent == null) {
+		    _changeEvent = new ChangeEvent(this);
+		}
+
+		((CellEditorListener) listeners[i + 1]).editingCanceled(_changeEvent);
+	    }
+	}
+    }
+
+    // --------------------------------------------------------------------------
+    // Private Methods:
+    // --------------------------------------------------------------------------
+
+    // --------------------------------------------------------------------------
+    // Nested Top-Level Classes or Interfaces:
+    // --------------------------------------------------------------------------
 
 }

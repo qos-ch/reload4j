@@ -29,67 +29,68 @@ import org.junit.Test;
 
 public class SocketAppenderTest {
 
-	/* JUnit's setUp and tearDown */
+    /* JUnit's setUp and tearDown */
 
-	@Before
-	public void setUp() {
-	        DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/SocketAppenderTestConfig.xml");
-		//DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/socketAppenderForChainsaw.xml");
+    @Before
+    public void setUp() {
+	DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/SocketAppenderTestConfig.xml");
+	// DOMConfigurator.configure(TEST_INPUT_PREFIX +
+	// "xml/socketAppenderForChainsaw.xml");
 
-		logger = Logger.getLogger(SocketAppenderTest.class);
-		secondary = (LastOnlyAppender) Logger.getLogger("org.apache.log4j.net.SocketAppenderTestDummy")
-				.getAppender("lastOnly");
+	logger = Logger.getLogger(SocketAppenderTest.class);
+	secondary = (LastOnlyAppender) Logger.getLogger("org.apache.log4j.net.SocketAppenderTestDummy")
+		.getAppender("lastOnly");
+    }
+
+    @After
+    public void tearDown() {
+    }
+
+    /* Tests */
+
+    @Test
+    public void testFallbackErrorHandlerWhenStarting() {
+	String msg = "testFallbackErrorHandlerWhenStarting";
+	logger.debug(msg);
+
+	// above debug log will fail and shoul be redirected to secondary appender
+	assertEquals("SocketAppender with FallbackErrorHandler", msg, secondary.getLastMessage());
+    }
+
+    /* Fields */
+
+    private static Logger logger;
+    private static LastOnlyAppender secondary;
+
+    /* Inner classes */
+
+    /**
+     * Inner-class For debugging purposes only Saves last LoggerEvent
+     */
+    static public class LastOnlyAppender extends AppenderSkeleton {
+	protected void append(LoggingEvent event) {
+	    this.lastEvent = event;
 	}
 
-	@After
-	public void tearDown() {
+	public boolean requiresLayout() {
+	    return false;
 	}
 
-	/* Tests */
-
-	@Test
-	public void testFallbackErrorHandlerWhenStarting() {
-		String msg = "testFallbackErrorHandlerWhenStarting";
-		logger.debug(msg);
-
-		// above debug log will fail and shoul be redirected to secondary appender
-		assertEquals("SocketAppender with FallbackErrorHandler", msg, secondary.getLastMessage());
+	public void close() {
+	    this.closed = true;
 	}
-
-	/* Fields */
-
-	private static Logger logger;
-	private static LastOnlyAppender secondary;
-
-	/* Inner classes */
 
 	/**
-	 * Inner-class For debugging purposes only Saves last LoggerEvent
+	 * @return last appended LoggingEvent's message
 	 */
-	static public class LastOnlyAppender extends AppenderSkeleton {
-		protected void append(LoggingEvent event) {
-			this.lastEvent = event;
-		}
+	public String getLastMessage() {
+	    if (this.lastEvent != null)
+		return this.lastEvent.getMessage().toString();
+	    else
+		return "";
+	}
 
-		public boolean requiresLayout() {
-			return false;
-		}
-
-		public void close() {
-			this.closed = true;
-		}
-
-		/**
-		 * @return last appended LoggingEvent's message
-		 */
-		public String getLastMessage() {
-			if (this.lastEvent != null)
-				return this.lastEvent.getMessage().toString();
-			else
-				return "";
-		}
-
-		private LoggingEvent lastEvent;
-	};
+	private LoggingEvent lastEvent;
+    };
 
 }

@@ -30,83 +30,83 @@ import junit.framework.TestCase;
  */
 public class MDCTestCase extends TestCase {
 
-	public void setUp() {
-		MDC.clear();
+    public void setUp() {
+	MDC.clear();
+    }
+
+    public void tearDown() {
+	MDC.clear();
+    }
+
+    public void testPut() throws Exception {
+	MDC.put("key", "some value");
+	assertEquals("some value", MDC.get("key"));
+	assertEquals(1, MDC.getContext().size());
+    }
+
+    public void testRemoveLastKey() throws Exception {
+	MDC.put("key", "some value");
+
+	MDC.remove("key");
+
+	int majorJavaVersion = VersionUtil.getJavaMajorVersion();
+	System.out.println("majorJavaVersion=" + majorJavaVersion);
+	// test fails on newer JDKS
+	if (majorJavaVersion <= 9) {
+
+	    checkThreadLocalsForLeaks();
+	} else {
+	    System.out.println("Skipping checkThreadLocalsForLeaks() call");
 	}
+    }
 
-	public void tearDown() {
-		MDC.clear();
-	}
+    @SuppressWarnings("unused")
+    private void checkThreadLocalsForLeaks() throws Exception {
 
-	public void testPut() throws Exception {
-		MDC.put("key", "some value");
-		assertEquals("some value", MDC.get("key"));
-		assertEquals(1, MDC.getContext().size());
-	}
+	// this code is heavily based on code in
+	// org.apache.catalina.loader.WebappClassLoader
 
-	public void testRemoveLastKey() throws Exception {
-		MDC.put("key", "some value");
+	// Make the fields in the Thread class that store ThreadLocals accessible
+	Field threadLocalsField = Thread.class.getDeclaredField("threadLocals");
+	threadLocalsField.setAccessible(true);
+	Field inheritableThreadLocalsField = Thread.class.getDeclaredField("inheritableThreadLocals");
+	inheritableThreadLocalsField.setAccessible(true);
+	// Make the underlying array of ThreadLoad.ThreadLocalMap.Entry objects
+	// accessible
+	Class<?> tlmClass = Class.forName("java.lang.ThreadLocal$ThreadLocalMap");
+	Field tableField = tlmClass.getDeclaredField("table");
+	tableField.setAccessible(true);
 
-		MDC.remove("key");
-		
-		int majorJavaVersion = VersionUtil.getJavaMajorVersion();
-		System.out.println("majorJavaVersion="+majorJavaVersion);
-		// test fails on newer JDKS
-		if(majorJavaVersion <= 9) {
-			
-		  checkThreadLocalsForLeaks();
-		} else {
-			System.out.println("Skipping checkThreadLocalsForLeaks() call");
-		}
-	}
+	Thread thread = Thread.currentThread();
 
-	@SuppressWarnings("unused")
-	private void checkThreadLocalsForLeaks() throws Exception {
+	Object threadLocalMap;
+	threadLocalMap = threadLocalsField.get(thread);
+	// Check the first map
+	checkThreadLocalMapForLeaks(threadLocalMap, tableField);
+	// Check the second map
+	threadLocalMap = inheritableThreadLocalsField.get(thread);
+	checkThreadLocalMapForLeaks(threadLocalMap, tableField);
 
-		// this code is heavily based on code in
-		// org.apache.catalina.loader.WebappClassLoader
+    }
 
-		// Make the fields in the Thread class that store ThreadLocals accessible
-		Field threadLocalsField = Thread.class.getDeclaredField("threadLocals");
-		threadLocalsField.setAccessible(true);
-		Field inheritableThreadLocalsField = Thread.class.getDeclaredField("inheritableThreadLocals");
-		inheritableThreadLocalsField.setAccessible(true);
-		// Make the underlying array of ThreadLoad.ThreadLocalMap.Entry objects
-		// accessible
-		Class<?> tlmClass = Class.forName("java.lang.ThreadLocal$ThreadLocalMap");
-		Field tableField = tlmClass.getDeclaredField("table");
-		tableField.setAccessible(true);
+    private void checkThreadLocalMapForLeaks(Object map, Field internalTableField)
+	    throws IllegalAccessException, NoSuchFieldException {
+	if (map != null) {
+	    Object[] table = (Object[]) internalTableField.get(map);
+	    if (table != null) {
+		for (int j = 0; j < table.length; j++) {
+		    if (table[j] != null) {
 
-		Thread thread = Thread.currentThread();
+			// Check the key
+			Object key = ((Reference<?>) table[j]).get();
+			String keyClassName = key.getClass().getName();
 
-		Object threadLocalMap;
-		threadLocalMap = threadLocalsField.get(thread);
-		// Check the first map
-		checkThreadLocalMapForLeaks(threadLocalMap, tableField);
-		// Check the second map
-		threadLocalMap = inheritableThreadLocalsField.get(thread);
-		checkThreadLocalMapForLeaks(threadLocalMap, tableField);
-
-	}
-
-	private void checkThreadLocalMapForLeaks(Object map, Field internalTableField)
-			throws IllegalAccessException, NoSuchFieldException {
-		if (map != null) {
-			Object[] table = (Object[]) internalTableField.get(map);
-			if (table != null) {
-				for (int j = 0; j < table.length; j++) {
-					if (table[j] != null) {
-
-						// Check the key
-						Object key = ((Reference<?>) table[j]).get();
-						String keyClassName = key.getClass().getName();
-
-						if (key.getClass() == org.apache.log4j.helpers.ThreadLocalMap.class) {
-							fail("Found a ThreadLocal with key of type [" + keyClassName + "]");
-						}
-					}
-				}
+			if (key.getClass() == org.apache.log4j.helpers.ThreadLocalMap.class) {
+			    fail("Found a ThreadLocal with key of type [" + keyClassName + "]");
 			}
+		    }
 		}
+	    }
 	}
+    }
 }

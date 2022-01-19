@@ -24,11 +24,10 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
- * Date format manager.
- * Utility class to help manage consistent date formatting and parsing.
- * It may be advantageous to have multiple DateFormatManagers per
- * application.  For example, one for handling the output (formatting) of
- * dates, and another one for handling the input (parsing) of dates.
+ * Date format manager. Utility class to help manage consistent date formatting
+ * and parsing. It may be advantageous to have multiple DateFormatManagers per
+ * application. For example, one for handling the output (formatting) of dates,
+ * and another one for handling the input (parsing) of dates.
  *
  * @author Robert Shaw
  * @author Michael J. Sikorsky
@@ -36,208 +35,207 @@ import java.util.TimeZone;
 
 // Contributed by ThoughtWorks Inc.
 public class DateFormatManager {
-  //--------------------------------------------------------------------------
-  //   Constants:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constants:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Protected Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Protected Variables:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Private Variables:
-  //--------------------------------------------------------------------------
-  private TimeZone _timeZone = null;
-  private Locale _locale = null;
+    // --------------------------------------------------------------------------
+    // Private Variables:
+    // --------------------------------------------------------------------------
+    private TimeZone _timeZone = null;
+    private Locale _locale = null;
 
-  private String _pattern = null;
-  private DateFormat _dateFormat = null;
+    private String _pattern = null;
+    private DateFormat _dateFormat = null;
 
-  //--------------------------------------------------------------------------
-  //   Constructors:
-  //--------------------------------------------------------------------------
-  public DateFormatManager() {
-    super();
-    configure();
-  }
-
-  public DateFormatManager(TimeZone timeZone) {
-    super();
-
-    _timeZone = timeZone;
-    configure();
-  }
-
-  public DateFormatManager(Locale locale) {
-    super();
-
-    _locale = locale;
-    configure();
-  }
-
-  public DateFormatManager(String pattern) {
-    super();
-
-    _pattern = pattern;
-    configure();
-  }
-
-  public DateFormatManager(TimeZone timeZone, Locale locale) {
-    super();
-
-    _timeZone = timeZone;
-    _locale = locale;
-    configure();
-  }
-
-  public DateFormatManager(TimeZone timeZone, String pattern) {
-    super();
-
-    _timeZone = timeZone;
-    _pattern = pattern;
-    configure();
-  }
-
-  public DateFormatManager(Locale locale, String pattern) {
-    super();
-
-    _locale = locale;
-    _pattern = pattern;
-    configure();
-  }
-
-  public DateFormatManager(TimeZone timeZone, Locale locale, String pattern) {
-    super();
-
-    _timeZone = timeZone;
-    _locale = locale;
-    _pattern = pattern;
-    configure();
-  }
-
-  //--------------------------------------------------------------------------
-  //   Public Methods:
-  //--------------------------------------------------------------------------
-
-  public synchronized TimeZone getTimeZone() {
-    if (_timeZone == null) {
-      return TimeZone.getDefault();
-    } else {
-      return _timeZone;
+    // --------------------------------------------------------------------------
+    // Constructors:
+    // --------------------------------------------------------------------------
+    public DateFormatManager() {
+	super();
+	configure();
     }
-  }
 
-  public synchronized void setTimeZone(TimeZone timeZone) {
-    _timeZone = timeZone;
-    configure();
-  }
+    public DateFormatManager(TimeZone timeZone) {
+	super();
 
-  public synchronized Locale getLocale() {
-    if (_locale == null) {
-      return Locale.getDefault();
-    } else {
-      return _locale;
+	_timeZone = timeZone;
+	configure();
     }
-  }
 
-  public synchronized void setLocale(Locale locale) {
-    _locale = locale;
-    configure();
-  }
+    public DateFormatManager(Locale locale) {
+	super();
 
-  public synchronized String getPattern() {
-    return _pattern;
-  }
-
-  /**
-   * Set the pattern. i.e. "EEEEE, MMMMM d, yyyy hh:mm aaa"
-   */
-  public synchronized void setPattern(String pattern) {
-    _pattern = pattern;
-    configure();
-  }
-
-
-  /**
-   * This method has been deprecated in favour of getPattern().
-   * @deprecated Use getPattern().
-   */
-  public synchronized String getOutputFormat() {
-    return _pattern;
-  }
-
-  /**
-   * This method has been deprecated in favour of setPattern().
-   * @deprecated Use setPattern().
-   */
-  public synchronized void setOutputFormat(String pattern) {
-    _pattern = pattern;
-    configure();
-  }
-
-  public synchronized DateFormat getDateFormatInstance() {
-    return _dateFormat;
-  }
-
-  public synchronized void setDateFormatInstance(DateFormat dateFormat) {
-    _dateFormat = dateFormat;
-    // No reconfiguration necessary!
-  }
-
-  public String format(Date date) {
-    return getDateFormatInstance().format(date);
-  }
-
-  public String format(Date date, String pattern) {
-    DateFormat formatter = null;
-    formatter = getDateFormatInstance();
-    if (formatter instanceof SimpleDateFormat) {
-      formatter = (SimpleDateFormat) (formatter.clone());
-      ((SimpleDateFormat) formatter).applyPattern(pattern);
+	_locale = locale;
+	configure();
     }
-    return formatter.format(date);
-  }
 
-  /**
-   * @throws java.text.ParseException
-   */
-  public Date parse(String date) throws ParseException {
-    return getDateFormatInstance().parse(date);
-  }
+    public DateFormatManager(String pattern) {
+	super();
 
-  /**
-   * @throws java.text.ParseException
-   */
-  public Date parse(String date, String pattern) throws ParseException {
-    DateFormat formatter = null;
-    formatter = getDateFormatInstance();
-    if (formatter instanceof SimpleDateFormat) {
-      formatter = (SimpleDateFormat) (formatter.clone());
-      ((SimpleDateFormat) formatter).applyPattern(pattern);
+	_pattern = pattern;
+	configure();
     }
-    return formatter.parse(date);
-  }
 
-  //--------------------------------------------------------------------------
-  //   Protected Methods:
-  //--------------------------------------------------------------------------
+    public DateFormatManager(TimeZone timeZone, Locale locale) {
+	super();
 
-  //--------------------------------------------------------------------------
-  //   Private Methods:
-  //--------------------------------------------------------------------------
-  private synchronized void configure() {
-    _dateFormat = SimpleDateFormat.getDateTimeInstance(DateFormat.FULL,
-        DateFormat.FULL,
-        getLocale());
-    _dateFormat.setTimeZone(getTimeZone());
-
-    if (_pattern != null) {
-      ((SimpleDateFormat) _dateFormat).applyPattern(_pattern);
+	_timeZone = timeZone;
+	_locale = locale;
+	configure();
     }
-  }
 
-  //--------------------------------------------------------------------------
-  //   Nested Top-Level Classes or Interfaces:
-  //--------------------------------------------------------------------------
+    public DateFormatManager(TimeZone timeZone, String pattern) {
+	super();
+
+	_timeZone = timeZone;
+	_pattern = pattern;
+	configure();
+    }
+
+    public DateFormatManager(Locale locale, String pattern) {
+	super();
+
+	_locale = locale;
+	_pattern = pattern;
+	configure();
+    }
+
+    public DateFormatManager(TimeZone timeZone, Locale locale, String pattern) {
+	super();
+
+	_timeZone = timeZone;
+	_locale = locale;
+	_pattern = pattern;
+	configure();
+    }
+
+    // --------------------------------------------------------------------------
+    // Public Methods:
+    // --------------------------------------------------------------------------
+
+    public synchronized TimeZone getTimeZone() {
+	if (_timeZone == null) {
+	    return TimeZone.getDefault();
+	} else {
+	    return _timeZone;
+	}
+    }
+
+    public synchronized void setTimeZone(TimeZone timeZone) {
+	_timeZone = timeZone;
+	configure();
+    }
+
+    public synchronized Locale getLocale() {
+	if (_locale == null) {
+	    return Locale.getDefault();
+	} else {
+	    return _locale;
+	}
+    }
+
+    public synchronized void setLocale(Locale locale) {
+	_locale = locale;
+	configure();
+    }
+
+    public synchronized String getPattern() {
+	return _pattern;
+    }
+
+    /**
+     * Set the pattern. i.e. "EEEEE, MMMMM d, yyyy hh:mm aaa"
+     */
+    public synchronized void setPattern(String pattern) {
+	_pattern = pattern;
+	configure();
+    }
+
+    /**
+     * This method has been deprecated in favour of getPattern().
+     * 
+     * @deprecated Use getPattern().
+     */
+    public synchronized String getOutputFormat() {
+	return _pattern;
+    }
+
+    /**
+     * This method has been deprecated in favour of setPattern().
+     * 
+     * @deprecated Use setPattern().
+     */
+    public synchronized void setOutputFormat(String pattern) {
+	_pattern = pattern;
+	configure();
+    }
+
+    public synchronized DateFormat getDateFormatInstance() {
+	return _dateFormat;
+    }
+
+    public synchronized void setDateFormatInstance(DateFormat dateFormat) {
+	_dateFormat = dateFormat;
+	// No reconfiguration necessary!
+    }
+
+    public String format(Date date) {
+	return getDateFormatInstance().format(date);
+    }
+
+    public String format(Date date, String pattern) {
+	DateFormat formatter = null;
+	formatter = getDateFormatInstance();
+	if (formatter instanceof SimpleDateFormat) {
+	    formatter = (SimpleDateFormat) (formatter.clone());
+	    ((SimpleDateFormat) formatter).applyPattern(pattern);
+	}
+	return formatter.format(date);
+    }
+
+    /**
+     * @throws java.text.ParseException
+     */
+    public Date parse(String date) throws ParseException {
+	return getDateFormatInstance().parse(date);
+    }
+
+    /**
+     * @throws java.text.ParseException
+     */
+    public Date parse(String date, String pattern) throws ParseException {
+	DateFormat formatter = null;
+	formatter = getDateFormatInstance();
+	if (formatter instanceof SimpleDateFormat) {
+	    formatter = (SimpleDateFormat) (formatter.clone());
+	    ((SimpleDateFormat) formatter).applyPattern(pattern);
+	}
+	return formatter.parse(date);
+    }
+
+    // --------------------------------------------------------------------------
+    // Protected Methods:
+    // --------------------------------------------------------------------------
+
+    // --------------------------------------------------------------------------
+    // Private Methods:
+    // --------------------------------------------------------------------------
+    private synchronized void configure() {
+	_dateFormat = SimpleDateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL, getLocale());
+	_dateFormat.setTimeZone(getTimeZone());
+
+	if (_pattern != null) {
+	    ((SimpleDateFormat) _dateFormat).applyPattern(_pattern);
+	}
+    }
+
+    // --------------------------------------------------------------------------
+    // Nested Top-Level Classes or Interfaces:
+    // --------------------------------------------------------------------------
 
 }

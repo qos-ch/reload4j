@@ -26,14 +26,13 @@ import org.apache.log4j.spi.Configurator;
 import org.apache.log4j.spi.LoggerRepository;
 
 /**
- * The <code>DefaultLF5Configurator</code> provides a default
- * configuration for the <code>LF5Appender</code>.
+ * The <code>DefaultLF5Configurator</code> provides a default configuration for
+ * the <code>LF5Appender</code>.
  *
- * Note: The preferred method for configuring a <code>LF5Appender</code>
- * is to use the <code>LF5Manager</code> class. This class ensures
- * that configuration does not occur multiple times, and improves system
- * performance. Reconfiguring the monitor multiple times can result in
- * unexpected behavior.
+ * Note: The preferred method for configuring a <code>LF5Appender</code> is to
+ * use the <code>LF5Manager</code> class. This class ensures that configuration
+ * does not occur multiple times, and improves system performance. Reconfiguring
+ * the monitor multiple times can result in unexpected behavior.
  *
  * @author Brent Sprecher
  */
@@ -41,83 +40,80 @@ import org.apache.log4j.spi.LoggerRepository;
 // Contributed by ThoughtWorks Inc.
 
 public class DefaultLF5Configurator implements Configurator {
-  //--------------------------------------------------------------------------
-  // Constants:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constants:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  // Protected Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Protected Variables:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  // Private Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Private Variables:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  // Constructors:
-  //--------------------------------------------------------------------------
-  /**
-   * This class should never be instantiated! It implements the <code>
-   * Configurator</code>
-   * interface, but does not provide the same functionality as full
-   * configurator class.
-   */
-  private DefaultLF5Configurator() {
+    // --------------------------------------------------------------------------
+    // Constructors:
+    // --------------------------------------------------------------------------
+    /**
+     * This class should never be instantiated! It implements the <code>
+     * Configurator</code> interface, but does not provide the same functionality as
+     * full configurator class.
+     */
+    private DefaultLF5Configurator() {
 
-  }
-
-  //--------------------------------------------------------------------------
-  // Public Methods:
-  //--------------------------------------------------------------------------
-  /**
-   * This method configures the <code>LF5Appender</code> using a
-   * default configuration file. The default configuration file is
-   * <bold>defaultconfig.properties</bold>.
-   * @throws java.io.IOException
-   */
-  public static void configure() throws IOException {
-    String resource =
-        "/org/apache/log4j/lf5/config/defaultconfig.properties";
-    URL configFileResource =
-        DefaultLF5Configurator.class.getResource(resource);
-
-    if (configFileResource != null) {
-      PropertyConfigurator.configure(configFileResource);
-    } else {
-      throw new IOException("Error: Unable to open the resource" +
-          resource);
     }
 
-  }
+    // --------------------------------------------------------------------------
+    // Public Methods:
+    // --------------------------------------------------------------------------
+    /**
+     * This method configures the <code>LF5Appender</code> using a default
+     * configuration file. The default configuration file is
+     * <bold>defaultconfig.properties</bold>.
+     * 
+     * @throws java.io.IOException
+     */
+    public static void configure() throws IOException {
+	String resource = "/org/apache/log4j/lf5/config/defaultconfig.properties";
+	URL configFileResource = DefaultLF5Configurator.class.getResource(resource);
 
-  /**
-   * This is a dummy method that will throw an
-   * <code>IllegalStateException</code> if used.
-   * 
-   * @since 1.2.17
-   */
-  public void doConfigure(InputStream inputStream, LoggerRepository repository) {
-    throw new IllegalStateException("This class should NOT be instantiated!");
-  }
+	if (configFileResource != null) {
+	    PropertyConfigurator.configure(configFileResource);
+	} else {
+	    throw new IOException("Error: Unable to open the resource" + resource);
+	}
 
-  /**
-   * This is a dummy method that will throw an
-   * <code>IllegalStateException</code> if used.
-   */
-  public void doConfigure(URL configURL, LoggerRepository repository) {
-    throw new IllegalStateException("This class should NOT be instantiated!");
-  }
+    }
 
-  //--------------------------------------------------------------------------
-  // Protected Methods:
-  //--------------------------------------------------------------------------
+    /**
+     * This is a dummy method that will throw an <code>IllegalStateException</code>
+     * if used.
+     * 
+     * @since 1.2.17
+     */
+    public void doConfigure(InputStream inputStream, LoggerRepository repository) {
+	throw new IllegalStateException("This class should NOT be instantiated!");
+    }
 
-  //--------------------------------------------------------------------------
-  // Private Methods:
-  //--------------------------------------------------------------------------
+    /**
+     * This is a dummy method that will throw an <code>IllegalStateException</code>
+     * if used.
+     */
+    public void doConfigure(URL configURL, LoggerRepository repository) {
+	throw new IllegalStateException("This class should NOT be instantiated!");
+    }
 
-  //--------------------------------------------------------------------------
-  // Nested Top-Level Classes or Interfaces:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Protected Methods:
+    // --------------------------------------------------------------------------
+
+    // --------------------------------------------------------------------------
+    // Private Methods:
+    // --------------------------------------------------------------------------
+
+    // --------------------------------------------------------------------------
+    // Nested Top-Level Classes or Interfaces:
+    // --------------------------------------------------------------------------
 
 }

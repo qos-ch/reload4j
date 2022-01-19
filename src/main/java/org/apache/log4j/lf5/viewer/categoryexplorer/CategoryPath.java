@@ -20,8 +20,8 @@ import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 /**
- * CategoryPath is a collection of CategoryItems which represent a
- * path of categories.
+ * CategoryPath is a collection of CategoryItems which represent a path of
+ * categories.
  *
  * @author Michael J. Sikorsky
  * @author Robert Shaw
@@ -30,128 +30,126 @@ import java.util.StringTokenizer;
 // Contributed by ThoughtWorks Inc.
 
 public class CategoryPath {
-  //--------------------------------------------------------------------------
-  //   Constants:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constants:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Protected Variables:
-  //--------------------------------------------------------------------------
-  protected LinkedList _categoryElements = new LinkedList();
+    // --------------------------------------------------------------------------
+    // Protected Variables:
+    // --------------------------------------------------------------------------
+    protected LinkedList _categoryElements = new LinkedList();
 
-  //--------------------------------------------------------------------------
-  //   Private Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Private Variables:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Constructors:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constructors:
+    // --------------------------------------------------------------------------
 
-  public CategoryPath() {
-    super();
-  }
-
-  /**
-   * Construct a CategoryPath.  If the category is null, it defaults to "Debug".
-   */
-  public CategoryPath(String category) {
-    String processedCategory = category;
-
-    if (processedCategory == null) {
-      processedCategory = "Debug";
+    public CategoryPath() {
+	super();
     }
 
-    processedCategory = processedCategory.replace('/', '.');
-    processedCategory = processedCategory.replace('\\', '.');
+    /**
+     * Construct a CategoryPath. If the category is null, it defaults to "Debug".
+     */
+    public CategoryPath(String category) {
+	String processedCategory = category;
 
-    StringTokenizer st = new StringTokenizer(processedCategory, ".");
-    while (st.hasMoreTokens()) {
-      String element = st.nextToken();
-      addCategoryElement(new CategoryElement(element));
-    }
-  }
+	if (processedCategory == null) {
+	    processedCategory = "Debug";
+	}
 
-  //--------------------------------------------------------------------------
-  //   Public Methods:
-  //--------------------------------------------------------------------------
+	processedCategory = processedCategory.replace('/', '.');
+	processedCategory = processedCategory.replace('\\', '.');
 
-  /**
-   * returns the number of CategoryElements.
-   */
-  public int size() {
-    int count = _categoryElements.size();
-
-    return (count);
-  }
-
-  public boolean isEmpty() {
-    boolean empty = false;
-
-    if (_categoryElements.size() == 0) {
-      empty = true;
+	StringTokenizer st = new StringTokenizer(processedCategory, ".");
+	while (st.hasMoreTokens()) {
+	    String element = st.nextToken();
+	    addCategoryElement(new CategoryElement(element));
+	}
     }
 
-    return (empty);
-  }
+    // --------------------------------------------------------------------------
+    // Public Methods:
+    // --------------------------------------------------------------------------
 
+    /**
+     * returns the number of CategoryElements.
+     */
+    public int size() {
+	int count = _categoryElements.size();
 
-  /**
-   * Removes all categoryElements.
-   */
-  public void removeAllCategoryElements() {
-    _categoryElements.clear();
-  }
-
-  /**
-   * Adds the specified categoryElement to the end of the categoryElement set.
-   */
-  public void addCategoryElement(CategoryElement categoryElement) {
-    _categoryElements.addLast(categoryElement);
-  }
-
-  /**
-   * Returns the CategoryElement at the specified index.
-   */
-  public CategoryElement categoryElementAt(int index) {
-    return ((CategoryElement) _categoryElements.get(index));
-  }
-
-
-  public String toString() {
-    StringBuffer out = new StringBuffer(100);
-
-    out.append("\n");
-    out.append("===========================\n");
-    out.append("CategoryPath:                   \n");
-    out.append("---------------------------\n");
-
-    out.append("\nCategoryPath:\n\t");
-
-    if (this.size() > 0) {
-      for (int i = 0; i < this.size(); i++) {
-        out.append(this.categoryElementAt(i).toString());
-        out.append("\n\t");
-      }
-    } else {
-      out.append("<<NONE>>");
+	return (count);
     }
 
-    out.append("\n");
-    out.append("===========================\n");
+    public boolean isEmpty() {
+	boolean empty = false;
 
-    return (out.toString());
-  }
+	if (_categoryElements.size() == 0) {
+	    empty = true;
+	}
 
-  //--------------------------------------------------------------------------
-  //   Protected Methods:
-  //--------------------------------------------------------------------------
+	return (empty);
+    }
 
-  //--------------------------------------------------------------------------
-  //   Private Methods:
-  //--------------------------------------------------------------------------
+    /**
+     * Removes all categoryElements.
+     */
+    public void removeAllCategoryElements() {
+	_categoryElements.clear();
+    }
 
-  //--------------------------------------------------------------------------
-  //   Nested Top-Level Classes or Interfaces:
-  //--------------------------------------------------------------------------
+    /**
+     * Adds the specified categoryElement to the end of the categoryElement set.
+     */
+    public void addCategoryElement(CategoryElement categoryElement) {
+	_categoryElements.addLast(categoryElement);
+    }
+
+    /**
+     * Returns the CategoryElement at the specified index.
+     */
+    public CategoryElement categoryElementAt(int index) {
+	return ((CategoryElement) _categoryElements.get(index));
+    }
+
+    public String toString() {
+	StringBuffer out = new StringBuffer(100);
+
+	out.append("\n");
+	out.append("===========================\n");
+	out.append("CategoryPath:                   \n");
+	out.append("---------------------------\n");
+
+	out.append("\nCategoryPath:\n\t");
+
+	if (this.size() > 0) {
+	    for (int i = 0; i < this.size(); i++) {
+		out.append(this.categoryElementAt(i).toString());
+		out.append("\n\t");
+	    }
+	} else {
+	    out.append("<<NONE>>");
+	}
+
+	out.append("\n");
+	out.append("===========================\n");
+
+	return (out.toString());
+    }
+
+    // --------------------------------------------------------------------------
+    // Protected Methods:
+    // --------------------------------------------------------------------------
+
+    // --------------------------------------------------------------------------
+    // Private Methods:
+    // --------------------------------------------------------------------------
+
+    // --------------------------------------------------------------------------
+    // Nested Top-Level Classes or Interfaces:
+    // --------------------------------------------------------------------------
 
 }

@@ -28,20 +28,20 @@ import org.apache.log4j.LogManager;
 
 public class DefaultInitTest1 {
 
-	@Before
-	public void setUp() {
-	}
+    @Before
+    public void setUp() {
+    }
 
-	@After
-	public void tearDown() {
-		LogManager.shutdown();
-	}
+    @After
+    public void tearDown() {
+	LogManager.shutdown();
+    }
 
-	@Test
-	public void noneTest() {
-		Logger root = Logger.getRootLogger();
-		boolean rootIsConfigured = root.getAllAppenders().hasMoreElements();
-		assertTrue(!rootIsConfigured);
-	}
+    @Test
+    public void noneTest() {
+	Logger root = Logger.getRootLogger();
+	boolean rootIsConfigured = root.getAllAppenders().hasMoreElements();
+	assertTrue(!rootIsConfigured);
+    }
 
 }

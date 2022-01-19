@@ -25,41 +25,39 @@ import org.apache.oro.text.perl.Perl5Util;
  * @author Ceki Gulcu
  */
 public class SunReflectFilter implements Filter {
-  Perl5Util util = new Perl5Util();
+    Perl5Util util = new Perl5Util();
 
-  public String filter(String in) {
-    if(in == null) {
-      return null;
-    }
-    
-    if (util.match("/at java.base/jdk.internal.reflect/", in)) {
-        return null;
-    }
-    
-    if (util.match("/at java.base/java.lang.reflect.Method/", in)) {
-        return null;
-    }
+    public String filter(String in) {
+	if (in == null) {
+	    return null;
+	}
 
-    if (util.match("/at org.eclipse.jdt.internal.junit.runner/", in)) {
-        return null;
-    }
+	if (util.match("/at java.base/jdk.internal.reflect/", in)) {
+	    return null;
+	}
 
-    
-    
-    if (util.match("/at sun.reflect/", in)) {
-      return null;
+	if (util.match("/at java.base/java.lang.reflect.Method/", in)) {
+	    return null;
+	}
+
+	if (util.match("/at org.eclipse.jdt.internal.junit.runner/", in)) {
+	    return null;
+	}
+
+	if (util.match("/at sun.reflect/", in)) {
+	    return null;
+	}
+	if (in.indexOf("at java.lang.reflect.") >= 0) {
+	    return null;
+	}
+	if (in.indexOf("Compiled Code") >= 0) {
+	    if (in.indexOf("junit.framework.TestSuite") >= 0) {
+		return util.substitute("s/Compiled Code/TestSuite.java:XXX/", in);
+	    }
+	}
+	if (util.match("/\\(Method.java:.*\\)/", in)) {
+	    return util.substitute("s/\\(Method.java:.*\\)/(Native Method)/", in);
+	}
+	return in;
     }
-    if (in.indexOf("at java.lang.reflect.") >= 0) {
-      return null;
-    }
-    if (in.indexOf("Compiled Code") >= 0) {
-        if(in.indexOf("junit.framework.TestSuite") >= 0) {
-            return util.substitute("s/Compiled Code/TestSuite.java:XXX/", in);
-        }
-    }
-    if (util.match("/\\(Method.java:.*\\)/", in)) {
-      return util.substitute("s/\\(Method.java:.*\\)/(Native Method)/", in);
-    }
-    return in;
-  }
 }

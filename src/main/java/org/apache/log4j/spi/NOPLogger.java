@@ -27,19 +27,21 @@ import java.util.Vector;
 
 /**
  * No-operation implementation of Logger used by NOPLoggerRepository.
+ * 
  * @since 1.2.15
  */
 public final class NOPLogger extends Logger {
     /**
      * Create instance of Logger.
+     * 
      * @param repo repository, may not be null.
      * @param name name, may not be null, use "root" for root logger.
      */
     public NOPLogger(NOPLoggerRepository repo, final String name) {
-        super(name);
-        this.repository = repo;
-        this.level = Level.OFF;
-        this.parent = this;
+	super(name);
+	this.repository = repo;
+	this.level = Level.OFF;
+	this.parent = this;
     }
 
     /** {@inheritDoc} */
@@ -49,7 +51,6 @@ public final class NOPLogger extends Logger {
     /** {@inheritDoc} */
     public void assertLog(final boolean assertion, final String msg) {
     }
-
 
     /** {@inheritDoc} */
     public void callAppenders(final LoggingEvent event) {
@@ -63,7 +64,6 @@ public final class NOPLogger extends Logger {
     public void debug(final Object message) {
     }
 
-
     /** {@inheritDoc} */
     public void debug(final Object message, final Throwable t) {
     }
@@ -76,7 +76,6 @@ public final class NOPLogger extends Logger {
     public void error(final Object message, final Throwable t) {
     }
 
-
     /** {@inheritDoc} */
     public void fatal(final Object message) {
     }
@@ -85,32 +84,30 @@ public final class NOPLogger extends Logger {
     public void fatal(final Object message, final Throwable t) {
     }
 
-
     /** {@inheritDoc} */
     public Enumeration getAllAppenders() {
-      return new Vector().elements();
+	return new Vector().elements();
     }
 
     /** {@inheritDoc} */
     public Appender getAppender(final String name) {
-       return null;
+	return null;
     }
 
     /** {@inheritDoc} */
     public Level getEffectiveLevel() {
-      return Level.OFF;
+	return Level.OFF;
     }
 
     /** {@inheritDoc} */
     public Priority getChainedPriority() {
-      return getEffectiveLevel();
+	return getEffectiveLevel();
     }
 
     /** {@inheritDoc} */
     public ResourceBundle getResourceBundle() {
-      return null;
+	return null;
     }
-
 
     /** {@inheritDoc} */
     public void info(final Object message) {
@@ -122,31 +119,30 @@ public final class NOPLogger extends Logger {
 
     /** {@inheritDoc} */
     public boolean isAttached(Appender appender) {
-      return false;
+	return false;
     }
 
     /** {@inheritDoc} */
     public boolean isDebugEnabled() {
-      return false;
+	return false;
     }
 
     /** {@inheritDoc} */
     public boolean isEnabledFor(final Priority level) {
-      return false;
+	return false;
     }
 
     /** {@inheritDoc} */
     public boolean isInfoEnabled() {
-      return false;
+	return false;
     }
-
 
     /** {@inheritDoc} */
     public void l7dlog(final Priority priority, final String key, final Throwable t) {
     }
 
     /** {@inheritDoc} */
-    public void l7dlog(final Priority priority, final String key,  final Object[] params, final Throwable t) {
+    public void l7dlog(final Priority priority, final String key, final Object[] params, final Throwable t) {
     }
 
     /** {@inheritDoc} */
@@ -165,7 +161,6 @@ public final class NOPLogger extends Logger {
     public void removeAllAppenders() {
     }
 
-
     /** {@inheritDoc} */
     public void removeAppender(Appender appender) {
     }
@@ -177,7 +172,6 @@ public final class NOPLogger extends Logger {
     /** {@inheritDoc} */
     public void setLevel(final Level level) {
     }
-
 
     /** {@inheritDoc} */
     public void setPriority(final Priority priority) {
@@ -205,8 +199,7 @@ public final class NOPLogger extends Logger {
 
     /** {@inheritDoc} */
     public boolean isTraceEnabled() {
-        return false;
+	return false;
     }
-
 
 }

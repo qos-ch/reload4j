@@ -32,29 +32,29 @@ import org.apache.log4j.TestContants;
 
 public class DefaultInitTest2 {
 
-	@Before
-	public void setUp() {
-		String userDir = System.getProperty("user.dir");
-		System.setProperty("log4j.configuration",
-				"file:///" + userDir + "/" + TestContants.TEST_INPUT_PREFIX + "xml/defaultInit.xml");
+    @Before
+    public void setUp() {
+	String userDir = System.getProperty("user.dir");
+	System.setProperty("log4j.configuration",
+		"file:///" + userDir + "/" + TestContants.TEST_INPUT_PREFIX + "xml/defaultInit.xml");
 
-	}
+    }
 
-	@After
-	public void tearDown() {
-		System.clearProperty("log4j.configuration");
-		LogManager.shutdown();
-	}
+    @After
+    public void tearDown() {
+	System.clearProperty("log4j.configuration");
+	LogManager.shutdown();
+    }
 
-	@Test
-	public void xmlTest() {
-		Logger root = Logger.getRootLogger();
-		boolean rootIsConfigured = root.getAllAppenders().hasMoreElements();
-		assertTrue(rootIsConfigured);
-		@SuppressWarnings("unchecked")
-		Enumeration<Appender> e = root.getAllAppenders();
-		Appender appender = (Appender) e.nextElement();
-		assertEquals(appender.getName(), "D1");
-	}
+    @Test
+    public void xmlTest() {
+	Logger root = Logger.getRootLogger();
+	boolean rootIsConfigured = root.getAllAppenders().hasMoreElements();
+	assertTrue(rootIsConfigured);
+	@SuppressWarnings("unchecked")
+	Enumeration<Appender> e = root.getAllAppenders();
+	Appender appender = (Appender) e.nextElement();
+	assertEquals(appender.getName(), "D1");
+    }
 
 }

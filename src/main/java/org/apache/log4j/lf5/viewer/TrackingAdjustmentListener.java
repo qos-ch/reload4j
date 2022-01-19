@@ -22,12 +22,11 @@ import java.awt.event.AdjustmentListener;
 
 /**
  * An AdjustmentListener which ensures that an Adjustable (e.g. a Scrollbar)
- * will "track" when the Adjustable expands.
- * For example, when a vertical scroll bar is at its bottom anchor,
- * the scrollbar will remain at the bottom.  When the vertical scroll bar
- * is at any other location, then no tracking will happen.
- * An instance of this class should only listen to one Adjustable as
- * it retains state information about the Adjustable it listens to.
+ * will "track" when the Adjustable expands. For example, when a vertical scroll
+ * bar is at its bottom anchor, the scrollbar will remain at the bottom. When
+ * the vertical scroll bar is at any other location, then no tracking will
+ * happen. An instance of this class should only listen to one Adjustable as it
+ * retains state information about the Adjustable it listens to.
  *
  * @author Richard Wan
  */
@@ -35,52 +34,51 @@ import java.awt.event.AdjustmentListener;
 // Contributed by ThoughtWorks Inc.
 
 public class TrackingAdjustmentListener implements AdjustmentListener {
-  //--------------------------------------------------------------------------
-  //   Constants:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constants:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Protected Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Protected Variables:
+    // --------------------------------------------------------------------------
 
-  protected int _lastMaximum = -1;
+    protected int _lastMaximum = -1;
 
-  //--------------------------------------------------------------------------
-  //   Private Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Private Variables:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Constructors:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constructors:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Public Methods:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Public Methods:
+    // --------------------------------------------------------------------------
 
-  public void adjustmentValueChanged(AdjustmentEvent e) {
-    Adjustable bar = e.getAdjustable();
-    int currentMaximum = bar.getMaximum();
-    if (bar.getMaximum() == _lastMaximum) {
-      return; // nothing to do, the adjustable has not expanded
+    public void adjustmentValueChanged(AdjustmentEvent e) {
+	Adjustable bar = e.getAdjustable();
+	int currentMaximum = bar.getMaximum();
+	if (bar.getMaximum() == _lastMaximum) {
+	    return; // nothing to do, the adjustable has not expanded
+	}
+	int bottom = bar.getValue() + bar.getVisibleAmount();
+
+	if (bottom + bar.getUnitIncrement() >= _lastMaximum) {
+	    bar.setValue(bar.getMaximum()); // use the most recent maximum
+	}
+	_lastMaximum = currentMaximum;
     }
-    int bottom = bar.getValue() + bar.getVisibleAmount();
 
-    if (bottom + bar.getUnitIncrement() >= _lastMaximum) {
-      bar.setValue(bar.getMaximum()); // use the most recent maximum
-    }
-    _lastMaximum = currentMaximum;
-  }
+    // --------------------------------------------------------------------------
+    // Protected Methods:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Protected Methods:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Private Methods:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Private Methods:
-  //--------------------------------------------------------------------------
-
-  //--------------------------------------------------------------------------
-  //   Nested Top-Level Classes or Interfaces
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Nested Top-Level Classes or Interfaces
+    // --------------------------------------------------------------------------
 }
-

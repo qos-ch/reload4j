@@ -31,25 +31,26 @@ import org.apache.log4j.spi.ThrowableInformation;
 public class HardenedLoggingEventInputStream extends HardenedObjectInputStream {
 
     static final String ARRAY_PREFIX = "[L";
-    
-    static public List<String> getWhilelist() {
-    	
-        List<String> whitelist = new ArrayList<String>();
-        whitelist.add(LoggingEvent.class.getName());
-        whitelist.add(Level.class.getName());
-        whitelist.add(Priority.class.getName());
-        whitelist.add(ThrowableInformation.class.getName());
-        whitelist.add(LocationInfo.class.getName());
 
-        return whitelist;
+    static public List<String> getWhilelist() {
+
+	List<String> whitelist = new ArrayList<String>();
+	whitelist.add(LoggingEvent.class.getName());
+	whitelist.add(Level.class.getName());
+	whitelist.add(Priority.class.getName());
+	whitelist.add(ThrowableInformation.class.getName());
+	whitelist.add(LocationInfo.class.getName());
+
+	return whitelist;
     }
-   
+
     public HardenedLoggingEventInputStream(InputStream is) throws IOException {
-        super(is, getWhilelist());
+	super(is, getWhilelist());
     }
-    
-    public HardenedLoggingEventInputStream(InputStream is, List<String> additionalAuthorizedClasses) throws IOException {
-        this(is);
-        super.addToWhitelist(additionalAuthorizedClasses);
+
+    public HardenedLoggingEventInputStream(InputStream is, List<String> additionalAuthorizedClasses)
+	    throws IOException {
+	this(is);
+	super.addToWhitelist(additionalAuthorizedClasses);
     }
 }

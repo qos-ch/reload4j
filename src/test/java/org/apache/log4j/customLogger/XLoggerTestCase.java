@@ -38,41 +38,41 @@ import org.junit.Test;
  */
 public class XLoggerTestCase {
 
-	static String FILTERED = TARGET_OUTPUT_PREFIX+"filtered";
-	static XLogger logger = (XLogger) XLogger.getLogger(XLoggerTestCase.class);
+    static String FILTERED = TARGET_OUTPUT_PREFIX + "filtered";
+    static XLogger logger = (XLogger) XLogger.getLogger(XLoggerTestCase.class);
 
-	@After
-	public void tearDown() {
-		logger.getLoggerRepository().resetConfiguration();
-	}
+    @After
+    public void tearDown() {
+	logger.getLoggerRepository().resetConfiguration();
+    }
 
-	@Test
-	public void test1() throws Exception {
-		common(1);
-	}
+    @Test
+    public void test1() throws Exception {
+	common(1);
+    }
 
-	@Test
-	public void test2() throws Exception {
-		common(2);
-	}
+    @Test
+    public void test2() throws Exception {
+	common(2);
+    }
 
-	void common(int number) throws Exception {
-		DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/customLogger" + number + ".xml");
+    void common(int number) throws Exception {
+	DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/customLogger" + number + ".xml");
 
-		int i = -1;
+	int i = -1;
 
-		logger.trace("Message " + ++i);
-		logger.debug("Message " + ++i);
-		logger.warn("Message " + ++i);
-		logger.error("Message " + ++i);
-		logger.fatal("Message " + ++i);
-		Exception e = new Exception("Just testing");
-		logger.debug("Message " + ++i, e);
+	logger.trace("Message " + ++i);
+	logger.debug("Message " + ++i);
+	logger.warn("Message " + ++i);
+	logger.error("Message " + ++i);
+	logger.fatal("Message " + ++i);
+	Exception e = new Exception("Just testing");
+	logger.debug("Message " + ++i, e);
 
-		Transformer.transform(TARGET_OUTPUT_PREFIX+"xlogger.out", FILTERED,
-				new Filter[] { new LineNumberFilter(), new Log4jAndNothingElseFilter() });
-		assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX+"customLogger." + number));
+	Transformer.transform(TARGET_OUTPUT_PREFIX + "xlogger.out", FILTERED,
+		new Filter[] { new LineNumberFilter(), new Log4jAndNothingElseFilter() });
+	assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "customLogger." + number));
 
-	}
+    }
 
 }

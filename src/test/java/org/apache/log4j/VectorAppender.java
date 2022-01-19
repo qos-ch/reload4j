@@ -21,55 +21,54 @@ import java.util.Vector;
 import org.apache.log4j.spi.LoggingEvent;
 
 /**
-   An appender that appends logging events to a vector.
-   @author Ceki  G&uuml;lc&uuml;
-*/
+ * An appender that appends logging events to a vector.
+ * 
+ * @author Ceki G&uuml;lc&uuml;
+ */
 public class VectorAppender extends AppenderSkeleton {
 
-  public Vector vector;
-  
-  public VectorAppender() {
-    vector = new Vector();
-  }
+    public Vector vector;
 
-  /**
-     Does nothing.
-  */
-  public void activateOptions() {
-  }
-
-
-  /**
-     This method is called by the {@link AppenderSkeleton#doAppend}
-     method.
-
-  */
-  public void append(LoggingEvent event) {
-    //System.out.println("---Vector appender called with message ["+event.getRenderedMessage()+"].");
-    //System.out.flush();
-    try {
-      Thread.sleep(100);
-    } catch(Exception e) {
+    public VectorAppender() {
+	vector = new Vector();
     }
-    vector.addElement(event);
-   }
 
-  public Vector getVector() {
-    return vector;
-  }
+    /**
+     * Does nothing.
+     */
+    public void activateOptions() {
+    }
 
-  public synchronized void close() {
-    if(this.closed)
-      return;
-    this.closed = true;
-  }
+    /**
+     * This method is called by the {@link AppenderSkeleton#doAppend} method.
+     * 
+     */
+    public void append(LoggingEvent event) {
+	// System.out.println("---Vector appender called with message
+	// ["+event.getRenderedMessage()+"].");
+	// System.out.flush();
+	try {
+	    Thread.sleep(100);
+	} catch (Exception e) {
+	}
+	vector.addElement(event);
+    }
 
+    public Vector getVector() {
+	return vector;
+    }
 
-  public boolean isClosed() {
-    return closed;
-  }
+    public synchronized void close() {
+	if (this.closed)
+	    return;
+	this.closed = true;
+    }
 
-  public boolean requiresLayout() {
-    return false;
-  }
+    public boolean isClosed() {
+	return closed;
+    }
+
+    public boolean requiresLayout() {
+	return false;
+    }
 }

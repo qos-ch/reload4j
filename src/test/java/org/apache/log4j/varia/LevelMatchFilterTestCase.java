@@ -17,7 +17,6 @@
 
 package org.apache.log4j.varia;
 
-
 import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
 import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
 import static org.junit.Assert.assertTrue;
@@ -36,109 +35,101 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
-   Test case for varia/LevelMatchFilter.java.
+ * Test case for varia/LevelMatchFilter.java.
  */
-public class LevelMatchFilterTestCase  {
-  
-  static String ACCEPT_FILE     = TARGET_OUTPUT_PREFIX+"LevelMatchFilter_accept";
-  static String ACCEPT_FILTERED = TARGET_OUTPUT_PREFIX+"LevelMatchFilter_accept_filtered";
-  static String ACCEPT_WITNESS  = TEST_WITNESS_PREFIX+"LevelMatchFilter_accept";
+public class LevelMatchFilterTestCase {
 
-  static String DENY_FILE       = TARGET_OUTPUT_PREFIX+"LevelMatchFilter_deny";
-  static String DENY_FILTERED   = TARGET_OUTPUT_PREFIX+"LevelMatchFilter_deny_filtered";
-  static String DENY_WITNESS    = TEST_WITNESS_PREFIX+"LevelMatchFilter_deny";
+    static String ACCEPT_FILE = TARGET_OUTPUT_PREFIX + "LevelMatchFilter_accept";
+    static String ACCEPT_FILTERED = TARGET_OUTPUT_PREFIX + "LevelMatchFilter_accept_filtered";
+    static String ACCEPT_WITNESS = TEST_WITNESS_PREFIX + "LevelMatchFilter_accept";
 
-  Logger root; 
-  Logger logger;
+    static String DENY_FILE = TARGET_OUTPUT_PREFIX + "LevelMatchFilter_deny";
+    static String DENY_FILTERED = TARGET_OUTPUT_PREFIX + "LevelMatchFilter_deny_filtered";
+    static String DENY_WITNESS = TEST_WITNESS_PREFIX + "LevelMatchFilter_deny";
 
+    Logger root;
+    Logger logger;
 
-  @Before
-  public void setUp() {
-    root = Logger.getRootLogger();
-    root.removeAllAppenders();
-  }
-
-  @After
-  public void tearDown() {  
-    root.getLoggerRepository().resetConfiguration();
-  }
-
-  @Test 
-  public void accept() throws Exception {
-    
-    // set up appender
-    Layout layout = new SimpleLayout();
-    Appender appender = new FileAppender(layout, ACCEPT_FILE, false);
-    
-    // create LevelMatchFilter
-    LevelMatchFilter matchFilter = new LevelMatchFilter();
- 
-     // attach match filter to appender
-    appender.addFilter(matchFilter);
-   
-    // attach DenyAllFilter to end of filter chain to deny neutral
-    // (non matching) messages
-    appender.addFilter(new DenyAllFilter());
-        
-    // set appender on root and set level to debug
-    root.addAppender(appender);
-    root.setLevel(Level.TRACE);
-    
-    Level[] levelArray = new Level[] {Level.TRACE, Level.DEBUG, Level.INFO, Level.WARN, 
-				      Level.ERROR, Level.FATAL};
-    for (int x = 0; x < levelArray.length; x++) {
-      // set the level to match
-      matchFilter.setLevelToMatch(levelArray[x].toString());
-      common("pass " + x + "; filter set to accept only " 
-	     + levelArray[x].toString() + " msgs");
+    @Before
+    public void setUp() {
+	root = Logger.getRootLogger();
+	root.removeAllAppenders();
     }
-    
-    Transformer.transform(ACCEPT_FILE, ACCEPT_FILTERED, new LineNumberFilter());
-    assertTrue(Compare.compare(ACCEPT_FILTERED, ACCEPT_WITNESS));
-  }
 
-  @Test 
-  public void deny() throws Exception {
-    
-    // set up appender
-    Layout layout = new SimpleLayout();
-    Appender appender = new FileAppender(layout, DENY_FILE, false);
-    
-    // create LevelMatchFilter, set to deny matches
-    LevelMatchFilter matchFilter = new LevelMatchFilter();
-    matchFilter.setAcceptOnMatch(false);
- 
-     // attach match filter to appender
-    appender.addFilter(matchFilter);
-           
-    // set appender on root and set level to debug
-    root.addAppender(appender);
-    root.setLevel(Level.TRACE);
-    
-    Level[] levelArray = new Level[] {Level.TRACE, Level.DEBUG, Level.INFO, Level.WARN,
-				      Level.ERROR, Level.FATAL};
-    for (int x = 0; x < levelArray.length; x++) {
-      // set the level to match
-      matchFilter.setLevelToMatch(levelArray[x].toString());
-      common("pass " + x + "; filter set to deny only " + levelArray[x].toString()
-              + " msgs");
+    @After
+    public void tearDown() {
+	root.getLoggerRepository().resetConfiguration();
     }
-    
-    Transformer.transform(DENY_FILE, DENY_FILTERED, new LineNumberFilter());
-    assertTrue(Compare.compare(DENY_FILTERED, DENY_WITNESS));
-  }
 
+    @Test
+    public void accept() throws Exception {
 
-  void common(String msg) {
-    Logger logger = Logger.getLogger("test");
-    logger.trace(msg);
-    logger.debug(msg);
-    logger.info(msg);
-    logger.warn(msg);
-    logger.error(msg);
-    logger.fatal(msg);
-  }
+	// set up appender
+	Layout layout = new SimpleLayout();
+	Appender appender = new FileAppender(layout, ACCEPT_FILE, false);
 
+	// create LevelMatchFilter
+	LevelMatchFilter matchFilter = new LevelMatchFilter();
 
+	// attach match filter to appender
+	appender.addFilter(matchFilter);
+
+	// attach DenyAllFilter to end of filter chain to deny neutral
+	// (non matching) messages
+	appender.addFilter(new DenyAllFilter());
+
+	// set appender on root and set level to debug
+	root.addAppender(appender);
+	root.setLevel(Level.TRACE);
+
+	Level[] levelArray = new Level[] { Level.TRACE, Level.DEBUG, Level.INFO, Level.WARN, Level.ERROR, Level.FATAL };
+	for (int x = 0; x < levelArray.length; x++) {
+	    // set the level to match
+	    matchFilter.setLevelToMatch(levelArray[x].toString());
+	    common("pass " + x + "; filter set to accept only " + levelArray[x].toString() + " msgs");
+	}
+
+	Transformer.transform(ACCEPT_FILE, ACCEPT_FILTERED, new LineNumberFilter());
+	assertTrue(Compare.compare(ACCEPT_FILTERED, ACCEPT_WITNESS));
+    }
+
+    @Test
+    public void deny() throws Exception {
+
+	// set up appender
+	Layout layout = new SimpleLayout();
+	Appender appender = new FileAppender(layout, DENY_FILE, false);
+
+	// create LevelMatchFilter, set to deny matches
+	LevelMatchFilter matchFilter = new LevelMatchFilter();
+	matchFilter.setAcceptOnMatch(false);
+
+	// attach match filter to appender
+	appender.addFilter(matchFilter);
+
+	// set appender on root and set level to debug
+	root.addAppender(appender);
+	root.setLevel(Level.TRACE);
+
+	Level[] levelArray = new Level[] { Level.TRACE, Level.DEBUG, Level.INFO, Level.WARN, Level.ERROR, Level.FATAL };
+	for (int x = 0; x < levelArray.length; x++) {
+	    // set the level to match
+	    matchFilter.setLevelToMatch(levelArray[x].toString());
+	    common("pass " + x + "; filter set to deny only " + levelArray[x].toString() + " msgs");
+	}
+
+	Transformer.transform(DENY_FILE, DENY_FILTERED, new LineNumberFilter());
+	assertTrue(Compare.compare(DENY_FILTERED, DENY_WITNESS));
+    }
+
+    void common(String msg) {
+	Logger logger = Logger.getLogger("test");
+	logger.trace(msg);
+	logger.debug(msg);
+	logger.info(msg);
+	logger.warn(msg);
+	logger.error(msg);
+	logger.fatal(msg);
+    }
 
 }

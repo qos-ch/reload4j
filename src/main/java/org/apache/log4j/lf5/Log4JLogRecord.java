@@ -20,9 +20,9 @@ package org.apache.log4j.lf5;
 import org.apache.log4j.spi.ThrowableInformation;
 
 /**
- * A <code>Log4JLogRecord</code> encapsulates
- * the details of your log4j <code>LoggingEvent</code> in a format usable
- * by the <code>LogBrokerMonitor</code>.
+ * A <code>Log4JLogRecord</code> encapsulates the details of your log4j
+ * <code>LoggingEvent</code> in a format usable by the
+ * <code>LogBrokerMonitor</code>.
  *
  * @author Brent Sprecher
  */
@@ -30,87 +30,82 @@ import org.apache.log4j.spi.ThrowableInformation;
 // Contributed by ThoughtWorks Inc.
 
 public class Log4JLogRecord extends LogRecord {
-  //--------------------------------------------------------------------------
-  //   Constants:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constants:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Protected Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Protected Variables:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Private Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Private Variables:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  //   Constructors:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constructors:
+    // --------------------------------------------------------------------------
 
-  /**
-   * Constructs an instance of a <code>Log4JLogRecord</code>.
-   */
-  public Log4JLogRecord() {
-  }
-
-  //--------------------------------------------------------------------------
-  //   Public Methods:
-  //--------------------------------------------------------------------------
-  /**
-   * Determines which <code>Priority</code> levels will
-   * be displayed in colored font when the <code>LogMonitorAppender</code>
-   * renders this log message. By default, messages will be colored
-   * red if they are of <code>Priority</code> ERROR or FATAL.
-   *
-   * @return true if the log level is ERROR or FATAL.
-   */
-  public boolean isSevereLevel() {
-    boolean isSevere = false;
-
-    if (LogLevel.ERROR.equals(getLevel()) ||
-        LogLevel.FATAL.equals(getLevel())) {
-      isSevere = true;
+    /**
+     * Constructs an instance of a <code>Log4JLogRecord</code>.
+     */
+    public Log4JLogRecord() {
     }
 
-    return isSevere;
-  }
+    // --------------------------------------------------------------------------
+    // Public Methods:
+    // --------------------------------------------------------------------------
+    /**
+     * Determines which <code>Priority</code> levels will be displayed in colored
+     * font when the <code>LogMonitorAppender</code> renders this log message. By
+     * default, messages will be colored red if they are of <code>Priority</code>
+     * ERROR or FATAL.
+     *
+     * @return true if the log level is ERROR or FATAL.
+     */
+    public boolean isSevereLevel() {
+	boolean isSevere = false;
 
-  /**
-   * Set stack trace information associated with this Log4JLogRecord.
-   * When this method is called, the stack trace in a
-   * String-based format is made
-   * available via the getThrownStackTrace() method.
-   *
-   * @param throwableInfo An org.apache.log4j.spi.ThrowableInformation to
-   * associate with this Log4JLogRecord.
-   * @see #getThrownStackTrace()
-   */
-  public void setThrownStackTrace(ThrowableInformation throwableInfo) {
-    String[] stackTraceArray = throwableInfo.getThrowableStrRep();
+	if (LogLevel.ERROR.equals(getLevel()) || LogLevel.FATAL.equals(getLevel())) {
+	    isSevere = true;
+	}
 
-    StringBuffer stackTrace = new StringBuffer();
-    String nextLine;
-
-    for (int i = 0; i < stackTraceArray.length; i++) {
-      nextLine = stackTraceArray[i] + "\n";
-      stackTrace.append(nextLine);
+	return isSevere;
     }
 
-    _thrownStackTrace = stackTrace.toString();
-  }
+    /**
+     * Set stack trace information associated with this Log4JLogRecord. When this
+     * method is called, the stack trace in a String-based format is made available
+     * via the getThrownStackTrace() method.
+     *
+     * @param throwableInfo An org.apache.log4j.spi.ThrowableInformation to
+     *                      associate with this Log4JLogRecord.
+     * @see #getThrownStackTrace()
+     */
+    public void setThrownStackTrace(ThrowableInformation throwableInfo) {
+	String[] stackTraceArray = throwableInfo.getThrowableStrRep();
 
-  //--------------------------------------------------------------------------
-  //   Protected Methods:
-  //--------------------------------------------------------------------------
+	StringBuffer stackTrace = new StringBuffer();
+	String nextLine;
 
-  //--------------------------------------------------------------------------
-  //   Private Methods:
-  //--------------------------------------------------------------------------
+	for (int i = 0; i < stackTraceArray.length; i++) {
+	    nextLine = stackTraceArray[i] + "\n";
+	    stackTrace.append(nextLine);
+	}
 
-  //--------------------------------------------------------------------------
-  //   Nested Top-Level Classes or Interfaces:
-  //--------------------------------------------------------------------------
+	_thrownStackTrace = stackTrace.toString();
+    }
+
+    // --------------------------------------------------------------------------
+    // Protected Methods:
+    // --------------------------------------------------------------------------
+
+    // --------------------------------------------------------------------------
+    // Private Methods:
+    // --------------------------------------------------------------------------
+
+    // --------------------------------------------------------------------------
+    // Nested Top-Level Classes or Interfaces:
+    // --------------------------------------------------------------------------
 
 }
-
-
-

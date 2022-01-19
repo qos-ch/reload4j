@@ -31,9 +31,9 @@ public class ReloadingPropertyConfigurator implements Configurator {
     public ReloadingPropertyConfigurator() {
     }
 
-   /**
-    * @since 1.2.17
-    */
+    /**
+     * @since 1.2.17
+     */
     public void doConfigure(InputStream inputStream, LoggerRepository repository) {
     }
 

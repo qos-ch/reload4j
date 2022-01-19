@@ -47,32 +47,26 @@ class EventDetails {
 
     /**
      * Creates a new <code>EventDetails</code> instance.
-     * @param aTimeStamp a <code>long</code> value
-     * @param aPriority a <code>Priority</code> value
-     * @param aCategoryName a <code>String</code> value
-     * @param aNDC a <code>String</code> value
-     * @param aThreadName a <code>String</code> value
-     * @param aMessage a <code>String</code> value
+     * 
+     * @param aTimeStamp       a <code>long</code> value
+     * @param aPriority        a <code>Priority</code> value
+     * @param aCategoryName    a <code>String</code> value
+     * @param aNDC             a <code>String</code> value
+     * @param aThreadName      a <code>String</code> value
+     * @param aMessage         a <code>String</code> value
      * @param aThrowableStrRep a <code>String[]</code> value
      * @param aLocationDetails a <code>String</code> value
      */
-    EventDetails(long aTimeStamp,
-                 Priority aPriority,
-                 String aCategoryName,
-                 String aNDC,
-                 String aThreadName,
-                 String aMessage,
-                 String[] aThrowableStrRep,
-                 String aLocationDetails)
-    {
-        mTimeStamp = aTimeStamp;
-        mPriority = aPriority;
-        mCategoryName = aCategoryName;
-        mNDC = aNDC;
-        mThreadName = aThreadName;
-        mMessage = aMessage;
-        mThrowableStrRep = aThrowableStrRep;
-        mLocationDetails = aLocationDetails;
+    EventDetails(long aTimeStamp, Priority aPriority, String aCategoryName, String aNDC, String aThreadName,
+	    String aMessage, String[] aThrowableStrRep, String aLocationDetails) {
+	mTimeStamp = aTimeStamp;
+	mPriority = aPriority;
+	mCategoryName = aCategoryName;
+	mNDC = aNDC;
+	mThreadName = aThreadName;
+	mMessage = aMessage;
+	mThrowableStrRep = aThrowableStrRep;
+	mLocationDetails = aLocationDetails;
     }
 
     /**
@@ -82,54 +76,48 @@ class EventDetails {
      */
     EventDetails(LoggingEvent aEvent) {
 
-        this(aEvent.timeStamp,
-             aEvent.getLevel(),
-             aEvent.getLoggerName(),
-             aEvent.getNDC(),
-             aEvent.getThreadName(),
-             aEvent.getRenderedMessage(),
-             aEvent.getThrowableStrRep(),
-             (aEvent.getLocationInformation() == null)
-             ? null : aEvent.getLocationInformation().fullInfo);
+	this(aEvent.timeStamp, aEvent.getLevel(), aEvent.getLoggerName(), aEvent.getNDC(), aEvent.getThreadName(),
+		aEvent.getRenderedMessage(), aEvent.getThrowableStrRep(),
+		(aEvent.getLocationInformation() == null) ? null : aEvent.getLocationInformation().fullInfo);
     }
 
     /** @see #mTimeStamp **/
     long getTimeStamp() {
-        return mTimeStamp;
+	return mTimeStamp;
     }
 
     /** @see #mPriority **/
     Priority getPriority() {
-        return mPriority;
+	return mPriority;
     }
 
     /** @see #mCategoryName **/
     String getCategoryName() {
-        return mCategoryName;
+	return mCategoryName;
     }
 
     /** @see #mNDC **/
     String getNDC() {
-        return mNDC;
+	return mNDC;
     }
 
     /** @see #mThreadName **/
     String getThreadName() {
-        return mThreadName;
+	return mThreadName;
     }
 
     /** @see #mMessage **/
     String getMessage() {
-        return mMessage;
+	return mMessage;
     }
 
     /** @see #mLocationDetails **/
-    String getLocationDetails(){
-        return mLocationDetails;
+    String getLocationDetails() {
+	return mLocationDetails;
     }
 
     /** @see #mThrowableStrRep **/
     String[] getThrowableStrRep() {
-        return mThrowableStrRep;
+	return mThrowableStrRep;
     }
 }

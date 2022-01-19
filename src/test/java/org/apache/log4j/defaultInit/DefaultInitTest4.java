@@ -30,34 +30,33 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.apache.log4j.LogManager;
 
-
 // this test is intended to check log4j.xml priority which would require copying around files
 @Ignore
 public class DefaultInitTest4 {
 
-	@Before
-	public void setUp() {
-		// System.out.println(System.getProperties());
-		String userDir = System.getProperty("user.dir");
-		System.setProperty("log4j.configuration",
-				"file:///" + userDir + "/" + TestContants.TEST_INPUT_PREFIX + "xml/defaultInit3.xml");
-	}
+    @Before
+    public void setUp() {
+	// System.out.println(System.getProperties());
+	String userDir = System.getProperty("user.dir");
+	System.setProperty("log4j.configuration",
+		"file:///" + userDir + "/" + TestContants.TEST_INPUT_PREFIX + "xml/defaultInit3.xml");
+    }
 
-	@After
-	public void tearDown() {
-		System.clearProperty("log4j.configuration");
-		LogManager.shutdown();
-	}
+    @After
+    public void tearDown() {
+	System.clearProperty("log4j.configuration");
+	LogManager.shutdown();
+    }
 
-	@Test
-	public void combinedTest() {
-		Logger root = Logger.getRootLogger();
-		boolean rootIsConfigured = root.getAllAppenders().hasMoreElements();
-		assertTrue(rootIsConfigured);
-		Enumeration e = root.getAllAppenders();
-		Appender appender = (Appender) e.nextElement();
-		assertEquals(appender.getName(), "D1");
-		assertEquals(e.hasMoreElements(), false);
-	}
+    @Test
+    public void combinedTest() {
+	Logger root = Logger.getRootLogger();
+	boolean rootIsConfigured = root.getAllAppenders().hasMoreElements();
+	assertTrue(rootIsConfigured);
+	Enumeration e = root.getAllAppenders();
+	Appender appender = (Appender) e.nextElement();
+	assertEquals(appender.getName(), "D1");
+	assertEquals(e.hasMoreElements(), false);
+    }
 
 }

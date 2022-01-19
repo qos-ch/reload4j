@@ -20,45 +20,42 @@ package org.apache.log4j.pattern;
 import org.apache.log4j.spi.LocationInfo;
 import org.apache.log4j.spi.LoggingEvent;
 
-
 /**
  * Return the event's line location information in a StringBuffer.
  *
  * @author Ceki G&uuml;lc&uuml;
  */
-public final class LineLocationPatternConverter
-  extends LoggingEventPatternConverter {
-  /**
-   * Singleton.
-   */
-  private static final LineLocationPatternConverter INSTANCE =
-    new LineLocationPatternConverter();
+public final class LineLocationPatternConverter extends LoggingEventPatternConverter {
+    /**
+     * Singleton.
+     */
+    private static final LineLocationPatternConverter INSTANCE = new LineLocationPatternConverter();
 
-  /**
-   * Private constructor.
-   */
-  private LineLocationPatternConverter() {
-    super("Line", "line");
-  }
-
-  /**
-   * Obtains an instance of pattern converter.
-   * @param options options, may be null.
-   * @return instance of pattern converter.
-   */
-  public static LineLocationPatternConverter newInstance(
-    final String[] options) {
-    return INSTANCE;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void format(final LoggingEvent event, final StringBuffer output) {
-    LocationInfo locationInfo = event.getLocationInformation();
-
-    if (locationInfo != null) {
-      output.append(locationInfo.getLineNumber());
+    /**
+     * Private constructor.
+     */
+    private LineLocationPatternConverter() {
+	super("Line", "line");
     }
-  }
+
+    /**
+     * Obtains an instance of pattern converter.
+     * 
+     * @param options options, may be null.
+     * @return instance of pattern converter.
+     */
+    public static LineLocationPatternConverter newInstance(final String[] options) {
+	return INSTANCE;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void format(final LoggingEvent event, final StringBuffer output) {
+	LocationInfo locationInfo = event.getLocationInformation();
+
+	if (locationInfo != null) {
+	    output.append(locationInfo.getLineNumber());
+	}
+    }
 }

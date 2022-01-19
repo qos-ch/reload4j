@@ -20,9 +20,9 @@ import org.apache.log4j.lf5.viewer.LogBrokerMonitor;
 
 /**
  * <code>AppenderFinalizer</code> has a single method that will finalize
- * resources associated with a <code>LogBrokerMonitor</code> in the event
- * that the <code>LF5Appender</code> class is destroyed, and the class loader
- * is garbage collected.
+ * resources associated with a <code>LogBrokerMonitor</code> in the event that
+ * the <code>LF5Appender</code> class is destroyed, and the class loader is
+ * garbage collected.
  *
  * @author Brent Sprecher
  */
@@ -30,49 +30,49 @@ import org.apache.log4j.lf5.viewer.LogBrokerMonitor;
 // Contributed by ThoughtWorks Inc.
 
 public class AppenderFinalizer {
-  //--------------------------------------------------------------------------
-  // Constants:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constants:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  // Protected Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Protected Variables:
+    // --------------------------------------------------------------------------
 
-  protected LogBrokerMonitor _defaultMonitor = null;
+    protected LogBrokerMonitor _defaultMonitor = null;
 
-  //--------------------------------------------------------------------------
-  // Private Variables:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Private Variables:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  // Constructors:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constructors:
+    // --------------------------------------------------------------------------
 
-  public AppenderFinalizer(LogBrokerMonitor defaultMonitor) {
-    _defaultMonitor = defaultMonitor;
-  }
-  //--------------------------------------------------------------------------
-  // Public Methods:
-  //--------------------------------------------------------------------------
+    public AppenderFinalizer(LogBrokerMonitor defaultMonitor) {
+	_defaultMonitor = defaultMonitor;
+    }
+    // --------------------------------------------------------------------------
+    // Public Methods:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  // Protected Methods:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Protected Methods:
+    // --------------------------------------------------------------------------
 
-  /**
-   * @throws java.lang.Throwable
-   */
-  protected void finalize() throws Throwable {
-    System.out.println("Disposing of the default LogBrokerMonitor instance");
-    _defaultMonitor.dispose();
-  }
+    /**
+     * @throws java.lang.Throwable
+     */
+    protected void finalize() throws Throwable {
+	System.out.println("Disposing of the default LogBrokerMonitor instance");
+	_defaultMonitor.dispose();
+    }
 
-  //--------------------------------------------------------------------------
-  // Private Methods:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Private Methods:
+    // --------------------------------------------------------------------------
 
-  //--------------------------------------------------------------------------
-  // Nested Top-Level Classes or Interfaces:
-  //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Nested Top-Level Classes or Interfaces:
+    // --------------------------------------------------------------------------
 
 }
