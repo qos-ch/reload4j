@@ -37,65 +37,65 @@ class JdbcPatternParser {
     private StringBuffer buffer = new StringBuffer();
 
     public String getParameterizedSql() {
-        return parameterizedSql;
+	return parameterizedSql;
     }
 
     @Override
     public String toString() {
-        return "JdbcPatternParser{sql=" + parameterizedSql + ",args=" + argPatterns + "}";
+	return "JdbcPatternParser{sql=" + parameterizedSql + ",args=" + argPatterns + "}";
     }
 
     /**
      * Converts '....' literals into bind variables in JDBC.
      */
     void setPattern(String pattern) {
-        if (pattern == null) {
-            throw new IllegalArgumentException("Null pattern");
-        }
-        if (pattern.equals(lastPattern)) {
-            return;
-        }
-        Matcher m = STRING_LITERAL_PATTERN.matcher(pattern);
-        StringBuffer sb = new StringBuffer();
-        args.clear();
-        argPatterns.clear();
-        while (m.find()) {
-            String literal = m.group(1);
-            if (literal.indexOf('%') == -1) {
-                // Just literal, append it as is
-                // It can't contain user-provided parts like %m, etc.
-                m.appendReplacement(sb, "'$1'");
-                continue;
-            }
+	if (pattern == null) {
+	    throw new IllegalArgumentException("Null pattern");
+	}
+	if (pattern.equals(lastPattern)) {
+	    return;
+	}
+	Matcher m = STRING_LITERAL_PATTERN.matcher(pattern);
+	StringBuffer sb = new StringBuffer();
+	args.clear();
+	argPatterns.clear();
+	while (m.find()) {
+	    String literal = m.group(1);
+	    if (literal.indexOf('%') == -1) {
+		// Just literal, append it as is
+		// It can't contain user-provided parts like %m, etc.
+		m.appendReplacement(sb, "'$1'");
+		continue;
+	    }
 
-            // Replace with bind
-            m.appendReplacement(sb, "?");
-            // We will use prepared statements, so we don't need to escape quotes.
-            // And we assume the users had 'That''s a string with quotes' in their configs.
-            literal = literal.replaceAll("''", "'");
-            argPatterns.add(literal);
-            args.add(new PatternParser(literal).parse());
-        }
-        m.appendTail(sb);
-        parameterizedSql = sb.toString();
-        lastPattern = pattern;
+	    // Replace with bind
+	    m.appendReplacement(sb, "?");
+	    // We will use prepared statements, so we don't need to escape quotes.
+	    // And we assume the users had 'That''s a string with quotes' in their configs.
+	    literal = literal.replaceAll("''", "'");
+	    argPatterns.add(literal);
+	    args.add(new PatternParser(literal).parse());
+	}
+	m.appendTail(sb);
+	parameterizedSql = sb.toString();
+	lastPattern = pattern;
     }
 
     public void setParameters(PreparedStatement ps, LoggingEvent logEvent) throws SQLException {
-        for (int i = 0; i < args.size(); i++) {
-            buffer.setLength(0);
-            PatternConverter c = args.get(i);
-            while (c != null) {
-                c.format(buffer, logEvent);
-                c = c.next;
-            }
-            ps.setString(i + 1, buffer.toString());
-        }
-        // This clears "toString cache"
-        buffer.setLength(0);
-        if (buffer.capacity() > 100000) {
-            // Avoid leaking too much memory if we discover long parameter
-            buffer = new StringBuffer();
-        }
+	for (int i = 0; i < args.size(); i++) {
+	    buffer.setLength(0);
+	    PatternConverter c = args.get(i);
+	    while (c != null) {
+		c.format(buffer, logEvent);
+		c = c.next;
+	    }
+	    ps.setString(i + 1, buffer.toString());
+	}
+	// This clears "toString cache"
+	buffer.setLength(0);
+	if (buffer.capacity() > 100000) {
+	    // Avoid leaking too much memory if we discover long parameter
+	    buffer = new StringBuffer();
+	}
     }
 }

@@ -24,27 +24,20 @@ public class JdbcPatternParserTest {
 
     @Test
     public void testParameterizedSql() {
-        assertParameterizedSql(
-                "JdbcPatternParser{sql=INSERT INTO A1 (TITLE3) VALUES ( ? ),args=[ %d  -  %c %-5p %c %x  -  %m%n ]}",
-                "INSERT INTO A1 (TITLE3) VALUES ( ' %d  -  %c %-5p %c %x  -  %m%n ' )"
-        );
-        assertParameterizedSql(
-                "JdbcPatternParser{sql=INSERT INTO A1 (TITLE3) VALUES ( ?, ?, ?, ?,  ?, ? ),args=[%d, %c, %-5p,  '%c, %x,   -  %m%n ]}",
-                "INSERT INTO A1 (TITLE3) VALUES ( '%d', '%c', '%-5p', ' ''%c',  '%x', '  -  %m%n ' )"
-        );
+	assertParameterizedSql(
+		"JdbcPatternParser{sql=INSERT INTO A1 (TITLE3) VALUES ( ? ),args=[ %d  -  %c %-5p %c %x  -  %m%n ]}",
+		"INSERT INTO A1 (TITLE3) VALUES ( ' %d  -  %c %-5p %c %x  -  %m%n ' )");
+	assertParameterizedSql(
+		"JdbcPatternParser{sql=INSERT INTO A1 (TITLE3) VALUES ( ?, ?, ?, ?,  ?, ? ),args=[%d, %c, %-5p,  '%c, %x,   -  %m%n ]}",
+		"INSERT INTO A1 (TITLE3) VALUES ( '%d', '%c', '%-5p', ' ''%c',  '%x', '  -  %m%n ' )");
 
-        assertParameterizedSql(
-                "JdbcPatternParser{sql=INSERT INTO A1 (TITLE3) VALUES ( ' just string literal', 'another literal with quotes '' asdf', ?),args=[message: %m]}",
-                "INSERT INTO A1 (TITLE3) VALUES ( ' just string literal', 'another literal with quotes '' asdf', 'message: %m')"
-        );
+	assertParameterizedSql(
+		"JdbcPatternParser{sql=INSERT INTO A1 (TITLE3) VALUES ( ' just string literal', 'another literal with quotes '' asdf', ?),args=[message: %m]}",
+		"INSERT INTO A1 (TITLE3) VALUES ( ' just string literal', 'another literal with quotes '' asdf', 'message: %m')");
     }
 
     private void assertParameterizedSql(String expected, String input) {
-        parser.setPattern(input);
-        Assert.assertEquals(
-                "parser.setPattern(...).toString() for " + input,
-                expected,
-                parser.toString()
-        );
+	parser.setPattern(input);
+	Assert.assertEquals("parser.setPattern(...).toString() for " + input, expected, parser.toString());
     }
 }
