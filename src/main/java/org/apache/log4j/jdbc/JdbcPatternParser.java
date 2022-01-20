@@ -23,6 +23,7 @@ import org.apache.log4j.spi.LoggingEvent;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,13 +33,13 @@ class JdbcPatternParser {
 
     private static final char PERCENT_CHAR = '%';
 
-    // private final static Pattern STRING_LITERAL_PATTERN =
-    // Pattern.compile("'((?>[^']|'')+)'");
-    private final static Pattern STRING_LITERAL_PATTERN = Pattern.compile("'(([^']|'')+)'");
+    private final static Pattern STRING_LITERAL_PATTERN = Pattern.compile("'((?>[^']|'')+)'");
+    // NOTE: capturing group work seem to work just as well.
+    //private final static Pattern STRING_LITERAL_PATTERN = Pattern.compile("'(([^']|'')+)'");
 
     private String parameterizedSql;
-    private List<String> patternStringRepresentationList = new ArrayList<String>();
-    private List<PatternConverter> args = new ArrayList<PatternConverter>();
+    final private List<String> patternStringRepresentationList = new ArrayList<String>();
+    final private List<PatternConverter> args = new ArrayList<PatternConverter>();
 
     JdbcPatternParser(String insertString) {
 	init(insertString);
@@ -48,8 +49,8 @@ class JdbcPatternParser {
 	return parameterizedSql;
     }
 
-    public List<String> getCopyOfpatternStringRepresentationList() {
-	return new ArrayList<String>(patternStringRepresentationList);
+    public List<String> getUnmodifiablePatternStringRepresentationList() {
+	return Collections.unmodifiableList(patternStringRepresentationList);
     }
 
     @Override

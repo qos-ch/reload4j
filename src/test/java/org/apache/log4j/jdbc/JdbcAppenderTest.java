@@ -16,12 +16,10 @@
  */
 package org.apache.log4j.jdbc;
 
-import org.apache.log4j.Appender;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.TestContants;
-import org.apache.log4j.VectorErrorHandler;
 import org.apache.log4j.xml.XLevel;
 import org.junit.After;
 import org.junit.Assert;

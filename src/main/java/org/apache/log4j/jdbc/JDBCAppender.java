@@ -304,7 +304,8 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton implements o
     private void flushBufferSecure() {
 	// Prepare events that we will store to the DB
 	ArrayList<LoggingEvent> removes = new ArrayList<LoggingEvent>(buffer);
-
+	buffer.removeAll(removes);
+	  
 	if (layout.getClass() != PatternLayout.class) {
 	    errorHandler.error("Failed to convert pattern " + layout + " to SQL", ILLEGAL_PATTERN_FOR_SECURE_EXEC,
 		    ErrorCode.MISSING_LAYOUT);
@@ -316,7 +317,6 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton implements o
 	    con = getConnection();
 	    PreparedStatement ps = con.prepareStatement(preparedStatementParser.getParameterizedSql());
 	    safelyInsertIntoDB(removes, useBatch, ps);
-	    buffer.removeAll(removes);
 	} catch (SQLException e) {
 	    errorHandler.error("Failed to append messages sql", e, ErrorCode.FLUSH_FAILURE);
 	} finally {

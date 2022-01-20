@@ -25,10 +25,6 @@ import org.junit.Test;
 
 public class JdbcPatternParserTest {
 
-    // REMINDER: Single quotes within double quotes are interpreted as single quotes. 
-    // Two successive single quotes within two single quotes is interpreted as a single quote
-    // 'abc''d' means abc'd. 
-    
     String[] EMPTY_STRING_ARRAY = new String[] {};
     
     @Test
@@ -62,7 +58,7 @@ public class JdbcPatternParserTest {
 
     private void assertParserStateEquality(String input, ParserState expected) {
 	JdbcPatternParser parser = new JdbcPatternParser(input);
-	List<String> patternStringReps = parser.getCopyOfpatternStringRepresentationList();
+	List<String> patternStringReps = parser.getUnmodifiablePatternStringRepresentationList();
 	
 	ParserState actual = new ParserState(parser.getParameterizedSql(), patternStringReps.toArray(EMPTY_STRING_ARRAY));
 	
@@ -111,9 +107,6 @@ public class JdbcPatternParserTest {
 		return false;
 	    return true;
 	}
-
-	
-
 
     }
 }
