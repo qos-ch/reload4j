@@ -66,58 +66,6 @@ public class JdbcAppenderTest {
     }
 
     @Test
-    public void verifyJdbcInsecure() throws SQLException {
-	String secureJdbcReplacement = "org.apache.log4j.jdbc.JDBCAppender.secure_jdbc_replacement";
-	System.setProperty(secureJdbcReplacement, "false");
-	try {
-	    PropertyConfigurator.configure(TestContants.TEST_INPUT_PREFIX + "jdbc_h2_bufferSize1.properties");
-	    Appender jdbcAppender = LogManager.getRootLogger().getAppender("A");
-	    // Keep errors
-	    VectorErrorHandler errorHandler = new VectorErrorHandler();
-	    jdbcAppender.setErrorHandler(errorHandler);
-
-	    Logger logger = Logger.getLogger(JdbcAppenderTest.class);
-
-	    String oldThreadName = Thread.currentThread().getName();
-	    try {
-		Thread.currentThread().setName("main");
-		logger.debug("message with '' quote");
-		Assert.assertEquals("batchSize=1, so messages should be added immediately",
-			"DEBUG; org.apache.log4j.jdbc.JdbcAppenderTest; message with ' quote;  org.apache.log4j.jdbc.JdbcAppenderTest DEBUG message with ' quote\n",
-			joinSorted(getMessagesFromDababase()));
-
-		// It should fail
-		logger.fatal("message with ' quote");
-
-		Assert.assertEquals(
-			"Inserting a message with ' should cause failure in insecure mode, so only one message should be in the DB",
-			"DEBUG; org.apache.log4j.jdbc.JdbcAppenderTest; message with ' quote;  org.apache.log4j.jdbc.JdbcAppenderTest DEBUG message with ' quote\n",
-			joinSorted(getMessagesFromDababase()));
-
-		StringBuilder exceptions = new StringBuilder();
-		StringBuilder errorCodes = new StringBuilder();
-		for (int i = 0; i < errorHandler.size(); i++) {
-		    Exception ex = errorHandler.getException(i);
-		    exceptions.append(ex.toString());
-		    errorCodes.append(ex instanceof SQLException
-			    ? ("SQLException.getErrorCode() = " + ((SQLException) ex).getErrorCode())
-			    : ("SQL Exception expected, got " + ex.getClass()));
-		    exceptions.append('\n');
-		    errorCodes.append('\n');
-		}
-		Assert.assertEquals(
-			"Logging a message with ' should trigger SQLException 'Syntax error in SQL statement...' when using insecure JDBCAppender mode, actual exceptions are\n"
-				+ exceptions,
-			"SQLException.getErrorCode() = 42001\n", errorCodes.toString());
-	    } finally {
-		Thread.currentThread().setName(oldThreadName);
-	    }
-	} finally {
-	    System.getProperties().remove(secureJdbcReplacement);
-	}
-    }
-
-    @Test
     public void verifyJdbcBufferSize1() throws SQLException {
 	PropertyConfigurator.configure(TestContants.TEST_INPUT_PREFIX + "jdbc_h2_bufferSize1.properties");
 

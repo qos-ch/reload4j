@@ -32,7 +32,7 @@ class JdbcPatternParser {
 
     private String parameterizedSql;
     private StringBuffer buffer = new StringBuffer();
-    private List<String> argPatterns = new ArrayList<String>();
+    private List<String> patternStringRepresentationList = new ArrayList<String>();
     private List<PatternConverter> args = new ArrayList<PatternConverter>();
 
     JdbcPatternParser(String pattern) {
@@ -43,9 +43,14 @@ class JdbcPatternParser {
 	return parameterizedSql;
     }
 
+
+    public List<String> getCopyOfpatternStringRepresentationList() {
+	return new ArrayList<String>(patternStringRepresentationList);
+    }
+    
     @Override
     public String toString() {
-	return "JdbcPatternParser{sql=" + parameterizedSql + ",args=" + argPatterns + "}";
+	return "JdbcPatternParser{sql=" + parameterizedSql + ",args=" + patternStringRepresentationList + "}";
     }
 
     /**
@@ -72,7 +77,7 @@ class JdbcPatternParser {
 	    // We will use prepared statements, so we don't need to escape quotes.
 	    // And we assume the users had 'That''s a string with quotes' in their configs.
 	    literal = literal.replaceAll("''", "'");
-	    argPatterns.add(literal);
+	    patternStringRepresentationList.add(literal);
 	    args.add(new PatternParser(literal).parse());
 	}
 	m.appendTail(sb);

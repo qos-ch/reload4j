@@ -45,6 +45,11 @@ import java.util.Arrays;
  */
 public class PatternParser {
 
+    private static final char LEFT_BRACKET = '{';
+    private static final char RIGHT_BRACKET = '}';
+    private static final char N_CHAR = 'n';
+    private static final char DOT_CHAR = '.';
+    private static final char DASH_CHAR = '-';
     private static final char ESCAPE_CHAR = '%';
 
     private static final int LITERAL_STATE = 0;
@@ -90,8 +95,8 @@ public class PatternParser {
     }
 
     protected String extractOption() {
-	if ((i < patternLength) && (pattern.charAt(i) == '{')) {
-	    int end = pattern.indexOf('}', i);
+	if ((i < patternLength) && (pattern.charAt(i) == LEFT_BRACKET)) {
+	    int end = pattern.indexOf(RIGHT_BRACKET, i);
 	    if (end > i) {
 		String r = pattern.substring(i + 1, end);
 		i = end + 1;
@@ -141,7 +146,7 @@ public class PatternParser {
 			currentLiteral.append(c);
 			i++; // move pointer
 			break;
-		    case 'n':
+		    case N_CHAR:
 			currentLiteral.append(Layout.LINE_SEP);
 			i++; // move pointer
 			break;
@@ -163,10 +168,10 @@ public class PatternParser {
 	    case CONVERTER_STATE:
 		currentLiteral.append(c);
 		switch (c) {
-		case '-':
+		case DASH_CHAR:
 		    formattingInfo.leftAlign = true;
 		    break;
-		case '.':
+		case DOT_CHAR:
 		    state = DOT_STATE;
 		    break;
 		default:
