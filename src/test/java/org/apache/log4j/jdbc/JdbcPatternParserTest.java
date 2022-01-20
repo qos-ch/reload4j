@@ -69,8 +69,16 @@ public class JdbcPatternParserTest {
 	Assert.assertEquals(expected, actual);
     }
     
-    
+    // this class represents JdbcPatternParser internal state
     private static class ParserState {
+	String expected;
+	String[] args;
+	
+	ParserState(String expected, String... args) {
+	    this.expected = expected;
+	    this.args = args;
+	}
+	
 	@Override
 	public int hashCode() {
 	    final int prime = 31;
@@ -104,13 +112,7 @@ public class JdbcPatternParserTest {
 	    return true;
 	}
 
-	String expected;
-	String[] args;
 	
-	ParserState(String expected, String... args) {
-	    this.expected = expected;
-	    this.args = args;
-	}
 
 
     }
