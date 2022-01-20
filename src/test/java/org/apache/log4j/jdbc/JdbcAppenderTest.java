@@ -44,6 +44,9 @@ public class JdbcAppenderTest {
     // The logger opens its own connection
     Connection con;
 
+    Logger logger = Logger.getLogger(JdbcAppenderTest.class);
+
+	
     @Before
     public void setup() throws SQLException {
 	con = DriverManager.getConnection("jdbc:h2:mem:test_db");
@@ -81,7 +84,7 @@ public class JdbcAppenderTest {
 		logger.debug("message with '' quote");
 		Assert.assertEquals("batchSize=1, so messages should be added immediately",
 			"DEBUG; org.apache.log4j.jdbc.JdbcAppenderTest; message with ' quote;  org.apache.log4j.jdbc.JdbcAppenderTest DEBUG message with ' quote\n",
-			joinSorted(getMessages()));
+			joinSorted(getMessagesFromDababase()));
 
 		// It should fail
 		logger.fatal("message with ' quote");
@@ -89,7 +92,7 @@ public class JdbcAppenderTest {
 		Assert.assertEquals(
 			"Inserting a message with ' should cause failure in insecure mode, so only one message should be in the DB",
 			"DEBUG; org.apache.log4j.jdbc.JdbcAppenderTest; message with ' quote;  org.apache.log4j.jdbc.JdbcAppenderTest DEBUG message with ' quote\n",
-			joinSorted(getMessages()));
+			joinSorted(getMessagesFromDababase()));
 
 		StringBuilder exceptions = new StringBuilder();
 		StringBuilder errorCodes = new StringBuilder();
@@ -118,7 +121,6 @@ public class JdbcAppenderTest {
     public void verifyJdbcBufferSize1() throws SQLException {
 	PropertyConfigurator.configure(TestContants.TEST_INPUT_PREFIX + "jdbc_h2_bufferSize1.properties");
 
-	Logger logger = Logger.getLogger(JdbcAppenderTest.class);
 
 	String oldThreadName = Thread.currentThread().getName();
 	try {
@@ -126,14 +128,14 @@ public class JdbcAppenderTest {
 	    logger.debug("message with ' quote");
 	    Assert.assertEquals("batchSize=1, so messages should be added immediately",
 		    "DEBUG; org.apache.log4j.jdbc.JdbcAppenderTest; message with ' quote;  org.apache.log4j.jdbc.JdbcAppenderTest DEBUG message with ' quote\n",
-		    joinSorted(getMessages()));
+		    joinSorted(getMessagesFromDababase()));
 
 	    logger.fatal("message with \" quote");
 
 	    Assert.assertEquals("batchSize=1, so two messages should be in DB after two logging calls",
 		    "DEBUG; org.apache.log4j.jdbc.JdbcAppenderTest; message with ' quote;  org.apache.log4j.jdbc.JdbcAppenderTest DEBUG message with ' quote\n"
 			    + "FATAL; org.apache.log4j.jdbc.JdbcAppenderTest; message with \" quote;  org.apache.log4j.jdbc.JdbcAppenderTest FATAL message with \" quote\n",
-		    joinSorted(getMessages()));
+		    joinSorted(getMessagesFromDababase()));
 	} finally {
 	    Thread.currentThread().setName(oldThreadName);
 	}
@@ -142,8 +144,6 @@ public class JdbcAppenderTest {
     @Test
     public void verifyJdbcBufferSize2() throws SQLException {
 	PropertyConfigurator.configure(TestContants.TEST_INPUT_PREFIX + "jdbc_h2_bufferSize2.properties");
-
-	Logger logger = Logger.getLogger(JdbcAppenderTest.class);
 
 	String oldThreadName = Thread.currentThread().getName();
 	try {
@@ -160,7 +160,7 @@ public class JdbcAppenderTest {
 			    + "INFO; org.apache.log4j.jdbc.JdbcAppenderTest; message with \" quote;  org.apache.log4j.jdbc.JdbcAppenderTest INFO message with \" quote\n"
 			    + "TRACE; org.apache.log4j.jdbc.JdbcAppenderTest; xtrace message;  org.apache.log4j.jdbc.JdbcAppenderTest TRACE xtrace message\n"
 			    + "WARN; org.apache.log4j.jdbc.JdbcAppenderTest; ?;  org.apache.log4j.jdbc.JdbcAppenderTest WARN ?\n",
-		    joinSorted(getMessages()));
+		    joinSorted(getMessagesFromDababase()));
 
 	    logger.fatal("m5");
 
@@ -171,7 +171,7 @@ public class JdbcAppenderTest {
 			    + "INFO; org.apache.log4j.jdbc.JdbcAppenderTest; message with \" quote;  org.apache.log4j.jdbc.JdbcAppenderTest INFO message with \" quote\n"
 			    + "TRACE; org.apache.log4j.jdbc.JdbcAppenderTest; xtrace message;  org.apache.log4j.jdbc.JdbcAppenderTest TRACE xtrace message\n"
 			    + "WARN; org.apache.log4j.jdbc.JdbcAppenderTest; ?;  org.apache.log4j.jdbc.JdbcAppenderTest WARN ?\n",
-		    joinSorted(getMessages()));
+		    joinSorted(getMessagesFromDababase()));
 	} finally {
 	    Thread.currentThread().setName(oldThreadName);
 	}
@@ -186,7 +186,7 @@ public class JdbcAppenderTest {
 	return sb.toString();
     }
 
-    private List<String> getMessages() throws SQLException {
+    private List<String> getMessagesFromDababase() throws SQLException {
 	List<String> res = new ArrayList<String>();
 	PreparedStatement ps = con.prepareStatement("select level,location,message,message2 from logs");
 	ResultSet rs = ps.executeQuery();

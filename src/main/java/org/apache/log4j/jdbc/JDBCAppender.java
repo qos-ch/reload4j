@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.log4j.PatternLayout;
+import org.apache.log4j.helpers.LogLog;
 import org.apache.log4j.spi.ErrorCode;
 import org.apache.log4j.spi.LoggingEvent;
 
@@ -120,8 +121,7 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton implements o
      */
     protected String sqlStatement = "";
 
-    private JdbcPatternParser preparedStatementParser = new JdbcPatternParser();
-
+    private JdbcPatternParser preparedStatementParser;
     /**
      * size of LoggingEvent buffer before writting to the database. Default is 1.
      */
@@ -130,19 +130,35 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton implements o
     /**
      * ArrayList holding the buffer of Logging Events.
      */
-    protected ArrayList buffer;
+    protected ArrayList<LoggingEvent> buffer;
 
     /**
      * Helper object for clearing out the buffer
      */
-    protected ArrayList removes;
+    protected ArrayList<LoggingEvent> removes;
 
     private boolean locationInfo = false;
 
+    private boolean isActive = false;
+    
     public JDBCAppender() {
 	super();
-	buffer = new ArrayList(bufferSize);
-	removes = new ArrayList(bufferSize);
+	buffer = new ArrayList<LoggingEvent>(bufferSize);
+	removes = new ArrayList<LoggingEvent>(bufferSize);
+    }
+
+    @Override
+    public void activateOptions() {
+    
+	if(getSql() == null || getSql().trim().length() == 0) {
+	    LogLog.error("JDBCAppender.sql parameter is mandatory. Skipping all futher processing");
+	    isActive = false;
+	    return;
+	} 
+
+	LogLog.debug("JDBCAppender constructing internal pattern parser");
+	preparedStatementParser = new JdbcPatternParser(getSql());
+	isActive = true;
     }
 
     /**
@@ -178,6 +194,9 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton implements o
      * Adds the event to the buffer. When full the buffer is flushed.
      */
     public void append(LoggingEvent event) {
+	if(!isActive) {
+	    return;
+	}
 	event.getNDC();
 	event.getThreadName();
 	// Get a copy of this thread's MDC.
@@ -301,8 +320,7 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton implements o
     }
 
     private void flushBufferInsecure() {
-	for (Iterator i = buffer.iterator(); i.hasNext();) {
-	    LoggingEvent logEvent = (LoggingEvent) i.next();
+	for (LoggingEvent logEvent : buffer) {
 	    try {
 		String sql = getLogStatement(logEvent);
 		execute(sql);
@@ -323,16 +341,13 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton implements o
 		    ErrorCode.MISSING_LAYOUT);
 	    return;
 	}
-	PatternLayout patternLayout = (PatternLayout) layout;
-	preparedStatementParser.setPattern(patternLayout.getConversionPattern());
 	Connection con = null;
 	boolean useBatch = removes.size() > 1;
 	try {
 	    con = getConnection();
 	    PreparedStatement ps = con.prepareStatement(preparedStatementParser.getParameterizedSql());
 	    try {
-		for (Iterator i = removes.iterator(); i.hasNext();) {
-		    LoggingEvent logEvent = (LoggingEvent) i.next();
+		for (LoggingEvent logEvent : removes) {
 		    try {
 			preparedStatementParser.setParameters(ps, logEvent);
 			if (useBatch) {

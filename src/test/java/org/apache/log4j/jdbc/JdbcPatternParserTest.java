@@ -20,7 +20,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class JdbcPatternParserTest {
-    JdbcPatternParser parser = new JdbcPatternParser();
 
     @Test
     public void testParameterizedSql() {
@@ -37,7 +36,7 @@ public class JdbcPatternParserTest {
     }
 
     private void assertParameterizedSql(String expected, String input) {
-	parser.setPattern(input);
+	JdbcPatternParser parser = new JdbcPatternParser(input);
 	Assert.assertEquals("parser.setPattern(...).toString() for " + input, expected, parser.toString());
     }
 }

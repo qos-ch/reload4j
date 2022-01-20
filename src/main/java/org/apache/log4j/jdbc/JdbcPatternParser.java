@@ -30,12 +30,15 @@ import java.util.regex.Pattern;
 class JdbcPatternParser {
     private final static Pattern STRING_LITERAL_PATTERN = Pattern.compile("'((?>[^']|'')+)'");
 
-    private String lastPattern;
     private String parameterizedSql;
-    private final List<String> argPatterns = new ArrayList<String>();
-    private final List<PatternConverter> args = new ArrayList<PatternConverter>();
     private StringBuffer buffer = new StringBuffer();
+    private List<String> argPatterns = new ArrayList<String>();
+    private List<PatternConverter> args = new ArrayList<PatternConverter>();
 
+    JdbcPatternParser(String pattern) {
+	init(pattern);
+    }
+    
     public String getParameterizedSql() {
 	return parameterizedSql;
     }
@@ -48,17 +51,13 @@ class JdbcPatternParser {
     /**
      * Converts '....' literals into bind variables in JDBC.
      */
-    void setPattern(String pattern) {
+    private void init(String pattern) {
 	if (pattern == null) {
 	    throw new IllegalArgumentException("Null pattern");
 	}
-	if (pattern.equals(lastPattern)) {
-	    return;
-	}
+	    
 	Matcher m = STRING_LITERAL_PATTERN.matcher(pattern);
 	StringBuffer sb = new StringBuffer();
-	args.clear();
-	argPatterns.clear();
 	while (m.find()) {
 	    String literal = m.group(1);
 	    if (literal.indexOf('%') == -1) {
@@ -77,8 +76,7 @@ class JdbcPatternParser {
 	    args.add(new PatternParser(literal).parse());
 	}
 	m.appendTail(sb);
-	parameterizedSql = sb.toString();
-	lastPattern = pattern;
+	this.parameterizedSql = sb.toString();
     }
 
     public void setParameters(PreparedStatement ps, LoggingEvent logEvent) throws SQLException {
