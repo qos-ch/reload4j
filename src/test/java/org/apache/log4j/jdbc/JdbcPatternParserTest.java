@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class JdbcPatternParserTest {
@@ -32,9 +33,8 @@ public class JdbcPatternParserTest {
     
     @Test
     public void testSingleQuotesAndSpaces() {
-	// '' sees special interpretation by JdbcPatternParser?
 	ParserState expected = new ParserState("INSERT INTO A1 (TITLE3) VALUES ( ?, ?, ?, ?,  ?, ? )", "%d", "%t", "%-5p", " '%c", "%x", "  -  %m%n ");
-	otherAssert("INSERT INTO A1 (TITLE3) VALUES ( '%d', '%t', '%-5p', ' ''%c',  '%x', '  -  %m%n ' )", expected);
+	assertParserStateEquality("INSERT INTO A1 (TITLE3) VALUES ( '%d', '%t', '%-5p', ' ''%c',  '%x', '  -  %m%n ' )", expected);
     }
     
     @Test
@@ -43,24 +43,24 @@ public class JdbcPatternParserTest {
 	String prefix = "INSERT INTO A1 (TITLE3) VALUES ( ' aString', 'anotherString with '' xyz'";
 	
 	ParserState expected = new ParserState(prefix +", ?)", "message: %m");
-	otherAssert(prefix+", 'message: %m')", expected);
+	assertParserStateEquality(prefix+", 'message: %m')", expected);
     }
 
     
     @Test
     public void testMixedPatterns() {
 	ParserState expected = new ParserState("INSERT INTO A1 (TITLE3) VALUES ( ?, ?, ?, ?,  ?, ? )", "%d", "%d", "%-5p", " %c", "%x", "  -  %m%n");
-	otherAssert("INSERT INTO A1 (TITLE3) VALUES ( '%d', '%d', '%-5p', ' %c',  '%x', '  -  %m%n' )", expected);
+	assertParserStateEquality("INSERT INTO A1 (TITLE3) VALUES ( '%d', '%d', '%-5p', ' %c',  '%x', '  -  %m%n' )", expected);
     }
 
     
     @Test
     public void testSingleLumpedValue() {
 	ParserState expected = new ParserState("INSERT INTO A1 (TITLE3) VALUES ( ? )", " %d  -  %c %-5p %c %x  -  %m%n ");
-	otherAssert("INSERT INTO A1 (TITLE3) VALUES ( ' %d  -  %c %-5p %c %x  -  %m%n ' )", expected);
+	assertParserStateEquality("INSERT INTO A1 (TITLE3) VALUES ( ' %d  -  %c %-5p %c %x  -  %m%n ' )", expected);
     }
 
-    private void otherAssert(String input, ParserState expected) {
+    private void assertParserStateEquality(String input, ParserState expected) {
 	JdbcPatternParser parser = new JdbcPatternParser(input);
 	List<String> patternStringReps = parser.getCopyOfpatternStringRepresentationList();
 	
@@ -71,11 +71,11 @@ public class JdbcPatternParserTest {
     
     // this class represents JdbcPatternParser internal state
     private static class ParserState {
-	String expected;
+	String statementStr;
 	String[] args;
 	
-	ParserState(String expected, String... args) {
-	    this.expected = expected;
+	ParserState(String statementStr, String... args) {
+	    this.statementStr = statementStr;
 	    this.args = args;
 	}
 	
@@ -84,13 +84,13 @@ public class JdbcPatternParserTest {
 	    final int prime = 31;
 	    int result = 1;
 	    result = prime * result + Arrays.hashCode(args);
-	    result = prime * result + ((expected == null) ? 0 : expected.hashCode());
+	    result = prime * result + ((statementStr == null) ? 0 : statementStr.hashCode());
 	    return result;
 	}
 
 	@Override
 	public String toString() {
-	    return "ParserState [expected=" + expected + ", args=" + Arrays.toString(args) + "]";
+	    return "ParserState [statement=" + statementStr + ", args=" + Arrays.toString(args) + "]";
 	}
 
 	@Override
@@ -104,10 +104,10 @@ public class JdbcPatternParserTest {
 	    ParserState other = (ParserState) obj;
 	    if (!Arrays.equals(args, other.args))
 		return false;
-	    if (expected == null) {
-		if (other.expected != null)
+	    if (statementStr == null) {
+		if (other.statementStr != null)
 		    return false;
-	    } else if (!expected.equals(other.expected))
+	    } else if (!statementStr.equals(other.statementStr))
 		return false;
 	    return true;
 	}

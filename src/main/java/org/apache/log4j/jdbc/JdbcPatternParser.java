@@ -28,26 +28,30 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class JdbcPatternParser {
-    private final static Pattern STRING_LITERAL_PATTERN = Pattern.compile("'((?>[^']|'')+)'");
+    private static final String QUESTION_MARK = "?";
+
+    private static final char PERCENT_CHAR = '%';
+
+    // private final static Pattern STRING_LITERAL_PATTERN =
+    // Pattern.compile("'((?>[^']|'')+)'");
+    private final static Pattern STRING_LITERAL_PATTERN = Pattern.compile("'(([^']|'')+)'");
 
     private String parameterizedSql;
-    private StringBuffer buffer = new StringBuffer();
     private List<String> patternStringRepresentationList = new ArrayList<String>();
     private List<PatternConverter> args = new ArrayList<PatternConverter>();
 
-    JdbcPatternParser(String pattern) {
-	init(pattern);
+    JdbcPatternParser(String insertString) {
+	init(insertString);
     }
-    
+
     public String getParameterizedSql() {
 	return parameterizedSql;
     }
 
-
     public List<String> getCopyOfpatternStringRepresentationList() {
 	return new ArrayList<String>(patternStringRepresentationList);
     }
-    
+
     @Override
     public String toString() {
 	return "JdbcPatternParser{sql=" + parameterizedSql + ",args=" + patternStringRepresentationList + "}";
@@ -56,49 +60,55 @@ class JdbcPatternParser {
     /**
      * Converts '....' literals into bind variables in JDBC.
      */
-    private void init(String pattern) {
-	if (pattern == null) {
+    private void init(String insertString) {
+	if (insertString == null) {
 	    throw new IllegalArgumentException("Null pattern");
 	}
-	    
-	Matcher m = STRING_LITERAL_PATTERN.matcher(pattern);
+
+	Matcher m = STRING_LITERAL_PATTERN.matcher(insertString);
 	StringBuffer sb = new StringBuffer();
 	while (m.find()) {
-	    String literal = m.group(1);
-	    if (literal.indexOf('%') == -1) {
-		// Just literal, append it as is
-		// It can't contain user-provided parts like %m, etc.
-		m.appendReplacement(sb, "'$1'");
-		continue;
+	    String matchedStr = m.group(1);
+	    if (matchedStr.indexOf(PERCENT_CHAR) == -1) {
+		replaceWithMatchedStr(m, sb);
+	    } else {
+		// Replace with bind
+		replaceWithBind(m, sb, matchedStr);
 	    }
-
-	    // Replace with bind
-	    m.appendReplacement(sb, "?");
-	    // We will use prepared statements, so we don't need to escape quotes.
-	    // And we assume the users had 'That''s a string with quotes' in their configs.
-	    literal = literal.replaceAll("''", "'");
-	    patternStringRepresentationList.add(literal);
-	    args.add(new PatternParser(literal).parse());
 	}
 	m.appendTail(sb);
 	this.parameterizedSql = sb.toString();
     }
 
+    private void replaceWithMatchedStr(Matcher m, StringBuffer sb) {
+	// Just literal, append it as is
+	m.appendReplacement(sb, "'$1'");
+    }
+
+    private void replaceWithBind(Matcher m, StringBuffer sb, String matchedStr) {
+	m.appendReplacement(sb, QUESTION_MARK);
+	// We will use prepared statements, so we don't need to escape quotes.
+	// And we assume the users had 'That''s a string with quotes' in their configs.
+	matchedStr = matchedStr.replaceAll("''", "'");
+	patternStringRepresentationList.add(matchedStr);
+	args.add(new PatternParser(matchedStr).parse());
+    }
+
     public void setParameters(PreparedStatement ps, LoggingEvent logEvent) throws SQLException {
 	for (int i = 0; i < args.size(); i++) {
-	    buffer.setLength(0);
-	    PatternConverter c = args.get(i);
-	    while (c != null) {
-		c.format(buffer, logEvent);
-		c = c.next;
-	    }
-	    ps.setString(i + 1, buffer.toString());
+	    final PatternConverter head = args.get(i);
+	    String value = buildValueStr(logEvent, head);
+	    ps.setString(i + 1, value);
 	}
-	// This clears "toString cache"
-	buffer.setLength(0);
-	if (buffer.capacity() > 100000) {
-	    // Avoid leaking too much memory if we discover long parameter
-	    buffer = new StringBuffer();
+    }
+
+    private String buildValueStr(LoggingEvent logEvent, final PatternConverter head) {
+	StringBuffer buffer = new StringBuffer();
+	PatternConverter c = head;
+	while (c != null) {
+	    c.format(buffer, logEvent);
+	    c = c.next;
 	}
+	return buffer.toString();
     }
 }
