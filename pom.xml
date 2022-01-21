@@ -22,7 +22,7 @@
   <artifactId>reload4j</artifactId>
   <packaging>jar</packaging>
   <name>reload4j</name>
-  <version>1.2.18.1</version>
+  <version>1.2.18.2</version>
   <description>Reload4j revives EOLed log4j 1.x</description> 
 
   <url>https://reload4j.qos.ch</url>
@@ -209,9 +209,10 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>${maven-javadoc-plugin.version}</version>
           <configuration>
-            <docfilessubdirs>true</docfilessubdirs>
-            <excludedocfilessubdir>.svn</excludedocfilessubdir>
             <encoding>${project.build.sourceEncoding}</encoding>
+            <additionalOptions>
+              <additionalOption>-Xdoclint:none</additionalOption>
+            </additionalOptions>
             <notimestamp>true</notimestamp>
             <failOnError>false</failOnError>
             <failOnWarnings>false</failOnWarnings>
@@ -317,11 +318,11 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        
+        <artifactId>maven-javadoc-plugin</artifactId>        
         <configuration>                                
           <linkJavadoc>true</linkJavadoc>
           <linksource>true</linksource>
+          <failOnError>false</failOnError>          
           <links>
             <link>
               https://docs.oracle.com/javase/8/docs/api/

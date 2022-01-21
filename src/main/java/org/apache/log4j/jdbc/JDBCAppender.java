@@ -29,31 +29,42 @@ import org.apache.log4j.spi.ErrorCode;
 import org.apache.log4j.spi.LoggingEvent;
 
 /**
- * The JDBCAppender provides for sending log events to a database.
+ * The JDBCAppender provides for sending log events to a database. It does not 
+ * log exceptions.
+ * 
+ * <p><b>JDBCAppender shipping in 1.2.18.2 produces 
+ * {@link java.sql.PreparedStatement PreparedStatement} instances</b>. 
+ * Thanks to the remarkable work of Vladimir Sitnikov JDBCAppender now 
+ * interprets the SQL expression on the fly and inserts new events using 
+ * PreparedStartement instances. Note that the table column types are restricted 
+ * to those types compatible with Java's String. 
+ * </p>
+ * 
+ * <p><font color="#FF2222" style="font-weight: bold;">Versions 1.2.18.0 and prior 
+ * are vulnerable to SQL injection attacks.</b></font>.
+ * </p>
  * 
  * <p>
- * <b><font color="#FF2222">WARNING: This version of JDBCAppender is very likely
- * to be completely replaced in the future. Moreoever, it does not log
- * exceptions</font></b>.
- * 
- * <p>
- * Each append call adds to an <code>ArrayList</code> buffer. When the buffer is
+ * Each append call adds to an #{#link ArrayList} buffer. When the buffer is
  * filled each log event is placed in a sql statement (configurable) and
  * executed.
+ * </p>
  * 
- * <b>BufferSize</b>, <b>db URL</b>, <b>User</b>, &amp; <b>Password</b> are
- * configurable options in the standard log4j ways.
+ * <p><b>BufferSize</b>, <b>db URL</b>, <b>User</b>, &amp; <b>Password</b> are
+ * configurable options in the standard log4j fashion.
+ * </p>
  * 
  * <p>
  * The <code>setSql(String sql)</code> sets the SQL statement to be used for
  * logging -- this statement is sent to a <code>PatternLayout</code> (either
  * created automatically by the appender or added by the user). Therefore by
  * default all the conversion patterns in <code>PatternLayout</code> can be used
- * inside of the statement. (see the test cases for examples)
+ * inside of the statement. (see the test cases for examples). 
+ * </p>
+ * <p>As mentioned earlier, the produced
+ * SQL is translated in an additional phase to use {@link java.sql.PreparedStatement PreparedStatement}.
+ * </p>
  * 
- * <p>
- * Overriding the {@link #getLogStatement} method allows more explicit control
- * of the statement used for logging.
  * 
  * <p>
  * For use as a base class:
@@ -68,8 +79,7 @@ import org.apache.log4j.spi.LoggingEvent;
  * the connection you generated. Typically this would return the connection to
  * the pool it came from.
  * 
- * <li>Override <code>getLogStatement(LoggingEvent event)</code> to produce
- * specialized or dynamic statements. The default uses the sql option value.
+ * <li>As of 1.2.18.1 {@link #getLogStatement} is no longer in use.
  * 
  * </ul>
  * 
@@ -206,15 +216,13 @@ public class JDBCAppender extends org.apache.log4j.AppenderSkeleton implements o
     }
 
     /**
-     * By default getLogStatement sends the event to the required Layout object. The
-     * layout will format the given pattern into a workable SQL string.
-     *
-     * Overriding this provides direct access to the LoggingEvent when constructing
-     * the logging statement.
-     *
+     * <p>
+     * <b>As of 1.2.18.1 {@link #getLogStatement} is no longer in use.</b>
+     * </p>
+     * @param event
      */
     protected String getLogStatement(LoggingEvent event) {
-	return getLayout().format(event);
+	return "";
     }
 
     /**
