@@ -34,7 +34,9 @@ class JdbcPatternParser {
     private static final char PERCENT_CHAR = '%';
 
     private final static Pattern STRING_LITERAL_PATTERN = Pattern.compile("'((?>[^']|'')+)'");
-    // NOTE: capturing group work seem to work just as well.
+    // NOTE: capturing group work seem to work just as well. 
+    // However, the atomic group is needed here to prevent StackOverflowError 
+    // See https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6337993
     //private final static Pattern STRING_LITERAL_PATTERN = Pattern.compile("'(([^']|'')+)'");
 
     private String parameterizedSql;
