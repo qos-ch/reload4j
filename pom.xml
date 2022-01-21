@@ -213,6 +213,9 @@
             <additionalOptions>
               <additionalOption>-Xdoclint:none</additionalOption>
             </additionalOptions>
+            <header><![CDATA[<a href="https://reload4j.qos.ch">
+            <img src="https://reload4j.qos.ch/images/logos/reload4j.jpg" height="40"/></a>]]></header>
+            <top><![CDATA[<b><span style="color: #ff8844">&nbsp;&nbsp;You can also support SLF4J/logback/reload4j projects via <a href="https://github.com/sponsors/qos-ch">Github donations and sponsorship</a>.<span></b>]]></top>
             <notimestamp>true</notimestamp>
             <failOnError>false</failOnError>
             <failOnWarnings>false</failOnWarnings>
@@ -282,6 +285,7 @@
           </execution> 
         </executions>
       </plugin>
+
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
@@ -316,13 +320,14 @@
   
   <reporting>
     <plugins>
+      <!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>        
         <configuration>                                
           <linkJavadoc>true</linkJavadoc>
           <linksource>true</linksource>
-          <failOnError>false</failOnError>          
+          <failOnError>false</failOnError>
           <links>
             <link>
               https://docs.oracle.com/javase/8/docs/api/
@@ -330,7 +335,7 @@
           </links>
         </configuration>
       </plugin>
-
+      -->
     </plugins>
   </reporting>
 
@@ -392,6 +397,11 @@
             <version>${maven-javadoc-plugin.version}</version>
             <configuration>
               <doclint>none</doclint>
+              <links>
+                <link>
+                  https://docs.oracle.com/javase/8/docs/api/
+                </link>
+              </links>
             </configuration>
             <executions>
               <execution>

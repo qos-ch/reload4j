@@ -45,7 +45,7 @@ import org.apache.log4j.spi.LoggingEvent;
  * </p>
  * 
  * <p>
- * Each append call adds to an #{#link ArrayList} buffer. When the buffer is
+ * Each append call adds to an {@link ArrayList} buffer. When the buffer is
  * filled each log event is placed in a sql statement (configurable) and
  * executed.
  * </p>
