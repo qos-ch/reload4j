@@ -17,19 +17,25 @@
 
 package org.apache.log4j.util;
 
-import org.apache.oro.text.perl.Perl5Util;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LineNumberFilter implements Filter {
 
-    Perl5Util util = new Perl5Util();
+    // change-at org.apache.log4j.MinimumTestCase.common(MinimumTestCase.java:67)
+    // to ----at org.apache.log4j.MinimumTestCase.common(MinimumTestCase.java:XXX)
+    static String PATTERN_STR = "\\((.*):\\d{1,4}\\)";
+    static Pattern PATTERN = Pattern.compile(PATTERN_STR);
 
+    // at org.apache.log4j.MinimumTestCase.common(MinimumTestCase.java:67)
     public String filter(String in) {
-	if (util.match("/\\(.*:\\d{1,4}\\)/", in)) {
-	    return util.substitute("s/:\\d{1,4}\\)/:XXX)/", in);
+	Matcher matcher = PATTERN.matcher(in);
+	if (matcher.find()) {
+	    StringBuffer buf = new StringBuffer();
+	    matcher.appendReplacement(buf, "($1:XXX)");
+	    matcher.appendTail(buf);
+	    return buf.toString();
 	} else {
-	    if (in.indexOf(", Compiled Code") >= 0) {
-		return util.substitute("s/, Compiled Code/:XXX/", in);
-	    }
 	    return in;
 	}
     }

@@ -17,17 +17,21 @@
 
 package org.apache.log4j.util;
 
-import org.apache.oro.text.perl.Perl5Util;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class ISO8601Filter implements Filter {
 
-    Perl5Util util = new Perl5Util();
+    Pattern PATTERN = Pattern.compile("(" + ISO8601_PAT + ")");
 
     public String filter(String in) {
-	String pat = "/" + ISO8601_PAT + "/";
-
-	if (util.match(pat, in)) {
-	    return util.substitute("s/" + ISO8601_PAT + "//", in);
+	Matcher matcher = PATTERN.matcher(in);
+	if (matcher.find()) {
+	    StringBuffer buf = new StringBuffer();
+	    matcher.appendReplacement(buf, "");
+	    matcher.appendTail(buf);
+	    return buf.toString();
 	} else {
 	    return in;
 	}

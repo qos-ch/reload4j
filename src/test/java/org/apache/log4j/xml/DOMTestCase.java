@@ -29,13 +29,13 @@ import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.ThrowableRenderer;
 import org.apache.log4j.spi.OptionHandler;
 import org.apache.log4j.spi.ThrowableRendererSupport;
+import org.apache.log4j.testUtil.StringPrintStream;
 import org.apache.log4j.util.Compare;
 import org.apache.log4j.util.ControlFilter;
 import org.apache.log4j.util.Filter;
 import org.apache.log4j.util.ISO8601Filter;
 import org.apache.log4j.util.LineNumberFilter;
 import org.apache.log4j.util.Log4jAndNothingElseFilter;
-import org.apache.log4j.util.SunReflectFilter;
 import org.apache.log4j.util.Transformer;
 
 import java.io.File;
@@ -43,6 +43,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -106,7 +107,7 @@ public class DOMTestCase {
 		new String[] { TEST1_2_PAT, EXCEPTION1, EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5 });
 
 	Transformer.transform(TEMP_A1, FILTERED_A1,
-		new Filter[] { cf1, new LineNumberFilter(), new SunReflectFilter(), new Log4jAndNothingElseFilter() });
+		new Filter[] { cf1, new LineNumberFilter(), new Log4jAndNothingElseFilter() });
 
 	Transformer.transform(TEMP_A2, FILTERED_A2,
 		new Filter[] { cf2, new LineNumberFilter(), new ISO8601Filter(), new Log4jAndNothingElseFilter() });
@@ -120,24 +121,35 @@ public class DOMTestCase {
      */
 
     @Test
-    public void test4() throws Exception {
-	DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/DOMTest4.xml");
-	common();
+    public void externalEntitiesTest() throws Exception {
+	final PrintStream oldErr = System.err;
+	StringPrintStream sps = new StringPrintStream(oldErr);
 
-	ControlFilter cf1 = new ControlFilter(new String[] { TEST1_1A_PAT, TEST1_1B_PAT, EXCEPTION1, EXCEPTION2,
-		EXCEPTION3, EXCEPTION4, EXCEPTION5 });
-
-	ControlFilter cf2 = new ControlFilter(
-		new String[] { TEST1_2_PAT, EXCEPTION1, EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5 });
-
-	Transformer.transform(TEMP_A1 + ".4", FILTERED_A1 + ".4",
-		new Filter[] { cf1, new LineNumberFilter(), new Log4jAndNothingElseFilter() });
-
-	Transformer.transform(TEMP_A2 + ".4", FILTERED_A2 + ".4",
-		new Filter[] { cf2, new LineNumberFilter(), new ISO8601Filter(), new Log4jAndNothingElseFilter() });
-
-	assertTrue(Compare.compare(FILTERED_A1 + ".4", TEST_WITNESS_PREFIX + "dom.A1.4"));
-	assertTrue(Compare.compare(FILTERED_A2 + ".4", TEST_WITNESS_PREFIX + "dom.A2.4"));
+	try {
+	    System.setErr(sps);
+	    DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/DOMTest4.xml");
+	    common();
+	    assertTrue(sps.stringList.get(0).contains("log4j:ERROR No appender named [A1] could be found."));
+	    assertTrue(sps.stringList.get(1).contains("log4j:ERROR No appender named [A1] could be found."));
+	    assertTrue(sps.stringList.get(2).contains("log4j:ERROR No appender named [A2] could be found."));	    
+	} finally {
+	    System.setErr(oldErr);
+	}
+	
+//	ControlFilter cf1 = new ControlFilter(new String[] { TEST1_1A_PAT, TEST1_1B_PAT, EXCEPTION1, EXCEPTION2,
+//		EXCEPTION3, EXCEPTION4, EXCEPTION5 });
+//
+//	ControlFilter cf2 = new ControlFilter(
+//		new String[] { TEST1_2_PAT, EXCEPTION1, EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5 });
+//
+//	Transformer.transform(TEMP_A1 + ".4", FILTERED_A1 + ".4",
+//		new Filter[] { cf1, new LineNumberFilter(), new Log4jAndNothingElseFilter() });
+//
+//	Transformer.transform(TEMP_A2 + ".4", FILTERED_A2 + ".4",
+//		new Filter[] { cf2, new LineNumberFilter(), new ISO8601Filter(), new Log4jAndNothingElseFilter() });
+//
+//	assertTrue(Compare.compare(FILTERED_A1 + ".4", TEST_WITNESS_PREFIX + "dom.A1.4"));
+//	assertTrue(Compare.compare(FILTERED_A2 + ".4", TEST_WITNESS_PREFIX + "dom.A2.4"));
     }
 
     void common() {

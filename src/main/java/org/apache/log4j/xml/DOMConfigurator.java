@@ -805,7 +805,10 @@ public class DOMConfigurator implements Configurator {
 
 	try {
 	    dbf.setValidating(true);
-
+	    // prevent XXE attacks
+	    dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+	    dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+	            
 	    DocumentBuilder docBuilder = dbf.newDocumentBuilder();
 
 	    docBuilder.setErrorHandler(new SAXErrorHandler());

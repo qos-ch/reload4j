@@ -20,20 +20,20 @@ package org.apache.log4j.util;
 import java.util.regex.Pattern;
 
 public class EnhancedLineNumberFilter implements Filter {
-    private Pattern linePattern;
-    private Pattern nativePattern;
+    static Pattern LINE_PATTERN;
+    static Pattern NATIVE_PATTERN;
 
     public EnhancedLineNumberFilter() {
-	linePattern = Pattern.compile("\\(.*:\\d{1,4}\\)");
-	nativePattern = Pattern.compile("\\(Native Method\\)");
+	LINE_PATTERN = Pattern.compile("\\(.*:\\d{1,4}\\)");
+	NATIVE_PATTERN = Pattern.compile("\\(Native Method\\)");
     }
 
     public String filter(final String in) {
 
-	if (linePattern.matcher(in).find()) {
-	    return linePattern.matcher(in).replaceAll("(X)");
-	} else if (nativePattern.matcher(in).find()) {
-	    return nativePattern.matcher(in).replaceAll("(X)");
+	if (LINE_PATTERN.matcher(in).find()) {
+	    return LINE_PATTERN.matcher(in).replaceAll("(X)");
+	} else if (NATIVE_PATTERN.matcher(in).find()) {
+	    return NATIVE_PATTERN.matcher(in).replaceAll("(X)");
 	} else {
 	    return in;
 	}

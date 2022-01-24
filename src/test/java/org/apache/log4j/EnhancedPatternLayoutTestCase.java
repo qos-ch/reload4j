@@ -35,7 +35,6 @@ import org.apache.log4j.util.AbsoluteDateAndTimeFilter;
 import org.apache.log4j.util.AbsoluteTimeFilter;
 import org.apache.log4j.util.Compare;
 import org.apache.log4j.util.ControlFilter;
-import org.apache.log4j.util.EnhancedJunitTestRunnerFilter;
 import org.apache.log4j.util.EnhancedLineNumberFilter;
 import org.apache.log4j.util.Filter;
 import org.apache.log4j.util.ISO8601Filter;
@@ -248,7 +247,7 @@ public class EnhancedPatternLayoutTestCase {
 
 	ControlFilter cf1 = new ControlFilter(new String[] { PAT13, EXCEPTION1, EXCEPTION2, EXCEPTION3 });
 	Transformer.transform(OUTPUT, FILTERED, new Filter[] { cf1, new EnhancedLineNumberFilter(),
-		new Log4jAndNothingElseFilter(), new EnhancedJunitTestRunnerFilter() });
+		new Log4jAndNothingElseFilter(), new Log4jAndNothingElseFilter() });
 	assertTrue(compare(FILTERED, TEST_WITNESS_PREFIX + "pattern/enhancedPatternLayout.13"));
     }
 
@@ -263,7 +262,7 @@ public class EnhancedPatternLayoutTestCase {
 	common();
 
 	Transformer.transform(OUTPUT, FILTERED, new Filter[] { new EnhancedLineNumberFilter(),
-		new Log4jAndNothingElseFilter(), new EnhancedJunitTestRunnerFilter() });
+		new Log4jAndNothingElseFilter(), new Log4jAndNothingElseFilter() });
 	assertTrue(compare(FILTERED, TEST_WITNESS_PREFIX + "pattern/enhancedPatternLayout.14"));
     }
 

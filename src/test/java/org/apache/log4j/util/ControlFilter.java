@@ -17,27 +17,38 @@
 
 package org.apache.log4j.util;
 
-import org.apache.oro.text.perl.Perl5Util;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ControlFilter implements Filter {
 
-    Perl5Util util = new Perl5Util();
 
-    String[] allowedPatterns;
+    Pattern[] allowedPatterns;
 
-    public ControlFilter(String[] allowedPatterns) {
-	this.allowedPatterns = allowedPatterns;
+    public ControlFilter(String[] allowedPatternStr) {
+	
+	this.allowedPatterns = new Pattern[allowedPatternStr.length];
+	for(int i = 0; i< allowedPatternStr.length; i++) {
+	    allowedPatterns[i] = Pattern.compile(allowedPatternStr[i]);
+	}
     }
 
     public String filter(String in) throws UnexpectedFormatException {
-	int len = allowedPatterns.length;
-	for (int i = 0; i < len; i++) {
-	    // System.out.println("["+allowedPatterns[i]+"]");
-	    if (util.match("/" + allowedPatterns[i] + "/", in)) {
-		// System.out.println("["+in+"] matched ["+allowedPatterns[i]);
+	
+	for(Pattern p: allowedPatterns) {
+	    Matcher m = p.matcher(in);
+	    if(m.find())
 		return in;
-	    }
 	}
+//	
+////	int len = allowedPatterns.length;
+////	for (int i = 0; i < len; i++) {
+////	    // System.out.println("["+allowedPatterns[i]+"]");
+////	    if (util.match("/" + allowedPatterns[i] + "/", in)) {
+////		// System.out.println("["+in+"] matched ["+allowedPatterns[i]);
+////		return in;
+////	    }
+////	}
 
 	throw new UnexpectedFormatException("[" + in + "]");
     }

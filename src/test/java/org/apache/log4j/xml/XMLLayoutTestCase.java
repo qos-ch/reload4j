@@ -29,10 +29,8 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 import org.apache.log4j.util.Compare;
 import org.apache.log4j.util.Filter;
-import org.apache.log4j.util.JunitTestRunnerFilter;
 import org.apache.log4j.util.LineNumberFilter;
 import org.apache.log4j.util.Log4jAndNothingElseFilter;
-import org.apache.log4j.util.SunReflectFilter;
 import org.apache.log4j.util.Transformer;
 import org.apache.log4j.util.XMLLineAttributeFilter;
 import org.apache.log4j.util.XMLTimestampFilter;
@@ -97,8 +95,7 @@ public class XMLLayoutTestCase {
 	Thread.currentThread().setName(oldThreadName);
 
 	Transformer.transform(TEMP, FILTERED, new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(),
-		new XMLLineAttributeFilter(), new SunReflectFilter(), new JunitTestRunnerFilter()
-
+		new XMLLineAttributeFilter(), new Log4jAndNothingElseFilter()
 	});
 	Transformer.transform(TEMP, FILTERED,
 		new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(), new XMLLineAttributeFilter() });
@@ -146,7 +143,7 @@ public class XMLLayoutTestCase {
 
 	logger.debug("Hello");
 	Transformer.transform(TEMP, FILTERED,
-		new Filter[] { new LineNumberFilter(), new JunitTestRunnerFilter(), new XMLTimestampFilter() });
+		new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(), new Log4jAndNothingElseFilter() });
 	assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "xmlLayout.mdc.1"));
     }
 
@@ -165,7 +162,7 @@ public class XMLLayoutTestCase {
 
 	logger.debug("Hello");
 	Transformer.transform(TEMP, FILTERED,
-		new Filter[] { new LineNumberFilter(), new JunitTestRunnerFilter(), new XMLTimestampFilter() });
+		new Filter[] { new LineNumberFilter(), new Log4jAndNothingElseFilter(), new XMLTimestampFilter() });
 	assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "xmlLayout.mdc.2"));
     }
 

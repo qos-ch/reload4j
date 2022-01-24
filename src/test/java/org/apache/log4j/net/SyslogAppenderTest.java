@@ -25,7 +25,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-import org.apache.log4j.VectorErrorHandler;
+import org.apache.log4j.ListErrorHandler;
 import org.apache.log4j.HTMLLayout;
 
 import java.util.StringTokenizer;
@@ -255,7 +255,7 @@ public class SyslogAppenderTest extends TestCase {
 	appender.setFacility("user");
 	appender.setLayout(new PatternLayout("%m%n"));
 
-	VectorErrorHandler errorHandler = new VectorErrorHandler();
+	ListErrorHandler errorHandler = new ListErrorHandler();
 	appender.setErrorHandler(errorHandler);
 	appender.activateOptions();
 	appender.setFacility("kern");
@@ -285,7 +285,7 @@ public class SyslogAppenderTest extends TestCase {
 	appender.setName("foo");
 	appender.setThreshold(Level.INFO);
 
-	VectorErrorHandler errorHandler = new VectorErrorHandler();
+	ListErrorHandler errorHandler = new ListErrorHandler();
 	appender.setErrorHandler(errorHandler);
 	appender.setLayout(new PatternLayout("%m%n"));
 	appender.activateOptions();
@@ -312,7 +312,7 @@ public class SyslogAppenderTest extends TestCase {
 	appender.setFacility("user");
 	appender.setLayout(new PatternLayout("%m%n"));
 
-	VectorErrorHandler errorHandler = new VectorErrorHandler();
+	ListErrorHandler errorHandler = new ListErrorHandler();
 	appender.setErrorHandler(errorHandler);
 	appender.activateOptions();
 

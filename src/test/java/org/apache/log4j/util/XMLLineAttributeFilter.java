@@ -17,19 +17,36 @@
 
 package org.apache.log4j.util;
 
-import org.apache.oro.text.perl.Perl5Util;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class XMLLineAttributeFilter implements Filter {
 
-    Perl5Util util = new Perl5Util();
+    Pattern PATTERN_NUMBER = Pattern.compile("line=\"\\d{1,3}\"");
+    Pattern PATTERN_UKNOWN = Pattern.compile("line=\"?\"");
+
 
     public String filter(String in) {
-	if (util.match("/line=\"\\d{1,3}\"/", in)) {
-	    return util.substitute("s/line=\"\\d{1,3}\"/line=\"X\"/", in);
-	} else if (util.match("/line=\"?\"/", in)) {
-	    return util.substitute("s/line=\"?\"/line=\"X\"/", in);
-	} else {
-	    return in;
+	Matcher matcherNumber = PATTERN_NUMBER.matcher(in);
+	Matcher matcherUnknown = PATTERN_UKNOWN.matcher(in);
+	
+	if (matcherNumber.find()) {
+	    StringBuffer buf = new StringBuffer();
+	    matcherNumber.appendReplacement(buf, "line=\"X\"");
+	    matcherNumber.appendTail(buf);
+	    return buf.toString();
+	} else if (matcherUnknown.find()){
+	    StringBuffer buf = new StringBuffer();
+	    matcherUnknown.appendReplacement(buf, "line=\"X\"");
+	    matcherUnknown.appendTail(buf);
 	}
+	return in;
+//	if (util.match("/line=\"\\d{1,3}\"/", in)) {
+//	    return util.substitute("s/line=\"\\d{1,3}\"/line=\"X\"/", in);
+//	} else if (util.match("/line=\"?\"/", in)) {
+//	    return util.substitute("s/line=\"?\"/line=\"X\"/", in);
+//	} else {
+//	    return in;
+//	}
     }
 }

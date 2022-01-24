@@ -17,10 +17,7 @@
 
 package org.apache.log4j;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Hashtable;
-import org.apache.log4j.helpers.Loader;
 import org.apache.log4j.helpers.ThreadLocalMap;
 
 /**

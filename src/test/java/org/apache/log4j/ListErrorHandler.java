@@ -17,17 +17,34 @@
 
 package org.apache.log4j;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.spi.ErrorHandler;
 import org.apache.log4j.spi.LoggingEvent;
-
-import java.util.Vector;
 
 /**
  * Utility class used in testing to capture errors dispatched by appenders.
  *
  * @author Curt Arnold
  */
-public final class VectorErrorHandler implements ErrorHandler {
+public final class ListErrorHandler implements ErrorHandler {
+
+    static class ErrorTuple {
+	final String message;
+	final Exception e;
+	final int errorCode;
+	final LoggingEvent event;
+
+	public ErrorTuple(String message, Exception e, int errorCode, LoggingEvent event) {
+	    super();
+	    this.message = message;
+	    this.e = e;
+	    this.errorCode = errorCode;
+	    this.event = event;
+	}
+    }
+
     /**
      * Logger.
      */
@@ -46,12 +63,12 @@ public final class VectorErrorHandler implements ErrorHandler {
     /**
      * Array of processed errors.
      */
-    private final Vector errors = new Vector();
+    private final List<ErrorTuple> errors = new ArrayList<ErrorTuple>();
 
     /**
      * Default constructor.
      */
-    public VectorErrorHandler() {
+    public ListErrorHandler() {
     }
 
     /**
@@ -94,7 +111,7 @@ public final class VectorErrorHandler implements ErrorHandler {
      * {@inheritDoc}
      */
     public void error(final String message, final Exception e, final int errorCode, final LoggingEvent event) {
-	errors.addElement(new Object[] { message, e, new Integer(errorCode), event });
+	errors.add(new ErrorTuple(message, e, errorCode, event));
     }
 
     /**
@@ -104,7 +121,7 @@ public final class VectorErrorHandler implements ErrorHandler {
      * @return message, may be null.
      */
     public String getMessage(final int index) {
-	return (String) ((Object[]) errors.elementAt(index))[0];
+	return errors.get(index).message;
     }
 
     /**
@@ -114,17 +131,11 @@ public final class VectorErrorHandler implements ErrorHandler {
      * @return exception.
      */
     public Exception getException(final int index) {
-	return (Exception) ((Object[]) errors.elementAt(index))[1];
+	return errors.get(index).e;
     }
 
-    /**
-     * Gets error code from specified error.
-     *
-     * @param index index.
-     * @return error code, -1 if not specified.
-     */
-    public int getErrorCode(final int index) {
-	return ((Integer) ((Object[]) errors.elementAt(index))[2]).intValue();
+    public ErrorTuple getErrorTuple(final int index) {
+	return errors.get(index);
     }
 
     /**
@@ -134,7 +145,7 @@ public final class VectorErrorHandler implements ErrorHandler {
      * @return exception.
      */
     public LoggingEvent getEvent(final int index) {
-	return (LoggingEvent) ((Object[]) errors.elementAt(index))[3];
+	return errors.get(index).event;
     }
 
     /**

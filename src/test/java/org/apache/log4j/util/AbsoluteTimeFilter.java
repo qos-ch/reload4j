@@ -17,17 +17,20 @@
 
 package org.apache.log4j.util;
 
-import org.apache.oro.text.perl.Perl5Util;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AbsoluteTimeFilter implements Filter {
 
-    Perl5Util util = new Perl5Util();
+    Pattern pattern = Pattern.compile("(" + ABSOLUTE_TIME_PAT + ")");
 
     public String filter(String in) {
-	String pat = "/" + Filter.ABSOLUTE_TIME_PAT + "/";
-
-	if (util.match(pat, in)) {
-	    return util.substitute("s/" + Filter.ABSOLUTE_TIME_PAT + "//", in);
+	Matcher matcher = pattern.matcher(in);
+	if (matcher.find()) {
+	    StringBuffer buf = new StringBuffer();
+	    matcher.appendReplacement(buf, "");
+	    matcher.appendTail(buf);
+	    return buf.toString();
 	} else {
 	    return in;
 	}

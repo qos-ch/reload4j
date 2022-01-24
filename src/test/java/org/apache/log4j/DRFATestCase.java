@@ -357,7 +357,7 @@ public class DRFATestCase extends TestCase {
 	DailyRollingFileAppender appender = new DailyRollingFileAppender(layout,
 		TARGET_OUTPUT_PREFIX + "drfa_nopattern.log", null);
 
-	VectorErrorHandler errorHandler = new VectorErrorHandler();
+	ListErrorHandler errorHandler = new ListErrorHandler();
 	appender.setErrorHandler(errorHandler);
 	appender.rollOver();
 	assertEquals(1, errorHandler.size());
