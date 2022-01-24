@@ -25,6 +25,7 @@ import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.TriggeringEventEvaluator;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -32,6 +33,8 @@ import org.junit.Test;
  */
 public class SMTPAppenderTest {
 
+    Logger logger = Logger.getLogger(this.getClass());
+    
     /**
      * Reset configuration after every test.
      */
@@ -61,5 +64,15 @@ public class SMTPAppenderTest {
 	SMTPAppender appender = (SMTPAppender) Logger.getRootLogger().getAppender("A1");
 	TriggeringEventEvaluator evaluator = appender.getEvaluator();
 	assertTrue(evaluator instanceof MockTriggeringEventEvaluator);
+    }
+    
+    @Ignore // manual testing to verify SMTPS protocol
+    @Test
+    public void testWithSMTPS() {
+	DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/smtpAppender2.xml");
+	SMTPAppender appender = (SMTPAppender) Logger.getRootLogger().getAppender("SMTP");
+	TriggeringEventEvaluator evaluator = appender.getEvaluator();
+	assertTrue(evaluator instanceof MockTriggeringEventEvaluator);
+	logger.debug("hello");
     }
 }
