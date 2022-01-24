@@ -22,7 +22,7 @@
   <artifactId>reload4j</artifactId>
   <packaging>jar</packaging>
   <name>reload4j</name>
-  <version>1.2.18.3</version>
+  <version>1.2.18.4-SNAPSHOT</version>
   <description>Reload4j revives EOLed log4j 1.x</description> 
 
   <url>https://reload4j.qos.ch</url>

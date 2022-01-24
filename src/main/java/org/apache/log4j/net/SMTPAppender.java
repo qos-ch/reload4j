@@ -52,8 +52,8 @@ import java.util.Date;
 import java.util.Properties;
 
 /**
- * Send an e-mail when a specific logging event occurs, typically on errors or
- * fatal errors.
+ * <p>Send an e-mail when a specific logging event occurs, typically on errors or
+ * fatal errors.</p>
  * 
  * <p>
  * The number of logging events delivered in this e-mail depend on the value of
@@ -61,17 +61,31 @@ import java.util.Properties;
  * <code>BufferSize</code> logging events in its cyclic buffer. This keeps
  * memory requirements at a reasonable level while still delivering useful
  * application context.
+ * </p>
  * 
+ * <p>
  * By default, an email message will be sent when an ERROR or higher severity
  * message is appended. The triggering criteria can be modified by setting the
  * evaluatorClass property with the name of a class implementing
  * TriggeringEventEvaluator, setting the evaluator property with an instance of
  * TriggeringEventEvaluator or nesting a triggeringPolicy element where the
  * specified class implements TriggeringEventEvaluator.
+ * </p>
  * 
+ * <p>
  * This class has implemented UnrecognizedElementHandler since 1.2.15.
+ * </p>
  * 
+ * <p>
  * Since 1.2.16, SMTP over SSL is supported by setting SMTPProtocol to "smpts".
+ * </p>
+ * 
+ * <p>
+ * Since 1.2.18.3 {@link checkServerIdentity} option will check that the
+ * certificate presented by the server matches the SMTPHost. Note that this
+ * option is 'true' by default but is only active if the SMTPProtocol is
+ * "smtps."
+ * </p>
  * 
  * @author Ceki G&uuml;lc&uuml;
  * @since 1.0
@@ -108,7 +122,7 @@ public class SMTPAppender extends AppenderSkeleton implements UnrecognizedElemen
     protected Message msg;
 
     protected TriggeringEventEvaluator evaluator;
-    
+
     /**
      * The default constructor will instantiate the appender with a
      * {@link TriggeringEventEvaluator} that will trigger on events with level ERROR
@@ -205,13 +219,12 @@ public class SMTPAppender extends AppenderSkeleton implements UnrecognizedElemen
 	    props.put("mail.transport.protocol", smtpProtocol);
 	    prefix = "mail." + smtpProtocol;
 	}
-	
-	if(checkServerIdentity ) {
+
+	if (checkServerIdentity) {
 	    // ssl.checkserveridentity has no effect when protocol is smtp and not smtps.
-	    props.put(prefix+".ssl.checkserveridentity", "true");
+	    props.put(prefix + ".ssl.checkserveridentity", "true");
 	}
-	
-	
+
 	if (smtpHost != null) {
 	    props.put(prefix + ".host", smtpHost);
 	}
@@ -623,16 +636,30 @@ public class SMTPAppender extends AppenderSkeleton implements UnrecognizedElemen
     }
 
     /**
-     * Setting the checkServerIdentity option to false will disable server identity check.
-     * By default this option is enabled.
-     *  
+     * Setting the checkServerIdentity option to false will disable server identity
+     * check. By default this option is enabled. However, it is only active if the
+     * SMTPProtocol is "smtps."
+     * 
      * @param checkServerIdentity
      * @since 1.2.18.3
      */
     public void setCheckServerIdentity(boolean checkServerIdentity) {
 	this.checkServerIdentity = checkServerIdentity;
     }
-    
+
+    /**
+     * This option enables server identity check and if false will disable server
+     * identity check. By default this option is enabled. However, it is only active
+     * if the SMTPProtocol is "smtps."
+     * 
+     * @param checkServerIdentity
+     * @since 1.2.18.3
+     */
+
+    public boolean getCheckServerIdentity() {
+	return this.checkServerIdentity;
+    }
+
     /**
      * Get SMTP password.
      * 
