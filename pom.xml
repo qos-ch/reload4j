@@ -188,77 +188,44 @@
     </developer>
 
   </developers>
-
+  
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-toolchains-plugin</artifactId>
-          <version>${maven-toolchains-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>${maven-source-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>${maven-jar-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>${maven-javadoc-plugin.version}</version>
-          <configuration>
-            <encoding>${project.build.sourceEncoding}</encoding>
-            <additionalOptions>
-              <additionalOption>-Xdoclint:none</additionalOption>
-            </additionalOptions>
-            <header><![CDATA[<a href="https://reload4j.qos.ch">
-            <img src="https://reload4j.qos.ch/images/logos/reload4j.jpg" height="40"/></a>]]></header>
-            <top><![CDATA[<b><span style="color: #ff8844">&nbsp;&nbsp;You can also support SLF4J/logback/reload4j projects via <a href="https://github.com/sponsors/qos-ch">Github donations and sponsorship</a>.<span></b>]]></top>
-            <notimestamp>true</notimestamp>
-            <failOnError>false</failOnError>
-            <failOnWarnings>false</failOnWarnings>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven-compiler-plugin.version}</version>
-          <configuration>
-            <source>${jdk.version}</source>
-            <target>${jdk.version}</target>
-            <encoding>${project.build.sourceEncoding}</encoding>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${maven-surefire-plugin.version}</version>
-          <configuration>
-            <reportFormat>plain</reportFormat>
-            <forkCount>1</forkCount>
-            <forkMode>pertest</forkMode><!-- deprecated, but tests fail when changing the setting -->
-            <!-- <argLine>-Djava.library.path=${project.basedir}</argLine> -->
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>${maven-release-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.felix</groupId>
-          <artifactId>maven-bundle-plugin</artifactId>
-          <version>${maven-bundle-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>${maven-deploy-plugin.version}</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-toolchains-plugin</artifactId>
+        <version>${maven-toolchains-plugin.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>        
         <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven-jar-plugin.version}</version>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Multi-Release>true</Multi-Release>
+              <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>	
+              <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+            </manifestEntries>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
+
+        <executions>
+          <execution>
+            <id>bundle-test-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+ 
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>        
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${maven-source-plugin.version}</version>
         <configuration>
           <archive>
             <manifestSections>
@@ -273,22 +240,60 @@
               </manifestSection>
             </manifestSections>
           </archive>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-source-plugin</artifactId>
+        </configuration>          
         <executions>
           <execution>
             <goals>
               <goal>jar</goal>
             </goals>
           </execution> 
-        </executions>
+        </executions>          
       </plugin>
-
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
+        <configuration>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <additionalOptions>
+            <additionalOption>-Xdoclint:none</additionalOption>
+          </additionalOptions>
+          <header><![CDATA[<a href="https://reload4j.qos.ch">
+          <img src="https://reload4j.qos.ch/images/logos/reload4j.jpg" height="40"/></a>]]></header>
+          <top><![CDATA[<b><span style="color: #ff8844">&nbsp;&nbsp;You can also support SLF4J/logback/reload4j projects via <a href="https://github.com/sponsors/qos-ch">Github donations and sponsorship</a>.<span></b>]]></top>
+          <notimestamp>true</notimestamp>
+          <failOnError>false</failOnError>
+          <failOnWarnings>false</failOnWarnings>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <configuration>
+          <reportFormat>plain</reportFormat>
+          <forkCount>1</forkCount>
+          <forkMode>pertest</forkMode><!-- deprecated, but tests fail when changing the setting -->
+          <!-- <argLine>-Djava.library.path=${project.basedir}</argLine> -->
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>${maven-deploy-plugin.version}</version>
+      </plugin>
+      
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
+        <version>${maven-bundle-plugin.version}</version>        
         <extensions>true</extensions>
         <executions>
           <execution>
@@ -300,26 +305,26 @@
           </execution>
         </executions>
         <configuration>
-            <instructions>
-                <!-- omit chainsaw and LF5   -->
-                <Export-Package>!org.apache.log4j.lf5.*,
-                                !org.apache.log4j.chainsaw.*,
-                                org.apache.log4j.*;version=1.2.18.0;-noimport:=true</Export-Package>
-		<!--  all other potential imports are covered by DynamicImport-Package earlier -->
-		<Import-Package>!javax.swing.*,
-                                javax.jmdns.*;resolution:=optional,
-				javax.jms.*;resolution:=optional,
-				javax.mail.*;resolution:=optional,
-                                *</Import-Package>
-                                <Bundle-DocURL>https://reload4j.qos.ch/</Bundle-DocURL>
-                                <Bundle-RequiredExecutionEnvironment>JavaSE-1.5</Bundle-RequiredExecutionEnvironment>
+          <instructions>
+            <!-- omit chainsaw  -->
+            <Export-Package>!org.apache.log4j.chainsaw.*,
+            org.apache.log4j.*;version=${project.version};-noimport:=true</Export-Package>
+	    <!--  all other potential imports are covered by DynamicImport-Package earlier -->
+	    <Import-Package>!javax.swing.*,
+            javax.jmdns.*;resolution:=optional,
+	    javax.jms.*;resolution:=optional,
+	    javax.mail.*;resolution:=optional,
+            *</Import-Package>
+            <Bundle-DocURL>https://reload4j.qos.ch/</Bundle-DocURL>
+            <Bundle-RequiredExecutionEnvironment>JavaSE-1.5</Bundle-RequiredExecutionEnvironment>
             
-            </instructions>
+          </instructions>
         </configuration>
       </plugin>
     </plugins>
   </build>
-  
+
+
   <reporting>
     <plugins>
       <!--
@@ -466,7 +471,7 @@
             <configuration>
               <toolchains>
                 <jdk>
-                  <version>[1.4, 8]</version>
+                  <version>[1.5, 8]</version>
                 </jdk>
               </toolchains>
             </configuration>
