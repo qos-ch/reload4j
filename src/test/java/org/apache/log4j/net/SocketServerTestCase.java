@@ -381,6 +381,7 @@ public class SocketServerTestCase extends TestCase {
 	String fileSeparator = System.getProperty("file.separator");
 	String pathToJavaExecutable = javaHome + fileSeparator + "bin" + fileSeparator + "java";
 	System.out.println("java executable assumed to be located at [" + pathToJavaExecutable + "]");
+	// run ShortSocketServer
 	ProcessBuilder processBuilder = new ProcessBuilder(pathToJavaExecutable, "-cp", claspath,
 		shortSocketServerClassName, "8", TEST_INPUT_PREFIX + "socketServer");
 	processBuilder.redirectErrorStream(true);
@@ -388,7 +389,7 @@ public class SocketServerTestCase extends TestCase {
 	System.out.println(shortSocketServerClassName);
 	try {
 	    Process process = processBuilder.start();
-	    Thread.sleep(2000);
+	    Thread.sleep(1000);
 	    // List<String> results = readLines(process.getInputStream());
 	    // System.out.println(results);
 

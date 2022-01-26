@@ -29,7 +29,7 @@ import org.apache.log4j.helpers.LogLog;
 
 /**
  * This SocketServer exits after certain number of connections from a client.
- * This number is determined the totalsTest parameter, that is the first
+ * This number is determined the totalTests parameter, that is the first
  * argument on the commmand line. The second argument, prefix, determines the
  * prefix of the configuration file to use. Each run of the server will use a
  * different properties file. For the i-th run, the path to the file is

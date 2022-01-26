@@ -48,6 +48,7 @@ public class LocationInfo implements java.io.Serializable {
      * All available caller information, in the format
      * <code>fully.qualified.classname.of.caller.methodName(Filename.java:line)</code>
      */
+    // ATTENTION: fullInfo is used to reconstruct the other fields post deserialization
     public String fullInfo;
 
     /**
@@ -178,12 +179,33 @@ public class LocationInfo implements java.io.Serializable {
 	this.fullInfo = buf.toString();
     }
 
+    
     /**
      * Return the fully qualified class name of the caller making the logging
      * request.
      */
     public String getClassName() {
-	return className;
+	if (fullInfo == null)
+	    return NA;
+	if (className != null) {
+	    return className;
+	} else {
+	    // Starting the search from '(' is safer because there is
+	    // potentially a dot between the parentheses.
+	    int iend = fullInfo.lastIndexOf('(');
+	    if (iend == -1)
+		className = NA;
+	    else {
+		iend = fullInfo.lastIndexOf('.', iend);
+		int ibegin = 0;
+
+		if (iend == -1)
+		    className = NA;
+		else
+		    className = this.fullInfo.substring(ibegin, iend);
+	    }
+	    return className;
+	}
     }
 
     /**
@@ -193,6 +215,18 @@ public class LocationInfo implements java.io.Serializable {
      * This information is not always available.
      */
     public String getFileName() {
+	if (fullInfo == null)
+	    return NA;
+	if (fileName == null) {
+	    int iend = fullInfo.lastIndexOf(':');
+	    if (iend == -1)
+		fileName = NA;
+	    else {
+		int ibegin = fullInfo.lastIndexOf('(', iend - 1);
+		fileName = this.fullInfo.substring(ibegin + 1, iend);
+	    }
+	}
+
 	return fileName;
     }
 
@@ -203,6 +237,16 @@ public class LocationInfo implements java.io.Serializable {
      * This information is not always available.
      */
     public String getLineNumber() {
+	if (fullInfo == null)
+	    return NA;
+	if (lineNumber == null) {
+	    int iend = fullInfo.lastIndexOf(')');
+	    int ibegin = fullInfo.lastIndexOf(':', iend - 1);
+	    if (ibegin == -1)
+		lineNumber = NA;
+	    else
+		lineNumber = this.fullInfo.substring(ibegin + 1, iend);
+	}
 	return lineNumber;
     }
 
@@ -210,6 +254,16 @@ public class LocationInfo implements java.io.Serializable {
      * Returns the method name of the caller.
      */
     public String getMethodName() {
+	if (fullInfo == null)
+	    return NA;
+	if (methodName == null) {
+	    int iend = fullInfo.lastIndexOf('(');
+	    int ibegin = fullInfo.lastIndexOf('.', iend);
+	    if (ibegin == -1)
+		methodName = NA;
+	    else
+		methodName = this.fullInfo.substring(ibegin + 1, iend);
+	}
 	return methodName;
     }
 }
