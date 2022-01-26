@@ -306,18 +306,27 @@
         </executions>
         <configuration>
           <instructions>
-            <!-- omit chainsaw  -->
-            <Export-Package>!org.apache.log4j.chainsaw.*,
-            org.apache.log4j.*;version=${project.version};-noimport:=true</Export-Package>
-	    <!--  all other potential imports are covered by DynamicImport-Package earlier -->
-	    <Import-Package>!javax.swing.*,
-            javax.jmdns.*;resolution:=optional,
-	    javax.jms.*;resolution:=optional,
-	    javax.mail.*;resolution:=optional,
-            *</Import-Package>
+            <Export-Package>
+              <!-- omit chainsaw  -->
+              !org.apache.log4j.chainsaw.*,
+              org.apache.log4j.*;version=${project.version};-noimport:=true
+            </Export-Package>
+            <Import-Package>
+              javax.jmdns;resolution:=optional,
+              javax.jms;resolution:=optional,
+              javax.mail;version="[1.4,2)";resolution:=optional,
+              javax.mail.internet;version="[1.4,2)";resolution:=optional,
+              javax.management,
+              javax.naming,
+              <!-- swing packages are needed only by chainsaw -->
+              !javax.swing.*,
+              javax.xml.parsers,
+              org.w3c.dom,
+              org.xml.sax,
+              org.xml.sax.helpers
+            </Import-Package>
             <Bundle-DocURL>https://reload4j.qos.ch/</Bundle-DocURL>
             <Bundle-RequiredExecutionEnvironment>J2SE-1.5</Bundle-RequiredExecutionEnvironment>
-            
           </instructions>
         </configuration>
       </plugin>
