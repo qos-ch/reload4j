@@ -316,7 +316,6 @@
               javax.jms;resolution:=optional,
               javax.mail;version="[1.4,2)";resolution:=optional,
               javax.mail.internet;version="[1.4,2)";resolution:=optional,
-              javax.management,
               javax.naming,
               <!-- swing packages are needed only by chainsaw -->
               !javax.swing.*,
