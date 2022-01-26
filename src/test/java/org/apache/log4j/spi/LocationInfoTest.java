@@ -16,16 +16,32 @@
  */
 package org.apache.log4j.spi;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+
+import org.apache.log4j.testUtil.ExceptionCreator;
+import org.junit.Test;
 
 /**
  * Tests for LocationInfo.
  */
-public class LocationInfoTest extends TestCase {
+public class LocationInfoTest {
 
+    @Test
+    public void smoke() {
+	Throwable t = ExceptionCreator.create("bogus");
+	LocationInfo locationInfo = new LocationInfo(t, ExceptionCreator.class.getName());
+	assertEquals(LocationInfoTest.class.getName(), locationInfo.getClassName());
+	assertEquals("smoke", locationInfo.getMethodName());
+	assertEquals(LocationInfoTest.class.getSimpleName()+".java", locationInfo.getFileName());
+	
+	
+    }
+    
+    
     /**
      * Tests four parameter constructor.
      */
+    @Test
     public void testFourParamConstructor() {
 	final String className = LocationInfoTest.class.getName();
 	final String methodName = "testFourParamConstructor";
@@ -74,6 +90,7 @@ public class LocationInfoTest extends TestCase {
      * Tests creation of location info when the logger class name is a substring of
      * one of the other classes in the stack trace. See bug 44888.
      */
+    @Test
     public void testLocationInfo() {
 	LocationInfo li = NameSubstringCaller.getInfo();
 	assertEquals(NameSubstringCaller.class.getName(), li.getClassName());
