@@ -325,7 +325,6 @@
               org.xml.sax.helpers
             </Import-Package>
             <Bundle-DocURL>https://reload4j.qos.ch/</Bundle-DocURL>
-            <Bundle-RequiredExecutionEnvironment>J2SE-1.5</Bundle-RequiredExecutionEnvironment>
           </instructions>
         </configuration>
       </plugin>
