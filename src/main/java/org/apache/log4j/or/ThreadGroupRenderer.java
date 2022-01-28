@@ -50,7 +50,7 @@ public class ThreadGroupRenderer implements ObjectRenderer {
      */
     public String doRender(Object o) {
 	if (o instanceof ThreadGroup) {
-	    StringBuffer sbuf = new StringBuffer();
+	    StringBuilder sbuf = new StringBuilder();
 	    ThreadGroup tg = (ThreadGroup) o;
 	    sbuf.append("java.lang.ThreadGroup[name=");
 	    sbuf.append(tg.getName());

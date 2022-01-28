@@ -426,7 +426,7 @@ public class PatternParser {
 
 	public String convert(LoggingEvent event) {
 	    if (key == null) {
-		StringBuffer buf = new StringBuffer("{");
+		StringBuilder buf = new StringBuilder("{");
 		Map properties = event.getProperties();
 		if (properties.size() > 0) {
 		    Object[] keys = properties.keySet().toArray();

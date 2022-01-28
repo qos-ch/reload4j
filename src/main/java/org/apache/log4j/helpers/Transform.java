@@ -48,10 +48,10 @@ public class Transform {
 	    return input;
 	}
 
-	// Use a StringBuffer in lieu of String concatenation -- it is
+	// Use a StringBuilder in lieu of String concatenation -- it is
 	// much more efficient this way.
 
-	StringBuffer buf = new StringBuffer(input.length() + 6);
+	StringBuilder buf = new StringBuilder(input.length() + 6);
 	char ch = ' ';
 
 	int len = input.length();
