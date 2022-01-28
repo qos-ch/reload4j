@@ -37,7 +37,7 @@ public class AttributesRenderer implements ObjectRenderer {
      */
     public String doRender(Object o) {
 	if (o instanceof Attributes) {
-	    StringBuffer sbuf = new StringBuffer();
+	    StringBuilder sbuf = new StringBuilder();
 	    Attributes a = (Attributes) o;
 	    int len = a.getLength();
 	    boolean first = true;

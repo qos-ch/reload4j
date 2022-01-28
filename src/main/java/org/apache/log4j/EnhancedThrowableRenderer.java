@@ -84,7 +84,7 @@ public final class EnhancedThrowableRenderer implements ThrowableRenderer {
      * @return string representation of element.
      */
     private String formatElement(final Object element, final Map classMap) {
-	StringBuffer buf = new StringBuffer("\tat ");
+	StringBuilder buf = new StringBuilder("\tat ");
 	buf.append(element);
 	try {
 	    String className = getClassNameMethod.invoke(element, (Object[]) null).toString();

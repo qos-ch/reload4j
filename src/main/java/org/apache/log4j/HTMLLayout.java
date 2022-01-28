@@ -207,7 +207,7 @@ public class HTMLLayout extends Layout {
      * Returns appropriate HTML headers.
      */
     public String getHeader() {
-	StringBuffer sbuf = new StringBuffer();
+	StringBuilder sbuf = new StringBuilder();
 	sbuf.append(
 		"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
 			+ Layout.LINE_SEP);
@@ -244,7 +244,7 @@ public class HTMLLayout extends Layout {
      * Returns the appropriate HTML footers.
      */
     public String getFooter() {
-	StringBuffer sbuf = new StringBuffer();
+	StringBuilder sbuf = new StringBuilder();
 	sbuf.append("</table>" + Layout.LINE_SEP);
 	sbuf.append("<br>" + Layout.LINE_SEP);
 	sbuf.append("</body></html>");

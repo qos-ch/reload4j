@@ -40,7 +40,7 @@ public class MessageRenderer implements ObjectRenderer {
      */
     public String doRender(Object o) {
 	if (o instanceof Message) {
-	    StringBuffer sbuf = new StringBuffer();
+	    StringBuilder sbuf = new StringBuilder();
 	    Message m = (Message) o;
 	    try {
 		sbuf.append("DeliveryMode=");

@@ -121,7 +121,7 @@ public class TelnetAppender extends AppenderSkeleton {
 	    if (layout.ignoresThrowable()) {
 		String[] s = event.getThrowableStrRep();
 		if (s != null) {
-		    StringBuffer buf = new StringBuffer();
+		    StringBuilder buf = new StringBuilder();
 		    for (int i = 0; i < s.length; i++) {
 			buf.append(s[i]);
 			buf.append("\r\n");
