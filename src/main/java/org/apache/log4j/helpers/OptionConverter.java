@@ -62,7 +62,7 @@ public class OptionConverter {
     public static String convertSpecialChars(String s) {
 	char c;
 	int len = s.length();
-	StringBuffer sbuf = new StringBuffer(len);
+	StringBuilder sbuf = new StringBuilder(len);
 
 	int i = 0;
 	while (i < len) {
@@ -371,7 +371,7 @@ public class OptionConverter {
      */
     public static String substVars(String val, Properties props) throws IllegalArgumentException {
 
-	StringBuffer sbuf = new StringBuffer();
+	StringBuilder sbuf = new StringBuilder();
 
 	int i = 0;
 	int j, k;

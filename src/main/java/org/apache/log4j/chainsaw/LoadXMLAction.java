@@ -107,7 +107,7 @@ class LoadXMLAction extends AbstractAction {
     private int loadFile(String aFile) throws SAXException, IOException {
 	synchronized (mParser) {
 	    // Create a dummy document to parse the file
-	    final StringBuffer buf = new StringBuffer();
+	    final StringBuilder buf = new StringBuilder();
 	    buf.append("<?xml version=\"1.0\" standalone=\"yes\"?>\n");
 	    buf.append("<!DOCTYPE log4j:eventSet ");
 	    buf.append("[<!ENTITY data SYSTEM \"file:///");

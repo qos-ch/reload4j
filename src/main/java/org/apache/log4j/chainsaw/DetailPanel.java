@@ -107,7 +107,7 @@ class DetailPanel extends JPanel implements ListSelectionListener {
 	    return null;
 	}
 
-	final StringBuffer sb = new StringBuffer();
+	final StringBuilder sb = new StringBuilder();
 	for (int i = 0; i < strs.length; i++) {
 	    sb.append(strs[i]).append("\n");
 	}
@@ -127,7 +127,7 @@ class DetailPanel extends JPanel implements ListSelectionListener {
 	    return null;
 	}
 
-	final StringBuffer buf = new StringBuffer();
+	final StringBuilder buf = new StringBuilder();
 	for (int i = 0; i < aStr.length(); i++) {
 	    char c = aStr.charAt(i);
 	    switch (c) {

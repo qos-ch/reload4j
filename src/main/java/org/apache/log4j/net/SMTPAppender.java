@@ -351,7 +351,7 @@ public class SMTPAppender extends AppenderSkeleton implements UnrecognizedElemen
 	// Note: this code already owns the monitor for this
 	// appender. This frees us from needing to synchronize on 'cb'.
 
-	StringBuffer sbuf = new StringBuffer();
+	StringBuilder sbuf = new StringBuilder();
 	String t = layout.getHeader();
 	if (t != null)
 	    sbuf.append(t);
@@ -404,7 +404,7 @@ public class SMTPAppender extends AppenderSkeleton implements UnrecognizedElemen
 		    headers.setHeader("Content-Transfer-Encoding", "quoted-printable");
 		    part = new MimeBodyPart(headers, os.toByteArray());
 		} catch (Exception ex) {
-		    StringBuffer sbuf = new StringBuffer(s);
+			StringBuilder sbuf = new StringBuilder(s);
 		    for (int i = 0; i < sbuf.length(); i++) {
 			if (sbuf.charAt(i) >= 0x80) {
 			    sbuf.setCharAt(i, '?');

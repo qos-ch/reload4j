@@ -330,7 +330,7 @@ public class SyslogAppender extends AppenderSkeleton {
 	    packet = layout.format(event);
 	}
 	if (facilityPrinting || hdr.length() > 0) {
-	    StringBuffer buf = new StringBuffer(hdr);
+	    StringBuilder buf = new StringBuilder(hdr);
 	    if (facilityPrinting) {
 		buf.append(facilityStr);
 	    }
@@ -508,7 +508,7 @@ public class SyslogAppender extends AppenderSkeleton {
      */
     private String getPacketHeader(final long timeStamp) {
 	if (header) {
-	    StringBuffer buf = new StringBuffer(dateFormat.format(new Date(timeStamp)));
+	    StringBuilder buf = new StringBuilder(dateFormat.format(new Date(timeStamp)));
 	    // RFC 3164 says leading space, not leading zero on days 1-9
 	    if (buf.charAt(4) == '0') {
 		buf.setCharAt(4, ' ');
@@ -530,7 +530,7 @@ public class SyslogAppender extends AppenderSkeleton {
 	    String packet = msg;
 	    String hdr = getPacketHeader(new Date().getTime());
 	    if (facilityPrinting || hdr.length() > 0) {
-		StringBuffer buf = new StringBuffer(hdr);
+		StringBuilder buf = new StringBuilder(hdr);
 		if (facilityPrinting) {
 		    buf.append(facilityStr);
 		}

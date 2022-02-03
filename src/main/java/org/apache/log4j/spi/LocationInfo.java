@@ -114,7 +114,7 @@ public class LocationInfo implements java.io.Serializable {
 			} else {
 			    lineNumber = Integer.toString(line);
 			}
-			StringBuffer buf = new StringBuffer();
+			StringBuilder buf = new StringBuilder();
 			buf.append(className);
 			buf.append(".");
 			buf.append(methodName);
@@ -144,7 +144,7 @@ public class LocationInfo implements java.io.Serializable {
      *                 value of NA will be appended.
      * @since 1.2.15
      */
-    private static final void appendFragment(final StringBuffer buf, final String fragment) {
+    private static final void appendFragment(final StringBuilder buf, final String fragment) {
 	if (fragment == null) {
 	    buf.append(NA);
 	} else {
@@ -167,7 +167,7 @@ public class LocationInfo implements java.io.Serializable {
 	this.className = classname;
 	this.methodName = method;
 	this.lineNumber = line;
-	StringBuffer buf = new StringBuffer();
+	StringBuilder buf = new StringBuilder();
 	appendFragment(buf, classname);
 	buf.append(".");
 	appendFragment(buf, method);

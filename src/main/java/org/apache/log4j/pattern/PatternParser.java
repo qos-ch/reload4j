@@ -188,8 +188,8 @@ public final class PatternParser {
      *                       unrecognized.
      * @return position in pattern after converter.
      */
-    private static int extractConverter(char lastChar, final String pattern, int i, final StringBuffer convBuf,
-	    final StringBuffer currentLiteral) {
+    private static int extractConverter(char lastChar, final String pattern, int i, final StringBuilder convBuf,
+	    final StringBuilder currentLiteral) {
 	convBuf.setLength(0);
 
 	// When this method is called, lastChar points to the first character of the
@@ -256,7 +256,7 @@ public final class PatternParser {
 	    throw new NullPointerException("pattern");
 	}
 
-	StringBuffer currentLiteral = new StringBuffer(32);
+	StringBuilder currentLiteral = new StringBuilder(32);
 
 	int patternLength = pattern.length();
 	int state = LITERAL_STATE;
@@ -412,7 +412,7 @@ public final class PatternParser {
      * @param options           converter options.
      * @return converter or null.
      */
-    private static PatternConverter createConverter(final String converterId, final StringBuffer currentLiteral,
+    private static PatternConverter createConverter(final String converterId, final StringBuilder currentLiteral,
 	    final Map converterRegistry, final Map rules, final List options) {
 	String converterName = converterId;
 	Object converterObj = null;
@@ -504,10 +504,10 @@ public final class PatternParser {
      * @param formattingInfos   list to receive corresponding field specifier.
      * @return position after format specifier sequence.
      */
-    private static int finalizeConverter(char c, String pattern, int i, final StringBuffer currentLiteral,
+    private static int finalizeConverter(char c, String pattern, int i, final StringBuilder currentLiteral,
 	    final FormattingInfo formattingInfo, final Map converterRegistry, final Map rules,
 	    final List patternConverters, final List formattingInfos) {
-	StringBuffer convBuf = new StringBuffer();
+	StringBuilder convBuf = new StringBuilder();
 	i = extractConverter(c, pattern, i, convBuf, currentLiteral);
 
 	String converterId = convBuf.toString();
@@ -518,12 +518,12 @@ public final class PatternParser {
 	PatternConverter pc = createConverter(converterId, currentLiteral, converterRegistry, rules, options);
 
 	if (pc == null) {
-	    StringBuffer msg;
+	    StringBuilder msg;
 
 	    if ((converterId == null) || (converterId.length() == 0)) {
-		msg = new StringBuffer("Empty conversion specifier starting at position ");
+		msg = new StringBuilder("Empty conversion specifier starting at position ");
 	    } else {
-		msg = new StringBuffer("Unrecognized conversion specifier [");
+		msg = new StringBuilder("Unrecognized conversion specifier [");
 		msg.append(converterId);
 		msg.append("] starting at position ");
 	    }
