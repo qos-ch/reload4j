@@ -820,8 +820,10 @@ public class DOMConfigurator implements Configurator {
 	    if (e instanceof InterruptedException || e instanceof InterruptedIOException) {
 		Thread.currentThread().interrupt();
 	    }
-	    // I know this is miserable...
 	    LogLog.error("Could not parse " + action.toString() + ".", e);
+	} catch (AbstractMethodError e) {
+	    LogLog.error("Failed to parse XML file. Missing DocumentBuilderFactory.setFeature() method?", e);
+	    throw e;
 	}
     }
 
