@@ -22,7 +22,7 @@
   <artifactId>reload4j</artifactId>
   <packaging>jar</packaging>
   <name>reload4j</name>
-  <version>1.2.18.5-SNAPSHOT</version>
+  <version>1.2.18.5</version>
   <description>Reload4j revives EOLed log4j 1.x</description> 
 
   <url>https://reload4j.qos.ch</url>
@@ -46,16 +46,16 @@
   </scm>
 
   
-  <properties> 
-   <latest.stable.version>1.7.32</latest.stable.version>
-    <!-- java.util.ServiceLoader requires Java 6 -->
+  <properties>
+    <!-- yyyy-MM-dd'T'HH:mm:ss'Z' -->
+    <project.build.outputTimestamp>2022-02-03T17:21:00Z</project.build.outputTimestamp>    
     <jdk.version>1.5</jdk.version>
     <maven.compiler.source>${jdk.version}</maven.compiler.source>
     <maven.compiler.target>${jdk.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <junit.version>4.12</junit.version>
+    <junit.version>4.13</junit.version>
     <maven-toolchains-plugin.version>3.0.0</maven-toolchains-plugin.version>
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -64,7 +64,7 @@
     <maven-source-plugin.version>3.2.0</maven-source-plugin.version>
     <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>    
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
-    <maven-bundle-plugin.version>5.1.2</maven-bundle-plugin.version>
+    <maven-bundle-plugin.version>5.1.4</maven-bundle-plugin.version>
     <maven-release-plugin.version>3.0.0-M4</maven-release-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
   </properties>
