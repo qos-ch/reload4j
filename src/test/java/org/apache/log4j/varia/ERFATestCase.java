@@ -97,7 +97,7 @@ public class ERFATestCase extends TestCase {
 	erfa.setAppend(false);
 	erfa.setMaxBackupIndex(2);
 	erfa.setPort(port);
-	erfa.setFile("output/ERFA-test2.log");
+	erfa.setFile("target/test-output/ERFA-test2.log");
 	try {
 	    erfa.activateOptions();
 	} catch (SecurityException ex) {
@@ -131,9 +131,9 @@ public class ERFATestCase extends TestCase {
 	    return;
 	}
 
-	assertTrue(new File("output/ERFA-test2.log").exists());
-	assertTrue(new File("output/ERFA-test2.log.1").exists());
-	assertTrue(new File("output/ERFA-test2.log.2").exists());
-	assertFalse(new File("output/ERFA-test2.log.3").exists());
+	assertTrue(new File("target/test-output/ERFA-test2.log").exists());
+	assertTrue(new File("target/test-output/ERFA-test2.log.1").exists());
+	assertTrue(new File("target/test-output/ERFA-test2.log.2").exists());
+	assertFalse(new File("target/test-output/ERFA-test2.log.3").exists());
     }
 }

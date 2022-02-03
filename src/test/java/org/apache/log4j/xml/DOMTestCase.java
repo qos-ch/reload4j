@@ -431,7 +431,7 @@ public class DOMTestCase {
 	File input = new File(TEST_INPUT_PREFIX + "xml/defaultInit.xml");
 	System.out.println(input.getAbsolutePath());
 	InputStream is = new FileInputStream(input);
-	File dir = new File("output");
+	File dir = new File("target/test-output/");
 	dir.mkdirs();
 	File file = new File(TARGET_OUTPUT_PREFIX + "xml.jar");
 	ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(file));

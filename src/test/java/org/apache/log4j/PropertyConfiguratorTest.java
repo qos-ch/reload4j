@@ -134,7 +134,7 @@ public class PropertyConfiguratorTest extends TestCase {
      * @throws IOException if IOException creating properties jar.
      */
     public void testJarURL() throws IOException {
-	File dir = new File("output");
+	File dir = new File("target/test-output/");
 	dir.mkdirs();
 	File file = new File(TARGET_OUTPUT_PREFIX + "properties.jar");
 	ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(file));

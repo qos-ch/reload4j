@@ -34,7 +34,7 @@ import org.apache.log4j.xml.XLevel;
  */
 public class HierarchyThresholdTest extends TestCase {
 
-    static String TEMP = "output/temp";
+    static String TEMP = "target/test-output/temp";
     static Logger logger = Logger.getLogger(HierarchyThresholdTest.class);
 
     public HierarchyThresholdTest(String name) {
