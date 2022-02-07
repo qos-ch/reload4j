@@ -17,8 +17,8 @@
 
 package org.apache.log4j.varia;
 
-import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
-import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.apache.log4j.TestConstants.TARGET_OUTPUT_PREFIX;
+import static org.apache.log4j.TestConstants.TEST_WITNESS_PREFIX;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.log4j.Appender;

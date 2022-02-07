@@ -21,8 +21,8 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.framework.Test;
 
-import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
-import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.apache.log4j.TestConstants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestConstants.TEST_WITNESS_PREFIX;
 
 import org.apache.log4j.util.Compare;
 import org.apache.log4j.xml.XLevel;

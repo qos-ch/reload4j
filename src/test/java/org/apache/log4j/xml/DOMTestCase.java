@@ -57,9 +57,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
-import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
-import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
+import static org.apache.log4j.TestConstants.TEST_WITNESS_PREFIX;
+import static org.apache.log4j.TestConstants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestConstants.TARGET_OUTPUT_PREFIX;
 
 public class DOMTestCase {
 

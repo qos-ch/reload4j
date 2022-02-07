@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Enumeration;
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
-import org.apache.log4j.TestContants;
+import org.apache.log4j.TestConstants;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +35,7 @@ public class DefaultInitTest3 {
     public void setUp() {
 	String userDir = System.getProperty("user.dir");
 	System.setProperty("log4j.configuration",
-		"file:///" + userDir + "/" + TestContants.TEST_INPUT_PREFIX + "defaultInit3.properties");
+		"file:///" + userDir + "/" + TestConstants.TEST_INPUT_PREFIX + "defaultInit3.properties");
 
     }
 

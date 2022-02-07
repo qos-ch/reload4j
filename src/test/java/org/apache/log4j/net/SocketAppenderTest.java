@@ -16,7 +16,7 @@
  */
 package org.apache.log4j.net;
 
-import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestConstants.TEST_INPUT_PREFIX;
 import static org.junit.Assert.assertEquals;
 
 import org.apache.log4j.AppenderSkeleton;

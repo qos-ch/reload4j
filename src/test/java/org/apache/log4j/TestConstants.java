@@ -17,7 +17,7 @@
 
 package org.apache.log4j;
 
-public class TestContants {
+public class TestConstants {
 
     public static final String TARGET_OUTPUT_PREFIX = "target/test-output/";
     public static final String TEST_SRC_PREFIX = "src/test/";

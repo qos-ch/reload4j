@@ -17,7 +17,7 @@
 
 package org.apache.log4j.spi;
 
-import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.apache.log4j.TestConstants.TEST_WITNESS_PREFIX;
 
 import org.apache.log4j.Category;
 import org.apache.log4j.Level;

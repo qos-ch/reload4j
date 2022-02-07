@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 
 import org.apache.log4j.util.SerializationTestHelper;
 
-import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.apache.log4j.TestConstants.TEST_WITNESS_PREFIX;
 
 import java.util.Locale;
 

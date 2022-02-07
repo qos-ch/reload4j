@@ -16,10 +16,15 @@
  */
 package org.apache.log4j.rewrite;
 
-import junit.framework.*;
 import org.apache.log4j.*;
 import org.apache.log4j.util.Compare;
 import org.apache.log4j.xml.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
+import static org.apache.log4j.TestConstants.TARGET_OUTPUT_PREFIX;
 
 import java.io.InputStream;
 import java.util.Map;
@@ -28,11 +33,9 @@ import java.util.Hashtable;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 
-public class RewriteAppenderTest extends TestCase {
-    public RewriteAppenderTest(final String name) {
-	super(name);
-    }
+public class RewriteAppenderTest  {
 
+    @Before
     public void setUp() {
 	LogManager.getLoggerRepository().resetConfiguration();
 	Hashtable context = MDC.getContext();
@@ -41,6 +44,7 @@ public class RewriteAppenderTest extends TestCase {
 	}
     }
 
+    @After
     public void tearDown() {
 	LogManager.getLoggerRepository().shutdown();
     }
@@ -54,6 +58,7 @@ public class RewriteAppenderTest extends TestCase {
 	DOMConfigurator.configure(doc.getDocumentElement());
     }
 
+    @Test
     public void testMapPolicy() throws Exception {
 	configure("map.xml");
 	Logger logger = Logger.getLogger(RewriteAppenderTest.class);
@@ -67,6 +72,7 @@ public class RewriteAppenderTest extends TestCase {
 	logger.info(msg);
 	msg.put("message", "Message 1");
 	logger.info(msg);
+	// TARGET_OUTPUT_PREFIX+"rewrite/
 	assertTrue(Compare.compare(RewriteAppenderTest.class, "temp", "map.log"));
     }
 
@@ -105,6 +111,7 @@ public class RewriteAppenderTest extends TestCase {
 	}
     }
 
+    @Test
     public void testReflectionPolicy() throws Exception {
 	configure("reflection.xml");
 	Logger logger = Logger.getLogger(RewriteAppenderTest.class);
@@ -113,15 +120,16 @@ public class RewriteAppenderTest extends TestCase {
 	MDC.put("p1", "Hola");
 	MDC.put("p2", "p2");
 	logger.info(new MessageBean("Welcome to The Hub", "Hello", "World"));
-	assertTrue(Compare.compare(RewriteAppenderTest.class, "temp", "reflection.log"));
+	assertTrue(Compare.compare(RewriteAppenderTest.class, TARGET_OUTPUT_PREFIX+"rewrite/reflection.log", "reflection.log"));
     }
 
+    @Test
     public void testPropertyPolicy() throws Exception {
 	configure("property.xml");
 	Logger logger = Logger.getLogger(RewriteAppenderTest.class);
 	logger.info("Message 0");
 	MDC.put("p1", "Hola");
 	logger.info("Message 1");
-	assertTrue(Compare.compare(RewriteAppenderTest.class, "temp", "property.log"));
+	assertTrue(Compare.compare(RewriteAppenderTest.class, TARGET_OUTPUT_PREFIX+"rewrite/property.log", "property.log"));
     }
 }

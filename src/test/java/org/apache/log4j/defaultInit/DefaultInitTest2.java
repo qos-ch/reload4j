@@ -28,7 +28,7 @@ import java.util.Enumeration;
 import org.apache.log4j.Appender;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.TestContants;
+import org.apache.log4j.TestConstants;
 
 public class DefaultInitTest2 {
 
@@ -36,7 +36,7 @@ public class DefaultInitTest2 {
     public void setUp() {
 	String userDir = System.getProperty("user.dir");
 	System.setProperty("log4j.configuration",
-		"file:///" + userDir + "/" + TestContants.TEST_INPUT_PREFIX + "xml/defaultInit.xml");
+		"file:///" + userDir + "/" + TestConstants.TEST_INPUT_PREFIX + "xml/defaultInit.xml");
 
     }
 

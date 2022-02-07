@@ -16,8 +16,8 @@
  */
 package org.apache.log4j;
 
-import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
-import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestConstants.TARGET_OUTPUT_PREFIX;
+import static org.apache.log4j.TestConstants.TEST_INPUT_PREFIX;
 
 import java.io.File;
 import java.io.FileInputStream;

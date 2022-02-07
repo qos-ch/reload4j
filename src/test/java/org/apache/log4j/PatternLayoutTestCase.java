@@ -17,9 +17,9 @@
 
 package org.apache.log4j;
 
-import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
-import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
-import static org.apache.log4j.TestContants.TEST_WITNESS_PREFIX;
+import static org.apache.log4j.TestConstants.TARGET_OUTPUT_PREFIX;
+import static org.apache.log4j.TestConstants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestConstants.TEST_WITNESS_PREFIX;
 
 import org.apache.log4j.util.AbsoluteDateAndTimeFilter;
 import org.apache.log4j.util.AbsoluteTimeFilter;
@@ -175,7 +175,7 @@ public class PatternLayoutTestCase extends TestCase {
     }
 
     public void test10() throws Exception {
-	PropertyConfigurator.configure(TestContants.TEST_INPUT_PREFIX + "patternLayout10.properties");
+	PropertyConfigurator.configure(TestConstants.TEST_INPUT_PREFIX + "patternLayout10.properties");
 	common();
 	ControlFilter cf1 = new ControlFilter(
 		new String[] { PAT6, EXCEPTION1, EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5 });

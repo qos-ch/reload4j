@@ -20,7 +20,7 @@
 
 package org.apache.log4j.helpers;
 
-import static org.apache.log4j.TestContants.TEST_INPUT_PREFIX;
+import static org.apache.log4j.TestConstants.TEST_INPUT_PREFIX;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

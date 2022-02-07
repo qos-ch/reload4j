@@ -19,7 +19,7 @@ package org.apache.log4j;
 
 import junit.framework.TestCase;
 
-import static org.apache.log4j.TestContants.TARGET_OUTPUT_PREFIX;
+import static org.apache.log4j.TestConstants.TARGET_OUTPUT_PREFIX;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -468,7 +468,7 @@ public class DRFATestCase extends TestCase {
 	append(combined, new FileInputStream(block2), buf);
 	append(combined, new FileInputStream(filename), buf);
 	combined.close();
-	assertTrue(Compare.compare(combinedFilename, TestContants.TEST_WITNESS_PREFIX + "drfa_blockedRollover.log"));
+	assertTrue(Compare.compare(combinedFilename, TestConstants.TEST_WITNESS_PREFIX + "drfa_blockedRollover.log"));
     }
 
     private void cleanOld(String filename) {

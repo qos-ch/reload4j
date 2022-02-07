@@ -19,7 +19,7 @@ package org.apache.log4j.jdbc;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.TestContants;
+import org.apache.log4j.TestConstants;
 import org.apache.log4j.xml.XLevel;
 import org.junit.After;
 import org.junit.Assert;
@@ -65,7 +65,7 @@ public class JdbcAppenderTest {
 
     @Test
     public void verifyJdbcBufferSize1() throws SQLException {
-	PropertyConfigurator.configure(TestContants.TEST_INPUT_PREFIX + "jdbc_h2_bufferSize1.properties");
+	PropertyConfigurator.configure(TestConstants.TEST_INPUT_PREFIX + "jdbc_h2_bufferSize1.properties");
 
 
 	String oldThreadName = Thread.currentThread().getName();
@@ -89,7 +89,7 @@ public class JdbcAppenderTest {
 
     @Test
     public void verifyJdbcBufferSize2() throws SQLException {
-	PropertyConfigurator.configure(TestContants.TEST_INPUT_PREFIX + "jdbc_h2_bufferSize2.properties");
+	PropertyConfigurator.configure(TestConstants.TEST_INPUT_PREFIX + "jdbc_h2_bufferSize2.properties");
 
 	String oldThreadName = Thread.currentThread().getName();
 	try {
