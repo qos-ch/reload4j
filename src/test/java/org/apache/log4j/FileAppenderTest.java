@@ -17,41 +17,44 @@
 
 package org.apache.log4j;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
 import java.lang.reflect.Method;
+
+import org.apache.log4j.testUtil.RandomUtil;
+import org.junit.Test;
+
+import static org.apache.log4j.TestConstants.TARGET_OUTPUT_PREFIX;
 
 /**
  *
  * FileAppender tests.
  *
  * @author Curt Arnold
+ * @author Ceki Gulcu
  */
-public class FileAppenderTest extends TestCase {
+public class FileAppenderTest {
+
+    int diff = RandomUtil.getPositiveInt();
+
     /**
      * Tests that any necessary directories are attempted to be created if they
      * don't exist. See bug 9150.
      *
      */
+    @Test
     public void testDirectoryCreation() {
-	//
-	// known to fail on JDK 1.1
-	if (!System.getProperty("java.version").startsWith("1.1.")) {
-	    File newFile = new File("output/newdir/temp.log");
-	    newFile.delete();
+	String fileStr = TARGET_OUTPUT_PREFIX + "dir" + diff + "/testDirectoryCreation.log";
 
-	    File newDir = new File("output/newdir");
-	    newDir.delete();
+	org.apache.log4j.FileAppender wa = new org.apache.log4j.FileAppender();
+	wa.setFile(fileStr);
+	wa.setLayout(new PatternLayout("%m%n"));
+	wa.activateOptions();
 
-	    org.apache.log4j.FileAppender wa = new org.apache.log4j.FileAppender();
-	    wa.setFile("output/newdir/temp.log");
-	    wa.setLayout(new PatternLayout("%m%n"));
-	    wa.activateOptions();
-
-	    assertTrue(new File("output/newdir/temp.log").exists());
-	}
+	assertTrue(new File(fileStr).exists());
     }
 
     /**
@@ -59,6 +62,7 @@ public class FileAppenderTest extends TestCase {
      * 
      * @throws Exception
      */
+    @Test
     public void testGetThresholdReturnType() throws Exception {
 	Method method = FileAppender.class.getMethod("getThreshold", (Class[]) null);
 	assertTrue(method.getReturnType() == Priority.class);
@@ -67,6 +71,7 @@ public class FileAppenderTest extends TestCase {
     /**
      * Tests getThreshold and setThreshold.
      */
+    @Test
     public void testgetSetThreshold() {
 	FileAppender appender = new FileAppender();
 	Priority debug = Level.DEBUG;
@@ -78,6 +83,7 @@ public class FileAppenderTest extends TestCase {
     /**
      * Tests isAsSevereAsThreshold.
      */
+    @Test
     public void testIsAsSevereAsThreshold() {
 	FileAppender appender = new FileAppender();
 	Priority debug = Level.DEBUG;

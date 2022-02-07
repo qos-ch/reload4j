@@ -72,8 +72,7 @@ public class RewriteAppenderTest  {
 	logger.info(msg);
 	msg.put("message", "Message 1");
 	logger.info(msg);
-	// TARGET_OUTPUT_PREFIX+"rewrite/
-	assertTrue(Compare.compare(RewriteAppenderTest.class, "temp", "map.log"));
+	assertTrue(Compare.compare(RewriteAppenderTest.class, TARGET_OUTPUT_PREFIX+"rewrite/map.log", "map.log"));
     }
 
     private static class BaseBean {
