@@ -327,6 +327,7 @@
               org.xml.sax.helpers
             </Import-Package>
             <Bundle-DocURL>https://reload4j.qos.ch/</Bundle-DocURL>
+            <Bundle-SymbolicName>org.apache.log4j</Bundle-SymbolicName>
           </instructions>
         </configuration>
       </plugin>
