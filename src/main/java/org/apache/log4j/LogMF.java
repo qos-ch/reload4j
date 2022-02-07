@@ -70,7 +70,7 @@ public final class LogMF extends LogXF {
      * @return formatted value.
      */
     private static synchronized String formatNumber(final Object n) {
-	Locale currentLocale = Locale.getDefault();
+	Locale currentLocale = Locale.getDefault(Locale.Category.FORMAT);
 	if (currentLocale != numberLocale || numberFormat == null) {
 	    numberLocale = currentLocale;
 	    numberFormat = NumberFormat.getInstance(currentLocale);
