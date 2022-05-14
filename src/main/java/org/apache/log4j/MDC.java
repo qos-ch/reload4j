@@ -170,7 +170,7 @@ public class MDC {
 		ht.clear();
 	    }
 
-        (ThreadLocalMap) tlm).remove();
+		((ThreadLocalMap) tlm).remove();
 	}
     }
 
