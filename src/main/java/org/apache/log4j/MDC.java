@@ -49,7 +49,7 @@ public class MDC {
 
     // boolean java1;
 
-    ThreadLocalMap tlm;
+    Object tlm;
 
     private MDC() {
 	tlm = new ThreadLocalMap();
@@ -170,7 +170,7 @@ public class MDC {
 		ht.clear();
 	    }
 
-	    tlm.remove();
+        (ThreadLocalMap) tlm).remove();
 	}
     }
 
