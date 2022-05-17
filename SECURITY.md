@@ -21,7 +21,7 @@ uid   Ceki Gulcu <ceki@qos.ch>
 sub   2048R/7FBFA159 2012-04-26
 ```
 
-A copy this key is stored in keys.openpgp.org keyserver. To add it to
+A copy of this key is stored on the [keys.openpgp.org](https://keys.openpgp.org) keyserver. To add it to
 your public key ring use the following command:
 
 ```
