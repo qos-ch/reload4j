@@ -69,7 +69,11 @@ class LoadXMLAction extends AbstractAction {
     LoadXMLAction(JFrame aParent, MyTableModel aModel) throws SAXException, ParserConfigurationException {
 	mParent = aParent;
 	mHandler = new XMLFileHandler(aModel);
-	mParser = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
+	SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+	// prevent XXE attacks
+	saxParserFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+	saxParserFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+	mParser = saxParserFactory.newSAXParser().getXMLReader();
 	mParser.setContentHandler(mHandler);
     }
 
