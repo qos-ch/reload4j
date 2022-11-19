@@ -208,6 +208,7 @@
             <manifestEntries>
               <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>	
               <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+              <Automatic-Module-Name>ch.qos.reload4j</Automatic-Module-Name>
             </manifestEntries>
             <!-- Add to output produced by bundle-plugin -->
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
