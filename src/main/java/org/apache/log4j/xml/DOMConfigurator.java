@@ -788,6 +788,16 @@ public class DOMConfigurator implements Configurator {
 	doConfigure(action, repository);
     }
 
+    private final void setFeature(final DocumentBuilderFactory dbf, final String feature, final boolean value) {
+	try {
+	    dbf.setFeature(feature, value);
+	} catch (Exception e) {
+	    LogLog.warn("Failed to set DocumentBuilderFactory feature " + feature + ".", e);
+	} catch (AbstractMethodError e) {
+	    LogLog.warn("Failed to set DocumentBuilderFactory feature " + feature + ". Missing DocumentBuilderFactory.setFeature() method?", e);
+	}
+    }
+
     private final void doConfigure(final ParseAction action, final LoggerRepository repository)
 	    throws FactoryConfigurationError {
 	DocumentBuilderFactory dbf = null;
@@ -806,8 +816,8 @@ public class DOMConfigurator implements Configurator {
 	try {
 	    dbf.setValidating(true);
 	    // prevent XXE attacks
-	    dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
-	    dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+	    setFeature(dbf, "http://xml.org/sax/features/external-general-entities", false);
+	    setFeature(dbf, "http://xml.org/sax/features/external-parameter-entities", false);
 	            
 	    DocumentBuilder docBuilder = dbf.newDocumentBuilder();
 
@@ -821,9 +831,6 @@ public class DOMConfigurator implements Configurator {
 		Thread.currentThread().interrupt();
 	    }
 	    LogLog.error("Could not parse " + action.toString() + ".", e);
-	} catch (AbstractMethodError e) {
-	    LogLog.error("Failed to parse XML file. Missing DocumentBuilderFactory.setFeature() method?", e);
-	    throw e;
 	}
     }
 
