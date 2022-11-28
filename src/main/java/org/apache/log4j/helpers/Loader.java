@@ -32,21 +32,9 @@ public class Loader {
 
     static final String TSTR = "Caught Exception while in Loader.getResource. This may be innocuous.";
 
-    // We conservatively assume that we are running under Java 1.x
-    static private boolean java1 = true;
-
     static private boolean ignoreTCL = false;
 
     static {
-        String prop = OptionConverter.getSystemProperty("java.version", null);
-
-        if (prop != null) {
-            int i = prop.indexOf('.');
-            if (i != -1) {
-                if (prop.charAt(i + 1) != '1')
-                    java1 = false;
-            }
-        }
         String ignoreTCLProp = OptionConverter.getSystemProperty("log4j.ignoreTCL", null);
         if (ignoreTCLProp != null) {
             ignoreTCL = OptionConverter.toBoolean(ignoreTCLProp, true);
@@ -67,39 +55,29 @@ public class Loader {
 
     /**
      * This method will search for <code>resource</code> in different places. The search order is as follows:
-     *
      * <ol>
      *
-     * <p>
-     * <li>Search for <code>resource</code> using the thread context class loader
-     * under Java2. If that fails, search for <code>resource</code> using the class
-     * loader that loaded this class (<code>Loader</code>). Under JDK 1.1, only the
-     * the class loader that loaded this class (<code>Loader</code>) is used.
-     *
-     * <p>
+     * <li><p>Search for <code>resource</code> using the class
+     * loader that loaded this class (<code>Loader</code>).<p>
+     * </li>
      * <li>Try one last time with
      * <code>ClassLoader.getSystemResource(resource)</code>, that is is using the
-     * system class loader in JDK 1.2 and virtual machine's built-in class loader in
-     * JDK 1.1.
-     *
+     * system class loader.
      * </ol>
+     *
+     *  <p>Nota bene: In versions of reload4j 1.2.23 and earlier, the jaadoc documentation stated that
+     *  the thread context class loader was used but when running under JDK 9 and later this
+     *  was <b>not</b> actually the case. As of version 1.2.24, the javadoc above matches the code as executed.
+     *  </p>
+     *
+     *
+     * @param resource the resource to load
      */
     static public URL getResource(String resource) {
         ClassLoader classLoader = null;
         URL url = null;
 
         try {
-            if (!java1 && !ignoreTCL) {
-                classLoader = getTCL();
-                if (classLoader != null) {
-                    LogLog.debug("Trying to find [" + resource + "] using context classloader " + classLoader + ".");
-                    url = classLoader.getResource(resource);
-                    if (url != null) {
-                        return url;
-                    }
-                }
-            }
-
             // We could not find resource. Ler us now try with the
             // classloader that loaded this class.
             classLoader = Loader.class.getClassLoader();
@@ -110,16 +88,7 @@ public class Loader {
                     return url;
                 }
             }
-        } catch (IllegalAccessException t) {
-            LogLog.warn(TSTR, t);
-        } catch (InvocationTargetException t) {
-            if (t.getTargetException() instanceof InterruptedException
-                    || t.getTargetException() instanceof InterruptedIOException) {
-                Thread.currentThread().interrupt();
-            }
-            LogLog.warn(TSTR, t);
-        } catch (Throwable t) {
-            //
+        } catch (SecurityException t) {
             // can't be InterruptedException or InterruptedIOException
             // since not declared, must be error or RuntimeError.
             LogLog.warn(TSTR, t);
@@ -135,9 +104,11 @@ public class Loader {
 
     /**
      * Are we running under JDK 1.x?
+     * @deprecated with no replacement
      */
+    @Deprecated
     public static boolean isJava1() {
-        return java1;
+        return false;
     }
 
     /**
@@ -160,30 +131,17 @@ public class Loader {
     }
 
     /**
-     * If running under JDK 1.2 load the specified class using the
-     * <code>Thread</code> <code>contextClassLoader</code> if that fails try
-     * Class.forname. Under JDK 1.1 only Class.forName is used.
+     * Load the specified class using the {@linl Class#forName} method.
+     *
+     * <p>Nota bene: In versions of reload4j 1.2.23 and earlier, the documentation stated that
+     * the thread context class loader was used to load the specified class but
+     * when running under JDK 9 and later this was <b>not</b> actually the case. As of version 1.2.24,
+     * the javadoc above matches the code as executed.
+     * </p>
+     *
+     * @param clazz the name of class to load
      */
     static public Class loadClass(String clazz) throws ClassNotFoundException {
-        // Just call Class.forName(clazz) if we are running under JDK 1.1
-        // or if we are instructed to ignore the TCL.
-        if (java1 || ignoreTCL) {
-            return Class.forName(clazz);
-        } else {
-            try {
-                return getTCL().loadClass(clazz);
-            }
-            // we reached here because tcl was null or because of a
-            // security exception, or because clazz could not be loaded...
-            // In any case we now try one more time
-            catch (InvocationTargetException e) {
-                if (e.getTargetException() instanceof InterruptedException
-                        || e.getTargetException() instanceof InterruptedIOException) {
-                    Thread.currentThread().interrupt();
-                }
-            } catch (Throwable t) {
-            }
-        }
         return Class.forName(clazz);
     }
 }
