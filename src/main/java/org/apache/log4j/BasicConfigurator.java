@@ -25,9 +25,8 @@ package org.apache.log4j;
  * Use this class to quickly configure the package.
  *
  * <p>
- * For file based configuration see {@link PropertyConfigurator}. For XML based
- * configuration see {@link org.apache.log4j.xml.DOMConfigurator
- * DOMConfigurator}.
+ * For file based configuration see {@link PropertyConfigurator}. For XML based configuration see
+ * {@link org.apache.log4j.xml.DOMConfigurator DOMConfigurator}.
  *
  * @author Ceki G&uuml;lc&uuml;
  * @since 0.8.1

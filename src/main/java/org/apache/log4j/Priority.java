@@ -105,8 +105,8 @@ public class Priority {
     }
 
     /**
-     * Returns <code>true</code> if this level has a higher or equal level than the
-     * level passed as argument, <code>false</code> otherwise.
+     * Returns <code>true</code> if this level has a higher or equal level than the level passed as argument,
+     * <code>false</code> otherwise.
      *
      * <p>
      * You should think twice before overriding the default implementation of
@@ -117,13 +117,12 @@ public class Priority {
     }
 
     /**
-     * Return all possible priorities as an array of Level objects in descending
-     * order.
+     * Return all possible priorities as an array of Level objects in descending order.
      *
      * @deprecated This method will be removed with no replacement.
      */
     public static Priority[] getAllPossiblePriorities() {
-        return new Priority[]{Priority.FATAL, Priority.ERROR, Level.WARN, Priority.INFO, Priority.DEBUG};
+        return new Priority[] { Priority.FATAL, Priority.ERROR, Level.WARN, Priority.INFO, Priority.DEBUG };
     }
 
     /**
@@ -162,8 +161,7 @@ public class Priority {
     }
 
     /**
-     * @deprecated Please use the {@link Level#toLevel(String, Level)} method
-     * instead.
+     * @deprecated Please use the {@link Level#toLevel(String, Level)} method instead.
      */
     public static Priority toPriority(String sArg, Priority defaultPriority) {
         return Level.toLevel(sArg, (Level) defaultPriority);

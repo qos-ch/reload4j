@@ -45,18 +45,16 @@ import java.util.Vector;
 
 /**
  * <font color="#AA2222"><b>This class has been deprecated and replaced by the
- * {@link Logger} <em>subclass</em></b></font>. It will be kept around to
- * preserve backward compatibility until mid 2003.
+ * {@link Logger} <em>subclass</em></b></font>. It will be kept around to preserve backward compatibility until mid
+ * 2003.
  *
  * <p>
  * <code>Logger</code> is a subclass of Category, i.e. it extends Category. In
- * other words, a logger <em>is</em> a category. Thus, all operations that can
- * be performed on a category can be performed on a logger. Internally, whenever
- * log4j is asked to produce a Category object, it will instead produce a Logger
- * object. Log4j 1.2 will <em>never</em> produce Category objects but only
+ * other words, a logger <em>is</em> a category. Thus, all operations that can be performed on a category can be
+ * performed on a logger. Internally, whenever log4j is asked to produce a Category object, it will instead produce a
+ * Logger object. Log4j 1.2 will <em>never</em> produce Category objects but only
  * <code>Logger</code> instances. In order to preserve backward compatibility,
- * methods that previously accepted category objects still continue to accept
- * category objects.
+ * methods that previously accepted category objects still continue to accept category objects.
  *
  * <p>
  * For example, the following are all legal and will work as expected.
@@ -78,8 +76,7 @@ import java.util.Vector;
  * it or using it.
  *
  * <p>
- * See the <a href="../../../../manual.html">short manual</a> for an
- * introduction on this class.
+ * See the <a href="../../../../manual.html">short manual</a> for an introduction on this class.
  * <p>
  * See the document entitled
  * <a href="http://www.qos.ch/logging/preparingFor13.html">preparing for log4j
@@ -104,14 +101,13 @@ public class Category implements AppenderAttachable {
     protected String name;
 
     /**
-     * The assigned level of this category. The <code>level</code> variable need not
-     * be assigned a value in which case it is inherited form the hierarchy.
+     * The assigned level of this category. The <code>level</code> variable need not be assigned a value in which case
+     * it is inherited form the hierarchy.
      */
     volatile protected Level level;
 
     /**
-     * The parent of this category. All categories have at least one ancestor which
-     * is the root category.
+     * The parent of this category. All categories have at least one ancestor which is the root category.
      */
     volatile protected Category parent;
 
@@ -128,22 +124,18 @@ public class Category implements AppenderAttachable {
     AppenderAttachableImpl aai;
 
     /**
-     * Additivity is set to true by default, that is children inherit the appenders
-     * of their ancestors by default. If this variable is set to <code>false</code>
-     * then the appenders found in the ancestors of this category are not used.
-     * However, the children of this category will inherit its appenders, unless the
-     * children have their additivity flag set to <code>false</code> too. See the
-     * user manual for more details.
+     * Additivity is set to true by default, that is children inherit the appenders of their ancestors by default. If
+     * this variable is set to <code>false</code> then the appenders found in the ancestors of this category are not
+     * used. However, the children of this category will inherit its appenders, unless the children have their
+     * additivity flag set to <code>false</code> too. See the user manual for more details.
      */
     protected boolean additive = true;
 
     /**
-     * This constructor created a new <code>Category</code> instance and sets its
-     * name.
+     * This constructor created a new <code>Category</code> instance and sets its name.
      *
      * <p>
-     * It is intended to be used by sub-classes only. You should not create
-     * categories directly.
+     * It is intended to be used by sub-classes only. You should not create categories directly.
      *
      * @param name The name of the category.
      */
@@ -152,12 +144,10 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Add <code>newAppender</code> to the list of appenders of this Category
-     * instance.
+     * Add <code>newAppender</code> to the list of appenders of this Category instance.
      *
      * <p>
-     * If <code>newAppender</code> is already in the list of appenders, then it
-     * won't be added again.
+     * If <code>newAppender</code> is already in the list of appenders, then it won't be added again.
      */
     synchronized public void addAppender(Appender newAppender) {
         if (aai == null) {
@@ -172,8 +162,8 @@ public class Category implements AppenderAttachable {
      * <code>msg</code> as an {@link #error(Object) error} statement.
      *
      * <p>
-     * The <code>assert</code> method has been renamed to <code>assertLog</code>
-     * because <code>assert</code> is a language reserved word in JDK 1.4.
+     * The <code>assert</code> method has been renamed to <code>assertLog</code> because <code>assert</code> is a
+     * language reserved word in JDK 1.4.
      *
      * @param assertion
      * @param msg       The message to print if <code>assertion</code> is false.
@@ -185,13 +175,12 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Call the appenders in the hierrachy starting at <code>this</code>. If no
-     * appenders could be found, emit a warning.
+     * Call the appenders in the hierrachy starting at <code>this</code>. If no appenders could be found, emit a
+     * warning.
      *
      * <p>
-     * This method calls all the appenders inherited from the hierarchy
-     * circumventing any evaluation of whether to log or not to log the particular
-     * log request.
+     * This method calls all the appenders inherited from the hierarchy circumventing any evaluation of whether to log
+     * or not to log the particular log request.
      *
      * @param event the event to log.
      */
@@ -236,18 +225,16 @@ public class Category implements AppenderAttachable {
      * Log a message object with the {@link Level#DEBUG DEBUG} level.
      *
      * <p>
-     * This method first checks if this category is <code>DEBUG</code> enabled by
-     * comparing the level of this category with the {@link Level#DEBUG DEBUG}
-     * level. If this category is <code>DEBUG</code> enabled, then it converts the
+     * This method first checks if this category is <code>DEBUG</code> enabled by comparing the level of this category
+     * with the {@link Level#DEBUG DEBUG} level. If this category is <code>DEBUG</code> enabled, then it converts the
      * message object (passed as parameter) to a string by invoking the appropriate
-     * {@link org.apache.log4j.or.ObjectRenderer}. It then proceeds to call all the
-     * registered appenders in this category and also higher in the hierarchy
-     * depending on the value of the additivity flag.
+     * {@link org.apache.log4j.or.ObjectRenderer}. It then proceeds to call all the registered appenders in this
+     * category and also higher in the hierarchy depending on the value of the additivity flag.
      *
      * <p>
      * <b>WARNING</b> Note that passing a {@link Throwable} to this method will
-     * print the name of the <code>Throwable</code> but no stack trace. To print a
-     * stack trace use the {@link #debug(Object, Throwable)} form instead.
+     * print the name of the <code>Throwable</code> but no stack trace. To print a stack trace use the
+     * {@link #debug(Object, Throwable)} form instead.
      *
      * @param message the message object to log.
      */
@@ -260,8 +247,8 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Log a message object with the <code>DEBUG</code> level including the stack
-     * trace of the {@link Throwable} <code>t</code> passed as parameter.
+     * Log a message object with the <code>DEBUG</code> level including the stack trace of the {@link Throwable}
+     * <code>t</code> passed as parameter.
      *
      * <p>
      * See {@link #debug(Object)} form for more detailed information.
@@ -280,18 +267,16 @@ public class Category implements AppenderAttachable {
      * Log a message object with the {@link Level#ERROR ERROR} Level.
      *
      * <p>
-     * This method first checks if this category is <code>ERROR</code> enabled by
-     * comparing the level of this category with {@link Level#ERROR ERROR} Level. If
-     * this category is <code>ERROR</code> enabled, then it converts the message
-     * object passed as parameter to a string by invoking the appropriate
-     * {@link org.apache.log4j.or.ObjectRenderer}. It proceeds to call all the
-     * registered appenders in this category and also higher in the hierarchy
-     * depending on the value of the additivity flag.
+     * This method first checks if this category is <code>ERROR</code> enabled by comparing the level of this category
+     * with {@link Level#ERROR ERROR} Level. If this category is <code>ERROR</code> enabled, then it converts the
+     * message object passed as parameter to a string by invoking the appropriate
+     * {@link org.apache.log4j.or.ObjectRenderer}. It proceeds to call all the registered appenders in this category and
+     * also higher in the hierarchy depending on the value of the additivity flag.
      *
      * <p>
      * <b>WARNING</b> Note that passing a {@link Throwable} to this method will
-     * print the name of the <code>Throwable</code> but no stack trace. To print a
-     * stack trace use the {@link #error(Object, Throwable)} form instead.
+     * print the name of the <code>Throwable</code> but no stack trace. To print a stack trace use the
+     * {@link #error(Object, Throwable)} form instead.
      *
      * @param message the message object to log
      */
@@ -303,8 +288,8 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Log a message object with the <code>ERROR</code> level including the stack
-     * trace of the {@link Throwable} <code>t</code> passed as parameter.
+     * Log a message object with the <code>ERROR</code> level including the stack trace of the {@link Throwable}
+     * <code>t</code> passed as parameter.
      *
      * <p>
      * See {@link #error(Object)} form for more detailed information.
@@ -321,8 +306,8 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * If the named category exists (in the default hierarchy) then it returns a
-     * reference to the category, otherwise it returns <code>null</code>.
+     * If the named category exists (in the default hierarchy) then it returns a reference to the category, otherwise it
+     * returns <code>null</code>.
      *
      * @since 0.8.5
      * @deprecated Please use {@link LogManager#exists} instead.
@@ -335,18 +320,16 @@ public class Category implements AppenderAttachable {
      * Log a message object with the {@link Level#FATAL FATAL} Level.
      *
      * <p>
-     * This method first checks if this category is <code>FATAL</code> enabled by
-     * comparing the level of this category with {@link Level#FATAL FATAL} Level. If
-     * the category is <code>FATAL</code> enabled, then it converts the message
-     * object passed as parameter to a string by invoking the appropriate
-     * {@link org.apache.log4j.or.ObjectRenderer}. It proceeds to call all the
-     * registered appenders in this category and also higher in the hierarchy
-     * depending on the value of the additivity flag.
+     * This method first checks if this category is <code>FATAL</code> enabled by comparing the level of this category
+     * with {@link Level#FATAL FATAL} Level. If the category is <code>FATAL</code> enabled, then it converts the message
+     * object passed as parameter to a string by invoking the appropriate {@link org.apache.log4j.or.ObjectRenderer}. It
+     * proceeds to call all the registered appenders in this category and also higher in the hierarchy depending on the
+     * value of the additivity flag.
      *
      * <p>
      * <b>WARNING</b> Note that passing a {@link Throwable} to this method will
-     * print the name of the Throwable but no stack trace. To print a stack trace
-     * use the {@link #fatal(Object, Throwable)} form instead.
+     * print the name of the Throwable but no stack trace. To print a stack trace use the
+     * {@link #fatal(Object, Throwable)} form instead.
      *
      * @param message the message object to log
      */
@@ -358,8 +341,8 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Log a message object with the <code>FATAL</code> level including the stack
-     * trace of the {@link Throwable} <code>t</code> passed as parameter.
+     * Log a message object with the <code>FATAL</code> level including the stack trace of the {@link Throwable}
+     * <code>t</code> passed as parameter.
      *
      * <p>
      * See {@link #fatal(Object)} for more detailed information.
@@ -375,8 +358,7 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * This method creates a new logging event and logs the event without further
-     * checks.
+     * This method creates a new logging event and logs the event without further checks.
      */
     protected void forcedLog(String fqcn, Priority level, Object message, Throwable t) {
         callAppenders(new LoggingEvent(fqcn, this, level, message, t));
@@ -390,8 +372,8 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Get the appenders contained in this category as an {@link Enumeration}. If no
-     * appenders can be found, then a {@link NullEnumeration} is returned.
+     * Get the appenders contained in this category as an {@link Enumeration}. If no appenders can be found, then a
+     * {@link NullEnumeration} is returned.
      *
      * @return Enumeration An enumeration of the appenders in this category.
      */
@@ -406,8 +388,7 @@ public class Category implements AppenderAttachable {
      * Look for the appender named as <code>name</code>.
      *
      * <p>
-     * Return the appender with that name if in the list. Return <code>null</code>
-     * otherwise.
+     * Return the appender with that name if in the list. Return <code>null</code> otherwise.
      */
     synchronized public Appender getAppender(String name) {
         if (aai == null || name == null)
@@ -417,12 +398,11 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Starting from this category, search the category hierarchy for a non-null
-     * level and return it. Otherwise, return the level of the root category.
+     * Starting from this category, search the category hierarchy for a non-null level and return it. Otherwise, return
+     * the level of the root category.
      *
      * <p>
-     * The Category class is designed so that this method executes as quickly as
-     * possible.
+     * The Category class is designed so that this method executes as quickly as possible.
      */
     public Level getEffectiveLevel() {
         for (Category c = this; c != null; c = c.parent) {
@@ -448,8 +428,7 @@ public class Category implements AppenderAttachable {
      * {@link java.util.Enumeration Enumeration}.
      *
      * <p>
-     * The root category is <em>not</em> included in the returned
-     * {@link Enumeration}.
+     * The root category is <em>not</em> included in the returned {@link Enumeration}.
      *
      * @deprecated Please use {@link LogManager#getCurrentLoggers()} instead.
      */
@@ -468,8 +447,7 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Return the the {@link Hierarchy} where this <code>Category</code> instance is
-     * attached.
+     * Return the the {@link Hierarchy} where this <code>Category</code> instance is attached.
      *
      * @since 1.1
      * @deprecated Please use {@link #getLoggerRepository} instead.
@@ -479,8 +457,7 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Return the the {@link LoggerRepository} where this <code>Category</code> is
-     * attached.
+     * Return the the {@link LoggerRepository} where this <code>Category</code> is attached.
      *
      * @since 1.2
      */
@@ -510,8 +487,8 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Returns the parent of this category. Note that the parent of a given category
-     * may change during the lifetime of the category.
+     * Returns the parent of this category. Note that the parent of a given category may change during the lifetime of
+     * the category.
      *
      * <p>
      * The root category will return <code>null</code>.
@@ -549,9 +526,8 @@ public class Category implements AppenderAttachable {
      * Return the <em>inherited</em> {@link ResourceBundle} for this category.
      *
      * <p>
-     * This method walks the hierarchy to find the appropriate resource bundle. It
-     * will return the resource bundle attached to the closest ancestor of this
-     * category, much like the way priorities are searched. In case there is no
+     * This method walks the hierarchy to find the appropriate resource bundle. It will return the resource bundle
+     * attached to the closest ancestor of this category, much like the way priorities are searched. In case there is no
      * bundle in the hierarchy then <code>null</code> is returned.
      *
      * @since 0.9.0
@@ -566,12 +542,12 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Returns the string resource coresponding to <code>key</code> in this
-     * category's inherited resource bundle. See also {@link #getResourceBundle}.
+     * Returns the string resource coresponding to <code>key</code> in this category's inherited resource bundle. See
+     * also {@link #getResourceBundle}.
      *
      * <p>
-     * If the resource cannot be found, then an {@link #error error} message will be
-     * logged complaining about the missing resource.
+     * If the resource cannot be found, then an {@link #error error} message will be logged complaining about the
+     * missing resource.
      */
     protected String getResourceBundleString(String key) {
         ResourceBundle rb = getResourceBundle();
@@ -597,18 +573,16 @@ public class Category implements AppenderAttachable {
      * Log a message object with the {@link Level#INFO INFO} Level.
      *
      * <p>
-     * This method first checks if this category is <code>INFO</code> enabled by
-     * comparing the level of this category with {@link Level#INFO INFO} Level. If
-     * the category is <code>INFO</code> enabled, then it converts the message
-     * object passed as parameter to a string by invoking the appropriate
-     * {@link org.apache.log4j.or.ObjectRenderer}. It proceeds to call all the
-     * registered appenders in this category and also higher in the hierarchy
-     * depending on the value of the additivity flag.
+     * This method first checks if this category is <code>INFO</code> enabled by comparing the level of this category
+     * with {@link Level#INFO INFO} Level. If the category is <code>INFO</code> enabled, then it converts the message
+     * object passed as parameter to a string by invoking the appropriate {@link org.apache.log4j.or.ObjectRenderer}. It
+     * proceeds to call all the registered appenders in this category and also higher in the hierarchy depending on the
+     * value of the additivity flag.
      *
      * <p>
      * <b>WARNING</b> Note that passing a {@link Throwable} to this method will
-     * print the name of the Throwable but no stack trace. To print a stack trace
-     * use the {@link #info(Object, Throwable)} form instead.
+     * print the name of the Throwable but no stack trace. To print a stack trace use the
+     * {@link #info(Object, Throwable)} form instead.
      *
      * @param message the message object to log
      */
@@ -620,8 +594,8 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Log a message object with the <code>INFO</code> level including the stack
-     * trace of the {@link Throwable} <code>t</code> passed as parameter.
+     * Log a message object with the <code>INFO</code> level including the stack trace of the {@link Throwable}
+     * <code>t</code> passed as parameter.
      *
      * <p>
      * See {@link #info(Object)} for more detailed information.
@@ -651,8 +625,7 @@ public class Category implements AppenderAttachable {
      * Check whether this category is enabled for the <code>DEBUG</code> Level.
      *
      * <p>
-     * This function is intended to lessen the computational cost of disabled log
-     * debug statements.
+     * This function is intended to lessen the computational cost of disabled log debug statements.
      *
      * <p>
      * For some <code>cat</code> Category object, when you write,
@@ -662,8 +635,8 @@ public class Category implements AppenderAttachable {
      * </pre>
      *
      * <p>
-     * You incur the cost constructing the message, concatenatiion in this case,
-     * regardless of whether the message is logged or not.
+     * You incur the cost constructing the message, concatenatiion in this case, regardless of whether the message is
+     * logged or not.
      *
      * <p>
      * If you are worried about speed, then you should write
@@ -675,10 +648,9 @@ public class Category implements AppenderAttachable {
      * </pre>
      *
      * <p>
-     * This way you will not incur the cost of parameter construction if debugging
-     * is disabled for <code>cat</code>. On the other hand, if the <code>cat</code>
-     * is debug enabled, you will incur the cost of evaluating whether the category
-     * is debug enabled twice. Once in <code>isDebugEnabled</code> and once in the
+     * This way you will not incur the cost of parameter construction if debugging is disabled for <code>cat</code>. On
+     * the other hand, if the <code>cat</code> is debug enabled, you will incur the cost of evaluating whether the
+     * category is debug enabled twice. Once in <code>isDebugEnabled</code> and once in the
      * <code>debug</code>. This is an insignificant overhead since evaluating a
      * category takes about 1%% of the time it takes to actually log.
      *
@@ -692,8 +664,7 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Check whether this category is enabled for a given {@link Level} passed as
-     * parameter.
+     * Check whether this category is enabled for a given {@link Level} passed as parameter.
      * <p>
      * See also {@link #isDebugEnabled}.
      *
@@ -706,11 +677,9 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Check whether this category is enabled for the info Level. See also
-     * {@link #isDebugEnabled}.
+     * Check whether this category is enabled for the info Level. See also {@link #isDebugEnabled}.
      *
-     * @return boolean - <code>true</code> if this category is enabled for level
-     * info, <code>false</code> otherwise.
+     * @return boolean - <code>true</code> if this category is enabled for level info, <code>false</code> otherwise.
      */
     public boolean isInfoEnabled() {
         if (repository.isDisabled(Level.INFO_INT))
@@ -719,8 +688,8 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Log a localized message. The user supplied parameter <code>key</code> is
-     * replaced by its localized version from the resource bundle.
+     * Log a localized message. The user supplied parameter <code>key</code> is replaced by its localized version from
+     * the resource bundle.
      *
      * @see #setResourceBundle
      * @since 0.8.4
@@ -743,9 +712,8 @@ public class Category implements AppenderAttachable {
     /**
      * Log a localized and parameterized message. First, the user supplied
      * <code>key</code> is searched in the resource bundle. Next, the resulting
-     * pattern is formatted using
-     * {@link java.text.MessageFormat#format(String, Object[])} method with the user
-     * supplied object array <code>params</code>.
+     * pattern is formatted using {@link java.text.MessageFormat#format(String, Object[])} method with the user supplied
+     * object array <code>params</code>.
      *
      * @since 0.8.4
      */
@@ -805,9 +773,8 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * LoggerRepository forgot the fireRemoveAppenderEvent method, if using the
-     * stock Hierarchy implementation, then call its fireRemove. Custom repositories
-     * can implement HierarchyEventListener if they want remove notifications.
+     * LoggerRepository forgot the fireRemoveAppenderEvent method, if using the stock Hierarchy implementation, then
+     * call its fireRemove. Custom repositories can implement HierarchyEventListener if they want remove notifications.
      *
      * @param appender appender, may be null.
      */
@@ -857,8 +824,7 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Remove the appender with the name passed as parameter form the list of
-     * appenders.
+     * Remove the appender with the name passed as parameter form the list of appenders.
      *
      * @since 0.8.2
      */
@@ -882,8 +848,7 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Only the Hiearchy class can set the hiearchy of a category. Default package
-     * access is MANDATORY here.
+     * Only the Hiearchy class can set the hiearchy of a category. Default package access is MANDATORY here.
      */
     final void setHierarchy(LoggerRepository repository) {
         this.repository = repository;
@@ -923,9 +888,8 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Set the resource bundle to be used with localized logging methods
-     * {@link #l7dlog(Priority, String, Throwable)} and
-     * {@link #l7dlog(Priority, String, Object[], Throwable)}.
+     * Set the resource bundle to be used with localized logging methods {@link #l7dlog(Priority, String, Throwable)}
+     * and {@link #l7dlog(Priority, String, Object[], Throwable)}.
      *
      * @since 0.8.4
      */
@@ -934,18 +898,16 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Calling this method will <em>safely</em> close and remove all appenders in
-     * all the categories including root contained in the default hierachy.
+     * Calling this method will <em>safely</em> close and remove all appenders in all the categories including root
+     * contained in the default hierachy.
      *
      * <p>
-     * Some appenders such as {@link org.apache.log4j.net.SocketAppender} and
-     * {@link AsyncAppender} need to be closed before the application exists.
-     * Otherwise, pending logging events might be lost.
+     * Some appenders such as {@link org.apache.log4j.net.SocketAppender} and {@link AsyncAppender} need to be closed
+     * before the application exists. Otherwise, pending logging events might be lost.
      *
      * <p>
-     * The <code>shutdown</code> method is careful to close nested appenders before
-     * closing regular appenders. This is allows configurations where a regular
-     * appender is attached to a category and again to a nested appender.
+     * The <code>shutdown</code> method is careful to close nested appenders before closing regular appenders. This is
+     * allows configurations where a regular appender is attached to a category and again to a nested appender.
      *
      * @since 1.0
      * @deprecated Please use {@link LogManager#shutdown()} instead.
@@ -958,18 +920,16 @@ public class Category implements AppenderAttachable {
      * Log a message object with the {@link Level#WARN WARN} Level.
      *
      * <p>
-     * This method first checks if this category is <code>WARN</code> enabled by
-     * comparing the level of this category with {@link Level#WARN WARN} Level. If
-     * the category is <code>WARN</code> enabled, then it converts the message
-     * object passed as parameter to a string by invoking the appropriate
-     * {@link org.apache.log4j.or.ObjectRenderer}. It proceeds to call all the
-     * registered appenders in this category and also higher in the hieararchy
-     * depending on the value of the additivity flag.
+     * This method first checks if this category is <code>WARN</code> enabled by comparing the level of this category
+     * with {@link Level#WARN WARN} Level. If the category is <code>WARN</code> enabled, then it converts the message
+     * object passed as parameter to a string by invoking the appropriate {@link org.apache.log4j.or.ObjectRenderer}. It
+     * proceeds to call all the registered appenders in this category and also higher in the hieararchy depending on the
+     * value of the additivity flag.
      *
      * <p>
      * <b>WARNING</b> Note that passing a {@link Throwable} to this method will
-     * print the name of the Throwable but no stack trace. To print a stack trace
-     * use the {@link #warn(Object, Throwable)} form instead.
+     * print the name of the Throwable but no stack trace. To print a stack trace use the
+     * {@link #warn(Object, Throwable)} form instead.
      * <p>
      *
      * @param message the message object to log.
@@ -983,8 +943,8 @@ public class Category implements AppenderAttachable {
     }
 
     /**
-     * Log a message with the <code>WARN</code> level including the stack trace of
-     * the {@link Throwable} <code>t</code> passed as parameter.
+     * Log a message with the <code>WARN</code> level including the stack trace of the {@link Throwable} <code>t</code>
+     * passed as parameter.
      *
      * <p>
      * See {@link #warn(Object)} for more detailed information.

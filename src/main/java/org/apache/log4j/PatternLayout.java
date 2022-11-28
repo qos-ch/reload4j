@@ -27,34 +27,30 @@ import org.apache.log4j.helpers.PatternConverter;
 /**
  * A flexible layout configurable with pattern string.
  * <p>
- * This code is known to have synchronization and other issues which are not
- * present in org.apache.log4j.EnhancedPatternLayout. EnhancedPatternLayout
- * should be used in preference to PatternLayout. EnhancedPatternLayout is
- * distributed in the log4j extras companion.
+ * This code is known to have synchronization and other issues which are not present in
+ * org.apache.log4j.EnhancedPatternLayout. EnhancedPatternLayout should be used in preference to PatternLayout.
+ * EnhancedPatternLayout is distributed in the log4j extras companion.
  *
  * <p>
- * The goal of this class is to {@link #format format} a {@link LoggingEvent}
- * and return the results as a String. The results depend on the <em>conversion
- * pattern</em>.
+ * The goal of this class is to {@link #format format} a {@link LoggingEvent} and return the results as a String. The
+ * results depend on the <em>conversion pattern</em>.
  *
  * <p>
- * The conversion pattern is closely related to the conversion pattern of the
- * printf function in C. A conversion pattern is composed of literal text and
- * format control expressions called <em>conversion specifiers</em>.
+ * The conversion pattern is closely related to the conversion pattern of the printf function in C. A conversion pattern
+ * is composed of literal text and format control expressions called <em>conversion specifiers</em>.
  *
  * <p>
  * <i>You are free to insert any literal text within the conversion pattern.</i>
  *
  * <p>
- * Each conversion specifier starts with a percent sign (%) and is followed by
- * optional <em>format modifiers</em> and a <em>conversion character</em>. The
- * conversion character specifies the type of data, e.g. category, priority,
- * date, thread name. The format modifiers control such things as field width,
- * padding, left and right justification. The following is a simple example.
+ * Each conversion specifier starts with a percent sign (%) and is followed by optional <em>format modifiers</em> and a
+ * <em>conversion character</em>. The conversion character specifies the type of data, e.g. category, priority, date,
+ * thread name. The format modifiers control such things as field width, padding, left and right justification. The
+ * following is a simple example.
  *
  * <p>
- * Let the conversion pattern be <b>"%-5p [%t]: %m%n"</b> and assume that the
- * log4j environment was set to use a PatternLayout. Then the statements
+ * Let the conversion pattern be <b>"%-5p [%t]: %m%n"</b> and assume that the log4j environment was set to use a
+ * PatternLayout. Then the statements
  *
  * <pre>
  * Category root = Category.getRoot();
@@ -70,11 +66,10 @@ import org.apache.log4j.helpers.PatternConverter;
  * </pre>
  *
  * <p>
- * Note that there is no explicit separator between text and conversion
- * specifiers. The pattern parser knows when it has reached the end of a
- * conversion specifier when it reads a conversion character. In the example
- * above the conversion specifier <b>%-5p</b> means the priority of the logging
- * event should be left justified to a width of five characters.
+ * Note that there is no explicit separator between text and conversion specifiers. The pattern parser knows when it has
+ * reached the end of a conversion specifier when it reads a conversion character. In the example above the conversion
+ * specifier <b>%-5p</b> means the priority of the logging event should be left justified to a width of five
+ * characters.
  * <p>
  * The recognized conversion characters are
  *
@@ -413,8 +408,7 @@ public class PatternLayout extends Layout {
     public final static String DEFAULT_CONVERSION_PATTERN = "%m%n";
 
     /**
-     * A conversion pattern equivalent to the TTCCCLayout. Current value is <b>%r
-     * [%t] %p %c %x - %m%n</b>.
+     * A conversion pattern equivalent to the TTCCCLayout. Current value is <b>%r [%t] %p %c %x - %m%n</b>.
      */
     public final static String TTCC_CONVERSION_PATTERN = "%r [%t] %p %c %x - %m%n";
 
@@ -446,9 +440,8 @@ public class PatternLayout extends Layout {
     }
 
     /**
-     * Set the <b>ConversionPattern</b> option. This is the string which controls
-     * formatting and consists of a mix of literal content and conversion
-     * specifiers.
+     * Set the <b>ConversionPattern</b> option. This is the string which controls formatting and consists of a mix of
+     * literal content and conversion specifiers.
      */
     public void setConversionPattern(String conversionPattern) {
         pattern = conversionPattern;
@@ -470,8 +463,8 @@ public class PatternLayout extends Layout {
     }
 
     /**
-     * The PatternLayout does not handle the throwable contained within
-     * {@link LoggingEvent LoggingEvents}. Thus, it returns <code>true</code>.
+     * The PatternLayout does not handle the throwable contained within {@link LoggingEvent LoggingEvents}. Thus, it
+     * returns <code>true</code>.
      *
      * @since 0.8.4
      */
@@ -480,9 +473,8 @@ public class PatternLayout extends Layout {
     }
 
     /**
-     * Returns PatternParser used to parse the conversion string. Subclasses may
-     * override this to return a subclass of PatternParser which recognize custom
-     * conversion characters.
+     * Returns PatternParser used to parse the conversion string. Subclasses may override this to return a subclass of
+     * PatternParser which recognize custom conversion characters.
      *
      * @since 0.9.0
      */

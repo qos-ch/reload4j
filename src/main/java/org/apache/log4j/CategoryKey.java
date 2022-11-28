@@ -18,8 +18,7 @@
 package org.apache.log4j;
 
 /**
- * CategoryKey is a wrapper for String that apparently accellerated hash table
- * lookup in early JVM's.
+ * CategoryKey is a wrapper for String that apparently accellerated hash table lookup in early JVM's.
  *
  * @author Ceki G&uuml;lc&uuml;
  */

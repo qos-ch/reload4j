@@ -35,9 +35,8 @@ import org.apache.log4j.spi.LoggingEvent;
  * The AsyncAppender lets users log events asynchronously.
  * <p/>
  * <p/>
- * The AsyncAppender will collect the events sent to it and then dispatch them
- * to all the appenders that are attached to it. You can attach multiple
- * appenders to an AsyncAppender.
+ * The AsyncAppender will collect the events sent to it and then dispatch them to all the appenders that are attached to
+ * it. You can attach multiple appenders to an AsyncAppender.
  * </p>
  * <p/>
  * <p/>
@@ -59,8 +58,7 @@ public class AsyncAppender extends AppenderSkeleton implements AppenderAttachabl
     public static final int DEFAULT_BUFFER_SIZE = 128;
 
     /**
-     * Event buffer, also used as monitor to protect itself and discardMap from
-     * simulatenous modifications.
+     * Event buffer, also used as monitor to protect itself and discardMap from simulatenous modifications.
      */
     private final List buffer = new ArrayList();
 
@@ -222,8 +220,8 @@ public class AsyncAppender extends AppenderSkeleton implements AppenderAttachabl
     }
 
     /**
-     * Close this <code>AsyncAppender</code> by interrupting the dispatcher thread
-     * which will process all pending events before exiting.
+     * Close this <code>AsyncAppender</code> by interrupting the dispatcher thread which will process all pending events
+     * before exiting.
      */
     public void close() {
         /**
@@ -239,8 +237,8 @@ public class AsyncAppender extends AppenderSkeleton implements AppenderAttachabl
             dispatcher.join();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            org.apache.log4j.helpers.LogLog
-                    .error("Got an InterruptedException while waiting for the " + "dispatcher to finish.", e);
+            org.apache.log4j.helpers.LogLog.error(
+                    "Got an InterruptedException while waiting for the " + "dispatcher to finish.", e);
         }
 
         //
@@ -344,15 +342,13 @@ public class AsyncAppender extends AppenderSkeleton implements AppenderAttachabl
     }
 
     /**
-     * The <b>LocationInfo</b> option takes a boolean value. By default, it is set
-     * to false which means there will be no effort to extract the location
-     * information related to the event. As a result, the event that will be
-     * ultimately logged will likely to contain the wrong location information (if
-     * present in the log format).
+     * The <b>LocationInfo</b> option takes a boolean value. By default, it is set to false which means there will be no
+     * effort to extract the location information related to the event. As a result, the event that will be ultimately
+     * logged will likely to contain the wrong location information (if present in the log format).
      * <p/>
      * <p/>
-     * Location information extraction is comparatively very slow and should be
-     * avoided unless performance is not a concern.
+     * Location information extraction is comparatively very slow and should be avoided unless performance is not a
+     * concern.
      * </p>
      *
      * @param flag true if location information should be extracted.
@@ -362,9 +358,9 @@ public class AsyncAppender extends AppenderSkeleton implements AppenderAttachabl
     }
 
     /**
-     * Sets the number of messages allowed in the event buffer before the calling
-     * thread is blocked (if blocking is true) or until messages are summarized and
-     * discarded. Changing the size will not affect messages already in the buffer.
+     * Sets the number of messages allowed in the event buffer before the calling thread is blocked (if blocking is
+     * true) or until messages are summarized and discarded. Changing the size will not affect messages already in the
+     * buffer.
      *
      * @param size buffer size, must be positive.
      */
@@ -396,8 +392,7 @@ public class AsyncAppender extends AppenderSkeleton implements AppenderAttachabl
     }
 
     /**
-     * Sets whether appender should wait if there is no space available in the event
-     * buffer or immediately return.
+     * Sets whether appender should wait if there is no space available in the event buffer or immediately return.
      *
      * @param value true if appender should wait until available space in buffer.
      * @since 1.2.14
@@ -410,9 +405,8 @@ public class AsyncAppender extends AppenderSkeleton implements AppenderAttachabl
     }
 
     /**
-     * Gets whether appender should block calling thread when buffer is full. If
-     * false, messages will be counted by logger and a summary message appended
-     * after the contents of the buffer have been appended.
+     * Gets whether appender should block calling thread when buffer is full. If false, messages will be counted by
+     * logger and a summary message appended after the contents of the buffer have been appended.
      *
      * @return true if calling thread will be blocked when buffer is full.
      * @since 1.2.14
@@ -465,7 +459,7 @@ public class AsyncAppender extends AppenderSkeleton implements AppenderAttachabl
          */
         public LoggingEvent createEvent() {
             String msg = MessageFormat.format("Discarded {0} messages due to full event buffer including: {1}",
-                    new Object[]{new Integer(count), maxEvent.getMessage()});
+                    new Object[] { new Integer(count), maxEvent.getMessage() });
 
             return new LoggingEvent("org.apache.log4j.AsyncAppender.DONT_REPORT_LOCATION",
                     Logger.getLogger(maxEvent.getLoggerName()), maxEvent.getLevel(), msg, null);
@@ -505,7 +499,7 @@ public class AsyncAppender extends AppenderSkeleton implements AppenderAttachabl
          * @param appenders  appenders, may not be null.
          */
         public Dispatcher(final AsyncAppender parent, final List buffer, final Map discardMap,
-                          final AppenderAttachableImpl appenders) {
+                final AppenderAttachableImpl appenders) {
 
             this.parent = parent;
             this.buffer = buffer;

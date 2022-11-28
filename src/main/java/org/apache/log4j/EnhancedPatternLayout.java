@@ -26,25 +26,21 @@ import org.apache.log4j.spi.LoggingEvent;
 //                 Anders Kristensen <akristensen@dynamicsoft.com>
 
 /**
- * This class is an enhanced version of org.apache.log4j.PatternLayout which was
- * originally developed as part of the abandoned log4j 1.3 effort and has been
- * available in the extras companion. This pattern layout should be used in
- * preference to org.apache.log4j.PatternLayout except when compatibility where
- * PatternLayout has been extended either through subclassing or alternative
- * pattern parsers.
+ * This class is an enhanced version of org.apache.log4j.PatternLayout which was originally developed as part of the
+ * abandoned log4j 1.3 effort and has been available in the extras companion. This pattern layout should be used in
+ * preference to org.apache.log4j.PatternLayout except when compatibility where PatternLayout has been extended either
+ * through subclassing or alternative pattern parsers.
  *
  *
  * <p>
- * A flexible layout configurable with pattern string. The goal of this class is
- * to {@link #format format} a {@link LoggingEvent} and return the results in a
- * {@link StringBuffer}. The format of the result depends on the <em>conversion
- * pattern</em>.
+ * A flexible layout configurable with pattern string. The goal of this class is to {@link #format format} a
+ * {@link LoggingEvent} and return the results in a {@link StringBuffer}. The format of the result depends on the
+ * <em>conversion pattern</em>.
  * <p>
  *
  * <p>
- * The conversion pattern is closely related to the conversion pattern of the
- * printf function in C. A conversion pattern is composed of literal text and
- * format control expressions called <em>conversion specifiers</em>.
+ * The conversion pattern is closely related to the conversion pattern of the printf function in C. A conversion pattern
+ * is composed of literal text and format control expressions called <em>conversion specifiers</em>.
  *
  * <p>
  * <i>Note that you are free to insert any literal text within the conversion
@@ -52,15 +48,14 @@ import org.apache.log4j.spi.LoggingEvent;
  * </p>
  *
  * <p>
- * Each conversion specifier starts with a percent sign (%) and is followed by
- * optional <em>format modifiers</em> and a <em>conversion character</em>. The
- * conversion character specifies the type of data, e.g. category, priority,
- * date, thread name. The format modifiers control such things as field width,
- * padding, left and right justification. The following is a simple example.
+ * Each conversion specifier starts with a percent sign (%) and is followed by optional <em>format modifiers</em> and a
+ * <em>conversion character</em>. The conversion character specifies the type of data, e.g. category, priority, date,
+ * thread name. The format modifiers control such things as field width, padding, left and right justification. The
+ * following is a simple example.
  *
  * <p>
- * Let the conversion pattern be <b>"%-5p [%t]: %m%n"</b> and assume that the
- * log4j environment was set to use a EnhancedPatternLayout. Then the statements
+ * Let the conversion pattern be <b>"%-5p [%t]: %m%n"</b> and assume that the log4j environment was set to use a
+ * EnhancedPatternLayout. Then the statements
  *
  * <pre>
  * Category root = Category.getRoot();
@@ -76,11 +71,10 @@ import org.apache.log4j.spi.LoggingEvent;
  * </pre>
  *
  * <p>
- * Note that there is no explicit separator between text and conversion
- * specifiers. The pattern parser knows when it has reached the end of a
- * conversion specifier when it reads a conversion character. In the example
- * above the conversion specifier <b>%-5p</b> means the priority of the logging
- * event should be left justified to a width of five characters.
+ * Note that there is no explicit separator between text and conversion specifiers. The pattern parser knows when it has
+ * reached the end of a conversion specifier when it reads a conversion character. In the example above the conversion
+ * specifier <b>%-5p</b> means the priority of the logging event should be left justified to a width of five
+ * characters.
  * <p>
  * The recognized conversion characters are
  *
@@ -435,8 +429,7 @@ public class EnhancedPatternLayout extends Layout {
     public static final String DEFAULT_CONVERSION_PATTERN = "%m%n";
 
     /**
-     * A conversion pattern equivalent to the TTCCCLayout. Current value is <b>%r
-     * [%t] %p %c %x - %m%n</b>.
+     * A conversion pattern equivalent to the TTCCCLayout. Current value is <b>%r [%t] %p %c %x - %m%n</b>.
      */
     public static final String TTCC_CONVERSION_PATTERN = "%r [%t] %p %c %x - %m%n";
 
@@ -500,9 +493,8 @@ public class EnhancedPatternLayout extends Layout {
     }
 
     /**
-     * Set the <b>ConversionPattern</b> option. This is the string which controls
-     * formatting and consists of a mix of literal content and conversion
-     * specifiers.
+     * Set the <b>ConversionPattern</b> option. This is the string which controls formatting and consists of a mix of
+     * literal content and conversion specifiers.
      *
      * @param conversionPattern conversion pattern.
      */
@@ -526,9 +518,8 @@ public class EnhancedPatternLayout extends Layout {
     }
 
     /**
-     * Returns PatternParser used to parse the conversion string. Subclasses may
-     * override this to return a subclass of PatternParser which recognize custom
-     * conversion characters.
+     * Returns PatternParser used to parse the conversion string. Subclasses may override this to return a subclass of
+     * PatternParser which recognize custom conversion characters.
      *
      * @since 0.9.0
      */
@@ -537,8 +528,8 @@ public class EnhancedPatternLayout extends Layout {
     }
 
     /**
-     * Activates the conversion pattern. Do not forget to call this method after you
-     * change the parameters of the EnhancedPatternLayout instance.
+     * Activates the conversion pattern. Do not forget to call this method after you change the parameters of the
+     * EnhancedPatternLayout instance.
      */
     public void activateOptions() {
         // nothing to do.
@@ -558,8 +549,7 @@ public class EnhancedPatternLayout extends Layout {
     }
 
     /**
-     * Will return false if any of the conversion specifiers in the pattern handles
-     * {@link Exception Exceptions}.
+     * Will return false if any of the conversion specifiers in the pattern handles {@link Exception Exceptions}.
      *
      * @return true if the pattern formats any information from exceptions.
      */

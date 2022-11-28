@@ -55,35 +55,29 @@ import org.apache.log4j.spi.ErrorHandler;
  * format.
  *
  * <p>
- * It is sometimes useful to see how log4j is reading configuration files. You
- * can enable log4j internal logging by defining the <b>log4j.debug</b>
- * variable.
+ * It is sometimes useful to see how log4j is reading configuration files. You can enable log4j internal logging by
+ * defining the <b>log4j.debug</b> variable.
  *
  * <p>
  * As of log4j version 0.8.5, at class initialization time class, the file
  * <b>log4j.properties</b> will be searched from the search path used to load
- * classes. If the file can be found, then it will be fed to the
- * {@link PropertyConfigurator#configure(java.net.URL)} method.
+ * classes. If the file can be found, then it will be fed to the {@link PropertyConfigurator#configure(java.net.URL)}
+ * method.
  *
  * <p>
- * The <code>PropertyConfigurator</code> does not handle the advanced
- * configuration features supported by the
- * {@link org.apache.log4j.xml.DOMConfigurator DOMConfigurator} such as support
- * custom {@link org.apache.log4j.spi.ErrorHandler ErrorHandlers}, nested
- * appenders such as the {@link org.apache.log4j.AsyncAppender AsyncAppender},
- * etc.
+ * The <code>PropertyConfigurator</code> does not handle the advanced configuration features supported by the
+ * {@link org.apache.log4j.xml.DOMConfigurator DOMConfigurator} such as support custom
+ * {@link org.apache.log4j.spi.ErrorHandler ErrorHandlers}, nested appenders such as the
+ * {@link org.apache.log4j.AsyncAppender AsyncAppender}, etc.
  *
  * <p>
- * All option <em>values</em> admit variable substitution. The syntax of
- * variable substitution is similar to that of Unix shells. The string between
- * an opening <b>&quot;${&quot;</b> and closing <b>&quot;}&quot;</b> is
- * interpreted as a key. The value of the substituted variable can be defined as
- * a system property or in the configuration file itself. The value of the key
- * is first searched in the system properties, and if not found there, it is
- * then searched in the configuration file being parsed. The corresponding value
- * replaces the ${variableName} sequence. For example, if <code>java.home</code>
- * system property is set to <code>/home/xyz</code>, then every occurrence of
- * the sequence <code>${java.home}</code> will be interpreted as
+ * All option <em>values</em> admit variable substitution. The syntax of variable substitution is similar to that of
+ * Unix shells. The string between an opening <b>&quot;${&quot;</b> and closing <b>&quot;}&quot;</b> is interpreted as a
+ * key. The value of the substituted variable can be defined as a system property or in the configuration file itself.
+ * The value of the key is first searched in the system properties, and if not found there, it is then searched in the
+ * configuration file being parsed. The corresponding value replaces the ${variableName} sequence. For example, if
+ * <code>java.home</code> system property is set to <code>/home/xyz</code>, then every occurrence of the sequence
+ * <code>${java.home}</code> will be interpreted as
  * <code>/home/xyz</code>.
  *
  * @author Ceki G&uuml;lc&uuml;
@@ -114,8 +108,8 @@ public class PropertyConfigurator implements Configurator {
     private static final String APPENDER_REF_TAG = "appender-ref";
 
     /**
-     * Key for specifying the {@link org.apache.log4j.spi.LoggerFactory
-     * LoggerFactory}. Currently set to "<code>log4j.loggerFactory</code>".
+     * Key for specifying the {@link org.apache.log4j.spi.LoggerFactory LoggerFactory}. Currently set to
+     * "<code>log4j.loggerFactory</code>".
      */
     public static final String LOGGER_FACTORY_KEY = "log4j.loggerFactory";
 
@@ -127,10 +121,9 @@ public class PropertyConfigurator implements Configurator {
     static final private String INTERNAL_ROOT_NAME = "root";
 
     /**
-     * Read configuration from a file. <b>The existing configuration is not cleared
-     * nor reset.</b> If you require a different behavior, then call
-     * {@link LogManager#resetConfiguration resetConfiguration} method before
-     * calling <code>doConfigure</code>.
+     * Read configuration from a file. <b>The existing configuration is not cleared nor reset.</b> If you require a
+     * different behavior, then call {@link LogManager#resetConfiguration resetConfiguration} method before calling
+     * <code>doConfigure</code>.
      *
      * <p>
      * The configuration file consists of statements in the format
@@ -140,18 +133,16 @@ public class PropertyConfigurator implements Configurator {
      * <h3>Repository-wide threshold</h3>
      *
      * <p>
-     * The repository-wide threshold filters logging requests by level regardless of
-     * logger. The syntax is:
+     * The repository-wide threshold filters logging requests by level regardless of logger. The syntax is:
      *
      * <pre>
      * log4j.threshold=[level]
      * </pre>
      *
      * <p>
-     * The level value can consist of the string values OFF, FATAL, ERROR, WARN,
-     * INFO, DEBUG, ALL or a <em>custom level</em> value. A custom level value can
-     * be specified in the form level#classname. By default the repository-wide
-     * threshold is set to the lowest possible value, namely the level
+     * The level value can consist of the string values OFF, FATAL, ERROR, WARN, INFO, DEBUG, ALL or a <em>custom
+     * level</em> value. A custom level value can be specified in the form level#classname. By default the
+     * repository-wide threshold is set to the lowest possible value, namely the level
      * <code>ALL</code>.
      * </p>
      *
@@ -172,8 +163,8 @@ public class PropertyConfigurator implements Configurator {
      * log4j.appender.appenderName.optionN=valueN
      * </pre>
      * <p>
-     * For each named appender you can configure its {@link Layout}. The syntax for
-     * configuring an appender's layout is:
+     * For each named appender you can configure its {@link Layout}. The syntax for configuring an appender's layout
+     * is:
      *
      * <pre>
      * log4j.appender.appenderName.layout=fully.qualified.name.of.layout.class
@@ -191,9 +182,8 @@ public class PropertyConfigurator implements Configurator {
      * log4j.appender.appenderName.filter.ID.optionN=valueN
      * </pre>
      * <p>
-     * The first line defines the class name of the filter identified by ID;
-     * subsequent lines with the same ID specify filter option - value paris.
-     * Multiple filters are added to the appender in the lexicographic order of IDs.
+     * The first line defines the class name of the filter identified by ID; subsequent lines with the same ID specify
+     * filter option - value paris. Multiple filters are added to the appender in the lexicographic order of IDs.
      * <p>
      * The syntax for adding an {@link ErrorHandler} to an appender is:
      *
@@ -217,26 +207,23 @@ public class PropertyConfigurator implements Configurator {
      * </pre>
      *
      * <p>
-     * This syntax means that an optional <em>level</em> can be supplied followed by
-     * appender names separated by commas.
+     * This syntax means that an optional <em>level</em> can be supplied followed by appender names separated by
+     * commas.
      *
      * <p>
-     * The level value can consist of the string values OFF, FATAL, ERROR, WARN,
-     * INFO, DEBUG, ALL or a <em>custom level</em> value. A custom level value can
-     * be specified in the form <code>level#classname</code>.
+     * The level value can consist of the string values OFF, FATAL, ERROR, WARN, INFO, DEBUG, ALL or a <em>custom
+     * level</em> value. A custom level value can be specified in the form <code>level#classname</code>.
      *
      * <p>
-     * If a level value is specified, then the root level is set to the
-     * corresponding level. If no level value is specified, then the root level
-     * remains untouched.
+     * If a level value is specified, then the root level is set to the corresponding level. If no level value is
+     * specified, then the root level remains untouched.
      *
      * <p>
      * The root logger can be assigned multiple appenders.
      *
      * <p>
-     * Each <i>appenderName</i> (separated by commas) will be added to the root
-     * logger. The named appender is defined using the appender syntax defined
-     * above.
+     * Each <i>appenderName</i> (separated by commas) will be added to the root logger. The named appender is defined
+     * using the appender syntax defined above.
      *
      * <p>
      * For non-root categories the syntax is almost the same:
@@ -246,36 +233,31 @@ public class PropertyConfigurator implements Configurator {
      * </pre>
      *
      * <p>
-     * The meaning of the optional level value is discussed above in relation to the
-     * root logger. In addition however, the value INHERITED can be specified
-     * meaning that the named logger should inherit its level from the logger
+     * The meaning of the optional level value is discussed above in relation to the root logger. In addition however,
+     * the value INHERITED can be specified meaning that the named logger should inherit its level from the logger
      * hierarchy.
      *
      * <p>
-     * If no level value is supplied, then the level of the named logger remains
-     * untouched.
+     * If no level value is supplied, then the level of the named logger remains untouched.
      *
      * <p>
-     * By default categories inherit their level from the hierarchy. However, if you
-     * set the level of a logger and later decide that that logger should inherit
-     * its level, then you should specify INHERITED as the value for the level
+     * By default categories inherit their level from the hierarchy. However, if you set the level of a logger and later
+     * decide that that logger should inherit its level, then you should specify INHERITED as the value for the level
      * value. NULL is a synonym for INHERITED.
      *
      * <p>
-     * Similar to the root logger syntax, each <i>appenderName</i> (separated by
-     * commas) will be attached to the named logger.
+     * Similar to the root logger syntax, each <i>appenderName</i> (separated by commas) will be attached to the named
+     * logger.
      *
      * <p>
-     * See the <a href="../../../../manual.html#additivity">appender additivity
-     * rule</a> in the user manual for the meaning of the <code>additivity</code>
-     * flag.
+     * See the <a href="../../../../manual.html#additivity">appender additivity rule</a> in the user manual for the
+     * meaning of the <code>additivity</code> flag.
      *
      * <h3>ObjectRenderers</h3>
      * <p>
-     * You can customize the way message objects of a given type are converted to
-     * String before being logged. This is done by specifying an
-     * {@link org.apache.log4j.or.ObjectRenderer ObjectRenderer} for the object type
-     * would like to customize.
+     * You can customize the way message objects of a given type are converted to String before being logged. This is
+     * done by specifying an {@link org.apache.log4j.or.ObjectRenderer ObjectRenderer} for the object type would like to
+     * customize.
      *
      * <p>
      * The syntax is:
@@ -292,9 +274,8 @@ public class PropertyConfigurator implements Configurator {
      *
      * <h3>ThrowableRenderer</h3>
      * <p>
-     * You can customize the way an instance of Throwable is converted to String
-     * before being logged. This is done by specifying an
-     * {@link org.apache.log4j.spi.ThrowableRenderer ThrowableRenderer}.
+     * You can customize the way an instance of Throwable is converted to String before being logged. This is done by
+     * specifying an {@link org.apache.log4j.spi.ThrowableRenderer ThrowableRenderer}.
      *
      * <p>
      * The syntax is:
@@ -316,14 +297,13 @@ public class PropertyConfigurator implements Configurator {
      *
      * <h3>Resetting Hierarchy</h3>
      * <p>
-     * The hierarchy will be reset before configuration when log4j.reset=true is
-     * present in the properties file.
+     * The hierarchy will be reset before configuration when log4j.reset=true is present in the properties file.
      *
      * <h3>Example</h3>
      *
      * <p>
-     * An example configuration is given below. Other configuration file examples
-     * are given in the <code>examples</code> folder.
+     * An example configuration is given below. Other configuration file examples are given in the <code>examples</code>
+     * folder.
      *
      * <pre>
      *
@@ -378,17 +358,14 @@ public class PropertyConfigurator implements Configurator {
      * </pre>
      *
      * <p>
-     * Refer to the <b>setOption</b> method in each Appender and Layout for class
-     * specific options.
+     * Refer to the <b>setOption</b> method in each Appender and Layout for class specific options.
      *
      * <p>
-     * Use the <code>#</code> or <code>!</code> characters at the beginning of a
-     * line for comments.
+     * Use the <code>#</code> or <code>!</code> characters at the beginning of a line for comments.
      *
      * <p>
      *
-     * @param configFileName The name of the configuration file where the
-     *                       configuration information is stored.
+     * @param configFileName The name of the configuration file where the configuration information is stored.
      */
     public void doConfigure(String configFileName, LoggerRepository hierarchy) {
         Properties props = new Properties();
@@ -454,8 +431,8 @@ public class PropertyConfigurator implements Configurator {
     }
 
     /**
-     * Like {@link #configureAndWatch(String, long)} except that the default delay
-     * as defined by {@link FileWatchdog#DEFAULT_DELAY} is used.
+     * Like {@link #configureAndWatch(String, long)} except that the default delay as defined by
+     * {@link FileWatchdog#DEFAULT_DELAY} is used.
      *
      * @param configFilename A file in key=value format.
      */
@@ -464,11 +441,11 @@ public class PropertyConfigurator implements Configurator {
     }
 
     /**
-     * Read the configuration file <code>configFilename</code> if it exists.
-     * Moreover, a thread will be created that will periodically check if
+     * Read the configuration file <code>configFilename</code> if it exists. Moreover, a thread will be created that
+     * will periodically check if
      * <code>configFilename</code> has been created or modified. The period is
-     * determined by the <code>delay</code> argument. If a change or file creation
-     * is detected, then <code>configFilename</code> is read to configure log4j.
+     * determined by the <code>delay</code> argument. If a change or file creation is detected, then
+     * <code>configFilename</code> is read to configure log4j.
      *
      * @param configFilename A file in key=value format.
      * @param delay          The delay in milliseconds to wait between each check.
@@ -580,11 +557,9 @@ public class PropertyConfigurator implements Configurator {
     // --------------------------------------------------------------------------
 
     /**
-     * Check the provided <code>Properties</code> object for a
-     * {@link org.apache.log4j.spi.LoggerFactory LoggerFactory} entry specified by
-     * {@link #LOGGER_FACTORY_KEY}. If such an entry exists, an attempt is made to
-     * create an instance using the default constructor. This instance is used for
-     * subsequent Category creations within this configurator.
+     * Check the provided <code>Properties</code> object for a {@link org.apache.log4j.spi.LoggerFactory LoggerFactory}
+     * entry specified by {@link #LOGGER_FACTORY_KEY}. If such an entry exists, an attempt is made to create an instance
+     * using the default constructor. This instance is used for subsequent Category creations within this configurator.
      *
      * @see #parseCatsAndRenderers
      */
@@ -778,8 +753,8 @@ public class PropertyConfigurator implements Configurator {
                     LogLog.debug("Parsing errorhandler options for \"" + appenderName + "\".");
                     parseErrorHandler(eh, errorHandlerPrefix, props, repository);
                     final Properties edited = new Properties();
-                    final String[] keys = new String[]{errorHandlerPrefix + "." + ROOT_REF,
-                            errorHandlerPrefix + "." + LOGGER_REF, errorHandlerPrefix + "." + APPENDER_REF_TAG};
+                    final String[] keys = new String[] { errorHandlerPrefix + "." + ROOT_REF,
+                            errorHandlerPrefix + "." + LOGGER_REF, errorHandlerPrefix + "." + APPENDER_REF_TAG };
                     for (Iterator iter = props.entrySet().iterator(); iter.hasNext(); ) {
                         Map.Entry entry = (Map.Entry) iter.next();
                         int i = 0;
@@ -806,7 +781,7 @@ public class PropertyConfigurator implements Configurator {
     }
 
     private void parseErrorHandler(final ErrorHandler eh, final String errorHandlerPrefix, final Properties props,
-                                   final LoggerRepository hierarchy) {
+            final LoggerRepository hierarchy) {
         boolean rootRef = OptionConverter.toBoolean(OptionConverter.findAndSubst(errorHandlerPrefix + ROOT_REF, props),
                 false);
         if (rootRef) {
@@ -814,7 +789,8 @@ public class PropertyConfigurator implements Configurator {
         }
         String loggerName = OptionConverter.findAndSubst(errorHandlerPrefix + LOGGER_REF, props);
         if (loggerName != null) {
-            Logger logger = (loggerFactory == null) ? hierarchy.getLogger(loggerName)
+            Logger logger = (loggerFactory == null)
+                    ? hierarchy.getLogger(loggerName)
                     : hierarchy.getLogger(loggerName, loggerFactory);
             eh.setLogger(logger);
         }
@@ -876,8 +852,9 @@ public class PropertyConfigurator implements Configurator {
                         propSetter.setProperty(kv.key, kv.value);
                     }
                     propSetter.activate();
-                    LogLog.debug("Adding filter of type [" + filter.getClass() + "] to appender named ["
-                            + appender.getName() + "].");
+                    LogLog.debug(
+                            "Adding filter of type [" + filter.getClass() + "] to appender named [" + appender.getName()
+                                    + "].");
                     appender.addFilter(filter);
                 }
             } else {

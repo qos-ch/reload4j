@@ -27,8 +27,8 @@ import org.apache.log4j.helpers.LogLog;
 /**
  * Abstract superclass of the other appenders in the package.
  * <p>
- * This class provides the code for common functionality, such as support for
- * threshold filtering and support for general filters.
+ * This class provides the code for common functionality, such as support for threshold filtering and support for
+ * general filters.
  *
  * @author Ceki G&uuml;lc&uuml;
  * @since 0.8.1
@@ -36,8 +36,7 @@ import org.apache.log4j.helpers.LogLog;
 public abstract class AppenderSkeleton implements Appender, OptionHandler {
 
     /**
-     * The layout variable does not need to be set if the appender implementation
-     * has its own layout.
+     * The layout variable does not need to be set if the appender implementation has its own layout.
      */
     protected Layout layout;
 
@@ -80,8 +79,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
     /**
      * Create new instance. Provided for compatibility with log4j 1.3.
      *
-     * @param isActive true if appender is ready for use upon construction. Not used
-     *                 in log4j 1.2.x.
+     * @param isActive true if appender is ready for use upon construction. Not used in log4j 1.2.x.
      * @since 1.2.15
      */
     protected AppenderSkeleton(final boolean isActive) {
@@ -89,8 +87,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
     }
 
     /**
-     * Derived appenders should override this method if option structure requires
-     * it.
+     * Derived appenders should override this method if option structure requires it.
      */
     public void activateOptions() {
     }
@@ -110,9 +107,8 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
     }
 
     /**
-     * Subclasses of <code>AppenderSkeleton</code> should implement this method to
-     * perform actual logging. See also {@link #doAppend AppenderSkeleton.doAppend}
-     * method.
+     * Subclasses of <code>AppenderSkeleton</code> should implement this method to perform actual logging. See also
+     * {@link #doAppend AppenderSkeleton.doAppend} method.
      *
      * @since 0.9.0
      */
@@ -128,8 +124,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
     }
 
     /**
-     * Finalize this appender by calling the derived class' <code>close</code>
-     * method.
+     * Finalize this appender by calling the derived class' <code>close</code> method.
      *
      * @since 0.8.4
      */
@@ -162,8 +157,8 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
     }
 
     /**
-     * Return the first filter in the filter chain for this Appender. The return
-     * value may be <code>null</code> if no is filter is set.
+     * Return the first filter in the filter chain for this Appender. The return value may be <code>null</code> if no is
+     * filter is set.
      */
     public final Filter getFirstFilter() {
         return headFilter;
@@ -186,8 +181,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
     }
 
     /**
-     * Returns this appenders threshold level. See the {@link #setThreshold} method
-     * for the meaning of this option.
+     * Returns this appenders threshold level. See the {@link #setThreshold} method for the meaning of this option.
      *
      * @since 1.1
      */
@@ -196,17 +190,16 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
     }
 
     /**
-     * Check whether the message level is below the appender's threshold. If there
-     * is no threshold set, then the return value is always <code>true</code>.
+     * Check whether the message level is below the appender's threshold. If there is no threshold set, then the return
+     * value is always <code>true</code>.
      */
     public boolean isAsSevereAsThreshold(Priority priority) {
         return ((threshold == null) || priority.isGreaterOrEqual(threshold));
     }
 
     /**
-     * This method performs threshold checks and invokes filters before delegating
-     * actual logging to the subclasses specific {@link AppenderSkeleton#append}
-     * method.
+     * This method performs threshold checks and invokes filters before delegating actual logging to the subclasses
+     * specific {@link AppenderSkeleton#append} method.
      */
     public synchronized void doAppend(LoggingEvent event) {
         if (closed) {
@@ -223,12 +216,12 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
         FILTER_LOOP:
         while (f != null) {
             switch (f.decide(event)) {
-                case Filter.DENY:
-                    return;
-                case Filter.ACCEPT:
-                    break FILTER_LOOP;
-                case Filter.NEUTRAL:
-                    f = f.getNext();
+            case Filter.DENY:
+                return;
+            case Filter.ACCEPT:
+                break FILTER_LOOP;
+            case Filter.NEUTRAL:
+                f = f.getNext();
             }
         }
 
@@ -251,9 +244,8 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
     }
 
     /**
-     * Set the layout for this appender. Note that some appenders have their own
-     * (fixed) layouts or do not use one. For example, the
-     * {@link org.apache.log4j.net.SocketAppender} ignores the layout set here.
+     * Set the layout for this appender. Note that some appenders have their own (fixed) layouts or do not use one. For
+     * example, the {@link org.apache.log4j.net.SocketAppender} ignores the layout set here.
      */
     public void setLayout(Layout layout) {
         this.layout = layout;
@@ -267,8 +259,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
     }
 
     /**
-     * Set the threshold level. All log events with lower level than the threshold
-     * level are ignored by the appender.
+     * Set the threshold level. All log events with lower level than the threshold level are ignored by the appender.
      *
      * <p>
      * In configuration files this option is specified by setting the value of the

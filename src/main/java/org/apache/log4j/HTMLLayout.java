@@ -24,9 +24,8 @@ import org.apache.log4j.helpers.Transform;
 /**
  * This layout outputs events in a HTML table.
  * <p>
- * Appenders using this layout should have their encoding set to UTF-8 or
- * UTF-16, otherwise events containing non ASCII characters could result in
- * corrupted log files.
+ * Appenders using this layout should have their encoding set to UTF-8 or UTF-16, otherwise events containing non ASCII
+ * characters could result in corrupted log files.
  *
  * @author Ceki G&uuml;lc&uuml;
  */
@@ -41,22 +40,22 @@ public class HTMLLayout extends Layout {
     private StringBuffer sbuf = new StringBuffer(BUF_SIZE);
 
     /**
-     * A string constant used in naming the option for setting the the location
-     * information flag. Current value of this string constant is
+     * A string constant used in naming the option for setting the the location information flag. Current value of this
+     * string constant is
      * <b>LocationInfo</b>.
      *
      * <p>
      * Note that all option keys are case sensitive.
      *
-     * @deprecated Options are now handled using the JavaBeans paradigm. This
-     * constant is not longer needed and will be removed in the
+     * @deprecated Options are now handled using the JavaBeans paradigm. This constant is not longer needed and will be
+     * removed in the
      * <em>near</em> term.
      */
     public static final String LOCATION_INFO_OPTION = "LocationInfo";
 
     /**
-     * A string constant used in naming the option for setting the the HTML document
-     * title. Current value of this string constant is <b>Title</b>.
+     * A string constant used in naming the option for setting the the HTML document title. Current value of this string
+     * constant is <b>Title</b>.
      */
     public static final String TITLE_OPTION = "Title";
 
@@ -66,14 +65,12 @@ public class HTMLLayout extends Layout {
     String title = "Log4J Log Messages";
 
     /**
-     * The <b>LocationInfo</b> option takes a boolean value. By default, it is set
-     * to false which means there will be no location information output by this
-     * layout. If the the option is set to true, then the file name and line number
+     * The <b>LocationInfo</b> option takes a boolean value. By default, it is set to false which means there will be no
+     * location information output by this layout. If the the option is set to true, then the file name and line number
      * of the statement at the origin of the log statement will be output.
      *
      * <p>
-     * If you are embedding this layout within an
-     * {@link org.apache.log4j.net.SMTPAppender} then make sure to set the
+     * If you are embedding this layout within an {@link org.apache.log4j.net.SMTPAppender} then make sure to set the
      * <b>LocationInfo</b> option of that appender as well.
      */
     public void setLocationInfo(boolean flag) {
@@ -88,8 +85,8 @@ public class HTMLLayout extends Layout {
     }
 
     /**
-     * The <b>Title</b> option takes a String value. This option sets the document
-     * title of the generated HTML document.
+     * The <b>Title</b> option takes a String value. This option sets the document title of the generated HTML
+     * document.
      *
      * <p>
      * Defaults to 'Log4J Log Messages'.
@@ -251,8 +248,7 @@ public class HTMLLayout extends Layout {
     }
 
     /**
-     * The HTML layout handles the throwable contained in logging events. Hence,
-     * this method return <code>false</code>.
+     * The HTML layout handles the throwable contained in logging events. Hence, this method return <code>false</code>.
      */
     public boolean ignoresThrowable() {
         return false;

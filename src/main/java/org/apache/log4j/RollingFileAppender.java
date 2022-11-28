@@ -28,12 +28,10 @@ import org.apache.log4j.helpers.CountingQuietWriter;
 import org.apache.log4j.spi.LoggingEvent;
 
 /**
- * RollingFileAppender extends FileAppender to backup the log files when they
- * reach a certain size.
+ * RollingFileAppender extends FileAppender to backup the log files when they reach a certain size.
  * <p>
- * The log4j extras companion includes alternatives which should be considered
- * for new deployments and which are discussed in the documentation for
- * org.apache.log4j.rolling.RollingFileAppender.
+ * The log4j extras companion includes alternatives which should be considered for new deployments and which are
+ * discussed in the documentation for org.apache.log4j.rolling.RollingFileAppender.
  *
  * @author Heinz Richter
  * @author Ceki G&uuml;lc&uuml;
@@ -53,8 +51,7 @@ public class RollingFileAppender extends FileAppender {
     private long nextRollover = 0;
 
     /**
-     * The default constructor simply calls its {@link FileAppender#FileAppender
-     * parents constructor}.
+     * The default constructor simply calls its {@link FileAppender#FileAppender parents constructor}.
      */
     public RollingFileAppender() {
         super();
@@ -66,9 +63,8 @@ public class RollingFileAppender extends FileAppender {
      * for this appender.
      *
      * <p>
-     * If the <code>append</code> parameter is true, the file will be appended to.
-     * Otherwise, the file desginated by <code>filename</code> will be truncated
-     * before being opened.
+     * If the <code>append</code> parameter is true, the file will be appended to. Otherwise, the file desginated by
+     * <code>filename</code> will be truncated before being opened.
      */
     public RollingFileAppender(Layout layout, String filename, boolean append) throws IOException {
         super(layout, filename, append);
@@ -94,8 +90,7 @@ public class RollingFileAppender extends FileAppender {
     }
 
     /**
-     * Get the maximum size that the output file is allowed to reach before being
-     * rolled over to backup files.
+     * Get the maximum size that the output file is allowed to reach before being rolled over to backup files.
      *
      * @since 1.1
      */
@@ -107,15 +102,14 @@ public class RollingFileAppender extends FileAppender {
      * Implements the usual roll over behaviour.
      *
      * <p>
-     * If <code>MaxBackupIndex</code> is positive, then files {<code>File.1</code>,
-     * ..., <code>File.MaxBackupIndex -1</code>} are renamed to
-     * {<code>File.2</code>, ..., <code>File.MaxBackupIndex</code>}. Moreover,
+     * If <code>MaxBackupIndex</code> is positive, then files {<code>File.1</code>, ..., <code>File.MaxBackupIndex
+     * -1</code>} are renamed to {<code>File.2</code>, ..., <code>File.MaxBackupIndex</code>}. Moreover,
      * <code>File</code> is renamed <code>File.1</code> and closed. A new
      * <code>File</code> is created to receive further log output.
      *
      * <p>
-     * If <code>MaxBackupIndex</code> is equal to zero, then the <code>File</code>
-     * is truncated with no backup files created.
+     * If <code>MaxBackupIndex</code> is equal to zero, then the <code>File</code> is truncated with no backup files
+     * created.
      */
     public // synchronization not necessary since doAppend is alreasy synched
     void rollOver() {
@@ -205,23 +199,20 @@ public class RollingFileAppender extends FileAppender {
      * Set the maximum number of backup files to keep around.
      *
      * <p>
-     * The <b>MaxBackupIndex</b> option determines how many backup files are kept
-     * before the oldest is erased. This option takes a positive integer value. If
-     * set to zero, then there will be no backup files and the log file will be
-     * truncated when it reaches <code>MaxFileSize</code>.
+     * The <b>MaxBackupIndex</b> option determines how many backup files are kept before the oldest is erased. This
+     * option takes a positive integer value. If set to zero, then there will be no backup files and the log file will
+     * be truncated when it reaches <code>MaxFileSize</code>.
      */
     public void setMaxBackupIndex(int maxBackups) {
         this.maxBackupIndex = maxBackups;
     }
 
     /**
-     * Set the maximum size that the output file is allowed to reach before being
-     * rolled over to backup files.
+     * Set the maximum size that the output file is allowed to reach before being rolled over to backup files.
      *
      * <p>
-     * This method is equivalent to {@link #setMaxFileSize} except that it is
-     * required for differentiating the setter taking a <code>long</code> argument
-     * from the setter taking a <code>String</code> argument by the JavaBeans
+     * This method is equivalent to {@link #setMaxFileSize} except that it is required for differentiating the setter
+     * taking a <code>long</code> argument from the setter taking a <code>String</code> argument by the JavaBeans
      * {@link java.beans.Introspector Introspector}.
      *
      * @see #setMaxFileSize(String)
@@ -231,15 +222,12 @@ public class RollingFileAppender extends FileAppender {
     }
 
     /**
-     * Set the maximum size that the output file is allowed to reach before being
-     * rolled over to backup files.
+     * Set the maximum size that the output file is allowed to reach before being rolled over to backup files.
      *
      * <p>
-     * In configuration files, the <b>MaxFileSize</b> option takes an long integer
-     * in the range 0 - 2^63. You can specify the value with the suffixes "KB", "MB"
-     * or "GB" so that the integer is interpreted being expressed respectively in
-     * kilobytes, megabytes or gigabytes. For example, the value "10KB" will be
-     * interpreted as 10240.
+     * In configuration files, the <b>MaxFileSize</b> option takes an long integer in the range 0 - 2^63. You can
+     * specify the value with the suffixes "KB", "MB" or "GB" so that the integer is interpreted being expressed
+     * respectively in kilobytes, megabytes or gigabytes. For example, the value "10KB" will be interpreted as 10240.
      */
     public void setMaxFileSize(String value) {
         maxFileSize = OptionConverter.toFileSize(value, maxFileSize + 1);

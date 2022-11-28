@@ -39,8 +39,7 @@ public class ConsoleAppender extends WriterAppender {
     protected String target = SYSTEM_OUT;
 
     /**
-     * Determines if the appender honors reassignments of System.out or System.err
-     * made after configuration.
+     * Determines if the appender honors reassignments of System.out or System.err made after configuration.
      */
     private boolean follow = false;
 
@@ -72,8 +71,8 @@ public class ConsoleAppender extends WriterAppender {
     }
 
     /**
-     * Sets the value of the <b>Target</b> option. Recognized values are
-     * "System.out" and "System.err". Any other value will be ignored.
+     * Sets the value of the <b>Target</b> option. Recognized values are "System.out" and "System.err". Any other value
+     * will be ignored.
      */
     public void setTarget(String value) {
         String v = value.trim();
@@ -88,8 +87,7 @@ public class ConsoleAppender extends WriterAppender {
     }
 
     /**
-     * Returns the current value of the <b>Target</b> property. The default value of
-     * the option is "System.out".
+     * Returns the current value of the <b>Target</b> property. The default value of the option is "System.out".
      * <p>
      * See also {@link #setTarget}.
      */
@@ -98,11 +96,10 @@ public class ConsoleAppender extends WriterAppender {
     }
 
     /**
-     * Sets whether the appender honors reassignments of System.out or System.err
-     * made after configuration.
+     * Sets whether the appender honors reassignments of System.out or System.err made after configuration.
      *
-     * @param newValue if true, appender will use value of System.out or System.err
-     *                 in force at the time when logging events are appended.
+     * @param newValue if true, appender will use value of System.out or System.err in force at the time when logging
+     *                 events are appended.
      * @since 1.2.13
      */
     public final void setFollow(final boolean newValue) {
@@ -110,11 +107,10 @@ public class ConsoleAppender extends WriterAppender {
     }
 
     /**
-     * Gets whether the appender honors reassignments of System.out or System.err
-     * made after configuration.
+     * Gets whether the appender honors reassignments of System.out or System.err made after configuration.
      *
-     * @return true if appender will use value of System.out or System.err in force
-     * at the time when logging events are appended.
+     * @return true if appender will use value of System.out or System.err in force at the time when logging events are
+     * appended.
      * @since 1.2.13
      */
     public final boolean getFollow() {

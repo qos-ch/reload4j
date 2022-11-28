@@ -20,8 +20,8 @@ package org.apache.log4j;
 import org.apache.log4j.spi.LoggingEvent;
 
 /**
- * SimpleLayout consists of the level of the log statement, followed by " - "
- * and then the log message itself. For example,
+ * SimpleLayout consists of the level of the log statement, followed by " - " and then the log message itself. For
+ * example,
  *
  * <pre>
  * DEBUG - Hello world
@@ -46,8 +46,8 @@ public class SimpleLayout extends Layout {
     }
 
     /**
-     * Returns the log statement in a format consisting of the <code>level</code>,
-     * followed by " - " and then the <code>message</code>. For example,
+     * Returns the log statement in a format consisting of the <code>level</code>, followed by " - " and then the
+     * <code>message</code>. For example,
      *
      * <pre>
      * INFO - "A message"
@@ -70,8 +70,8 @@ public class SimpleLayout extends Layout {
     }
 
     /**
-     * The SimpleLayout does not handle the throwable contained within
-     * {@link LoggingEvent LoggingEvents}. Thus, it returns <code>true</code>.
+     * The SimpleLayout does not handle the throwable contained within {@link LoggingEvent LoggingEvents}. Thus, it
+     * returns <code>true</code>.
      *
      * @since version 0.8.4
      */

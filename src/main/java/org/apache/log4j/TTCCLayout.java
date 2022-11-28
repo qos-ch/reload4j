@@ -24,16 +24,14 @@ import org.apache.log4j.helpers.DateLayout;
 import org.apache.log4j.spi.LoggingEvent;
 
 /**
- * TTCC layout format consists of time, thread, category and nested diagnostic
- * context information, hence the name.
+ * TTCC layout format consists of time, thread, category and nested diagnostic context information, hence the name.
  *
  * <p>
- * Each of the four fields can be individually enabled or disabled. The time
- * format depends on the <code>DateFormat</code> used.
+ * Each of the four fields can be individually enabled or disabled. The time format depends on the
+ * <code>DateFormat</code> used.
  *
  * <p>
- * Here is an example TTCCLayout output with the
- * {@link org.apache.log4j.helpers.RelativeTimeDateFormat}.
+ * Here is an example TTCCLayout output with the {@link org.apache.log4j.helpers.RelativeTimeDateFormat}.
  *
  * <pre>
  * 176 [main] INFO  org.apache.log4j.examples.Sort - Populating an array of 2 elements in reverse order.
@@ -52,20 +50,18 @@ import org.apache.log4j.spi.LoggingEvent;
  * </pre>
  *
  * <p>
- * The first field is the number of milliseconds elapsed since the start of the
- * program. The second field is the thread outputting the log statement. The
- * third field is the level, the fourth field is the category to which the
- * statement belongs.
+ * The first field is the number of milliseconds elapsed since the start of the program. The second field is the thread
+ * outputting the log statement. The third field is the level, the fourth field is the category to which the statement
+ * belongs.
  *
  * <p>
- * The fifth field (just before the '-') is the nested diagnostic context. Note
- * the nested diagnostic context may be empty as in the first two statements.
- * The text after the '-' is the message of the statement.
+ * The fifth field (just before the '-') is the nested diagnostic context. Note the nested diagnostic context may be
+ * empty as in the first two statements. The text after the '-' is the message of the statement.
  *
  * <p>
  * <b>WARNING</b> Do not use the same TTCCLayout instance from within different
- * appenders. The TTCCLayout is not thread safe when used in his way. However,
- * it is perfectly safe to use a TTCCLayout instance from just one appender.
+ * appenders. The TTCCLayout is not thread safe when used in his way. However, it is perfectly safe to use a TTCCLayout
+ * instance from just one appender.
  *
  * <p>
  * {@link PatternLayout} offers a much more flexible alternative.
@@ -83,9 +79,8 @@ public class TTCCLayout extends DateLayout {
     protected final StringBuffer buf = new StringBuffer(256);
 
     /**
-     * Instantiate a TTCCLayout object with
-     * {@link org.apache.log4j.helpers.RelativeTimeDateFormat} as the date formatter
-     * in the local time zone.
+     * Instantiate a TTCCLayout object with {@link org.apache.log4j.helpers.RelativeTimeDateFormat} as the date
+     * formatter in the local time zone.
      *
      * @since 0.7.5
      */
@@ -94,8 +89,8 @@ public class TTCCLayout extends DateLayout {
     }
 
     /**
-     * Instantiate a TTCCLayout object using the local time zone. The DateFormat
-     * used will depend on the <code>dateFormatType</code>.
+     * Instantiate a TTCCLayout object using the local time zone. The DateFormat used will depend on the
+     * <code>dateFormatType</code>.
      *
      * <p>
      * This constructor just calls the {@link DateLayout#setDateFormat} method.
@@ -105,8 +100,8 @@ public class TTCCLayout extends DateLayout {
     }
 
     /**
-     * The <b>ThreadPrinting</b> option specifies whether the name of the current
-     * thread is part of log output or not. This is true by default.
+     * The <b>ThreadPrinting</b> option specifies whether the name of the current thread is part of log output or not.
+     * This is true by default.
      */
     public void setThreadPrinting(boolean threadPrinting) {
         this.threadPrinting = threadPrinting;
@@ -120,8 +115,8 @@ public class TTCCLayout extends DateLayout {
     }
 
     /**
-     * The <b>CategoryPrefixing</b> option specifies whether {@link Category} name
-     * is part of log output or not. This is true by default.
+     * The <b>CategoryPrefixing</b> option specifies whether {@link Category} name is part of log output or not. This is
+     * true by default.
      */
     public void setCategoryPrefixing(boolean categoryPrefixing) {
         this.categoryPrefixing = categoryPrefixing;
@@ -135,9 +130,8 @@ public class TTCCLayout extends DateLayout {
     }
 
     /**
-     * The <b>ContextPrinting</b> option specifies log output will include the
-     * nested context information belonging to the current thread. This is true by
-     * default.
+     * The <b>ContextPrinting</b> option specifies log output will include the nested context information belonging to
+     * the current thread. This is true by default.
      */
     public void setContextPrinting(boolean contextPrinting) {
         this.contextPrinting = contextPrinting;
@@ -151,12 +145,11 @@ public class TTCCLayout extends DateLayout {
     }
 
     /**
-     * In addition to the level of the statement and message, the returned byte
-     * array includes time, thread, category and {@link NDC} information.
+     * In addition to the level of the statement and message, the returned byte array includes time, thread, category
+     * and {@link NDC} information.
      *
      * <p>
-     * Time, thread, category and diagnostic context are printed depending on
-     * options.
+     * Time, thread, category and diagnostic context are printed depending on options.
      *
      * @param event The event to format
      */
@@ -195,8 +188,8 @@ public class TTCCLayout extends DateLayout {
     }
 
     /**
-     * The TTCCLayout does not handle the throwable contained within
-     * {@link LoggingEvent LoggingEvents}. Thus, it returns <code>true</code>.
+     * The TTCCLayout does not handle the throwable contained within {@link LoggingEvent LoggingEvents}. Thus, it
+     * returns <code>true</code>.
      *
      * @since version 0.8.4
      */

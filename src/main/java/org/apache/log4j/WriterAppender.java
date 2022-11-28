@@ -32,8 +32,8 @@ import org.apache.log4j.spi.LoggingEvent;
 //              Ben Sandee
 
 /**
- * WriterAppender appends log events to a {@link java.io.Writer} or an
- * {@link java.io.OutputStream} depending on the user's choice.
+ * WriterAppender appends log events to a {@link java.io.Writer} or an {@link java.io.OutputStream} depending on the
+ * user's choice.
  *
  * @author Ceki G&uuml;lc&uuml;
  * @since 1.1
@@ -41,25 +41,22 @@ import org.apache.log4j.spi.LoggingEvent;
 public class WriterAppender extends AppenderSkeleton {
 
     /**
-     * Immediate flush means that the underlying writer or output stream will be
-     * flushed at the end of each append operation unless shouldFlush() is
-     * overridden. Immediate flush is slower but ensures that each append request is
+     * Immediate flush means that the underlying writer or output stream will be flushed at the end of each append
+     * operation unless shouldFlush() is overridden. Immediate flush is slower but ensures that each append request is
      * actually written. If <code>immediateFlush</code> is set to
      * <code>false</code>, then there is a good chance that the last few logs events
-     * are not actually written to persistent media if and when the application
-     * crashes.
+     * are not actually written to persistent media if and when the application crashes.
      *
      * <p>
-     * The <code>immediateFlush</code> variable is set to <code>true</code> by
-     * default.
+     * The <code>immediateFlush</code> variable is set to <code>true</code> by default.
      */
     protected boolean immediateFlush = true;
 
     /**
      * The encoding to use when writing.
      * <p>
-     * The <code>encoding</code> variable is set to <code>null</null> by default
-     * which results in the utilization of the system's default encoding.
+     * The <code>encoding</code> variable is set to <code>null</null> by default which results in the utilization of the
+     * system's default encoding.
      */
     protected String encoding;
 
@@ -75,9 +72,8 @@ public class WriterAppender extends AppenderSkeleton {
     }
 
     /**
-     * Instantiate a WriterAppender and set the output destination to a new
-     * {@link OutputStreamWriter} initialized with <code>os</code> as its
-     * {@link OutputStream}.
+     * Instantiate a WriterAppender and set the output destination to a new {@link OutputStreamWriter} initialized with
+     * <code>os</code> as its {@link OutputStream}.
      */
     public WriterAppender(Layout layout, OutputStream os) {
         this(layout, new OutputStreamWriter(os));
@@ -96,18 +92,15 @@ public class WriterAppender extends AppenderSkeleton {
     }
 
     /**
-     * If the <b>ImmediateFlush</b> option is set to <code>true</code>, the appender
-     * will flush at the end of each write. This is the default behavior. If the
-     * option is set to <code>false</code>, then the underlying stream can defer
-     * writing to physical medium to a later time.
+     * If the <b>ImmediateFlush</b> option is set to <code>true</code>, the appender will flush at the end of each
+     * write. This is the default behavior. If the option is set to <code>false</code>, then the underlying stream can
+     * defer writing to physical medium to a later time.
      *
      * <p>
-     * Avoiding the flush operation at the end of each append results in a
-     * performance gain of 10 to 20 percent. However, there is safety tradeoff
-     * involved in skipping flushing. Indeed, when flushing is skipped, then it is
-     * likely that the last few log events will not be recorded on disk when the
-     * application exits. This is a high price to pay even for a 20% performance
-     * gain.
+     * Avoiding the flush operation at the end of each append results in a performance gain of 10 to 20 percent.
+     * However, there is safety tradeoff involved in skipping flushing. Indeed, when flushing is skipped, then it is
+     * likely that the last few log events will not be recorded on disk when the application exits. This is a high price
+     * to pay even for a 20% performance gain.
      */
     public void setImmediateFlush(boolean value) {
         immediateFlush = value;
@@ -130,8 +123,8 @@ public class WriterAppender extends AppenderSkeleton {
      * This method is called by the {@link AppenderSkeleton#doAppend} method.
      *
      * <p>
-     * If the output stream exists and is writable then write a log statement to the
-     * output stream. Otherwise, write a single warning message to
+     * If the output stream exists and is writable then write a log statement to the output stream. Otherwise, write a
+     * single warning message to
      * <code>System.err</code>.
      *
      * <p>
@@ -158,9 +151,8 @@ public class WriterAppender extends AppenderSkeleton {
      * This method determines if there is a sense in attempting to append.
      *
      * <p>
-     * It checks whether there is a set output target and also if there is a set
-     * layout. If these checks fail, then the boolean value <code>false</code> is
-     * returned.
+     * It checks whether there is a set output target and also if there is a set layout. If these checks fail, then the
+     * boolean value <code>false</code> is returned.
      */
     protected boolean checkEntryConditions() {
         if (this.closed) {
@@ -216,10 +208,9 @@ public class WriterAppender extends AppenderSkeleton {
     }
 
     /**
-     * Returns an OutputStreamWriter when passed an OutputStream. The encoding used
-     * will depend on the value of the <code>encoding</code> property. If the
-     * encoding value is specified incorrectly the writer will be opened using the
-     * default system encoding (an error message will be printed to the loglog.
+     * Returns an OutputStreamWriter when passed an OutputStream. The encoding used will depend on the value of the
+     * <code>encoding</code> property. If the encoding value is specified incorrectly the writer will be opened using
+     * the default system encoding (an error message will be printed to the loglog.
      */
     protected OutputStreamWriter createWriter(OutputStream os) {
         OutputStreamWriter retval = null;
@@ -251,8 +242,7 @@ public class WriterAppender extends AppenderSkeleton {
     }
 
     /**
-     * Set the {@link ErrorHandler} for this WriterAppender and also the underlying
-     * {@link QuietWriter} if any.
+     * Set the {@link ErrorHandler} for this WriterAppender and also the underlying {@link QuietWriter} if any.
      */
     public synchronized void setErrorHandler(ErrorHandler eh) {
         if (eh == null) {
@@ -267,12 +257,10 @@ public class WriterAppender extends AppenderSkeleton {
 
     /**
      * <p>
-     * Sets the Writer where the log output will go. The specified Writer must be
-     * opened by the user and be writable.
+     * Sets the Writer where the log output will go. The specified Writer must be opened by the user and be writable.
      *
      * <p>
-     * The <code>java.io.Writer</code> will be closed when the appender instance is
-     * closed.
+     * The <code>java.io.Writer</code> will be closed when the appender instance is closed.
      *
      *
      * <p>
@@ -292,8 +280,7 @@ public class WriterAppender extends AppenderSkeleton {
      * Actual writing occurs here.
      *
      * <p>
-     * Most subclasses of <code>WriterAppender</code> will need to override this
-     * method.
+     * Most subclasses of <code>WriterAppender</code> will need to override this method.
      *
      * @since 0.9.0
      */
@@ -336,8 +323,7 @@ public class WriterAppender extends AppenderSkeleton {
     }
 
     /**
-     * Write a footer as produced by the embedded layout's {@link Layout#getFooter}
-     * method.
+     * Write a footer as produced by the embedded layout's {@link Layout#getFooter} method.
      */
     protected void writeFooter() {
         if (layout != null) {
@@ -350,8 +336,7 @@ public class WriterAppender extends AppenderSkeleton {
     }
 
     /**
-     * Write a header as produced by the embedded layout's {@link Layout#getHeader}
-     * method.
+     * Write a header as produced by the embedded layout's {@link Layout#getHeader} method.
      */
     protected void writeHeader() {
         if (layout != null) {

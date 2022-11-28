@@ -70,10 +70,9 @@ class Dispatcher extends Thread {
     }
 
     /**
-     * The dispatching strategy is to wait until there are events in the buffer to
-     * process. After having processed an event, we release the monitor (variable
-     * bf) so that new events can be placed in the buffer, instead of keeping the
-     * monitor and processing the remaining events in the buffer.
+     * The dispatching strategy is to wait until there are events in the buffer to process. After having processed an
+     * event, we release the monitor (variable bf) so that new events can be placed in the buffer, instead of keeping
+     * the monitor and processing the remaining events in the buffer.
      *
      * <p>
      * Other approaches might yield better results.

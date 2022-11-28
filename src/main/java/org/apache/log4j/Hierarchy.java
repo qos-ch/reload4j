@@ -42,23 +42,20 @@ import org.apache.log4j.spi.ThrowableRendererSupport;
 import org.apache.log4j.spi.ThrowableRenderer;
 
 /**
- * This class is specialized in retrieving loggers by name and also maintaining
- * the logger hierarchy.
+ * This class is specialized in retrieving loggers by name and also maintaining the logger hierarchy.
  *
  * <p>
  * <em>The casual user does not have to deal with this class directly.</em>
  *
  * <p>
- * The structure of the logger hierarchy is maintained by the {@link #getLogger}
- * method. The hierarchy is such that children link to their parent but parents
- * do not have any pointers to their children. Moreover, loggers can be
+ * The structure of the logger hierarchy is maintained by the {@link #getLogger} method. The hierarchy is such that
+ * children link to their parent but parents do not have any pointers to their children. Moreover, loggers can be
  * instantiated in any order, in particular descendant before ancestor.
  *
  * <p>
- * In case a descendant is created before a particular ancestor, then it creates
- * a provision node for the ancestor and adds itself to the provision node.
- * Other descendants of the same ancestor add themselves to the previously
- * created provision node.
+ * In case a descendant is created before a particular ancestor, then it creates a provision node for the ancestor and
+ * adds itself to the provision node. Other descendants of the same ancestor add themselves to the previously created
+ * provision node.
  *
  * @author Ceki G&uuml;lc&uuml;
  */
@@ -111,12 +108,11 @@ public class Hierarchy implements LoggerRepository, RendererSupport, ThrowableRe
     }
 
     /**
-     * This call will clear all logger definitions from the internal hashtable.
-     * Invoking this method will irrevocably mess up the logger hierarchy.
+     * This call will clear all logger definitions from the internal hashtable. Invoking this method will irrevocably
+     * mess up the logger hierarchy.
      *
      * <p>
-     * You should <em>really</em> know what you are doing before invoking this
-     * method.
+     * You should <em>really</em> know what you are doing before invoking this method.
      *
      * @since 0.9.0
      */
@@ -136,8 +132,8 @@ public class Hierarchy implements LoggerRepository, RendererSupport, ThrowableRe
     }
 
     /**
-     * Check if the named logger exists in the hierarchy. If so return its
-     * reference, otherwise returns <code>null</code>.
+     * Check if the named logger exists in the hierarchy. If so return its reference, otherwise returns
+     * <code>null</code>.
      *
      * @param name The name of the logger to search for.
      */
@@ -163,11 +159,9 @@ public class Hierarchy implements LoggerRepository, RendererSupport, ThrowableRe
     }
 
     /**
-     * Enable logging for logging requests with level <code>l</code> or higher. By
-     * default all levels are enabled.
+     * Enable logging for logging requests with level <code>l</code> or higher. By default all levels are enabled.
      *
-     * @param l The minimum level for which logging requests are sent to their
-     *          appenders.
+     * @param l The minimum level for which logging requests are sent to their appenders.
      */
     public void setThreshold(Level l) {
         if (l != null) {
@@ -218,13 +212,11 @@ public class Hierarchy implements LoggerRepository, RendererSupport, ThrowableRe
     // }
 
     /**
-     * Return a new logger instance named as the first parameter using the default
-     * factory.
+     * Return a new logger instance named as the first parameter using the default factory.
      *
      * <p>
-     * If a logger of that name already exists, then it will be returned. Otherwise,
-     * a new logger will be instantiated and then linked with its existing ancestors
-     * as well as children.
+     * If a logger of that name already exists, then it will be returned. Otherwise, a new logger will be instantiated
+     * and then linked with its existing ancestors as well as children.
      *
      * @param name The name of the logger to retrieve.
      */
@@ -237,9 +229,8 @@ public class Hierarchy implements LoggerRepository, RendererSupport, ThrowableRe
      * <code>factory</code>.
      *
      * <p>
-     * If a logger of that name already exists, then it will be returned. Otherwise,
-     * a new logger will be instantiated by the <code>factory</code> parameter and
-     * linked with its existing ancestors as well as children.
+     * If a logger of that name already exists, then it will be returned. Otherwise, a new logger will be instantiated
+     * by the <code>factory</code> parameter and linked with its existing ancestors as well as children.
      *
      * @param name    The name of the logger to retrieve.
      * @param factory The factory that will make the new logger instance.
@@ -278,8 +269,7 @@ public class Hierarchy implements LoggerRepository, RendererSupport, ThrowableRe
     }
 
     /**
-     * Returns all the currently defined categories in this hierarchy as an
-     * {@link java.util.Enumeration Enumeration}.
+     * Returns all the currently defined categories in this hierarchy as an {@link java.util.Enumeration Enumeration}.
      *
      * <p>
      * The root logger is <em>not</em> included in the returned {@link Enumeration}.
@@ -340,9 +330,8 @@ public class Hierarchy implements LoggerRepository, RendererSupport, ThrowableRe
     }
 
     /**
-     * Reset all values contained in this hierarchy instance to their default. This
-     * removes all appenders from all categories, sets the level of all non-root
-     * categories to <code>null</code>, sets their additivity flag to
+     * Reset all values contained in this hierarchy instance to their default. This removes all appenders from all
+     * categories, sets the level of all non-root categories to <code>null</code>, sets their additivity flag to
      * <code>true</code> and sets the level of the root logger to {@link Level#DEBUG
      * DEBUG}. Moreover, message disabling is set its default "off" value.
      *
@@ -350,8 +339,7 @@ public class Hierarchy implements LoggerRepository, RendererSupport, ThrowableRe
      * Existing categories are not removed. They are just reset.
      *
      * <p>
-     * This method should be used sparingly and with care as it will block all
-     * logging until it is completed.
+     * This method should be used sparingly and with care as it will block all logging until it is completed.
      * </p>
      *
      * @since 0.8.5
@@ -410,18 +398,16 @@ public class Hierarchy implements LoggerRepository, RendererSupport, ThrowableRe
     }
 
     /**
-     * Shutting down a hierarchy will <em>safely</em> close and remove all appenders
-     * in all categories including the root logger.
+     * Shutting down a hierarchy will <em>safely</em> close and remove all appenders in all categories including the
+     * root logger.
      *
      * <p>
-     * Some appenders such as {@link org.apache.log4j.net.SocketAppender} and
-     * {@link AsyncAppender} need to be closed before the application exists.
-     * Otherwise, pending logging events might be lost.
+     * Some appenders such as {@link org.apache.log4j.net.SocketAppender} and {@link AsyncAppender} need to be closed
+     * before the application exists. Otherwise, pending logging events might be lost.
      *
      * <p>
-     * The <code>shutdown</code> method is careful to close nested appenders before
-     * closing regular appenders. This is allows configurations where a regular
-     * appender is attached to a logger and again to a nested appender.
+     * The <code>shutdown</code> method is careful to close nested appenders before closing regular appenders. This is
+     * allows configurations where a regular appender is attached to a logger and again to a nested appender.
      *
      * @since 1.0
      */
@@ -449,19 +435,16 @@ public class Hierarchy implements LoggerRepository, RendererSupport, ThrowableRe
     }
 
     /**
-     * This method loops through all the *potential* parents of 'cat'. There 3
-     * possible cases:
+     * This method loops through all the *potential* parents of 'cat'. There 3 possible cases:
      * <p>
      * 1) No entry for the potential parent of 'cat' exists
      * <p>
-     * We create a ProvisionNode for this potential parent and insert 'cat' in that
-     * provision node.
+     * We create a ProvisionNode for this potential parent and insert 'cat' in that provision node.
      * <p>
      * 2) There entry is of type Logger for the potential parent.
      * <p>
-     * The entry is 'cat's nearest existing parent. We update cat's parent field
-     * with this entry. We also break from the loop because updating our parent's
-     * parent is our parent's responsibility.
+     * The entry is 'cat's nearest existing parent. We update cat's parent field with this entry. We also break from the
+     * loop because updating our parent's parent is our parent's responsibility.
      * <p>
      * 3) There entry is of type ProvisionNode for this potential parent.
      * <p>
@@ -504,17 +487,14 @@ public class Hierarchy implements LoggerRepository, RendererSupport, ThrowableRe
     }
 
     /**
-     * We update the links for all the children that placed themselves in the
-     * provision node 'pn'. The second argument 'cat' is a reference for the newly
-     * created Logger, parent of all the children in 'pn'
+     * We update the links for all the children that placed themselves in the provision node 'pn'. The second argument
+     * 'cat' is a reference for the newly created Logger, parent of all the children in 'pn'
      * <p>
      * We loop on all the children 'c' in 'pn':
      * <p>
-     * If the child 'c' has been already linked to a child of 'cat' then there is no
-     * need to update 'c'.
+     * If the child 'c' has been already linked to a child of 'cat' then there is no need to update 'c'.
      * <p>
-     * Otherwise, we set cat's parent field to c's parent and set c's parent field
-     * to cat.
+     * Otherwise, we set cat's parent field to c's parent and set c's parent field to cat.
      */
     final private void updateChildren(ProvisionNode pn, Logger logger) {
         // System.out.println("updateChildren called for " + logger.name);

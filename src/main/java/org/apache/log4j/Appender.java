@@ -22,8 +22,7 @@ import org.apache.log4j.spi.ErrorHandler;
 import org.apache.log4j.spi.LoggingEvent;
 
 /**
- * Implement this interface for your own strategies for outputting log
- * statements.
+ * Implement this interface for your own strategies for outputting log statements.
  *
  * @author Ceki G&uuml;lc&uuml;
  */
@@ -37,8 +36,8 @@ public interface Appender {
     void addFilter(Filter newFilter);
 
     /**
-     * Returns the head Filter. The Filters are organized in a linked list and so
-     * all Filters on this Appender are available through the result.
+     * Returns the head Filter. The Filters are organized in a linked list and so all Filters on this Appender are
+     * available through the result.
      *
      * @return the head Filter or null, if no Filters are present
      * @since 1.1
@@ -53,8 +52,7 @@ public interface Appender {
     public void clearFilters();
 
     /**
-     * Release any resources allocated within the appender such as file handles,
-     * network connections, etc.
+     * Release any resources allocated within the appender such as file handles, network connections, etc.
      *
      * <p>
      * It is a programming error to append to a closed appender.
@@ -64,9 +62,8 @@ public interface Appender {
     public void close();
 
     /**
-     * Log in <code>Appender</code> specific way. When appropriate, Loggers will
-     * call the <code>doAppend</code> method of appender implementations in order to
-     * log.
+     * Log in <code>Appender</code> specific way. When appropriate, Loggers will call the <code>doAppend</code> method
+     * of appender implementations in order to log.
      */
     public void doAppend(LoggingEvent event);
 
@@ -106,25 +103,23 @@ public interface Appender {
     public Layout getLayout();
 
     /**
-     * Set the name of this appender. The name is used by other components to
-     * identify this appender.
+     * Set the name of this appender. The name is used by other components to identify this appender.
      *
      * @since 0.8.1
      */
     public void setName(String name);
 
     /**
-     * Configurators call this method to determine if the appender requires a
-     * layout. If this method returns <code>true</code>, meaning that layout is
-     * required, then the configurator will configure an layout using the
+     * Configurators call this method to determine if the appender requires a layout. If this method returns
+     * <code>true</code>, meaning that layout is required, then the configurator will configure an layout using the
      * configuration information at its disposal. If this method returns
      * <code>false</code>, meaning that a layout is not required, then layout
-     * configuration will be skipped even if there is available layout configuration
-     * information at the disposal of the configurator..
+     * configuration will be skipped even if there is available layout configuration information at the disposal of the
+     * configurator..
      *
      * <p>
-     * In the rather exceptional case, where the appender implementation admits a
-     * layout but can also work without it, then the appender should return
+     * In the rather exceptional case, where the appender implementation admits a layout but can also work without it,
+     * then the appender should return
      * <code>true</code>.
      *
      * @since 0.8.4

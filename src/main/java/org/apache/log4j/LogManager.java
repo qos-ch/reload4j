@@ -35,39 +35,35 @@ import java.io.StringWriter;
 import java.io.PrintWriter;
 
 /**
- * Use the <code>LogManager</code> class to retreive {@link Logger} instances or
- * to operate on the current {@link LoggerRepository}. When the
+ * Use the <code>LogManager</code> class to retreive {@link Logger} instances or to operate on the current
+ * {@link LoggerRepository}. When the
  * <code>LogManager</code> class is loaded into memory the default initalzation
- * procedure is inititated. The default intialization procedure</a> is described
- * in the <a href="../../../../manual.html#defaultInit">short log4j manual</a>.
+ * procedure is inititated. The default intialization procedure</a> is described in the <a
+ * href="../../../../manual.html#defaultInit">short log4j manual</a>.
  *
  * @author Ceki G&uuml;lc&uuml;
  */
 public class LogManager {
 
     /**
-     * @deprecated This variable is for internal use only. It will become package
-     * protected in future versions.
+     * @deprecated This variable is for internal use only. It will become package protected in future versions.
      */
     static public final String DEFAULT_CONFIGURATION_FILE = "log4j.properties";
 
     static final String DEFAULT_XML_CONFIGURATION_FILE = "log4j.xml";
 
     /**
-     * @deprecated This variable is for internal use only. It will become private in
-     * future versions.
+     * @deprecated This variable is for internal use only. It will become private in future versions.
      */
     static final public String DEFAULT_CONFIGURATION_KEY = "log4j.configuration";
 
     /**
-     * @deprecated This variable is for internal use only. It will become private in
-     * future versions.
+     * @deprecated This variable is for internal use only. It will become private in future versions.
      */
     static final public String CONFIGURATOR_CLASS_KEY = "log4j.configuratorClass";
 
     /**
-     * @deprecated This variable is for internal use only. It will become private in
-     * future versions.
+     * @deprecated This variable is for internal use only. It will become private in future versions.
      */
     public static final String DEFAULT_INIT_OVERRIDE_KEY = "log4j.defaultInitOverride";
 
@@ -129,24 +125,20 @@ public class LogManager {
     }
 
     /**
-     * Sets <code>LoggerFactory</code> but only if the correct <em>guard</em> is
-     * passed as parameter.
+     * Sets <code>LoggerFactory</code> but only if the correct <em>guard</em> is passed as parameter.
      *
      * <p>
-     * Initally the guard is null. If the guard is <code>null</code>, then invoking
-     * this method sets the logger factory and the guard. Following invocations will
-     * throw a {@link IllegalArgumentException}, unless the previously set
+     * Initally the guard is null. If the guard is <code>null</code>, then invoking this method sets the logger factory
+     * and the guard. Following invocations will throw a {@link IllegalArgumentException}, unless the previously set
      * <code>guard</code> is passed as the second parameter.
      *
      * <p>
-     * This allows a high-level component to set the {@link RepositorySelector} used
-     * by the <code>LogManager</code>.
+     * This allows a high-level component to set the {@link RepositorySelector} used by the <code>LogManager</code>.
      *
      * <p>
-     * For example, when tomcat starts it will be able to install its own repository
-     * selector. However, if and when Tomcat is embedded within JBoss, then JBoss
-     * will install its own repository selector and Tomcat will use the repository
-     * selector set by its container, JBoss.
+     * For example, when tomcat starts it will be able to install its own repository selector. However, if and when
+     * Tomcat is embedded within JBoss, then JBoss will install its own repository selector and Tomcat will use the
+     * repository selector set by its container, JBoss.
      */
     static public void setRepositorySelector(RepositorySelector selector, Object guard)
             throws IllegalArgumentException {
@@ -163,9 +155,8 @@ public class LogManager {
     }
 
     /**
-     * This method tests if called from a method that is known to result in class
-     * members being abnormally set to null but is assumed to be harmless since the
-     * all classes are in the process of being unloaded.
+     * This method tests if called from a method that is known to result in class members being abnormally set to null
+     * but is assumed to be harmless since the all classes are in the process of being unloaded.
      *
      * @param ex exception used to determine calling stack.
      * @return true if calling stack is recognized as likely safe.

@@ -26,9 +26,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Enhanced implementation of ThrowableRenderer. Uses Throwable.getStackTrace if
- * running on JDK 1.4 or later and delegates to DefaultThrowableRenderer.render
- * on earlier virtual machines.
+ * Enhanced implementation of ThrowableRenderer. Uses Throwable.getStackTrace if running on JDK 1.4 or later and
+ * delegates to DefaultThrowableRenderer.render on earlier virtual machines.
  *
  * @since 1.2.16
  */
