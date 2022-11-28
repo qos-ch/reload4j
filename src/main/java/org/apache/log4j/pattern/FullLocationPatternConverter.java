@@ -35,27 +35,27 @@ public final class FullLocationPatternConverter extends LoggingEventPatternConve
      * Private constructor.
      */
     private FullLocationPatternConverter() {
-	super("Full Location", "fullLocation");
+        super("Full Location", "fullLocation");
     }
 
     /**
      * Obtains an instance of pattern converter.
-     * 
+     *
      * @param options options, may be null.
      * @return instance of pattern converter.
      */
     public static FullLocationPatternConverter newInstance(final String[] options) {
-	return INSTANCE;
+        return INSTANCE;
     }
 
     /**
      * {@inheritDoc}
      */
     public void format(final LoggingEvent event, final StringBuffer output) {
-	LocationInfo locationInfo = event.getLocationInformation();
+        LocationInfo locationInfo = event.getLocationInformation();
 
-	if (locationInfo != null) {
-	    output.append(locationInfo.fullInfo);
-	}
+        if (locationInfo != null) {
+            output.append(locationInfo.fullInfo);
+        }
     }
 }

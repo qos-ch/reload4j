@@ -34,23 +34,23 @@ public final class MessagePatternConverter extends LoggingEventPatternConverter 
      * Private constructor.
      */
     private MessagePatternConverter() {
-	super("Message", "message");
+        super("Message", "message");
     }
 
     /**
      * Obtains an instance of pattern converter.
-     * 
+     *
      * @param options options, may be null.
      * @return instance of pattern converter.
      */
     public static MessagePatternConverter newInstance(final String[] options) {
-	return INSTANCE;
+        return INSTANCE;
     }
 
     /**
      * {@inheritDoc}
      */
     public void format(final LoggingEvent event, final StringBuffer toAppendTo) {
-	toAppendTo.append(event.getRenderedMessage());
+        toAppendTo.append(event.getRenderedMessage());
     }
 }

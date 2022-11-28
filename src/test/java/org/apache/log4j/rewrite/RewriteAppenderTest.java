@@ -31,104 +31,107 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Hashtable;
 import javax.xml.parsers.*;
+
 import org.w3c.dom.*;
 
-public class RewriteAppenderTest  {
+public class RewriteAppenderTest {
 
     @Before
     public void setUp() {
-	LogManager.getLoggerRepository().resetConfiguration();
-	Hashtable context = MDC.getContext();
-	if (context != null) {
-	    context.clear();
-	}
+        LogManager.getLoggerRepository().resetConfiguration();
+        Hashtable context = MDC.getContext();
+        if (context != null) {
+            context.clear();
+        }
     }
 
     @After
     public void tearDown() {
-	LogManager.getLoggerRepository().shutdown();
+        LogManager.getLoggerRepository().shutdown();
     }
 
     public void configure(final String resourceName) throws Exception {
-	InputStream is = RewriteAppenderTest.class.getResourceAsStream(resourceName);
-	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	factory.setNamespaceAware(false);
-	DocumentBuilder builder = factory.newDocumentBuilder();
-	Document doc = builder.parse(is);
-	DOMConfigurator.configure(doc.getDocumentElement());
+        InputStream is = RewriteAppenderTest.class.getResourceAsStream(resourceName);
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(false);
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.parse(is);
+        DOMConfigurator.configure(doc.getDocumentElement());
     }
 
     @Test
     public void testMapPolicy() throws Exception {
-	configure("map.xml");
-	Logger logger = Logger.getLogger(RewriteAppenderTest.class);
-	logger.info("Message 0");
-	MDC.put("p1", "Hola");
+        configure("map.xml");
+        Logger logger = Logger.getLogger(RewriteAppenderTest.class);
+        logger.info("Message 0");
+        MDC.put("p1", "Hola");
 
-	Map msg = new TreeMap();
-	msg.put("p1", "Hello");
-	msg.put("p2", "World");
-	msg.put("x1", "Mundo");
-	logger.info(msg);
-	msg.put("message", "Message 1");
-	logger.info(msg);
-	assertTrue(Compare.compare(RewriteAppenderTest.class, TARGET_OUTPUT_PREFIX+"rewrite/map.log", "map.log"));
+        Map msg = new TreeMap();
+        msg.put("p1", "Hello");
+        msg.put("p2", "World");
+        msg.put("x1", "Mundo");
+        logger.info(msg);
+        msg.put("message", "Message 1");
+        logger.info(msg);
+        assertTrue(Compare.compare(RewriteAppenderTest.class, TARGET_OUTPUT_PREFIX + "rewrite/map.log", "map.log"));
     }
 
     private static class BaseBean {
-	private final Object p2;
-	private final Object x1;
+        private final Object p2;
+        private final Object x1;
 
-	public BaseBean(final Object p2, final Object x1) {
-	    this.p2 = p2;
-	    this.x1 = x1;
-	}
+        public BaseBean(final Object p2, final Object x1) {
+            this.p2 = p2;
+            this.x1 = x1;
+        }
 
-	public Object getP2() {
-	    return p2;
-	}
+        public Object getP2() {
+            return p2;
+        }
 
-	public Object getX1() {
-	    return x1;
-	}
+        public Object getX1() {
+            return x1;
+        }
 
-	public String toString() {
-	    return "I am bean.";
-	}
+        public String toString() {
+            return "I am bean.";
+        }
     }
 
     private static class MessageBean extends BaseBean {
-	private final Object msg;
+        private final Object msg;
 
-	public MessageBean(final Object msg, final Object p2, final Object x1) {
-	    super(p2, x1);
-	    this.msg = msg;
-	}
+        public MessageBean(final Object msg, final Object p2, final Object x1) {
+            super(p2, x1);
+            this.msg = msg;
+        }
 
-	public Object getMessage() {
-	    return msg;
-	}
+        public Object getMessage() {
+            return msg;
+        }
     }
 
     @Test
     public void testReflectionPolicy() throws Exception {
-	configure("reflection.xml");
-	Logger logger = Logger.getLogger(RewriteAppenderTest.class);
-	logger.info("Message 0");
-	logger.info(new BaseBean("Hello", "World"));
-	MDC.put("p1", "Hola");
-	MDC.put("p2", "p2");
-	logger.info(new MessageBean("Welcome to The Hub", "Hello", "World"));
-	assertTrue(Compare.compare(RewriteAppenderTest.class, TARGET_OUTPUT_PREFIX+"rewrite/reflection.log", "reflection.log"));
+        configure("reflection.xml");
+        Logger logger = Logger.getLogger(RewriteAppenderTest.class);
+        logger.info("Message 0");
+        logger.info(new BaseBean("Hello", "World"));
+        MDC.put("p1", "Hola");
+        MDC.put("p2", "p2");
+        logger.info(new MessageBean("Welcome to The Hub", "Hello", "World"));
+        assertTrue(Compare.compare(RewriteAppenderTest.class, TARGET_OUTPUT_PREFIX + "rewrite/reflection.log",
+                "reflection.log"));
     }
 
     @Test
     public void testPropertyPolicy() throws Exception {
-	configure("property.xml");
-	Logger logger = Logger.getLogger(RewriteAppenderTest.class);
-	logger.info("Message 0");
-	MDC.put("p1", "Hola");
-	logger.info("Message 1");
-	assertTrue(Compare.compare(RewriteAppenderTest.class, TARGET_OUTPUT_PREFIX+"rewrite/property.log", "property.log"));
+        configure("property.xml");
+        Logger logger = Logger.getLogger(RewriteAppenderTest.class);
+        logger.info("Message 0");
+        MDC.put("p1", "Hola");
+        logger.info("Message 1");
+        assertTrue(Compare.compare(RewriteAppenderTest.class, TARGET_OUTPUT_PREFIX + "rewrite/property.log",
+                "property.log"));
     }
 }

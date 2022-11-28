@@ -34,25 +34,25 @@ import org.junit.Test;
 public class SMTPAppenderTest {
 
     Logger logger = Logger.getLogger(this.getClass());
-    
+
     /**
      * Reset configuration after every test.
      */
     @After
     public void tearDown() {
-	LogManager.resetConfiguration();
+        LogManager.resetConfiguration();
     }
 
     /**
      * Trivial implementation of TriggeringEventEvaluator.
      */
     public static final class MockTriggeringEventEvaluator implements TriggeringEventEvaluator {
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isTriggeringEvent(final LoggingEvent event) {
-	    return true;
-	}
+        /**
+         * {@inheritDoc}
+         */
+        public boolean isTriggeringEvent(final LoggingEvent event) {
+            return true;
+        }
     }
 
     /**
@@ -60,19 +60,19 @@ public class SMTPAppenderTest {
      */
     @Test
     public void testTrigger() {
-	DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/smtpAppender1.xml");
-	SMTPAppender appender = (SMTPAppender) Logger.getRootLogger().getAppender("A1");
-	TriggeringEventEvaluator evaluator = appender.getEvaluator();
-	assertTrue(evaluator instanceof MockTriggeringEventEvaluator);
+        DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/smtpAppender1.xml");
+        SMTPAppender appender = (SMTPAppender) Logger.getRootLogger().getAppender("A1");
+        TriggeringEventEvaluator evaluator = appender.getEvaluator();
+        assertTrue(evaluator instanceof MockTriggeringEventEvaluator);
     }
-    
+
     @Ignore // manual testing to verify SMTPS protocol
     @Test
     public void testWithSMTPS() {
-	DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/smtpAppender2.xml");
-	SMTPAppender appender = (SMTPAppender) Logger.getRootLogger().getAppender("SMTP");
-	TriggeringEventEvaluator evaluator = appender.getEvaluator();
-	assertTrue(evaluator instanceof MockTriggeringEventEvaluator);
-	logger.debug("hello");
+        DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/smtpAppender2.xml");
+        SMTPAppender appender = (SMTPAppender) Logger.getRootLogger().getAppender("SMTP");
+        TriggeringEventEvaluator evaluator = appender.getEvaluator();
+        assertTrue(evaluator instanceof MockTriggeringEventEvaluator);
+        logger.debug("hello");
     }
 }

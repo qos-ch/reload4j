@@ -40,31 +40,31 @@ public final class LineSeparatorPatternConverter extends LoggingEventPatternConv
      * Private constructor.
      */
     private LineSeparatorPatternConverter() {
-	super("Line Sep", "lineSep");
-	lineSep = Layout.LINE_SEP;
+        super("Line Sep", "lineSep");
+        lineSep = Layout.LINE_SEP;
     }
 
     /**
      * Obtains an instance of pattern converter.
-     * 
+     *
      * @param options options, may be null.
      * @return instance of pattern converter.
      */
     public static LineSeparatorPatternConverter newInstance(final String[] options) {
-	return INSTANCE;
+        return INSTANCE;
     }
 
     /**
      * {@inheritDoc}
      */
     public void format(LoggingEvent event, final StringBuffer toAppendTo) {
-	toAppendTo.append(lineSep);
+        toAppendTo.append(lineSep);
     }
 
     /**
      * {@inheritDoc}
      */
     public void format(final Object obj, final StringBuffer toAppendTo) {
-	toAppendTo.append(lineSep);
+        toAppendTo.append(lineSep);
     }
 }

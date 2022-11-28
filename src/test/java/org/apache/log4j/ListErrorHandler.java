@@ -31,18 +31,18 @@ import org.apache.log4j.spi.LoggingEvent;
 public final class ListErrorHandler implements ErrorHandler {
 
     static class ErrorTuple {
-	final String message;
-	final Exception e;
-	final int errorCode;
-	final LoggingEvent event;
+        final String message;
+        final Exception e;
+        final int errorCode;
+        final LoggingEvent event;
 
-	public ErrorTuple(String message, Exception e, int errorCode, LoggingEvent event) {
-	    super();
-	    this.message = message;
-	    this.e = e;
-	    this.errorCode = errorCode;
-	    this.event = event;
-	}
+        public ErrorTuple(String message, Exception e, int errorCode, LoggingEvent event) {
+            super();
+            this.message = message;
+            this.e = e;
+            this.errorCode = errorCode;
+            this.event = event;
+        }
     }
 
     /**
@@ -75,16 +75,16 @@ public final class ListErrorHandler implements ErrorHandler {
      * {@inheritDoc}
      */
     public void setLogger(final Logger logger) {
-	this.logger = logger;
+        this.logger = logger;
     }
 
     /**
      * Gets last logger specified by setLogger.
-     * 
+     *
      * @return logger.
      */
     public Logger getLogger() {
-	return logger;
+        return logger;
     }
 
     /**
@@ -97,21 +97,21 @@ public final class ListErrorHandler implements ErrorHandler {
      * {@inheritDoc}
      */
     public void error(final String message, final Exception e, final int errorCode) {
-	error(message, e, errorCode, null);
+        error(message, e, errorCode, null);
     }
 
     /**
      * {@inheritDoc}
      */
     public void error(final String message) {
-	error(message, null, -1, null);
+        error(message, null, -1, null);
     }
 
     /**
      * {@inheritDoc}
      */
     public void error(final String message, final Exception e, final int errorCode, final LoggingEvent event) {
-	errors.add(new ErrorTuple(message, e, errorCode, event));
+        errors.add(new ErrorTuple(message, e, errorCode, event));
     }
 
     /**
@@ -121,7 +121,7 @@ public final class ListErrorHandler implements ErrorHandler {
      * @return message, may be null.
      */
     public String getMessage(final int index) {
-	return errors.get(index).message;
+        return errors.get(index).message;
     }
 
     /**
@@ -131,11 +131,11 @@ public final class ListErrorHandler implements ErrorHandler {
      * @return exception.
      */
     public Exception getException(final int index) {
-	return errors.get(index).e;
+        return errors.get(index).e;
     }
 
     public ErrorTuple getErrorTuple(final int index) {
-	return errors.get(index);
+        return errors.get(index);
     }
 
     /**
@@ -145,47 +145,47 @@ public final class ListErrorHandler implements ErrorHandler {
      * @return exception.
      */
     public LoggingEvent getEvent(final int index) {
-	return errors.get(index).event;
+        return errors.get(index).event;
     }
 
     /**
      * Gets number of errors captured.
-     * 
+     *
      * @return number of errors captured.
      */
     public int size() {
-	return errors.size();
+        return errors.size();
     }
 
     /**
      * {@inheritDoc}
      */
     public void setAppender(final Appender appender) {
-	this.appender = appender;
+        this.appender = appender;
     }
 
     /**
      * Get appender.
-     * 
+     *
      * @return appender, may be null.
      */
     public Appender getAppender() {
-	return appender;
+        return appender;
     }
 
     /**
      * {@inheritDoc}
      */
     public void setBackupAppender(final Appender appender) {
-	this.backupAppender = appender;
+        this.backupAppender = appender;
     }
 
     /**
      * Get backup appender.
-     * 
+     *
      * @return backup appender, may be null.
      */
     public Appender getBackupAppender() {
-	return backupAppender;
+        return backupAppender;
     }
 }

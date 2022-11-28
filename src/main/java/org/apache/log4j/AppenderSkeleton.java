@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,12 +26,12 @@ import org.apache.log4j.helpers.LogLog;
 
 /**
  * Abstract superclass of the other appenders in the package.
- * 
+ * <p>
  * This class provides the code for common functionality, such as support for
  * threshold filtering and support for general filters.
  *
- * @since 0.8.1
  * @author Ceki G&uuml;lc&uuml;
+ * @since 0.8.1
  */
 public abstract class AppenderSkeleton implements Appender, OptionHandler {
 
@@ -41,7 +41,9 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
      */
     protected Layout layout;
 
-    /** Appenders are named. */
+    /**
+     * Appenders are named.
+     */
     protected String name;
 
     /**
@@ -58,7 +60,9 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
      * The first filter in the filter chain. Set to <code>null</code> initially.
      */
     protected Filter headFilter;
-    /** The last filter in the filter chain. */
+    /**
+     * The last filter in the filter chain.
+     */
     protected Filter tailFilter;
 
     /**
@@ -70,7 +74,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
      * Create new instance.
      */
     public AppenderSkeleton() {
-	super();
+        super();
     }
 
     /**
@@ -81,7 +85,7 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
      * @since 1.2.15
      */
     protected AppenderSkeleton(final boolean isActive) {
-	super();
+        super();
     }
 
     /**
@@ -93,112 +97,110 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
 
     /**
      * Add a filter to end of the filter list.
-     * 
+     *
      * @since 0.9.0
      */
     public void addFilter(Filter newFilter) {
-	if (headFilter == null) {
-	    headFilter = tailFilter = newFilter;
-	} else {
-	    tailFilter.setNext(newFilter);
-	    tailFilter = newFilter;
-	}
+        if (headFilter == null) {
+            headFilter = tailFilter = newFilter;
+        } else {
+            tailFilter.setNext(newFilter);
+            tailFilter = newFilter;
+        }
     }
 
     /**
      * Subclasses of <code>AppenderSkeleton</code> should implement this method to
      * perform actual logging. See also {@link #doAppend AppenderSkeleton.doAppend}
      * method.
-     * 
+     *
      * @since 0.9.0
      */
     abstract protected void append(LoggingEvent event);
 
     /**
      * Clear the filters chain.
-     * 
+     *
      * @since 0.9.0
      */
     public void clearFilters() {
-	headFilter = tailFilter = null;
+        headFilter = tailFilter = null;
     }
 
     /**
      * Finalize this appender by calling the derived class' <code>close</code>
      * method.
-     * 
+     *
      * @since 0.8.4
      */
     public void finalize() {
-	// An appender might be closed then garbage collected. There is no
-	// point in closing twice.
-	if (this.closed)
-	    return;
+        // An appender might be closed then garbage collected. There is no
+        // point in closing twice.
+        if (this.closed)
+            return;
 
-	LogLog.debug("Finalizing appender named [" + name + "].");
-	close();
+        LogLog.debug("Finalizing appender named [" + name + "].");
+        close();
     }
 
     /**
      * Return the currently set {@link ErrorHandler} for this Appender.
-     * 
+     *
      * @since 0.9.0
      */
     public ErrorHandler getErrorHandler() {
-	return this.errorHandler;
+        return this.errorHandler;
     }
 
     /**
      * Returns the head Filter.
-     * 
+     *
      * @since 1.1
      */
     public Filter getFilter() {
-	return headFilter;
+        return headFilter;
     }
 
     /**
      * Return the first filter in the filter chain for this Appender. The return
      * value may be <code>null</code> if no is filter is set.
-     * 
      */
     public final Filter getFirstFilter() {
-	return headFilter;
+        return headFilter;
     }
 
     /**
      * Returns the layout of this appender. The value may be null.
      */
     public Layout getLayout() {
-	return layout;
+        return layout;
     }
 
     /**
      * Returns the name of this appender.
-     * 
+     *
      * @return name, may be null.
      */
     public final String getName() {
-	return this.name;
+        return this.name;
     }
 
     /**
      * Returns this appenders threshold level. See the {@link #setThreshold} method
      * for the meaning of this option.
-     * 
+     *
      * @since 1.1
      */
     public Priority getThreshold() {
-	return threshold;
+        return threshold;
     }
 
     /**
      * Check whether the message level is below the appender's threshold. If there
      * is no threshold set, then the return value is always <code>true</code>.
-     * 
      */
     public boolean isAsSevereAsThreshold(Priority priority) {
-	return ((threshold == null) || priority.isGreaterOrEqual(threshold));
+        return ((threshold == null) || priority.isGreaterOrEqual(threshold));
     }
 
     /**
@@ -207,44 +209,45 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
      * method.
      */
     public synchronized void doAppend(LoggingEvent event) {
-	if (closed) {
-	    LogLog.error("Attempted to append to closed appender named [" + name + "].");
-	    return;
-	}
+        if (closed) {
+            LogLog.error("Attempted to append to closed appender named [" + name + "].");
+            return;
+        }
 
-	if (!isAsSevereAsThreshold(event.getLevel())) {
-	    return;
-	}
+        if (!isAsSevereAsThreshold(event.getLevel())) {
+            return;
+        }
 
-	Filter f = this.headFilter;
+        Filter f = this.headFilter;
 
-	FILTER_LOOP: while (f != null) {
-	    switch (f.decide(event)) {
-	    case Filter.DENY:
-		return;
-	    case Filter.ACCEPT:
-		break FILTER_LOOP;
-	    case Filter.NEUTRAL:
-		f = f.getNext();
-	    }
-	}
+        FILTER_LOOP:
+        while (f != null) {
+            switch (f.decide(event)) {
+                case Filter.DENY:
+                    return;
+                case Filter.ACCEPT:
+                    break FILTER_LOOP;
+                case Filter.NEUTRAL:
+                    f = f.getNext();
+            }
+        }
 
-	this.append(event);
+        this.append(event);
     }
 
     /**
      * Set the {@link ErrorHandler} for this Appender.
-     * 
+     *
      * @since 0.9.0
      */
     public synchronized void setErrorHandler(ErrorHandler eh) {
-	if (eh == null) {
-	    // We do not throw exception here since the cause is probably a
-	    // bad config file.
-	    LogLog.warn("You have tried to set a null error-handler.");
-	} else {
-	    this.errorHandler = eh;
-	}
+        if (eh == null) {
+            // We do not throw exception here since the cause is probably a
+            // bad config file.
+            LogLog.warn("You have tried to set a null error-handler.");
+        } else {
+            this.errorHandler = eh;
+        }
     }
 
     /**
@@ -253,27 +256,27 @@ public abstract class AppenderSkeleton implements Appender, OptionHandler {
      * {@link org.apache.log4j.net.SocketAppender} ignores the layout set here.
      */
     public void setLayout(Layout layout) {
-	this.layout = layout;
+        this.layout = layout;
     }
 
     /**
      * Set the name of this Appender.
      */
     public void setName(String name) {
-	this.name = name;
+        this.name = name;
     }
 
     /**
      * Set the threshold level. All log events with lower level than the threshold
      * level are ignored by the appender.
-     * 
+     *
      * <p>
      * In configuration files this option is specified by setting the value of the
      * <b>Threshold</b> option to a level string, such as "DEBUG", "INFO" and so on.
-     * 
+     *
      * @since 0.8.3
      */
     public void setThreshold(Priority threshold) {
-	this.threshold = threshold;
+        this.threshold = threshold;
     }
 }

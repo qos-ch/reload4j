@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,176 +48,177 @@ public class XMLLayoutTestCase {
 
     @Before
     public void setUp() {
-	root = Logger.getRootLogger();
-	root.setLevel(Level.TRACE);
-	logger = Logger.getLogger(XMLLayoutTestCase.class);
-	logger.setLevel(Level.TRACE);
+        root = Logger.getRootLogger();
+        root.setLevel(Level.TRACE);
+        logger = Logger.getLogger(XMLLayoutTestCase.class);
+        logger.setLevel(Level.TRACE);
     }
 
     @After
     public void tearDown() {
-	root.getLoggerRepository().resetConfiguration();
+        root.getLoggerRepository().resetConfiguration();
     }
 
     @Test
     public void testSmoke() throws Exception {
-	XMLLayout xmlLayout = new XMLLayout();
-	root.addAppender(new FileAppender(xmlLayout, TEMP, false));
-	common();
-	Transformer.transform(TEMP, FILTERED,
-		new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(), new Log4jAndNothingElseFilter(), });
-	assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "xmlLayout.1"));
+        XMLLayout xmlLayout = new XMLLayout();
+        root.addAppender(new FileAppender(xmlLayout, TEMP, false));
+        common();
+        Transformer.transform(TEMP, FILTERED,
+                new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(), new Log4jAndNothingElseFilter(), });
+        assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "xmlLayout.1"));
     }
 
     @Test
     public void locationInfo() throws Exception {
-	XMLLayout xmlLayout = new XMLLayout();
-	xmlLayout.setLocationInfo(true);
-	root.addAppender(new FileAppender(xmlLayout, TEMP, false));
-	common();
-	Transformer.transform(TEMP, FILTERED, new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(),
-		new XMLLineAttributeFilter(), new Log4jAndNothingElseFilter(), });
-	assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "xmlLayout.2"));
+        XMLLayout xmlLayout = new XMLLayout();
+        xmlLayout.setLocationInfo(true);
+        root.addAppender(new FileAppender(xmlLayout, TEMP, false));
+        common();
+        Transformer.transform(TEMP, FILTERED,
+                new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(), new XMLLineAttributeFilter(),
+                        new Log4jAndNothingElseFilter(), });
+        assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "xmlLayout.2"));
     }
 
     @Test
     public void testCDATA() throws Exception {
-	XMLLayout xmlLayout = new XMLLayout();
-	xmlLayout.setLocationInfo(true);
-	root.addAppender(new FileAppender(xmlLayout, TEMP, false));
+        XMLLayout xmlLayout = new XMLLayout();
+        xmlLayout.setLocationInfo(true);
+        root.addAppender(new FileAppender(xmlLayout, TEMP, false));
 
-	String oldThreadName = Thread.currentThread().getName();
-	Thread.currentThread().setName("main");
+        String oldThreadName = Thread.currentThread().getName();
+        Thread.currentThread().setName("main");
 
-	logger.trace("Message with embedded <![CDATA[<hello>hi</hello>]]>.");
-	logger.debug("Message with embedded <![CDATA[<hello>hi</hello>]]>.");
+        logger.trace("Message with embedded <![CDATA[<hello>hi</hello>]]>.");
+        logger.debug("Message with embedded <![CDATA[<hello>hi</hello>]]>.");
 
-	Thread.currentThread().setName(oldThreadName);
+        Thread.currentThread().setName(oldThreadName);
 
-	Transformer.transform(TEMP, FILTERED, new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(),
-		new XMLLineAttributeFilter(), new Log4jAndNothingElseFilter()
-	});
-	Transformer.transform(TEMP, FILTERED,
-		new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(), new XMLLineAttributeFilter() });
-	assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "xmlLayout.3"));
+        Transformer.transform(TEMP, FILTERED,
+                new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(), new XMLLineAttributeFilter(),
+                        new Log4jAndNothingElseFilter() });
+        Transformer.transform(TEMP, FILTERED,
+                new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(), new XMLLineAttributeFilter() });
+        assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "xmlLayout.3"));
     }
 
     @Test
     public void testNull() throws Exception {
-	XMLLayout xmlLayout = new XMLLayout();
-	root.addAppender(new FileAppender(xmlLayout, TEMP, false));
+        XMLLayout xmlLayout = new XMLLayout();
+        root.addAppender(new FileAppender(xmlLayout, TEMP, false));
 
-	String oldThreadName = Thread.currentThread().getName();
-	Thread.currentThread().setName("main");
+        String oldThreadName = Thread.currentThread().getName();
+        Thread.currentThread().setName("main");
 
-	logger.debug("hi");
-	logger.debug(null);
-	Exception e = new Exception((String) null);
-	logger.debug("hi", e);
+        logger.debug("hi");
+        logger.debug(null);
+        Exception e = new Exception((String) null);
+        logger.debug("hi", e);
 
-	Thread.currentThread().setName(oldThreadName);
+        Thread.currentThread().setName(oldThreadName);
 
-	Transformer.transform(TEMP, FILTERED,
-		new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(), new Log4jAndNothingElseFilter(), });
-	assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "xmlLayout.null"));
+        Transformer.transform(TEMP, FILTERED,
+                new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(), new Log4jAndNothingElseFilter(), });
+        assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "xmlLayout.null"));
     }
 
     /**
-     * Tests the format of the MDC portion of the layout to ensure the key-value
-     * pairs we put in turn up in the output file.
-     * 
+     * Tests the format of the MDC portion of the layout to ensure the key-value pairs we put in turn up in the output
+     * file.
+     *
      * @throws Exception
      */
     @Test
     public void testMDC() throws Exception {
-	XMLLayout xmlLayout = new XMLLayout();
-	xmlLayout.setProperties(true);
-	root.addAppender(new FileAppender(xmlLayout, TEMP, false));
+        XMLLayout xmlLayout = new XMLLayout();
+        xmlLayout.setProperties(true);
+        root.addAppender(new FileAppender(xmlLayout, TEMP, false));
 
-	Hashtable context = MDC.getContext();
-	if (context != null) {
-	    context.clear();
-	}
-	MDC.put("key1", "val1");
-	MDC.put("key2", "val2");
+        Hashtable context = MDC.getContext();
+        if (context != null) {
+            context.clear();
+        }
+        MDC.put("key1", "val1");
+        MDC.put("key2", "val2");
 
-	logger.debug("Hello");
-	Transformer.transform(TEMP, FILTERED,
-		new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(), new Log4jAndNothingElseFilter() });
-	assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "xmlLayout.mdc.1"));
+        logger.debug("Hello");
+        Transformer.transform(TEMP, FILTERED,
+                new Filter[] { new LineNumberFilter(), new XMLTimestampFilter(), new Log4jAndNothingElseFilter() });
+        assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "xmlLayout.mdc.1"));
     }
 
     @Test
     public void testMDCEscaped() throws Exception {
-	XMLLayout xmlLayout = new XMLLayout();
-	xmlLayout.setProperties(true);
-	root.addAppender(new FileAppender(xmlLayout, TEMP, false));
+        XMLLayout xmlLayout = new XMLLayout();
+        xmlLayout.setProperties(true);
+        root.addAppender(new FileAppender(xmlLayout, TEMP, false));
 
-	Hashtable context = MDC.getContext();
-	if (context != null) {
-	    context.clear();
-	}
-	MDC.put("blahAttribute", "<blah value='blah'>");
-	MDC.put("<blahKey value='blah'/>", "blahValue");
+        Hashtable context = MDC.getContext();
+        if (context != null) {
+            context.clear();
+        }
+        MDC.put("blahAttribute", "<blah value='blah'>");
+        MDC.put("<blahKey value='blah'/>", "blahValue");
 
-	logger.debug("Hello");
-	Transformer.transform(TEMP, FILTERED,
-		new Filter[] { new LineNumberFilter(), new Log4jAndNothingElseFilter(), new XMLTimestampFilter() });
-	assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "xmlLayout.mdc.2"));
+        logger.debug("Hello");
+        Transformer.transform(TEMP, FILTERED,
+                new Filter[] { new LineNumberFilter(), new Log4jAndNothingElseFilter(), new XMLTimestampFilter() });
+        assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "xmlLayout.mdc.2"));
     }
 
     void common() {
-	String oldThreadName = Thread.currentThread().getName();
-	Thread.currentThread().setName("main");
+        String oldThreadName = Thread.currentThread().getName();
+        Thread.currentThread().setName("main");
 
-	int i = -1;
+        int i = -1;
 
-	new X();
+        new X();
 
-	logger.trace("Message " + ++i);
-	root.trace("Message " + i);
+        logger.trace("Message " + ++i);
+        root.trace("Message " + i);
 
-	logger.debug("Message " + ++i);
-	root.debug("Message " + i);
+        logger.debug("Message " + ++i);
+        root.debug("Message " + i);
 
-	logger.info("Message " + ++i);
-	root.info("Message " + i);
+        logger.info("Message " + ++i);
+        root.info("Message " + i);
 
-	logger.warn("Message " + ++i);
-	root.warn("Message " + i);
+        logger.warn("Message " + ++i);
+        root.warn("Message " + i);
 
-	logger.error("Message " + ++i);
-	root.error("Message " + i);
+        logger.error("Message " + ++i);
+        root.error("Message " + i);
 
-	logger.log(Level.FATAL, "Message " + ++i);
-	root.log(Level.FATAL, "Message " + i);
+        logger.log(Level.FATAL, "Message " + ++i);
+        root.log(Level.FATAL, "Message " + i);
 
-	Exception e = new Exception("Just testing");
-	logger.debug("Message " + ++i, e);
-	root.debug("Message " + i, e);
+        Exception e = new Exception("Just testing");
+        logger.debug("Message " + ++i, e);
+        root.debug("Message " + i, e);
 
-	logger.error("Message " + ++i, e);
-	root.error("Message " + i, e);
+        logger.error("Message " + ++i, e);
+        root.error("Message " + i, e);
 
-	Thread.currentThread().setName(oldThreadName);
+        Thread.currentThread().setName(oldThreadName);
     }
 
-//  public static Test suite() {
-//    TestSuite suite = new TestSuite();
-//    suite.addTest(new XMLLayoutTestCase("basic"));
-//    suite.addTest(new XMLLayoutTestCase("locationInfo"));
-//    suite.addTest(new XMLLayoutTestCase("testCDATA"));
-//    suite.addTest(new XMLLayoutTestCase("testNull"));
-//    suite.addTest(new XMLLayoutTestCase("testMDC"));
-//    suite.addTest(new XMLLayoutTestCase("testMDCEscaped"));
-//    return suite;
-//  }
+    //  public static Test suite() {
+    //    TestSuite suite = new TestSuite();
+    //    suite.addTest(new XMLLayoutTestCase("basic"));
+    //    suite.addTest(new XMLLayoutTestCase("locationInfo"));
+    //    suite.addTest(new XMLLayoutTestCase("testCDATA"));
+    //    suite.addTest(new XMLLayoutTestCase("testNull"));
+    //    suite.addTest(new XMLLayoutTestCase("testMDC"));
+    //    suite.addTest(new XMLLayoutTestCase("testMDCEscaped"));
+    //    return suite;
+    //  }
 
     class X {
-	Logger logger = Logger.getLogger(X.class);
+        Logger logger = Logger.getLogger(X.class);
 
-	public X() {
-	    logger.info("in X() constructor");
-	}
+        public X() {
+            logger.info("in X() constructor");
+        }
     }
 }

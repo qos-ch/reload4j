@@ -35,39 +35,38 @@ class Dispatcher extends Thread {
     AsyncAppender container;
 
     /**
-     *
      * @param bf
      * @param container
      * @deprecated
      */
     Dispatcher(org.apache.log4j.helpers.BoundedFIFO bf, AsyncAppender container) {
-	this.bf = bf;
-	this.container = container;
-	this.aai = container.aai;
+        this.bf = bf;
+        this.container = container;
+        this.aai = container.aai;
 
-	// It is the user's responsibility to close appenders before
-	// exiting.
-	this.setDaemon(true);
+        // It is the user's responsibility to close appenders before
+        // exiting.
+        this.setDaemon(true);
 
-	// set the dispatcher priority to lowest possible value
-	this.setPriority(Thread.MIN_PRIORITY);
-	this.setName("Dispatcher-" + getName());
+        // set the dispatcher priority to lowest possible value
+        this.setPriority(Thread.MIN_PRIORITY);
+        this.setName("Dispatcher-" + getName());
 
-	// set the dispatcher priority to MIN_PRIORITY plus or minus 2
-	// depending on the direction of MIN to MAX_PRIORITY.
-	// + (Thread.MAX_PRIORITY > Thread.MIN_PRIORITY ? 1 : -1)*2);
+        // set the dispatcher priority to MIN_PRIORITY plus or minus 2
+        // depending on the direction of MIN to MAX_PRIORITY.
+        // + (Thread.MAX_PRIORITY > Thread.MIN_PRIORITY ? 1 : -1)*2);
     }
 
     void close() {
-	synchronized (bf) {
-	    interrupted = true;
+        synchronized (bf) {
+            interrupted = true;
 
-	    // We have a waiting dispacther if and only if bf.length is
-	    // zero. In that case, we need to give it a death kiss.
-	    if (bf.length() == 0) {
-		bf.notify();
-	    }
-	}
+            // We have a waiting dispacther if and only if bf.length is
+            // zero. In that case, we need to give it a death kiss.
+            if (bf.length() == 0) {
+                bf.notify();
+            }
+        }
     }
 
     /**
@@ -81,44 +80,44 @@ class Dispatcher extends Thread {
      * </p>
      */
     public void run() {
-	// Category cat = Category.getInstance(Dispatcher.class.getName());
-	LoggingEvent event;
+        // Category cat = Category.getInstance(Dispatcher.class.getName());
+        LoggingEvent event;
 
-	while (true) {
-	    synchronized (bf) {
-		if (bf.length() == 0) {
-		    // Exit loop if interrupted but only if the the buffer is empty.
-		    if (interrupted) {
-			// cat.info("Exiting.");
-			break;
-		    }
+        while (true) {
+            synchronized (bf) {
+                if (bf.length() == 0) {
+                    // Exit loop if interrupted but only if the the buffer is empty.
+                    if (interrupted) {
+                        // cat.info("Exiting.");
+                        break;
+                    }
 
-		    try {
-			// LogLog.debug("Waiting for new event to dispatch.");
-			bf.wait();
-		    } catch (InterruptedException e) {
-			break;
-		    }
-		}
+                    try {
+                        // LogLog.debug("Waiting for new event to dispatch.");
+                        bf.wait();
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
 
-		event = bf.get();
+                event = bf.get();
 
-		if (bf.wasFull()) {
-		    // LogLog.debug("Notifying AsyncAppender about freed space.");
-		    bf.notify();
-		}
-	    }
+                if (bf.wasFull()) {
+                    // LogLog.debug("Notifying AsyncAppender about freed space.");
+                    bf.notify();
+                }
+            }
 
-	    // synchronized
-	    synchronized (container.aai) {
-		if ((aai != null) && (event != null)) {
-		    aai.appendLoopOnAppenders(event);
-		}
-	    }
-	}
+            // synchronized
+            synchronized (container.aai) {
+                if ((aai != null) && (event != null)) {
+                    aai.appendLoopOnAppenders(event);
+                }
+            }
+        }
 
-	// while
-	// close and remove all appenders
-	aai.removeAllAppenders();
+        // while
+        // close and remove all appenders
+        aai.removeAllAppenders();
     }
 }

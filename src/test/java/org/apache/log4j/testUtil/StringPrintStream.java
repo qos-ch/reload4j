@@ -25,22 +25,22 @@ public class StringPrintStream extends PrintStream {
     public List<String> stringList = new ArrayList<String>();
 
     public StringPrintStream(PrintStream ps) {
-	super(ps);
-	other = ps;
+        super(ps);
+        other = ps;
     }
 
     public void print(String s) {
-	other.print(s);
-	stringList.add(s);
+        other.print(s);
+        stringList.add(s);
     }
 
     public void println(String s) {
-	other.println(s);
-	stringList.add(s);
+        other.println(s);
+        stringList.add(s);
     }
 
     public void println(Object o) {
-	other.println(o);
-	stringList.add(o.toString());
+        other.println(o);
+        stringList.add(o.toString());
     }
 }

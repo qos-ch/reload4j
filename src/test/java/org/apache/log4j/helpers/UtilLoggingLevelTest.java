@@ -31,14 +31,14 @@ public class UtilLoggingLevelTest extends TestCase {
      * @param testName test name
      */
     public UtilLoggingLevelTest(final String testName) {
-	super(testName);
+        super(testName);
     }
 
     /**
      * Test toLevel("fiNeSt").
      */
     public void testToLevelFINEST() {
-	assertSame(UtilLoggingLevel.FINEST, UtilLoggingLevel.toLevel("fiNeSt"));
+        assertSame(UtilLoggingLevel.FINEST, UtilLoggingLevel.toLevel("fiNeSt"));
     }
 
 }

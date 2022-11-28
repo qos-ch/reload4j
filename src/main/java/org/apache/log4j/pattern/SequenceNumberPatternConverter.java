@@ -34,23 +34,23 @@ public class SequenceNumberPatternConverter extends LoggingEventPatternConverter
      * Private constructor.
      */
     private SequenceNumberPatternConverter() {
-	super("Sequence Number", "sn");
+        super("Sequence Number", "sn");
     }
 
     /**
      * Obtains an instance of SequencePatternConverter.
-     * 
+     *
      * @param options options, currently ignored, may be null.
      * @return instance of SequencePatternConverter.
      */
     public static SequenceNumberPatternConverter newInstance(final String[] options) {
-	return INSTANCE;
+        return INSTANCE;
     }
 
     /**
      * {@inheritDoc}
      */
     public void format(final LoggingEvent event, final StringBuffer toAppendTo) {
-	toAppendTo.append("0");
+        toAppendTo.append("0");
     }
 }

@@ -35,27 +35,27 @@ public final class FileLocationPatternConverter extends LoggingEventPatternConve
      * Private constructor.
      */
     private FileLocationPatternConverter() {
-	super("File Location", "file");
+        super("File Location", "file");
     }
 
     /**
      * Obtains an instance of pattern converter.
-     * 
+     *
      * @param options options, may be null.
      * @return instance of pattern converter.
      */
     public static FileLocationPatternConverter newInstance(final String[] options) {
-	return INSTANCE;
+        return INSTANCE;
     }
 
     /**
      * {@inheritDoc}
      */
     public void format(final LoggingEvent event, final StringBuffer output) {
-	LocationInfo locationInfo = event.getLocationInformation();
+        LocationInfo locationInfo = event.getLocationInformation();
 
-	if (locationInfo != null) {
-	    output.append(locationInfo.getFileName());
-	}
+        if (locationInfo != null) {
+            output.append(locationInfo.getFileName());
+        }
     }
 }

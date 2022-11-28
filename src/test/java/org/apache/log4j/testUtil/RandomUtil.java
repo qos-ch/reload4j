@@ -22,10 +22,10 @@ public class RandomUtil {
     private static Random random = new Random();
 
     public static int getPositiveInt() {
-	int r = random.nextInt();
-	if (r < 0) {
-	    r = -r;
-	}
-	return r;
+        int r = random.nextInt();
+        if (r < 0) {
+            r = -r;
+        }
+        return r;
     }
 }

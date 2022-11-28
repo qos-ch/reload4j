@@ -30,7 +30,6 @@ import org.junit.Test;
 import static org.apache.log4j.TestConstants.TARGET_OUTPUT_PREFIX;
 
 /**
- *
  * FileAppender tests.
  *
  * @author Curt Arnold
@@ -41,31 +40,29 @@ public class FileAppenderTest {
     int diff = RandomUtil.getPositiveInt();
 
     /**
-     * Tests that any necessary directories are attempted to be created if they
-     * don't exist. See bug 9150.
-     *
+     * Tests that any necessary directories are attempted to be created if they don't exist. See bug 9150.
      */
     @Test
     public void testDirectoryCreation() {
-	String fileStr = TARGET_OUTPUT_PREFIX + "dir" + diff + "/testDirectoryCreation.log";
+        String fileStr = TARGET_OUTPUT_PREFIX + "dir" + diff + "/testDirectoryCreation.log";
 
-	org.apache.log4j.FileAppender wa = new org.apache.log4j.FileAppender();
-	wa.setFile(fileStr);
-	wa.setLayout(new PatternLayout("%m%n"));
-	wa.activateOptions();
+        org.apache.log4j.FileAppender wa = new org.apache.log4j.FileAppender();
+        wa.setFile(fileStr);
+        wa.setLayout(new PatternLayout("%m%n"));
+        wa.activateOptions();
 
-	assertTrue(new File(fileStr).exists());
+        assertTrue(new File(fileStr).exists());
     }
 
     /**
      * Tests that the return type of getThreshold is Priority.
-     * 
+     *
      * @throws Exception
      */
     @Test
     public void testGetThresholdReturnType() throws Exception {
-	Method method = FileAppender.class.getMethod("getThreshold", (Class[]) null);
-	assertTrue(method.getReturnType() == Priority.class);
+        Method method = FileAppender.class.getMethod("getThreshold", (Class[]) null);
+        assertTrue(method.getReturnType() == Priority.class);
     }
 
     /**
@@ -73,11 +70,11 @@ public class FileAppenderTest {
      */
     @Test
     public void testgetSetThreshold() {
-	FileAppender appender = new FileAppender();
-	Priority debug = Level.DEBUG;
-	assertNull(appender.getThreshold());
-	appender.setThreshold(debug);
-	assertTrue(appender.getThreshold() == debug);
+        FileAppender appender = new FileAppender();
+        Priority debug = Level.DEBUG;
+        assertNull(appender.getThreshold());
+        appender.setThreshold(debug);
+        assertTrue(appender.getThreshold() == debug);
     }
 
     /**
@@ -85,8 +82,8 @@ public class FileAppenderTest {
      */
     @Test
     public void testIsAsSevereAsThreshold() {
-	FileAppender appender = new FileAppender();
-	Priority debug = Level.DEBUG;
-	assertTrue(appender.isAsSevereAsThreshold(debug));
+        FileAppender appender = new FileAppender();
+        Priority debug = Level.DEBUG;
+        assertTrue(appender.isAsSevereAsThreshold(debug));
     }
 }

@@ -34,29 +34,29 @@ public final class IntegerPatternConverter extends PatternConverter {
      * Private constructor.
      */
     private IntegerPatternConverter() {
-	super("Integer", "integer");
+        super("Integer", "integer");
     }
 
     /**
      * Obtains an instance of pattern converter.
-     * 
+     *
      * @param options options, may be null.
      * @return instance of pattern converter.
      */
     public static IntegerPatternConverter newInstance(final String[] options) {
-	return INSTANCE;
+        return INSTANCE;
     }
 
     /**
      * {@inheritDoc}
      */
     public void format(Object obj, final StringBuffer toAppendTo) {
-	if (obj instanceof Integer) {
-	    toAppendTo.append(obj.toString());
-	}
+        if (obj instanceof Integer) {
+            toAppendTo.append(obj.toString());
+        }
 
-	if (obj instanceof Date) {
-	    toAppendTo.append(Long.toString(((Date) obj).getTime()));
-	}
+        if (obj instanceof Date) {
+            toAppendTo.append(Long.toString(((Date) obj).getTime()));
+        }
     }
 }

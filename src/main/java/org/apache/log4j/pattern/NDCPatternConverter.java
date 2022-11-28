@@ -34,23 +34,23 @@ public final class NDCPatternConverter extends LoggingEventPatternConverter {
      * Private constructor.
      */
     private NDCPatternConverter() {
-	super("NDC", "ndc");
+        super("NDC", "ndc");
     }
 
     /**
      * Obtains an instance of NDCPatternConverter.
-     * 
+     *
      * @param options options, may be null.
      * @return instance of NDCPatternConverter.
      */
     public static NDCPatternConverter newInstance(final String[] options) {
-	return INSTANCE;
+        return INSTANCE;
     }
 
     /**
      * {@inheritDoc}
      */
     public void format(final LoggingEvent event, final StringBuffer toAppendTo) {
-	toAppendTo.append(event.getNDC());
+        toAppendTo.append(event.getNDC());
     }
 }

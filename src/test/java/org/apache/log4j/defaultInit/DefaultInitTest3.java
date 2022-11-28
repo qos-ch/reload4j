@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Enumeration;
+
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.TestConstants;
@@ -33,26 +34,26 @@ public class DefaultInitTest3 {
 
     @Before
     public void setUp() {
-	String userDir = System.getProperty("user.dir");
-	System.setProperty("log4j.configuration",
-		"file:///" + userDir + "/" + TestConstants.TEST_INPUT_PREFIX + "defaultInit3.properties");
+        String userDir = System.getProperty("user.dir");
+        System.setProperty("log4j.configuration",
+                "file:///" + userDir + "/" + TestConstants.TEST_INPUT_PREFIX + "defaultInit3.properties");
 
     }
 
     @After
     public void tearDown() {
-	System.clearProperty("log4j.configuration");
-	LogManager.shutdown();
+        System.clearProperty("log4j.configuration");
+        LogManager.shutdown();
     }
 
     @Test
     public void propertiesTest() {
-	Logger root = Logger.getRootLogger();
-	boolean rootIsConfigured = root.getAllAppenders().hasMoreElements();
-	assertTrue(rootIsConfigured);
-	Enumeration e = root.getAllAppenders();
-	Appender appender = (Appender) e.nextElement();
-	assertEquals(appender.getName(), "D3");
+        Logger root = Logger.getRootLogger();
+        boolean rootIsConfigured = root.getAllAppenders().hasMoreElements();
+        assertTrue(rootIsConfigured);
+        Enumeration e = root.getAllAppenders();
+        Appender appender = (Appender) e.nextElement();
+        assertEquals(appender.getName(), "D3");
     }
 
 }

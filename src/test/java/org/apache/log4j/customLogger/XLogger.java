@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,9 +23,8 @@ import org.apache.log4j.spi.LoggerFactory;
 import org.apache.log4j.xml.XLevel;
 
 /**
- * A simple example showing Logger sub-classing. It shows the minimum steps
- * necessary to implement one's {@link LoggerFactory}. Note that sub-classes
- * follow the hierarchy even if its loggers belong to different classes.
+ * A simple example showing Logger sub-classing. It shows the minimum steps necessary to implement one's
+ * {@link LoggerFactory}. Note that sub-classes follow the hierarchy even if its loggers belong to different classes.
  */
 public class XLogger extends Logger implements OptionHandler {
 
@@ -44,7 +43,7 @@ public class XLogger extends Logger implements OptionHandler {
      * Just calls the parent constuctor.
      */
     protected XLogger(String name) {
-	super(name);
+        super(name);
     }
 
     /**
@@ -54,78 +53,77 @@ public class XLogger extends Logger implements OptionHandler {
     }
 
     /**
-     * Overrides the standard debug method by appending the value of suffix variable
-     * to each message.
+     * Overrides the standard debug method by appending the value of suffix variable to each message.
      */
     public void debug(String message) {
-	super.log(FQCN, Level.DEBUG, message + " " + suffix, null);
+        super.log(FQCN, Level.DEBUG, message + " " + suffix, null);
     }
 
     /**
      * We introduce a new printing method in order to support {@link XLevel#LETHAL}.
      */
     public void lethal(String message, Throwable t) {
-	if (repository.isDisabled(XLevel.LETHAL_INT))
-	    return;
-	if (XLevel.LETHAL.isGreaterOrEqual(this.getEffectiveLevel()))
-	    forcedLog(FQCN, XLevel.LETHAL, message, t);
+        if (repository.isDisabled(XLevel.LETHAL_INT))
+            return;
+        if (XLevel.LETHAL.isGreaterOrEqual(this.getEffectiveLevel()))
+            forcedLog(FQCN, XLevel.LETHAL, message, t);
     }
 
     /**
      * We introduce a new printing method in order to support {@link XLevel#LETHAL}.
      */
     public void lethal(String message) {
-	if (repository.isDisabled(XLevel.LETHAL_INT))
-	    return;
-	if (XLevel.LETHAL.isGreaterOrEqual(this.getEffectiveLevel()))
-	    forcedLog(FQCN, XLevel.LETHAL, message, null);
+        if (repository.isDisabled(XLevel.LETHAL_INT))
+            return;
+        if (XLevel.LETHAL.isGreaterOrEqual(this.getEffectiveLevel()))
+            forcedLog(FQCN, XLevel.LETHAL, message, null);
     }
 
     static public Logger getLogger(String name) {
-	return LogManager.getLogger(name, factory);
+        return LogManager.getLogger(name, factory);
     }
 
     static public Logger getLogger(Class clazz) {
-	return XLogger.getLogger(clazz.getName());
+        return XLogger.getLogger(clazz.getName());
     }
 
     public String getSuffix() {
-	return suffix;
+        return suffix;
     }
 
     public void setSuffix(String suffix) {
-	this.suffix = suffix;
+        this.suffix = suffix;
     }
 
     /**
      * We introduce a new printing method that takes the TRACE level.
      */
     public void trace(String message, Throwable t) {
-	if (repository.isDisabled(XLevel.TRACE_INT))
-	    return;
-	if (XLevel.TRACE.isGreaterOrEqual(this.getEffectiveLevel()))
-	    forcedLog(FQCN, XLevel.TRACE, message, t);
+        if (repository.isDisabled(XLevel.TRACE_INT))
+            return;
+        if (XLevel.TRACE.isGreaterOrEqual(this.getEffectiveLevel()))
+            forcedLog(FQCN, XLevel.TRACE, message, t);
     }
 
     /**
      * We introduce a new printing method that takes the TRACE level.
      */
     public void trace(String message) {
-	if (repository.isDisabled(XLevel.TRACE_INT))
-	    return;
-	if (XLevel.TRACE.isGreaterOrEqual(this.getEffectiveLevel()))
-	    forcedLog(FQCN, XLevel.TRACE, message, null);
+        if (repository.isDisabled(XLevel.TRACE_INT))
+            return;
+        if (XLevel.TRACE.isGreaterOrEqual(this.getEffectiveLevel()))
+            forcedLog(FQCN, XLevel.TRACE, message, null);
     }
 
     // Any sub-class of Logger must also have its own implementation of
     // CategoryFactory.
     public static class XFactory implements LoggerFactory {
 
-	public XFactory() {
-	}
+        public XFactory() {
+        }
 
-	public Logger makeNewLoggerInstance(String name) {
-	    return new XLogger(name);
-	}
+        public Logger makeNewLoggerInstance(String name) {
+            return new XLogger(name);
+        }
     }
 }

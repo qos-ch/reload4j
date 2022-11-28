@@ -23,25 +23,24 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * A GC-free lock-free thread-safe implementation of the {@link List} interface
- * for use cases where iterations over the list vastly out-number modifications
- * on the list.
- * 
+ * A GC-free lock-free thread-safe implementation of the {@link List} interface for use cases where iterations over the
+ * list vastly out-number modifications on the list.
+ *
  * <p>
- * Underneath, it wraps an instance of {@link CopyOnWriteArrayList} and exposes
- * a copy of the array used by that instance.
- * 
+ * Underneath, it wraps an instance of {@link CopyOnWriteArrayList} and exposes a copy of the array used by that
+ * instance.
+ *
  * <p>
  * Typical use:
  * </p>
- * 
+ *
  * <pre>
  *   COWArrayList&lt;Integer&gt; list = new COWArrayList(new Integer[0]);
- *   
+ *
  *   // modify the list
  *   list.add(1);
  *   list.add(2);
- *   
+ *
  *   Integer[] intArray = list.asTypedArray();
  *   int sum = 0;
  *   // iteration over the array is thread-safe
@@ -49,200 +48,198 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *     sum != intArray[i];
  *   }
  * </pre>
- * 
+ *
  * <p>
- * If the list is not modified, then repetitive calls to
- * {@link #asTypedArray()}, {@link #toArray()} and {@link #toArray(Object[])}
- * are guaranteed to be GC-free. Note that iterating over the list using
+ * If the list is not modified, then repetitive calls to {@link #asTypedArray()}, {@link #toArray()} and
+ * {@link #toArray(Object[])} are guaranteed to be GC-free. Note that iterating over the list using
  * {@link COWArrayList#iterator()} and {@link COWArrayList#listIterator()} are
  * <b>not</b> GC-free.
  * </p>
- * 
+ *
  * @author Ceki Gulcu
  * @since 1.2.20
  */
 public class COWArrayList<E> implements List<E> {
-    
+
     AtomicBoolean fresh = new AtomicBoolean(false);
     CopyOnWriteArrayList<E> underlyingList = new CopyOnWriteArrayList<E>();
     E[] ourCopy;
     final E[] modelArray;
 
     public COWArrayList(E[] modelArray) {
-	this.modelArray = modelArray;
+        this.modelArray = modelArray;
     }
-  
+
     @Override
     public int size() {
-	return underlyingList.size();
+        return underlyingList.size();
     }
 
     @Override
     public boolean isEmpty() {
-	return underlyingList.isEmpty();
+        return underlyingList.isEmpty();
     }
 
     @Override
     public boolean contains(Object o) {
-	return underlyingList.contains(o);
+        return underlyingList.contains(o);
     }
 
     @Override
     public Iterator<E> iterator() {
-	return underlyingList.iterator();
+        return underlyingList.iterator();
     }
 
     private void refreshCopyIfNecessary() {
-	if (!isFresh()) {
-	    refreshCopy();
-	}
+        if (!isFresh()) {
+            refreshCopy();
+        }
     }
 
     private boolean isFresh() {
-	return fresh.get();
+        return fresh.get();
     }
 
     private void refreshCopy() {
-	ourCopy = underlyingList.toArray(modelArray);
-	fresh.set(true);
+        ourCopy = underlyingList.toArray(modelArray);
+        fresh.set(true);
     }
 
     @Override
     public Object[] toArray() {
-	refreshCopyIfNecessary();
-	return ourCopy;
-    } 
+        refreshCopyIfNecessary();
+        return ourCopy;
+    }
 
     @SuppressWarnings("unchecked")
     @Override
     public <T> T[] toArray(T[] a) {
-	refreshCopyIfNecessary();
-	return (T[]) ourCopy;
+        refreshCopyIfNecessary();
+        return (T[]) ourCopy;
     }
 
     /**
-     * Return an array of type E[]. The returned array is intended to be iterated
-     * over. If the list is modified, subsequent calls to this method will return
-     * different/modified array instances.
-     * 
+     * Return an array of type E[]. The returned array is intended to be iterated over. If the list is modified,
+     * subsequent calls to this method will return different/modified array instances.
+     *
      * @return
      */
     public E[] asTypedArray() {
-	refreshCopyIfNecessary();
-	return ourCopy;
+        refreshCopyIfNecessary();
+        return ourCopy;
     }
 
     private void markAsStale() {
-	fresh.set(false);
+        fresh.set(false);
     }
 
     public void addIfAbsent(E e) {
-	underlyingList.addIfAbsent(e);
-	markAsStale();
+        underlyingList.addIfAbsent(e);
+        markAsStale();
     }
 
     @Override
     public boolean add(E e) {
-	boolean result = underlyingList.add(e);
-	markAsStale();
-	return result;
+        boolean result = underlyingList.add(e);
+        markAsStale();
+        return result;
     }
 
     @Override
     public boolean remove(Object o) {
-	boolean result = underlyingList.remove(o);
-	markAsStale();
-	return result;
+        boolean result = underlyingList.remove(o);
+        markAsStale();
+        return result;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-	return underlyingList.containsAll(c);
+        return underlyingList.containsAll(c);
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-	markAsStale();
-	boolean result = underlyingList.addAll(c);
-	return result;
+        markAsStale();
+        boolean result = underlyingList.addAll(c);
+        return result;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> col) {
-	markAsStale();
-	boolean result = underlyingList.addAll(index, col);
-	return result;
+        markAsStale();
+        boolean result = underlyingList.addAll(index, col);
+        return result;
     }
 
     @Override
     public boolean removeAll(Collection<?> col) {
-	markAsStale();
-	boolean result = underlyingList.removeAll(col);
-	return result;
+        markAsStale();
+        boolean result = underlyingList.removeAll(col);
+        return result;
     }
 
     @Override
     public boolean retainAll(Collection<?> col) {
-	markAsStale();
-	boolean result = underlyingList.retainAll(col);
-	return result;
+        markAsStale();
+        boolean result = underlyingList.retainAll(col);
+        return result;
     }
 
     @Override
     public void clear() {
-	markAsStale();
-	underlyingList.clear();
+        markAsStale();
+        underlyingList.clear();
     }
 
     @Override
     public E get(int index) {
-	refreshCopyIfNecessary();
-	return (E) ourCopy[index];
+        refreshCopyIfNecessary();
+        return (E) ourCopy[index];
     }
 
     @Override
     public E set(int index, E element) {
-	markAsStale();
-	E e = underlyingList.set(index, element);
-	return e;
+        markAsStale();
+        E e = underlyingList.set(index, element);
+        return e;
     }
 
     @Override
     public void add(int index, E element) {
-	markAsStale();
-	underlyingList.add(index, element);
+        markAsStale();
+        underlyingList.add(index, element);
     }
 
     @Override
     public E remove(int index) {
-	markAsStale();
-	E e = (E) underlyingList.remove(index);
-	return e;
+        markAsStale();
+        E e = (E) underlyingList.remove(index);
+        return e;
     }
 
     @Override
     public int indexOf(Object o) {
-	return underlyingList.indexOf(o);
+        return underlyingList.indexOf(o);
     }
 
     @Override
     public int lastIndexOf(Object o) {
-	return underlyingList.lastIndexOf(o);
+        return underlyingList.lastIndexOf(o);
     }
 
     @Override
     public ListIterator<E> listIterator() {
-	return underlyingList.listIterator();
+        return underlyingList.listIterator();
     }
 
     @Override
     public ListIterator<E> listIterator(int index) {
-	return underlyingList.listIterator(index);
+        return underlyingList.listIterator(index);
     }
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-	return underlyingList.subList(fromIndex, toIndex);
+        return underlyingList.subList(fromIndex, toIndex);
     }
 
 }

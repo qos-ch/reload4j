@@ -44,105 +44,103 @@ public class JdbcAppenderTest {
 
     Logger logger = Logger.getLogger(JdbcAppenderTest.class);
 
-	
     @Before
     public void setup() throws SQLException {
-	con = DriverManager.getConnection("jdbc:h2:mem:test_db");
-	Statement st = con.createStatement();
-	try {
-	    st.execute(
-		    "create table logs(level varchar(100),location varchar(100),message varchar(100),message2 varchar(100))");
-	} finally {
-	    st.close();
-	}
+        con = DriverManager.getConnection("jdbc:h2:mem:test_db");
+        Statement st = con.createStatement();
+        try {
+            st.execute(
+                    "create table logs(level varchar(100),location varchar(100),message varchar(100),message2 varchar(100))");
+        } finally {
+            st.close();
+        }
     }
 
     @After
     public void cleanup() throws SQLException {
-	LogManager.shutdown();
-	con.close();
+        LogManager.shutdown();
+        con.close();
     }
 
     @Test
     public void verifyJdbcBufferSize1() throws SQLException {
-	PropertyConfigurator.configure(TestConstants.TEST_INPUT_PREFIX + "jdbc_h2_bufferSize1.properties");
+        PropertyConfigurator.configure(TestConstants.TEST_INPUT_PREFIX + "jdbc_h2_bufferSize1.properties");
 
+        String oldThreadName = Thread.currentThread().getName();
+        try {
+            Thread.currentThread().setName("main");
+            logger.debug("message with ' quote");
+            Assert.assertEquals("batchSize=1, so messages should be added immediately",
+                    "DEBUG; org.apache.log4j.jdbc.JdbcAppenderTest; message with ' quote;  org.apache.log4j.jdbc.JdbcAppenderTest DEBUG message with ' quote\n",
+                    joinSorted(getMessagesFromDababase()));
 
-	String oldThreadName = Thread.currentThread().getName();
-	try {
-	    Thread.currentThread().setName("main");
-	    logger.debug("message with ' quote");
-	    Assert.assertEquals("batchSize=1, so messages should be added immediately",
-		    "DEBUG; org.apache.log4j.jdbc.JdbcAppenderTest; message with ' quote;  org.apache.log4j.jdbc.JdbcAppenderTest DEBUG message with ' quote\n",
-		    joinSorted(getMessagesFromDababase()));
+            logger.fatal("message with \" quote");
 
-	    logger.fatal("message with \" quote");
-
-	    Assert.assertEquals("batchSize=1, so two messages should be in DB after two logging calls",
-		    "DEBUG; org.apache.log4j.jdbc.JdbcAppenderTest; message with ' quote;  org.apache.log4j.jdbc.JdbcAppenderTest DEBUG message with ' quote\n"
-			    + "FATAL; org.apache.log4j.jdbc.JdbcAppenderTest; message with \" quote;  org.apache.log4j.jdbc.JdbcAppenderTest FATAL message with \" quote\n",
-		    joinSorted(getMessagesFromDababase()));
-	} finally {
-	    Thread.currentThread().setName(oldThreadName);
-	}
+            Assert.assertEquals("batchSize=1, so two messages should be in DB after two logging calls",
+                    "DEBUG; org.apache.log4j.jdbc.JdbcAppenderTest; message with ' quote;  org.apache.log4j.jdbc.JdbcAppenderTest DEBUG message with ' quote\n"
+                            + "FATAL; org.apache.log4j.jdbc.JdbcAppenderTest; message with \" quote;  org.apache.log4j.jdbc.JdbcAppenderTest FATAL message with \" quote\n",
+                    joinSorted(getMessagesFromDababase()));
+        } finally {
+            Thread.currentThread().setName(oldThreadName);
+        }
     }
 
     @Test
     public void verifyJdbcBufferSize2() throws SQLException {
-	PropertyConfigurator.configure(TestConstants.TEST_INPUT_PREFIX + "jdbc_h2_bufferSize2.properties");
+        PropertyConfigurator.configure(TestConstants.TEST_INPUT_PREFIX + "jdbc_h2_bufferSize2.properties");
 
-	String oldThreadName = Thread.currentThread().getName();
-	try {
-	    Thread.currentThread().setName("main");
-	    logger.log(XLevel.TRACE, "xtrace message");
-	    logger.debug("message with ' quote");
-	    logger.info("message with \" quote");
-	    logger.warn("?");
-	    // bufferSize=2, so this messsage won't yet be stored to the db
-	    logger.error("m4");
+        String oldThreadName = Thread.currentThread().getName();
+        try {
+            Thread.currentThread().setName("main");
+            logger.log(XLevel.TRACE, "xtrace message");
+            logger.debug("message with ' quote");
+            logger.info("message with \" quote");
+            logger.warn("?");
+            // bufferSize=2, so this messsage won't yet be stored to the db
+            logger.error("m4");
 
-	    Assert.assertEquals(
-		    "DEBUG; org.apache.log4j.jdbc.JdbcAppenderTest; message with ' quote;  org.apache.log4j.jdbc.JdbcAppenderTest DEBUG message with ' quote\n"
-			    + "INFO; org.apache.log4j.jdbc.JdbcAppenderTest; message with \" quote;  org.apache.log4j.jdbc.JdbcAppenderTest INFO message with \" quote\n"
-			    + "TRACE; org.apache.log4j.jdbc.JdbcAppenderTest; xtrace message;  org.apache.log4j.jdbc.JdbcAppenderTest TRACE xtrace message\n"
-			    + "WARN; org.apache.log4j.jdbc.JdbcAppenderTest; ?;  org.apache.log4j.jdbc.JdbcAppenderTest WARN ?\n",
-		    joinSorted(getMessagesFromDababase()));
+            Assert.assertEquals(
+                    "DEBUG; org.apache.log4j.jdbc.JdbcAppenderTest; message with ' quote;  org.apache.log4j.jdbc.JdbcAppenderTest DEBUG message with ' quote\n"
+                            + "INFO; org.apache.log4j.jdbc.JdbcAppenderTest; message with \" quote;  org.apache.log4j.jdbc.JdbcAppenderTest INFO message with \" quote\n"
+                            + "TRACE; org.apache.log4j.jdbc.JdbcAppenderTest; xtrace message;  org.apache.log4j.jdbc.JdbcAppenderTest TRACE xtrace message\n"
+                            + "WARN; org.apache.log4j.jdbc.JdbcAppenderTest; ?;  org.apache.log4j.jdbc.JdbcAppenderTest WARN ?\n",
+                    joinSorted(getMessagesFromDababase()));
 
-	    logger.fatal("m5");
+            logger.fatal("m5");
 
-	    Assert.assertEquals("Logging m5 message should trigger buffer flush for both m4 and m5",
-		    "DEBUG; org.apache.log4j.jdbc.JdbcAppenderTest; message with ' quote;  org.apache.log4j.jdbc.JdbcAppenderTest DEBUG message with ' quote\n"
-			    + "ERROR; org.apache.log4j.jdbc.JdbcAppenderTest; m4;  org.apache.log4j.jdbc.JdbcAppenderTest ERROR m4\n"
-			    + "FATAL; org.apache.log4j.jdbc.JdbcAppenderTest; m5;  org.apache.log4j.jdbc.JdbcAppenderTest FATAL m5\n"
-			    + "INFO; org.apache.log4j.jdbc.JdbcAppenderTest; message with \" quote;  org.apache.log4j.jdbc.JdbcAppenderTest INFO message with \" quote\n"
-			    + "TRACE; org.apache.log4j.jdbc.JdbcAppenderTest; xtrace message;  org.apache.log4j.jdbc.JdbcAppenderTest TRACE xtrace message\n"
-			    + "WARN; org.apache.log4j.jdbc.JdbcAppenderTest; ?;  org.apache.log4j.jdbc.JdbcAppenderTest WARN ?\n",
-		    joinSorted(getMessagesFromDababase()));
-	} finally {
-	    Thread.currentThread().setName(oldThreadName);
-	}
+            Assert.assertEquals("Logging m5 message should trigger buffer flush for both m4 and m5",
+                    "DEBUG; org.apache.log4j.jdbc.JdbcAppenderTest; message with ' quote;  org.apache.log4j.jdbc.JdbcAppenderTest DEBUG message with ' quote\n"
+                            + "ERROR; org.apache.log4j.jdbc.JdbcAppenderTest; m4;  org.apache.log4j.jdbc.JdbcAppenderTest ERROR m4\n"
+                            + "FATAL; org.apache.log4j.jdbc.JdbcAppenderTest; m5;  org.apache.log4j.jdbc.JdbcAppenderTest FATAL m5\n"
+                            + "INFO; org.apache.log4j.jdbc.JdbcAppenderTest; message with \" quote;  org.apache.log4j.jdbc.JdbcAppenderTest INFO message with \" quote\n"
+                            + "TRACE; org.apache.log4j.jdbc.JdbcAppenderTest; xtrace message;  org.apache.log4j.jdbc.JdbcAppenderTest TRACE xtrace message\n"
+                            + "WARN; org.apache.log4j.jdbc.JdbcAppenderTest; ?;  org.apache.log4j.jdbc.JdbcAppenderTest WARN ?\n",
+                    joinSorted(getMessagesFromDababase()));
+        } finally {
+            Thread.currentThread().setName(oldThreadName);
+        }
     }
 
     private static String joinSorted(List<String> list) {
-	Collections.sort(list);
-	StringBuilder sb = new StringBuilder();
-	for (String s : list) {
-	    sb.append(s).append('\n');
-	}
-	return sb.toString();
+        Collections.sort(list);
+        StringBuilder sb = new StringBuilder();
+        for (String s : list) {
+            sb.append(s).append('\n');
+        }
+        return sb.toString();
     }
 
     private List<String> getMessagesFromDababase() throws SQLException {
-	List<String> res = new ArrayList<String>();
-	PreparedStatement ps = con.prepareStatement("select level,location,message,message2 from logs");
-	ResultSet rs = ps.executeQuery();
-	try {
-	    while (rs.next()) {
-		res.add(rs.getString(1) + "; " + rs.getString(2) + "; " + rs.getString(3) + "; " + rs.getString(4));
-	    }
-	} finally {
-	    rs.close();
-	}
-	return res;
+        List<String> res = new ArrayList<String>();
+        PreparedStatement ps = con.prepareStatement("select level,location,message,message2 from logs");
+        ResultSet rs = ps.executeQuery();
+        try {
+            while (rs.next()) {
+                res.add(rs.getString(1) + "; " + rs.getString(2) + "; " + rs.getString(3) + "; " + rs.getString(4));
+            }
+        } finally {
+            rs.close();
+        }
+        return res;
     }
 }

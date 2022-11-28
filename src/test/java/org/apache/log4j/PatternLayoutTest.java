@@ -31,106 +31,106 @@ public class PatternLayoutTest extends LayoutTest {
      * @param testName test name.
      */
     public PatternLayoutTest(final String testName) {
-	super(testName, "text/plain", true, null, null);
+        super(testName, "text/plain", true, null, null);
     }
 
     /**
      * @{inheritDoc}
      */
     protected Layout createLayout() {
-	return new PatternLayout("[%t] %p %c - %m%n");
+        return new PatternLayout("[%t] %p %c - %m%n");
     }
 
     /**
      * Tests format.
      */
     public void testFormat() {
-	Logger logger = Logger.getLogger("org.apache.log4j.LayoutTest");
-	LoggingEvent event = new LoggingEvent("org.apache.log4j.Logger", logger, Level.INFO, "Hello, World", null);
-	PatternLayout layout = (PatternLayout) createLayout();
-	String result = layout.format(event);
-	StringBuffer buf = new StringBuffer(100);
-	buf.append('[');
-	buf.append(event.getThreadName());
-	buf.append("] ");
-	buf.append(event.getLevel().toString());
-	buf.append(' ');
-	buf.append(event.getLoggerName());
-	buf.append(" - ");
-	buf.append(event.getMessage());
-	buf.append(System.getProperty("line.separator"));
-	assertEquals(buf.toString(), result);
+        Logger logger = Logger.getLogger("org.apache.log4j.LayoutTest");
+        LoggingEvent event = new LoggingEvent("org.apache.log4j.Logger", logger, Level.INFO, "Hello, World", null);
+        PatternLayout layout = (PatternLayout) createLayout();
+        String result = layout.format(event);
+        StringBuffer buf = new StringBuffer(100);
+        buf.append('[');
+        buf.append(event.getThreadName());
+        buf.append("] ");
+        buf.append(event.getLevel().toString());
+        buf.append(' ');
+        buf.append(event.getLoggerName());
+        buf.append(" - ");
+        buf.append(event.getMessage());
+        buf.append(System.getProperty("line.separator"));
+        assertEquals(buf.toString(), result);
     }
 
     /**
      * Tests getPatternFormat().
      */
     public void testGetPatternFormat() {
-	PatternLayout layout = (PatternLayout) createLayout();
-	assertEquals("[%t] %p %c - %m%n", layout.getConversionPattern());
+        PatternLayout layout = (PatternLayout) createLayout();
+        assertEquals("[%t] %p %c - %m%n", layout.getConversionPattern());
     }
 
     /**
      * Tests DEFAULT_CONVERSION_PATTERN constant.
      */
     public void testDefaultConversionPattern() {
-	assertEquals("%m%n", PatternLayout.DEFAULT_CONVERSION_PATTERN);
+        assertEquals("%m%n", PatternLayout.DEFAULT_CONVERSION_PATTERN);
     }
 
     /**
      * Tests DEFAULT_CONVERSION_PATTERN constant.
      */
     public void testTTCCConversionPattern() {
-	assertEquals("%r [%t] %p %c %x - %m%n", PatternLayout.TTCC_CONVERSION_PATTERN);
+        assertEquals("%r [%t] %p %c %x - %m%n", PatternLayout.TTCC_CONVERSION_PATTERN);
     }
 
     /**
      * Tests buffer downsizing code path.
      */
     public void testFormatResize() {
-	Logger logger = Logger.getLogger("org.apache.log4j.xml.PatternLayoutTest");
-	NDC.clear();
+        Logger logger = Logger.getLogger("org.apache.log4j.xml.PatternLayoutTest");
+        NDC.clear();
 
-	char[] msg = new char[2000];
+        char[] msg = new char[2000];
 
-	for (int i = 0; i < msg.length; i++) {
-	    msg[i] = 'A';
-	}
+        for (int i = 0; i < msg.length; i++) {
+            msg[i] = 'A';
+        }
 
-	LoggingEvent event1 = new LoggingEvent("org.apache.log4j.Logger", logger, Level.DEBUG, new String(msg), null);
-	PatternLayout layout = (PatternLayout) createLayout();
-	String result = layout.format(event1);
-	LoggingEvent event2 = new LoggingEvent("org.apache.log4j.Logger", logger, Level.WARN, "Hello, World", null);
-	result = layout.format(event2);
-	assertEquals("[", result.substring(0, 1));
+        LoggingEvent event1 = new LoggingEvent("org.apache.log4j.Logger", logger, Level.DEBUG, new String(msg), null);
+        PatternLayout layout = (PatternLayout) createLayout();
+        String result = layout.format(event1);
+        LoggingEvent event2 = new LoggingEvent("org.apache.log4j.Logger", logger, Level.WARN, "Hello, World", null);
+        result = layout.format(event2);
+        assertEquals("[", result.substring(0, 1));
     }
 
     /**
      * Class to ensure that protected members are still available.
      */
     public static final class DerivedPatternLayout extends PatternLayout {
-	/**
-	 * Constructs a new instance of DerivedPatternLayout.
-	 */
-	public DerivedPatternLayout() {
-	}
+        /**
+         * Constructs a new instance of DerivedPatternLayout.
+         */
+        public DerivedPatternLayout() {
+        }
 
-	/**
-	 * Get BUF_SIZE.
-	 * 
-	 * @return return initial buffer size in characters.
-	 */
-	public int getBufSize() {
-	    return BUF_SIZE;
-	}
+        /**
+         * Get BUF_SIZE.
+         *
+         * @return return initial buffer size in characters.
+         */
+        public int getBufSize() {
+            return BUF_SIZE;
+        }
 
-	/**
-	 * Get MAX_CAPACITY.
-	 * 
-	 * @return maximum capacity in characters.
-	 */
-	public int getMaxCapacity() {
-	    return MAX_CAPACITY;
-	}
+        /**
+         * Get MAX_CAPACITY.
+         *
+         * @return maximum capacity in characters.
+         */
+        public int getMaxCapacity() {
+            return MAX_CAPACITY;
+        }
     }
 }

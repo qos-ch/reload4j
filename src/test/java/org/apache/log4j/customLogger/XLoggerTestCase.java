@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,7 +33,7 @@ import org.junit.Test;
 
 /**
  * Tests handling of custom loggers.
- * 
+ *
  * @author Ceki G&uuml;lc&uuml;
  */
 public class XLoggerTestCase {
@@ -43,35 +43,35 @@ public class XLoggerTestCase {
 
     @After
     public void tearDown() {
-	logger.getLoggerRepository().resetConfiguration();
+        logger.getLoggerRepository().resetConfiguration();
     }
 
     @Test
     public void test1() throws Exception {
-	common(1);
+        common(1);
     }
 
     @Test
     public void test2() throws Exception {
-	common(2);
+        common(2);
     }
 
     void common(int number) throws Exception {
-	DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/customLogger" + number + ".xml");
+        DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/customLogger" + number + ".xml");
 
-	int i = -1;
+        int i = -1;
 
-	logger.trace("Message " + ++i);
-	logger.debug("Message " + ++i);
-	logger.warn("Message " + ++i);
-	logger.error("Message " + ++i);
-	logger.fatal("Message " + ++i);
-	Exception e = new Exception("Just testing");
-	logger.debug("Message " + ++i, e);
+        logger.trace("Message " + ++i);
+        logger.debug("Message " + ++i);
+        logger.warn("Message " + ++i);
+        logger.error("Message " + ++i);
+        logger.fatal("Message " + ++i);
+        Exception e = new Exception("Just testing");
+        logger.debug("Message " + ++i, e);
 
-	Transformer.transform(TARGET_OUTPUT_PREFIX + "xlogger.out", FILTERED,
-		new Filter[] { new LineNumberFilter(), new Log4jAndNothingElseFilter() });
-	assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "customLogger." + number));
+        Transformer.transform(TARGET_OUTPUT_PREFIX + "xlogger.out", FILTERED,
+                new Filter[] { new LineNumberFilter(), new Log4jAndNothingElseFilter() });
+        assertTrue(Compare.compare(FILTERED, TEST_WITNESS_PREFIX + "customLogger." + number));
 
     }
 

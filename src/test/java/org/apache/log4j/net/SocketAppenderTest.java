@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,13 +33,13 @@ public class SocketAppenderTest {
 
     @Before
     public void setUp() {
-	DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/SocketAppenderTestConfig.xml");
-	// DOMConfigurator.configure(TEST_INPUT_PREFIX +
-	// "xml/socketAppenderForChainsaw.xml");
+        DOMConfigurator.configure(TEST_INPUT_PREFIX + "xml/SocketAppenderTestConfig.xml");
+        // DOMConfigurator.configure(TEST_INPUT_PREFIX +
+        // "xml/socketAppenderForChainsaw.xml");
 
-	logger = Logger.getLogger(SocketAppenderTest.class);
-	secondary = (LastOnlyAppender) Logger.getLogger("org.apache.log4j.net.SocketAppenderTestDummy")
-		.getAppender("lastOnly");
+        logger = Logger.getLogger(SocketAppenderTest.class);
+        secondary = (LastOnlyAppender) Logger.getLogger("org.apache.log4j.net.SocketAppenderTestDummy")
+                .getAppender("lastOnly");
     }
 
     @After
@@ -50,11 +50,11 @@ public class SocketAppenderTest {
 
     @Test
     public void testFallbackErrorHandlerWhenStarting() {
-	String msg = "testFallbackErrorHandlerWhenStarting";
-	logger.debug(msg);
+        String msg = "testFallbackErrorHandlerWhenStarting";
+        logger.debug(msg);
 
-	// above debug log will fail and shoul be redirected to secondary appender
-	assertEquals("SocketAppender with FallbackErrorHandler", msg, secondary.getLastMessage());
+        // above debug log will fail and shoul be redirected to secondary appender
+        assertEquals("SocketAppender with FallbackErrorHandler", msg, secondary.getLastMessage());
     }
 
     /* Fields */
@@ -68,29 +68,31 @@ public class SocketAppenderTest {
      * Inner-class For debugging purposes only Saves last LoggerEvent
      */
     static public class LastOnlyAppender extends AppenderSkeleton {
-	protected void append(LoggingEvent event) {
-	    this.lastEvent = event;
-	}
+        protected void append(LoggingEvent event) {
+            this.lastEvent = event;
+        }
 
-	public boolean requiresLayout() {
-	    return false;
-	}
+        public boolean requiresLayout() {
+            return false;
+        }
 
-	public void close() {
-	    this.closed = true;
-	}
+        public void close() {
+            this.closed = true;
+        }
 
-	/**
-	 * @return last appended LoggingEvent's message
-	 */
-	public String getLastMessage() {
-	    if (this.lastEvent != null)
-		return this.lastEvent.getMessage().toString();
-	    else
-		return "";
-	}
+        /**
+         * @return last appended LoggingEvent's message
+         */
+        public String getLastMessage() {
+            if (this.lastEvent != null)
+                return this.lastEvent.getMessage().toString();
+            else
+                return "";
+        }
 
-	private LoggingEvent lastEvent;
-    };
+        private LoggingEvent lastEvent;
+    }
+
+    ;
 
 }

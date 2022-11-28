@@ -21,7 +21,7 @@ package org.apache.log4j.testUtil;
 public class ExceptionCreator {
 
     public static Exception create(String aMessage) {
-	Exception e = new Exception(aMessage);
-	return e;
+        Exception e = new Exception(aMessage);
+        return e;
     }
 }

@@ -35,27 +35,27 @@ public final class MethodLocationPatternConverter extends LoggingEventPatternCon
      * Private constructor.
      */
     private MethodLocationPatternConverter() {
-	super("Method", "method");
+        super("Method", "method");
     }
 
     /**
      * Obtains an instance of MethodLocationPatternConverter.
-     * 
+     *
      * @param options options, may be null.
      * @return instance of MethodLocationPatternConverter.
      */
     public static MethodLocationPatternConverter newInstance(final String[] options) {
-	return INSTANCE;
+        return INSTANCE;
     }
 
     /**
      * {@inheritDoc}
      */
     public void format(final LoggingEvent event, final StringBuffer toAppendTo) {
-	LocationInfo locationInfo = event.getLocationInformation();
+        LocationInfo locationInfo = event.getLocationInformation();
 
-	if (locationInfo != null) {
-	    toAppendTo.append(locationInfo.getMethodName());
-	}
+        if (locationInfo != null) {
+            toAppendTo.append(locationInfo.getMethodName());
+        }
     }
 }

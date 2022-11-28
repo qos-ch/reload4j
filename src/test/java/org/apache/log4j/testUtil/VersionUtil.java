@@ -19,35 +19,35 @@ public class VersionUtil {
     static final int DEFAULT_GUESS = 8;
 
     static public int getJavaMajorVersion() {
-	String javaVersionString = System.getProperty("java.version");
-	System.out.println("javaVersionString=" + javaVersionString);
-	return getJavaMajorVersion(javaVersionString);
+        String javaVersionString = System.getProperty("java.version");
+        System.out.println("javaVersionString=" + javaVersionString);
+        return getJavaMajorVersion(javaVersionString);
     }
 
     static public int getJavaMajorVersion(String versionString) {
-	if (versionString == null)
-	    return DEFAULT_GUESS;
-	if (versionString.startsWith("1.")) {
-	    return versionString.charAt(2) - '0';
-	} else {
-	    String firstDigits = extractFirstDigits(versionString);
-	    try {
-		return Integer.parseInt(firstDigits);
-	    } catch (NumberFormatException e) {
-		return DEFAULT_GUESS;
-	    }
-	}
+        if (versionString == null)
+            return DEFAULT_GUESS;
+        if (versionString.startsWith("1.")) {
+            return versionString.charAt(2) - '0';
+        } else {
+            String firstDigits = extractFirstDigits(versionString);
+            try {
+                return Integer.parseInt(firstDigits);
+            } catch (NumberFormatException e) {
+                return DEFAULT_GUESS;
+            }
+        }
     }
 
     private static String extractFirstDigits(String versionString) {
-	StringBuffer buf = new StringBuffer();
-	for (char c : versionString.toCharArray()) {
-	    if (Character.isDigit(c))
-		buf.append(c);
-	    else
-		break;
-	}
-	return buf.toString();
+        StringBuffer buf = new StringBuffer();
+        for (char c : versionString.toCharArray()) {
+            if (Character.isDigit(c))
+                buf.append(c);
+            else
+                break;
+        }
+        return buf.toString();
 
     }
 }

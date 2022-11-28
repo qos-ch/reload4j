@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,7 +22,7 @@ import java.io.Serializable;
 
 /**
  * Used to test the serialization of unwanted data. Harmless otherwise.
- * 
+ *
  * @author ceki
  * @since 1.2.18
  */
@@ -32,16 +32,16 @@ public class BadPayload implements Serializable {
     final String data;
 
     public BadPayload(String data) {
-	this.data = data;
+        this.data = data;
     }
 
     @Override
     public String toString() {
-	return "BadPayload [data=" + data + "]";
+        return "BadPayload [data=" + data + "]";
     }
 
     private void readObject(ObjectInputStream serialized) throws ClassNotFoundException, IOException {
-	serialized.defaultReadObject();
-	throw new IllegalStateException("WARNING WARNING ********** BadPayload deserialized");
+        serialized.defaultReadObject();
+        throw new IllegalStateException("WARNING WARNING ********** BadPayload deserialized");
     }
 }

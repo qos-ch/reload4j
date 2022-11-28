@@ -26,87 +26,91 @@ import org.junit.Test;
 public class JdbcPatternParserTest {
 
     String[] EMPTY_STRING_ARRAY = new String[] {};
-    
+
     @Test
     public void testSingleQuotesAndSpaces() {
-	ParserState expected = new ParserState("INSERT INTO A1 (TITLE3) VALUES ( ?, ?, ?, ?,  ?, ? )", "%d", "%t", "%-5p", " '%c", "%x", "  -  %m%n ");
-	assertParserStateEquality("INSERT INTO A1 (TITLE3) VALUES ( '%d', '%t', '%-5p', ' ''%c',  '%x', '  -  %m%n ' )", expected);
+        ParserState expected = new ParserState("INSERT INTO A1 (TITLE3) VALUES ( ?, ?, ?, ?,  ?, ? )", "%d", "%t",
+                "%-5p", " '%c", "%x", "  -  %m%n ");
+        assertParserStateEquality("INSERT INTO A1 (TITLE3) VALUES ( '%d', '%t', '%-5p', ' ''%c',  '%x', '  -  %m%n ' )",
+                expected);
     }
-    
+
     @Test
     public void testWithLiteralsAndSingleQuotes() {
-	 
-	String prefix = "INSERT INTO A1 (TITLE3) VALUES ( ' aString', 'anotherString with '' xyz'";
-	
-	ParserState expected = new ParserState(prefix +", ?)", "message: %m");
-	assertParserStateEquality(prefix+", 'message: %m')", expected);
+
+        String prefix = "INSERT INTO A1 (TITLE3) VALUES ( ' aString', 'anotherString with '' xyz'";
+
+        ParserState expected = new ParserState(prefix + ", ?)", "message: %m");
+        assertParserStateEquality(prefix + ", 'message: %m')", expected);
     }
 
-    
     @Test
     public void testMixedPatterns() {
-	ParserState expected = new ParserState("INSERT INTO A1 (TITLE3) VALUES ( ?, ?, ?, ?,  ?, ? )", "%d", "%d", "%-5p", " %c", "%x", "  -  %m%n");
-	assertParserStateEquality("INSERT INTO A1 (TITLE3) VALUES ( '%d', '%d', '%-5p', ' %c',  '%x', '  -  %m%n' )", expected);
+        ParserState expected = new ParserState("INSERT INTO A1 (TITLE3) VALUES ( ?, ?, ?, ?,  ?, ? )", "%d", "%d",
+                "%-5p", " %c", "%x", "  -  %m%n");
+        assertParserStateEquality("INSERT INTO A1 (TITLE3) VALUES ( '%d', '%d', '%-5p', ' %c',  '%x', '  -  %m%n' )",
+                expected);
     }
 
-    
     @Test
     public void testSingleLumpedValue() {
-	ParserState expected = new ParserState("INSERT INTO A1 (TITLE3) VALUES ( ? )", " %d  -  %c %-5p %c %x  -  %m%n ");
-	assertParserStateEquality("INSERT INTO A1 (TITLE3) VALUES ( ' %d  -  %c %-5p %c %x  -  %m%n ' )", expected);
+        ParserState expected = new ParserState("INSERT INTO A1 (TITLE3) VALUES ( ? )",
+                " %d  -  %c %-5p %c %x  -  %m%n ");
+        assertParserStateEquality("INSERT INTO A1 (TITLE3) VALUES ( ' %d  -  %c %-5p %c %x  -  %m%n ' )", expected);
     }
 
     private void assertParserStateEquality(String input, ParserState expected) {
-	JdbcPatternParser parser = new JdbcPatternParser(input);
-	List<String> patternStringReps = parser.getUnmodifiablePatternStringRepresentationList();
-	
-	ParserState actual = new ParserState(parser.getParameterizedSql(), patternStringReps.toArray(EMPTY_STRING_ARRAY));
-	
-	Assert.assertEquals(expected, actual);
+        JdbcPatternParser parser = new JdbcPatternParser(input);
+        List<String> patternStringReps = parser.getUnmodifiablePatternStringRepresentationList();
+
+        ParserState actual = new ParserState(parser.getParameterizedSql(),
+                patternStringReps.toArray(EMPTY_STRING_ARRAY));
+
+        Assert.assertEquals(expected, actual);
     }
-    
+
     // this class represents JdbcPatternParser internal state
     private static class ParserState {
-	String statementStr;
-	String[] args;
-	
-	ParserState(String statementStr, String... args) {
-	    this.statementStr = statementStr;
-	    this.args = args;
-	}
-	
-	@Override
-	public int hashCode() {
-	    final int prime = 31;
-	    int result = 1;
-	    result = prime * result + Arrays.hashCode(args);
-	    result = prime * result + ((statementStr == null) ? 0 : statementStr.hashCode());
-	    return result;
-	}
+        String statementStr;
+        String[] args;
 
-	@Override
-	public String toString() {
-	    return "ParserState [statement=" + statementStr + ", args=" + Arrays.toString(args) + "]";
-	}
+        ParserState(String statementStr, String... args) {
+            this.statementStr = statementStr;
+            this.args = args;
+        }
 
-	@Override
-	public boolean equals(Object obj) {
-	    if (this == obj)
-		return true;
-	    if (obj == null)
-		return false;
-	    if (getClass() != obj.getClass())
-		return false;
-	    ParserState other = (ParserState) obj;
-	    if (!Arrays.equals(args, other.args))
-		return false;
-	    if (statementStr == null) {
-		if (other.statementStr != null)
-		    return false;
-	    } else if (!statementStr.equals(other.statementStr))
-		return false;
-	    return true;
-	}
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + Arrays.hashCode(args);
+            result = prime * result + ((statementStr == null) ? 0 : statementStr.hashCode());
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "ParserState [statement=" + statementStr + ", args=" + Arrays.toString(args) + "]";
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            ParserState other = (ParserState) obj;
+            if (!Arrays.equals(args, other.args))
+                return false;
+            if (statementStr == null) {
+                if (other.statementStr != null)
+                    return false;
+            } else if (!statementStr.equals(other.statementStr))
+                return false;
+            return true;
+        }
 
     }
 }

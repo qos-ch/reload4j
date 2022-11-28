@@ -35,27 +35,27 @@ public final class LineLocationPatternConverter extends LoggingEventPatternConve
      * Private constructor.
      */
     private LineLocationPatternConverter() {
-	super("Line", "line");
+        super("Line", "line");
     }
 
     /**
      * Obtains an instance of pattern converter.
-     * 
+     *
      * @param options options, may be null.
      * @return instance of pattern converter.
      */
     public static LineLocationPatternConverter newInstance(final String[] options) {
-	return INSTANCE;
+        return INSTANCE;
     }
 
     /**
      * {@inheritDoc}
      */
     public void format(final LoggingEvent event, final StringBuffer output) {
-	LocationInfo locationInfo = event.getLocationInformation();
+        LocationInfo locationInfo = event.getLocationInformation();
 
-	if (locationInfo != null) {
-	    output.append(locationInfo.getLineNumber());
-	}
+        if (locationInfo != null) {
+            output.append(locationInfo.getLineNumber());
+        }
     }
 }
