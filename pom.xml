@@ -22,7 +22,7 @@
   <artifactId>reload4j</artifactId>
   <packaging>jar</packaging>
   <name>reload4j</name>
-  <version>1.2.24</version>
+  <version>1.2.25-SNAPSHOT</version>
   <description>Reload4j revives EOLed log4j 1.x</description> 
 
   <url>https://reload4j.qos.ch</url>
@@ -262,7 +262,7 @@
             <additionalOption>-Xdoclint:none</additionalOption>
           </additionalOptions>
           <header><![CDATA[<a href="https://reload4j.qos.ch">
-          <img src="https://reload4j.qos.ch/images/logos/reload4j.jpg" height="40"/></a>]]></header>
+          <img style="background-color: #fff;" src="https://reload4j.qos.ch/images/logos/Reload4J_72dpi.png" height="40"/></a>]]></header>
           <top><![CDATA[<b><span style="color: #ff8844">&nbsp;&nbsp;You can also support SLF4J/logback/reload4j projects via <a href="https://github.com/sponsors/qos-ch">Github donations and sponsorship</a>.<span></b>]]></top>
           <notimestamp>true</notimestamp>
           <failOnError>false</failOnError>
