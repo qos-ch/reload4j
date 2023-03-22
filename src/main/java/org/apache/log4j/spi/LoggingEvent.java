@@ -576,9 +576,9 @@ public class LoggingEvent implements java.io.Serializable {
      */
     public Map getProperties() {
         getMDCCopy();
-        Map properties;
+        Map properties;  // local variable
         if (mdcCopy == null) {
-            properties = new HashMap();
+            properties = new HashMap(); // local variable not otherwise used within the event
         } else {
             properties = mdcCopy;
         }

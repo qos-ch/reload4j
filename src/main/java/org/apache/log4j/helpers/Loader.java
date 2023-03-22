@@ -20,7 +20,6 @@ package org.apache.log4j.helpers;
 import java.net.URL;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
-import java.io.InterruptedIOException;
 
 /**
  * Load resources (or images) from various sources.
@@ -56,7 +55,9 @@ public class Loader {
     /**
      * This method will search for <code>resource</code> in different places. The search order is as follows:
      * <ol>
-     *
+     * <li><p>Search for <code>resource</code> using the thread context class loader,
+     * unless "log4j.ignoreTCL" system property was set to true.</p>
+     * </li>
      * <li><p>Search for <code>resource</code> using the class
      * loader that loaded this class (<code>Loader</code>).<p>
      * </li>
@@ -67,31 +68,35 @@ public class Loader {
      *
      *  <p>Nota bene: In versions of reload4j 1.2.23 and earlier, the jaadoc documentation stated that
      *  the thread context class loader was used but when running under JDK 9 and later this
-     *  was <b>not</b> actually the case. As of version 1.2.24, the javadoc above matches the code as executed.
+     *  was <b>not</b> actually the case. As of version 1.2.25, the javadoc corresponds to the original
+     *  intention as documented.
      *  </p>
      *
      *
      * @param resource the resource to load
      */
     static public URL getResource(String resource) {
-        ClassLoader classLoader = null;
-        URL url = null;
 
         try {
-            // We could not find resource. Ler us now try with the
-            // classloader that loaded this class.
-            classLoader = Loader.class.getClassLoader();
-            if (classLoader != null) {
-                LogLog.debug("Trying to find [" + resource + "] using " + classLoader + " class loader.");
-                url = classLoader.getResource(resource);
-                if (url != null) {
-                    return url;
-                }
+            // unless intsructed to ignore the TCL, try getting the resource using TCL, return if found.
+            if(!ignoreTCL) {
+                URL url0 = innerGetResource(resource, getTCL());
+                if(url0 != null) { return url0; }
             }
+
+            // if we were instructed to ignore TCL or if no url was dound, try using the
+            // class loader that loaded this class.
+            URL url = innerGetResource(resource,  Loader.class.getClassLoader());
+            if(url != null) { return url; }
+
         } catch (SecurityException t) {
             // can't be InterruptedException or InterruptedIOException
             // since not declared, must be error or RuntimeError.
             LogLog.warn(TSTR, t);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
 
         // Last ditch attempt: get the resource from the class path. It
@@ -100,6 +105,15 @@ public class Loader {
         // code below.
         LogLog.debug("Trying to find [" + resource + "] using ClassLoader.getSystemResource().");
         return ClassLoader.getSystemResource(resource);
+    }
+
+    private static URL innerGetResource(String resource, ClassLoader classLoader) {
+        if (classLoader != null) {
+           LogLog.debug("Trying to find [" + resource + "] using " + classLoader + " class loader.");
+           return classLoader.getResource(resource);
+        } else {
+           return null;
+        }
     }
 
     /**

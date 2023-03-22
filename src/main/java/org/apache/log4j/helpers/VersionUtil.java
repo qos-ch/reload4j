@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.log4j.testUtil;
+package org.apache.log4j.helpers;
 
 public class VersionUtil {
     static final int DEFAULT_GUESS = 8;

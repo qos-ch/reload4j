@@ -19,7 +19,7 @@ package org.apache.log4j;
 import java.lang.ref.Reference;
 import java.lang.reflect.Field;
 
-import org.apache.log4j.testUtil.VersionUtil;
+import org.apache.log4j.helpers.VersionUtil;
 
 import junit.framework.TestCase;
 
