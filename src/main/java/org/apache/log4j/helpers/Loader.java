@@ -62,11 +62,11 @@ public class Loader {
      * loader that loaded this class (<code>Loader</code>).<p>
      * </li>
      * <li>Try one last time with
-     * <code>ClassLoader.getSystemResource(resource)</code>, that is is using the
+     * <code>ClassLoader.getSystemResource(resource)</code>, that is using the
      * system class loader.
      * </ol>
      *
-     *  <p>Nota bene: In versions of reload4j 1.2.23 and earlier, the jaadoc documentation stated that
+     *  <p>Nota bene: In versions of reload4j 1.2.23 and earlier, the javadoc documentation stated that
      *  the thread context class loader was used but when running under JDK 9 and later this
      *  was <b>not</b> actually the case. As of version 1.2.25, the javadoc corresponds to the original
      *  intention as documented.
@@ -78,13 +78,13 @@ public class Loader {
     static public URL getResource(String resource) {
 
         try {
-            // unless intsructed to ignore the TCL, try getting the resource using TCL, return if found.
+            // unless instructed to ignore the TCL, try getting the resource using TCL, return if found.
             if(!ignoreTCL) {
                 URL url0 = innerGetResource(resource, getTCL());
                 if(url0 != null) { return url0; }
             }
 
-            // if we were instructed to ignore TCL or if no url was dound, try using the
+            // if we were instructed to ignore TCL or if no url was found, try using the
             // class loader that loaded this class.
             URL url = innerGetResource(resource,  Loader.class.getClassLoader());
             if(url != null) { return url; }
@@ -100,9 +100,8 @@ public class Loader {
         }
 
         // Last ditch attempt: get the resource from the class path. It
-        // may be the case that clazz was loaded by the Extentsion class
-        // loader which the parent of the system class loader. Hence the
-        // code below.
+        // may be the case that clazz was loaded by the Extension class
+        // loader which is also the parent of the system class loader.
         LogLog.debug("Trying to find [" + resource + "] using ClassLoader.getSystemResource().");
         return ClassLoader.getSystemResource(resource);
     }
@@ -148,9 +147,9 @@ public class Loader {
      * Load the specified class using the {@linl Class#forName} method.
      *
      * <p>Nota bene: In versions of reload4j 1.2.23 and earlier, the documentation stated that
-     * the thread context class loader was used to load the specified class but
-     * when running under JDK 9 and later this was <b>not</b> actually the case. As of version 1.2.24,
-     * the javadoc above matches the code as executed.
+     * the thread context class loader was used to load the specified class. However,
+     * when running under JDK 9 and later this was <b>not</b> actually the case.
+     * Version 1.2.5 fixes this discrepancy.
      * </p>
      *
      * @param clazz the name of class to load
