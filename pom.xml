@@ -331,6 +331,7 @@
             </Import-Package>
             <Bundle-DocURL>https://reload4j.qos.ch/</Bundle-DocURL>
             <Bundle-SymbolicName>org.apache.log4j</Bundle-SymbolicName>
+            <Eclipse-BuddyPolicy>registered</Eclipse-BuddyPolicy>
           </instructions>
         </configuration>
       </plugin>
