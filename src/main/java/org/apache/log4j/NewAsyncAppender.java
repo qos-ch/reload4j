@@ -20,10 +20,13 @@ import org.apache.log4j.helpers.AppenderAttachableImpl;
 import org.apache.log4j.helpers.LogLog;
 import org.apache.log4j.spi.AppenderAttachable;
 import org.apache.log4j.spi.LoggingEvent;
+import org.apache.log4j.varia.InterruptUtil;
+import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -59,13 +62,23 @@ public class NewAsyncAppender extends AppenderSkeleton implements AppenderAttach
     boolean includeCallerData = false;
 
     public NewAsyncAppender() {
+    }
+
+    @Override
+    public void activateOptions() {
         if (queueSize < 1) {
             LogLog.error("Invalid queue size [" + queueSize + "]");
             return;
         }
+
+        blockingQueue = new ArrayBlockingQueue<LoggingEvent>(queueSize);
+        if (discardingThreshold == UNDEFINED)
+            discardingThreshold = queueSize / 5;
+        LogLog.debug("Setting discardingThreshold to " + discardingThreshold);
         worker.setDaemon(true);
-        worker.setName("AsyncSingleAppender-Worker-" + getName());
+        worker.setName("NewAsyncSingleAppender-Worker-" + getName());
         worker.start();
+
     }
 
     protected void append(LoggingEvent event) {
@@ -100,6 +113,8 @@ public class NewAsyncAppender extends AppenderSkeleton implements AppenderAttach
         if (includeCallerData) {
             eventObject.getLocationInformation();
         }
+        eventObject.getRenderedMessage();
+        eventObject.getThrowableStrRep();
     }
 
     private void put(LoggingEvent eventObject) {
@@ -131,11 +146,23 @@ public class NewAsyncAppender extends AppenderSkeleton implements AppenderAttach
             return;
 
         closed = true;
+
         worker.interrupt();
+        InterruptUtil interruptUtil = new InterruptUtil();
+
         try {
+            interruptUtil.maskInterruptFlag();
             worker.join(maxFlushTime);
+            if(worker.isAlive()) {
+                LogLog.warn("Max queue flush timeout (" + maxFlushTime + " ms) exceeded. Approximately "
+                                + blockingQueue.size() + " queued events were possibly discarded.");
+            } else {
+                LogLog.debug("Queue flush finished successfully within timeout.");
+            }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        } finally {
+            interruptUtil.maskInterruptFlag();
         }
     }
 
@@ -149,10 +176,10 @@ public class NewAsyncAppender extends AppenderSkeleton implements AppenderAttach
 
     public void addAppender(Appender newAppender) {
         if (appenderCount.compareAndSet(0, 1)) {
-            LogLog.debug("Attaching appender named [" + newAppender.getName() + "] to AsyncAppender.");
+            LogLog.debug("Attaching appender named [" + newAppender.getName() + "] to NewAsyncAppender.");
             appenders.addAppender(newAppender);
         } else {
-            LogLog.warn("One and only one appender may be attached to AsyncAppender.");
+            LogLog.warn("One and only one appender may be attached to NewAsyncAppender.");
             LogLog.warn("Ignoring additional appender named [" + newAppender.getName() + "]");
         }
     }
@@ -205,6 +232,13 @@ public class NewAsyncAppender extends AppenderSkeleton implements AppenderAttach
         this.maxFlushTime = maxFlushTime;
     }
 
+    public void setNeverBlock(boolean neverBlock) {
+        this.neverBlock = neverBlock;
+    }
+
+    public boolean isNeverBlock() {
+        return neverBlock;
+    }
 
     public boolean isIncludeCallerData() {
         return includeCallerData;

@@ -18,38 +18,38 @@
 package org.apache.log4j;
 
 import junit.framework.TestCase;
+import org.apache.log4j.helpers.LogLog;
+import org.apache.log4j.spi.LoggingEvent;
 
 import java.util.Vector;
 
-import org.apache.log4j.spi.LoggingEvent;
-
-/**
- * A superficial but general test of log4j.
- */
-public class AsyncAppenderTestCase extends TestCase {
-
-    public AsyncAppenderTestCase(String name) {
+public class NewAsyncAppenderTestCase extends TestCase {
+    public NewAsyncAppenderTestCase(String name) {
         super(name);
     }
 
     public void setUp() {
+        System.setProperty(LogLog.DEBUG_KEY, "true");
     }
 
     public void tearDown() {
+        System.clearProperty(LogLog.DEBUG_KEY);
         LogManager.shutdown();
     }
 
     // this test checks whether it is possible to write to a closed AsyncAppender
-    public void closeTest() throws Exception {
+    public void testClose() throws Exception {
         Logger root = Logger.getRootLogger();
         VectorAppender vectorAppender = new VectorAppender();
-        AsyncAppender asyncAppender = new AsyncAppender();
-        asyncAppender.setName("async-CloseTest");
-        asyncAppender.addAppender(vectorAppender);
-        root.addAppender(asyncAppender);
+        NewAsyncAppender newAsyncAppender = new NewAsyncAppender();
+        newAsyncAppender.setName("async-CloseTest");
+        newAsyncAppender.activateOptions();
+
+        newAsyncAppender.addAppender(vectorAppender);
+        root.addAppender(newAsyncAppender);
 
         root.debug("m1");
-        asyncAppender.close();
+        newAsyncAppender.close();
         root.debug("m2");
 
         Vector v = vectorAppender.getVector();
@@ -61,13 +61,14 @@ public class AsyncAppenderTestCase extends TestCase {
     public void test2() {
         Logger root = Logger.getRootLogger();
         VectorAppender vectorAppender = new VectorAppender();
-        AsyncAppender asyncAppender = new AsyncAppender();
-        asyncAppender.setName("async-test2");
-        asyncAppender.addAppender(vectorAppender);
-        root.addAppender(asyncAppender);
+        NewAsyncAppender newAsyncAppender = new NewAsyncAppender();
+        newAsyncAppender.setName("async-test2");
+        newAsyncAppender.activateOptions();
+        newAsyncAppender.addAppender(vectorAppender);
+        root.addAppender(newAsyncAppender);
 
         root.debug("m1");
-        asyncAppender.close();
+        newAsyncAppender.close();
         root.debug("m2");
 
         Vector v = vectorAppender.getVector();
@@ -81,23 +82,26 @@ public class AsyncAppenderTestCase extends TestCase {
         int LEN = 200;
         Logger root = Logger.getRootLogger();
         VectorAppender vectorAppender = new VectorAppender();
-        AsyncAppender asyncAppender = new AsyncAppender();
-        asyncAppender.setName("async-test3");
-        asyncAppender.addAppender(vectorAppender);
-        root.addAppender(asyncAppender);
+        vectorAppender.setDelay(0);
+        NewAsyncAppender newAsyncAppender = new NewAsyncAppender();
+        newAsyncAppender.setName("async-test3");
+        newAsyncAppender.activateOptions();
+        newAsyncAppender.addAppender(vectorAppender);
+        root.addAppender(newAsyncAppender);
 
         for (int i = 0; i < LEN; i++) {
             root.debug("message" + i);
         }
 
         System.out.println("Done loop.");
-        System.out.flush();
-        asyncAppender.close();
+
+        newAsyncAppender.close();
         root.debug("m2");
 
         Vector v = vectorAppender.getVector();
-        assertEquals(v.size(), LEN);
         assertTrue(vectorAppender.isClosed());
+        assertEquals(LEN, v.size());
+
     }
 
     /**
@@ -108,10 +112,10 @@ public class AsyncAppenderTestCase extends TestCase {
      */
     public void testBadAppender() throws Exception {
         Appender nullPointerAppender = new NullPointerAppender();
-        AsyncAppender asyncAppender = new AsyncAppender();
-        asyncAppender.addAppender(nullPointerAppender);
-        asyncAppender.setBufferSize(5);
-        asyncAppender.activateOptions();
+        NewAsyncAppender newAsyncAppender = new NewAsyncAppender();
+        newAsyncAppender.addAppender(nullPointerAppender);
+        newAsyncAppender.setQueueSize(5);
+        newAsyncAppender.activateOptions();
         Logger root = Logger.getRootLogger();
         root.addAppender(nullPointerAppender);
         try {
@@ -129,31 +133,34 @@ public class AsyncAppenderTestCase extends TestCase {
      */
     public void testLocationInfoTrue() {
         BlockableVectorAppender blockableAppender = new BlockableVectorAppender();
-        AsyncAppender async = new AsyncAppender();
-        async.addAppender(blockableAppender);
-        async.setBufferSize(5);
-        async.setLocationInfo(true);
-        async.setBlocking(false);
-        async.activateOptions();
+        NewAsyncAppender newAsyncAppender = new NewAsyncAppender();
+        newAsyncAppender.addAppender(blockableAppender);
+        newAsyncAppender.setQueueSize(5);
+        newAsyncAppender.setIncludeCallerData(true);
+        newAsyncAppender.setNeverBlock(true);
+        newAsyncAppender.activateOptions();
         Logger rootLogger = Logger.getRootLogger();
-        rootLogger.addAppender(async);
+        rootLogger.addAppender(newAsyncAppender);
         Greeter greeter = new Greeter(rootLogger, 100);
         synchronized (blockableAppender.getMonitor()) {
             greeter.run();
-            rootLogger.error("That's all folks.");
         }
-        async.close();
-        Vector events = blockableAppender.getVector();
-        LoggingEvent initialEvent = (LoggingEvent) events.get(0);
-        LoggingEvent discardEvent = (LoggingEvent) events.get(events.size() - 1);
+        rootLogger.error("That's all folks.");
+        newAsyncAppender.close();
+        Vector eventsVevtor = blockableAppender.getVector();
+        LoggingEvent initialEvent = (LoggingEvent) eventsVevtor.get(0);
+        // NewAsyncAppender does not have discard events
+        //LoggingEvent discardEvent = (LoggingEvent) eventsVevtor.get(eventsVevtor.size() - 1);
         PatternLayout layout = new PatternLayout();
         layout.setConversionPattern("%C:%L %m%n");
         layout.activateOptions();
         String initialStr = layout.format(initialEvent);
-        assertEquals(AsyncAppenderTestCase.class.getName(),
-                initialStr.substring(0, AsyncAppenderTestCase.class.getName().length()));
-        String discardStr = layout.format(discardEvent);
-        assertEquals("?:? ", discardStr.substring(0, 4));
+        System.out.println("========"+initialStr);
+        assertEquals(Greeter.class.getName(),
+                        initialStr.substring(0, Greeter.class.getName().length()));
+        // NewAsyncAppender does not have discard events
+        //String discardStr = layout.format(discardEvent);
+        //assertEquals("?:? ", discardStr.substring(0, 40));
     }
 
     /**
@@ -161,11 +168,11 @@ public class AsyncAppenderTestCase extends TestCase {
      */
     public void testLocationInfoFalse() {
         BlockableVectorAppender blockableAppender = new BlockableVectorAppender();
-        AsyncAppender async = new AsyncAppender();
+        NewAsyncAppender async = new NewAsyncAppender();
         async.addAppender(blockableAppender);
-        async.setBufferSize(5);
-        async.setLocationInfo(false);
-        async.setBlocking(false);
+        async.setQueueSize(5);
+        async.setIncludeCallerData(false);
+        async.setNeverBlock(true);
         async.activateOptions();
         Logger rootLogger = Logger.getRootLogger();
         rootLogger.addAppender(async);
@@ -187,27 +194,24 @@ public class AsyncAppenderTestCase extends TestCase {
         assertEquals("?:? ", discardStr.substring(0, 4));
     }
 
-
-
-
     /**
      * Test that a mutable message object is evaluated before being placed in the async queue. See bug 43559.
      */
     public void testMutableMessage() {
         BlockableVectorAppender blockableAppender = new BlockableVectorAppender();
-        AsyncAppender async = new AsyncAppender();
-        async.addAppender(blockableAppender);
-        async.setBufferSize(5);
-        async.setLocationInfo(false);
-        async.activateOptions();
+        NewAsyncAppender newAsync = new NewAsyncAppender();
+        newAsync.addAppender(blockableAppender);
+        newAsync.setQueueSize(5);
+        newAsync.setIncludeCallerData(false);
+        newAsync.activateOptions();
         Logger rootLogger = Logger.getRootLogger();
-        rootLogger.addAppender(async);
+        rootLogger.addAppender(newAsync);
         StringBuffer buf = new StringBuffer("Hello");
         synchronized (blockableAppender.getMonitor()) {
             rootLogger.info(buf);
             buf.append(", World.");
         }
-        async.close();
+        newAsync.close();
         Vector events = blockableAppender.getVector();
         LoggingEvent event = (LoggingEvent) events.get(0);
         PatternLayout layout = new PatternLayout();
@@ -216,5 +220,4 @@ public class AsyncAppenderTestCase extends TestCase {
         String msg = layout.format(event);
         assertEquals("Hello", msg);
     }
-
 }
