@@ -20,7 +20,9 @@
                      xmlns:log4j='http://jakarta.apache.org/log4j/'>
 
 
-    <appender name="V1" class="org.apache.log4j.VectorAppender"/>
+    <appender name="V1" class="org.apache.log4j.VectorAppender">
+        <param name="delay" value="0"/>
+    </appender>
 
     <appender name="ASYNC" class="org.apache.log4j.NewAsyncAppender">
         <param name="QueueSize" value="500"/> <!-- Buffer size for events -->
@@ -28,8 +30,8 @@
     </appender>
 
     <root>
-        <level value="trace" />
-        <appender-ref ref="ASYNC" />
+        <level value="trace"/>
+        <appender-ref ref="ASYNC"/>
     </root>
 
 </log4j:configuration>

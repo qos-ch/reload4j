@@ -150,8 +150,8 @@ public class AsyncAppenderTestCase extends TestCase {
         layout.setConversionPattern("%C:%L %m%n");
         layout.activateOptions();
         String initialStr = layout.format(initialEvent);
-        assertEquals(AsyncAppenderTestCase.class.getName(),
-                initialStr.substring(0, AsyncAppenderTestCase.class.getName().length()));
+        assertEquals(Greeter.class.getName(),
+                initialStr.substring(0, Greeter.class.getName().length()));
         String discardStr = layout.format(discardEvent);
         assertEquals("?:? ", discardStr.substring(0, 4));
     }
