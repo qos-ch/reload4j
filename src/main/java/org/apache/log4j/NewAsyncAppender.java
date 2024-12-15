@@ -31,9 +31,43 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * <p>An asynchronous appender closely reproducing the behaviour of logback's AsyncAppender.
+ * <p>An asynchronous appender closely reproducing the behaviour of logback's <code>AsyncAppender</code>.
  * </p>
- * <p>See l</p>
+ *
+ * <p>See <a href="https://logback.qos.ch/manual/appenders.html#AsyncAppender">Logback's AsyncAppender documentation</a> for configuration options.
+ * </p>
+ *
+ * Here is a sample configuration file for <code>NewAsyncAppender</code>.
+ *
+ * <pre>
+ * &lt;log4j:configuration debug="true"
+ *                      xmlns:log4j='http://jakarta.apache.org/log4j/'&gt;
+ *
+ *    &lt;appender name="FILE" class="org.apache.log4j.FileAppender"&gt;
+ *      &lt;param name="File"   value="/tmp/foobar.log" /&gt;
+ *      &lt;param name="Append" value="false" /&gt;
+ *
+ *      &lt;layout class="org.apache.log4j.PatternLayout"&gt;
+ *        &lt;param name="ConversionPattern" value="%-5p %c{2} - %m%n"/&gt;
+ *      &lt;/layout&gt;
+ *   &lt;/appender&gt;
+ *
+ *     &lt;appender name="ASYNC" class="org.apache.log4j.NewAsyncAppender"&gt;
+ *         &lt;param name="QueueSize" value="512"/&gt;
+ *         &lt;appender-ref ref="FILE"/&gt;
+ *     &lt;/appender&gt;
+ *
+ *     &lt;root&gt;
+ *         &lt;level value="info"/&gt;
+ *         &lt;appender-ref ref="ASYNC"/&gt;
+ *     &lt;/root&gt;
+ *
+ * &lt;/log4j:configuration&gt;
+ *
+ *
+ * </pre>
+ *
+ * <p>Note: <code>NewAyncAppedner</code> requires DOMConfigurator, i.e. XML configuration format.</p>
  * @since 1.2.26
  */
 public class NewAsyncAppender extends AppenderSkeleton implements AppenderAttachable {
