@@ -1,0 +1,25 @@
+<log4j:configuration debug="true"
+                     xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+   <appender name="FILE" class="org.apache.log4j.FileAppender">
+
+     <param name="File"   value="target/test-output/temp.A1" />
+     <param name="Append" value="false" />
+
+     <layout class="org.apache.log4j.PatternLayout">
+       <param name="ConversionPattern" value="%-5p %c{2} - %m%n"/>
+     </layout>
+  </appender>
+
+
+    <appender name="ASYNC" class="org.apache.log4j.NewAsyncAppender">
+        <param name="QueueSize" value="512"/> 
+        <appender-ref ref="FILE"/>
+    </appender>
+
+    <root>
+        <level value="info"/>
+        <appender-ref ref="ASYNC"/>
+    </root>
+
+</log4j:configuration>
