@@ -1,3 +1,4 @@
+
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/ch.qos.reload4j/reload4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/ch.qos.reload4j/reload4j)
 [![CI Status](https://github.com/qos-ch/reload4j/workflows/CI/badge.svg?branch=master)](https://github.com/qos-ch/reload4j/actions?query=branch%3Amaster)
 
