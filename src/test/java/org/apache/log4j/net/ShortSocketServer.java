@@ -39,6 +39,7 @@ import org.apache.log4j.helpers.LogLog;
 public class ShortSocketServer {
 
     static Logger cat = Logger.getLogger(ShortSocketServer.class);
+    static final String LISTENING_MARKER = "ShortSocketServer listening on port ";
 
     public static void main(String args[]) throws Exception {
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -66,6 +67,8 @@ public class ShortSocketServer {
     void runServer() throws IOException, InterruptedException {
         LogLog.debug("Listening on port " + SocketServerTestCase.PORT);
         ServerSocket serverSocket = new ServerSocket(SocketServerTestCase.PORT);
+        // SocketServerTestCase waits for this line before running its tests
+        System.out.println(LISTENING_MARKER + SocketServerTestCase.PORT);
 
         MDC.put("hostID", "shortSocketServer");
 

@@ -22,11 +22,15 @@ import junit.framework.TestSuite;
 import junit.framework.Test;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import static org.apache.log4j.TestConstants.TEST_WITNESS_PREFIX;
 import static org.apache.log4j.TestConstants.TEST_INPUT_PREFIX;
@@ -87,6 +91,7 @@ public class SocketServerTestCase extends TestCase {
 
     static Logger logger = Logger.getLogger(SocketServerTestCase.class);
     static public final int PORT = 12345;
+    static final long SERVER_OUTPUT_TIMEOUT_MILLIS = 10000;
     static Logger rootLogger = Logger.getRootLogger();
     SocketAppender socketAppender;
 
@@ -113,7 +118,7 @@ public class SocketServerTestCase extends TestCase {
         socketAppender = new SocketAppender("localhost", PORT);
         rootLogger.addAppender(socketAppender);
         common("T1", "key1", "MDC-TEST1");
-        delay(1);
+        waitForServerOutput();
         ControlFilter cf = new ControlFilter(
                 new String[] { PAT1, EXCEPTION1, EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5 });
 
@@ -134,7 +139,7 @@ public class SocketServerTestCase extends TestCase {
         rootLogger.addAppender(socketAppender);
 
         common("T2", "key2", "MDC-TEST2");
-        delay(1);
+        waitForServerOutput();
         ControlFilter cf = new ControlFilter(
                 new String[] { PAT2, EXCEPTION1, EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5 });
 
@@ -154,7 +159,7 @@ public class SocketServerTestCase extends TestCase {
         rootLogger.addAppender(socketAppender);
 
         common("T3", "key3", "MDC-TEST3");
-        delay(1);
+        waitForServerOutput();
         ControlFilter cf = new ControlFilter(
                 new String[] { PAT3, EXCEPTION1, EXCEPTION2, EXCEPTION3, EXCEPTION4, EXCEPTION5 });
 
@@ -176,7 +181,7 @@ public class SocketServerTestCase extends TestCase {
         NDC.push("some");
         common("T4", "key4", "MDC-TEST4");
         NDC.pop();
-        delay(1);
+        waitForServerOutput();
         //
         // These tests check MDC operation which
         // requires JDK 1.2 or later
@@ -212,7 +217,7 @@ public class SocketServerTestCase extends TestCase {
         NDC.push("some5");
         common("T5", "key5", "MDC-TEST5");
         NDC.pop();
-        delay(2);
+        waitForServerOutput();
         //
         // These tests check MDC operation which
         // requires JDK 1.2 or later
@@ -246,7 +251,7 @@ public class SocketServerTestCase extends TestCase {
         common("T6", "key6", "MDC-TEST6");
         NDC.pop();
         MDC.remove("hostID");
-        delay(2);
+        waitForServerOutput();
         //
         // These tests check MDC operation which
         // requires JDK 1.2 or later
@@ -276,7 +281,7 @@ public class SocketServerTestCase extends TestCase {
         common("T7", "key7", "MDC-TEST7");
         NDC.pop();
         MDC.remove("hostID");
-        delay(2);
+        waitForServerOutput();
         //
         // These tests check MDC operation which
         // requires JDK 1.2 or later
@@ -315,7 +320,7 @@ public class SocketServerTestCase extends TestCase {
 
         common("T8", "key8", "MDC-TEST8");
         NDC.pop();
-        delay(2);
+        waitForServerOutput();
         //
         // These tests check MDC operation which
         // requires JDK 1.2 or later
@@ -363,10 +368,41 @@ public class SocketServerTestCase extends TestCase {
         Thread.currentThread().setName(oldThreadName);
     }
 
-    public void delay(int secs) {
+    /**
+     * Wait until the server has written the last event sent by {@link #common}, that is "Message 9" followed by the
+     * stack trace frame of the current test method, instead of sleeping for a fixed amount of time.
+     */
+    void waitForServerOutput() throws IOException, InterruptedException {
+        String frame = "SocketServerTestCase." + getName() + "(";
+        long deadline = System.currentTimeMillis() + SERVER_OUTPUT_TIMEOUT_MILLIS;
+        while (System.currentTimeMillis() < deadline) {
+            if (serverOutputComplete(frame)) {
+                return;
+            }
+            Thread.sleep(20);
+        }
+        fail("Timed out waiting for server output of " + getName() + " in " + TEMP);
+    }
+
+    static boolean serverOutputComplete(String frame) throws IOException {
+        File file = new File(TEMP);
+        if (!file.exists()) {
+            return false;
+        }
+        BufferedReader r = new BufferedReader(new FileReader(file));
         try {
-            Thread.sleep(secs * 1000);
-        } catch (Exception e) {
+            boolean lastMessageSeen = false;
+            String line;
+            while ((line = r.readLine()) != null) {
+                if (line.endsWith("Message 9")) {
+                    lastMessageSeen = true;
+                } else if (lastMessageSeen && line.contains(frame) && line.endsWith(")")) {
+                    return true;
+                }
+            }
+            return false;
+        } finally {
+            r.close();
         }
     }
 
@@ -382,14 +418,17 @@ public class SocketServerTestCase extends TestCase {
         ProcessBuilder processBuilder = new ProcessBuilder(pathToJavaExecutable, "-cp", claspath,
                 shortSocketServerClassName, "8", TEST_INPUT_PREFIX + "socketServer");
         processBuilder.redirectErrorStream(true);
-        processBuilder.inheritIO();
         System.out.println(shortSocketServerClassName);
         try {
             Process process = processBuilder.start();
-            Thread.sleep(1000);
-            // List<String> results = readLines(process.getInputStream());
-            // System.out.println(results);
-
+            // wait until the server is listening instead of sleeping for a fixed amount of time
+            CountDownLatch listening = new CountDownLatch(1);
+            Thread pump = new Thread(new ServerOutputPump(process.getInputStream(), listening), "ShortSocketServer-output");
+            pump.setDaemon(true);
+            pump.start();
+            if (!listening.await(SERVER_OUTPUT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)) {
+                System.out.println("Timed out waiting for " + shortSocketServerClassName + " to start listening.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -420,4 +459,31 @@ public class SocketServerTestCase extends TestCase {
         return result;
     }
 
+    /**
+     * Copies the output of the server process to System.out and signals when the server is listening.
+     */
+    static class ServerOutputPump implements Runnable {
+        final InputStream is;
+        final CountDownLatch listening;
+
+        ServerOutputPump(InputStream is, CountDownLatch listening) {
+            this.is = is;
+            this.listening = listening;
+        }
+
+        public void run() {
+            BufferedReader r = new BufferedReader(new InputStreamReader(is));
+            try {
+                String line;
+                while ((line = r.readLine()) != null) {
+                    System.out.println(line);
+                    if (line.startsWith(ShortSocketServer.LISTENING_MARKER)) {
+                        listening.countDown();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

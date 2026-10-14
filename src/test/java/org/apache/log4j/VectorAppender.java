@@ -29,7 +29,7 @@ import org.apache.log4j.spi.LoggingEvent;
 public class VectorAppender extends AppenderSkeleton {
 
     public Vector<LoggingEvent> vector = new Vector<LoggingEvent>();
-    long delay = 100;
+    long delay = 0;
     public VectorAppender() {
     }
 
