@@ -59,6 +59,15 @@ public class JdbcPatternParserTest {
         assertParserStateEquality("INSERT INTO A1 (TITLE3) VALUES ( ' %d  -  %c %-5p %c %x  -  %m%n ' )", expected);
     }
 
+    @Test
+    public void testEmptyStringConstant() {
+        String msgParam = "'%m'";
+        String sql = "INSERT INTO logtable (evt_date, err_code)" + "  SELECT to_timestamp(a[1], 'DD.MM.YYYY HH:MI:SS'), NULLIF(a[2], '')::int"
+                + "  FROM (SELECT string_to_array(" + msgParam + ", ',') a) splitter";
+        ParserState expected = new ParserState(sql.replace(msgParam, "?"), "%m");
+        assertParserStateEquality(sql, expected);
+    }
+
     private void assertParserStateEquality(String input, ParserState expected) {
         JdbcPatternParser parser = new JdbcPatternParser(input);
         List<String> patternStringReps = parser.getUnmodifiablePatternStringRepresentationList();
