@@ -400,7 +400,15 @@ public class LogEvent implements java.io.Serializable {
             } else {
                 Method m = (Method) methodCache.get(className);
                 if (m == null) {
-                    Class clazz = Loader.loadClass(className);
+                    // Load the class without initializing it so that a hostile
+                    // class name in the stream cannot trigger a static
+                    // initializer, and honor it only if it is a Level subclass.
+                    Class clazz = Class.forName(className, false, Loader.class.getClassLoader());
+                    if (!Level.class.isAssignableFrom(clazz)) {
+                        LogLog.warn("Refusing to deserialize non-Level class [" + className + "].");
+                        level = Level.toLevel(p);
+                        return;
+                    }
                     // Note that we use Class.getDeclaredMethod instead of
                     // Class.getMethod. This assumes that the Level subclass
                     // implements the toLevel(int) method which is a
